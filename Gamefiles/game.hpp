@@ -7,8 +7,11 @@
 class game{
 private:
     sf::RenderWindow& window;
+
+    gameStorage storage;
     renderer objectRenderer;
     inputHandler gameInputHandler;
+
     time_t timerPrevious;
     time_t timerCurrent;
     int MS_PER_FRAME = 2000;
@@ -17,8 +20,9 @@ public:
 
     game(sf::RenderWindow& window):
         window(window),
-        objectRenderer(window),
-        gameInputHandler(objectRenderer.renderStorage)
+        storage{gameStorage()},
+        objectRenderer(window, storage),
+        gameInputHandler(objectRenderer.getStorage())
     
     {}
 
