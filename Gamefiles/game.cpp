@@ -16,9 +16,7 @@ void game::gameLoop(){
 		command* newCommand;
 		newCommand  = gameInputHandler.handleInput();
 		if(newCommand != NULL){
-			std::cout<<"hij probeert de command te executen"<<std::endl;
 			newCommand->execute();
-			std::cout<<"command is executed" << std::endl;
 		}
 		delete newCommand;
 

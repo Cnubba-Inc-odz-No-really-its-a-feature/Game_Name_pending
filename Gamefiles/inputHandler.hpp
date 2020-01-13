@@ -23,9 +23,6 @@ public:
         for( auto i : moveKeys){
             if(sf::Keyboard::isKeyPressed(i)){
                 auto j = inputStorage.get()[0];
-                if(j == nullptr){
-                    std::cout<<"Object is nullptr in handleInput" << std::endl;
-                }
                 command* newMoveCommand = new moveCommand( i, inputStorage.getObject() );
                 return newMoveCommand;
             }

@@ -11,7 +11,6 @@ private:
 public:
     void add(std::shared_ptr<gameObject> newObject){
         if(count != 10 ){
-            std::cout<<"object Added to storage" << std::endl;
             storage.push_back(newObject);
             count++;
         }
