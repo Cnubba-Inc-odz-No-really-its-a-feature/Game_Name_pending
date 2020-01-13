@@ -4,14 +4,17 @@
 #include <ctime>
 #include "renderer.hpp"
 #include "inputHandler.hpp"
+
+
+
+
 class game{
 private:
     sf::RenderWindow& window;
-
-    gameStorage storage;
+    objectStorage gameStorage;
     renderer objectRenderer;
     inputHandler gameInputHandler;
-
+    
     time_t timerPrevious;
     time_t timerCurrent;
     int MS_PER_FRAME = 2000;
@@ -20,11 +23,12 @@ public:
 
     game(sf::RenderWindow& window):
         window(window),
-        storage{gameStorage()},
-        objectRenderer(window, storage),
-        gameInputHandler(objectRenderer.getStorage())
+        objectRenderer(window, gameStorage),
+        gameInputHandler(gameStorage)
     
-    {}
+    {
+        std::cout<<gameStorage.game.size()<< std::endl;
+    }
 
     void gameLoop();
 

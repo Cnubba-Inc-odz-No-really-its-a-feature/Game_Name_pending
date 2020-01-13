@@ -5,34 +5,22 @@
 #include <array>
 #include "command.hpp"
 #include "moveCommand.hpp"
-#include "gameStorage.hpp"
+#include "objectStorage.hpp"
 
 class inputHandler{
 private:
     std::array<sf::Keyboard::Key, 4>  moveKeys = {
         sf::Keyboard::Up, sf::Keyboard::Down,
-        sf::Keyboard::Left, sf::Keyboard::Right
-    };
-    gameStorage &inputStorage;
-    
+        sf::Keyboard::Left, sf::Keyboard::Right};
+    objectStorage &gameStorage;
+
 public:
 
-    inputHandler(gameStorage &inputStorage):
-    inputStorage(inputStorage){}
+    inputHandler(objectStorage &gameStorage):
+        gameStorage(gameStorage){}
 
-    command* handleInput(){
+    command* handleInput();
 
-        for( auto i : moveKeys){
-            if(sf::Keyboard::isKeyPressed(i)){
-                auto j = inputStorage.get()[0];
-                command* newMoveCommand = new moveCommand( i, inputStorage.getObject() );
-                return newMoveCommand;
-            }
-        }
-
-
-    return NULL;
-    }
 };
 
 #endif

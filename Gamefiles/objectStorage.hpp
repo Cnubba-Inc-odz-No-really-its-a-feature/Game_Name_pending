@@ -3,13 +3,14 @@
 
 #include "vector"
 #include "gameObject.hpp"
+#include "memory"
 
 
 class objectStorage {
 public:
-    std::vector<gameObject*> allObjects;
-    std::vector<gameObject*> menu;
-    std::vector<gameObject*> game;
+    std::vector<std::shared_ptr<gameObject>> allObjects;
+    std::vector<std::shared_ptr<gameObject>> menu;
+    std::vector<std::shared_ptr<gameObject>> game;
 };
 
 #endif // _OBJECTSTORAGE_HPP_

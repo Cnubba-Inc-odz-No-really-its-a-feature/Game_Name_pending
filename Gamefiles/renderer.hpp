@@ -1,37 +1,35 @@
 #ifndef _RENDERER_HPP
 #define _RENDERER_HPP
 #include "SFML/Graphics.hpp"
-#include "gameStorage.hpp"
+#include "objectStorage.hpp"
 #include "circle.hpp"
+#include "floor.hpp"
 
 class renderer{
 private:
+    
     sf::RenderWindow& window;
-    gameStorage& storage;
-
 public:
-    renderer(sf::RenderWindow & window, gameStorage& storage):
+    objectStorage &renderStorage;
+    renderer(sf::RenderWindow & window, objectStorage &renderStorage):
     window(window),
-    storage{storage}
-    {
-        storage.add( std::shared_ptr<gameObject>( new circleObject(sf::Vector2f(20.0, 20.0), 30.0)));
+    renderStorage(renderStorage){
+        std::cout<<"rendererConstructor entered" << std::endl;
+        renderStorage.game.push_back(std::shared_ptr<gameObject>( new circleObject(sf::Vector2f(20.0, 20.0), 30.0)));
+        std::cout<<"circle is aangemaakt" << std::endl;
+        renderStorage.game.push_back(std::shared_ptr<gameObject>( 
+            new floorObject(sf::Vector2f(20.0, 600.0), sf::Vector2f(700.0, 300.0), std::string("floorSprite1.png"))));
+        std::cout<<"alle objecten zijn aangemaakt" << std::endl;
+        std::cout<<renderStorage.game.size() << std::endl;
     }
 
+    void update(){}
+
     void  draw(){
-        for(auto &i : storage.get()){
+        for(auto &i : renderStorage.game){
             i->draw(window);
         }
     }
-
-    void update(){
-        for(auto& i : storage.get()){
-            i->update();
-        }
-    }
-
-
-    gameStorage & getStorage(){return storage;}
-
 };
 
 
