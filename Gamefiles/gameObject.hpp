@@ -12,7 +12,6 @@ public:
     int objectID;
     int typeID;
 
-
     virtual void draw(sf::RenderWindow& window) =0;
     virtual void move(sf::Vector2f delta) = 0;
 

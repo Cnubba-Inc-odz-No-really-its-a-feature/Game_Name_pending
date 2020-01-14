@@ -2,6 +2,7 @@
 #define _OBJECTSTORAGE_HPP_
 
 #include "vector"
+#include "queue"
 #include "gameObject.hpp"
 
 

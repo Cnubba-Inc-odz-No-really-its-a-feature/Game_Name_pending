@@ -7,10 +7,15 @@
 
 class factory{
 private:
-    std::ofstream inputFile;
+    std::ifstream inputFile;
+    objectStorage &storage;
 
 public:
-    factory(){};
+    factory(objectStorage &storage): storage(storage){
+        //generate all objects and add them to the storage
+        inputFile.open("source.txt");
+        
+    };
 };
 
 
