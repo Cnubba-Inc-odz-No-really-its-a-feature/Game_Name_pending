@@ -9,18 +9,17 @@ class renderer{
 private:
     
     sf::RenderWindow& window;
-public:
     objectStorage &renderStorage;
+public:
+    
     renderer(sf::RenderWindow & window, objectStorage &renderStorage):
     window(window),
     renderStorage(renderStorage){
-        std::cout<<"rendererConstructor entered" << std::endl;
         renderStorage.game.push_back(std::shared_ptr<gameObject>( new circleObject(sf::Vector2f(20.0, 20.0), 30.0)));
-        std::cout<<"circle is aangemaakt" << std::endl;
+
         renderStorage.game.push_back(std::shared_ptr<gameObject>( 
             new floorObject(sf::Vector2f(20.0, 600.0), sf::Vector2f(700.0, 300.0), std::string("floorSprite1.png"))));
-        std::cout<<"alle objecten zijn aangemaakt" << std::endl;
-        std::cout<<renderStorage.game.size() << std::endl;
+
     }
 
     void update(){}
