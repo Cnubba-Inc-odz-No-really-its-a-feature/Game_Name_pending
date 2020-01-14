@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# makefiles
+*.link
+*.md
+*.native
+Makefile
