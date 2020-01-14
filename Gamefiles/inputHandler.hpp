@@ -9,8 +9,7 @@
 
 class inputHandler{
 private:
-    std::array<sf::Keyboard::Key, 4>  moveKeys = {
-        sf::Keyboard::Up, sf::Keyboard::Down,
+    std::array<sf::Keyboard::Key, 2>  moveKeys = {
         sf::Keyboard::Left, sf::Keyboard::Right};
     objectStorage &gameStorage;
 

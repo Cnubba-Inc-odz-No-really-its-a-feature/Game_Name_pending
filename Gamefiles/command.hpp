@@ -12,10 +12,6 @@ public:
 
 };
 
-class jumpCommand : public command{
-public:
-    virtual void execute();
-};
 
 
 

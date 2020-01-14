@@ -13,7 +13,7 @@ SOURCES := game.cpp inputHandler.cpp objectStorage.cpp collisionBox.cpp
 
 # header files in this project
 
-HEADERS := game.hpp renderer.hpp circle.hpp command.hpp gameObject.hpp gameStorage.hpp inputHandler.hpp moveCommand.hpp floor.hpp objectStorage.hpp collisionBox.hpp
+HEADERS := game.hpp renderer.hpp circle.hpp command.hpp gameObject.hpp gameStorage.hpp inputHandler.hpp moveCommand.hpp floor.hpp objectStorage.hpp collisionBox.hpp interactionBox.hpp
 
 # other places to look for files for this project
 SEARCH  := 
