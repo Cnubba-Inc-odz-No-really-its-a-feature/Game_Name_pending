@@ -4,17 +4,15 @@
 #include <ctime>
 #include "renderer.hpp"
 #include "inputHandler.hpp"
-
-
-
-
+#include "factory.hpp"
 class game{
 private:
     sf::RenderWindow& window;
-    objectStorage gameStorage;
+
+    objectStorage storage;
     renderer objectRenderer;
     inputHandler gameInputHandler;
-    
+
     time_t timerPrevious;
     time_t timerCurrent;
     int MS_PER_FRAME = 2000;
@@ -23,11 +21,15 @@ public:
 
     game(sf::RenderWindow& window):
         window(window),
-        objectRenderer(window, gameStorage),
-        gameInputHandler(gameStorage)
+        objectRenderer(window, storage),
+        gameInputHandler(storage)
     
     {
-        std::cout<<gameStorage.game.size()<< std::endl;
+
+        auto fact = factory(storage);
+        std::cout<<(*storage.game).size()<<std::endl;
+
+
     }
 
     void gameLoop();
