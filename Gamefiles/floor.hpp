@@ -12,12 +12,12 @@ public:
 	    size( size ){
             objectRectangle.setPosition(position);
             objectRectangle.setSize(size);
-            auto i = new sf::Texture;
-            i->loadFromFile(textureFile);
-            objectRectangle.setTexture(i);
+            floorTexture = new sf::Texture;
+            floorTexture->loadFromFile(textureFile);
+            objectRectangle.setTexture(floorTexture);
             floorBoxes.setBoxes(objectRectangle.getGlobalBounds());
         };
-	~floorObject(){}
+	~floorObject(){delete floorTexture;}
 
 	void move( sf::Vector2f delta) override{
 		std::cout<<"move function called" << std::endl;
@@ -33,6 +33,7 @@ public:
 private:
 	sf::Vector2f position;
 	sf::Vector2f size;
+    sf::Texture* floorTexture;
 	sf::RectangleShape objectRectangle;
     CollisionBox floorBoxes;
 };
