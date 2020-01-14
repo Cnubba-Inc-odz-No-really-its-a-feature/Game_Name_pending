@@ -16,7 +16,6 @@ public:
 	~circleObject(){}
 
 	void move( sf::Vector2f delta) override{
-		std::cout<<"move function called" << std::endl;
         position+= delta;
         objectCircle.setPosition(objectCircle.getPosition() + delta);
     };
