@@ -1,36 +1,40 @@
 #ifndef _RENDERER_HPP
 #define _RENDERER_HPP
 #include "SFML/Graphics.hpp"
-#include "gameStorage.hpp"
+#include "objectStorage.hpp"
 #include "circle.hpp"
 
 class renderer{
 private:
     sf::RenderWindow& window;
-    gameStorage& storage;
+    objectStorage& renderStorage;
 
 public:
-    renderer(sf::RenderWindow & window, gameStorage& storage):
+    renderer(sf::RenderWindow & window, objectStorage& renderStorage):
     window(window),
-    storage{storage}
+    renderStorage{renderStorage}
     {
-        storage.add( std::shared_ptr<gameObject>( new circleObject(sf::Vector2f(20.0, 20.0), 30.0)));
-    }
+        std::cout<<"rendererConstructor entered" << std::endl;
+        //renderStorage.game->push_back(std::shared_ptr<gameObject>( new circleObject(sf::Vector2f(20.0, 20.0), 30.0)));
+        std::cout<<"circle is aangemaakt" << std::endl;}
 
     void  draw(){
-        for(auto &i : storage.get()){
+        for(auto &i : *renderStorage.game){
             i->draw(window);
+            std::cout<<"object drawn" << std::endl;
         }
+
+        std::cout<<"all objects have been drawn" << std::endl;
     }
 
     void update(){
-        for(auto& i : storage.get()){
+        for(auto i : *renderStorage.menu){
             i->update();
         }
     }
 
 
-    gameStorage & getStorage(){return storage;}
+    objectStorage & getStorage(){return renderStorage;}
 
 };
 
