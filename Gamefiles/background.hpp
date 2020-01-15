@@ -15,6 +15,8 @@ private:
             sf::Texture texture;
             texture.loadFromFile(filePath)
             rect.setTexture(&texture);
+            rect.setSize(sf::Vector2f(2560,1440));
+            rect.setPosition(sf::Vector2f(-500,0));
             layerArray[filledCount] = rect;
             
             filledCount++;
@@ -39,7 +41,7 @@ public:
     void move(sf::vector2f& delta) override{
         for(uint_fast8_t i = 0; i < filledCount; i++){
             sf::Vector2f position = layerArray[i].getPosition();
-            sf::Vector2f newPosition = sf::Vector2f(position.x + delta.x * 0.25 * i ,position.y + delta.y * 0.25 * i);
+            sf::Vector2f newPosition = sf::Vector2f(position.x + delta.x * 0.25 * i ,position.y + delta.y * 0.10 * i);
             layerArray[i].setPosition(newPosition);
         }
     }
