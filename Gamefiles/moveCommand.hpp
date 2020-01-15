@@ -19,8 +19,8 @@ private:
     };
 public:
     moveCommand(sf::Keyboard::Key directionKey, std::shared_ptr<gameObject> objectToMove):
-    directionKey(directionKey),
-    objectToMove(objectToMove)
+        directionKey(directionKey),
+        objectToMove(objectToMove)
     {}
 
     void execute() override{

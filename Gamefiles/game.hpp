@@ -4,11 +4,12 @@
 #include <ctime>
 #include "renderer.hpp"
 #include "inputHandler.hpp"
+#include "factory.hpp"
 class game{
 private:
     sf::RenderWindow& window;
 
-    gameStorage storage;
+    objectStorage storage;
     renderer objectRenderer;
     inputHandler gameInputHandler;
 
@@ -20,11 +21,16 @@ public:
 
     game(sf::RenderWindow& window):
         window(window),
-        storage{gameStorage()},
         objectRenderer(window, storage),
-        gameInputHandler(objectRenderer.getStorage())
+        gameInputHandler(storage)
     
-    {}
+    {
+
+        auto fact = factory(storage);
+        std::cout<<(*storage.game).size()<<std::endl;
+
+
+    }
 
     void gameLoop();
 

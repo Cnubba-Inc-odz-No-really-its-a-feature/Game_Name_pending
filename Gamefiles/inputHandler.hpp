@@ -8,6 +8,7 @@
 #include "moveCommand.hpp"
 #include "objectStorage.hpp"
 #include "math.h"
+#include "selectedCommand.hpp"
 
 class inputHandler{
 private:
@@ -19,6 +20,10 @@ private:
     std::array<sf::Keyboard::Key, 2> interactionKeys ={
         sf::Keyboard::E,
         sf::Keyboard::Up
+    };
+
+    std::array<sf::Mouse::Button, 2> selectKeys = {
+        sf::Mouse::Left, sf::Mouse::Right
     };
 
     objectStorage &inputStorage;
@@ -39,30 +44,48 @@ private:
 public:
 
     inputHandler(objectStorage &inputStorage):
-    inputStorage(inputStorage){}
+        inputStorage{inputStorage}
+    {}
 
     command* handleInput(){
 
+        //for dungeonGamestate
         for( auto movementKey : moveKeys){
             if(sf::Keyboard::isKeyPressed(movementKey)){
-                auto j = inputStorage.get()[0]; //get matthies info
-                return new moveCommand( movementKey, inputStorage.getObject() );
+                return new moveCommand( movementKey, inputStorage.getMainCharacter());
             }
         }
 
+        //for dungeonGamestate
         for( auto interactKey : interactionKeys){
             if(sf::Keyboard::isKeyPressed(interactKey)){
 
-                for(std::shared_ptr<gameObject> objectPointer : inputStorage.game){
+                for(std::shared_ptr<gameObject> objectPointer : *inputStorage.game){
 
                     std::shared_ptr<gameObject> closestInteractablePointer = NULL; //needs to be changed to a "nullObject" ie distance = infinite
-                    if(objectPointer->interactable && inRange(objectPointer) && currentDistance(objectPointer) < currentDistance(closestInteractablePointer)){
+                    if(objectPointer->isInteractable() && inRange(objectPointer) && currentDistance(objectPointer) < currentDistance(closestInteractablePointer)){
                         closestInteractablePointer = objectPointer;
                     }
 
                     return new interactCommand(closestInteractablePointer);
                 }
+            }
+        }
 
+        //for DungeonGameState
+        for( auto automovementKey : selectKeys ){
+            if(sf::Mouse::isButtonPressed(automovementKey)){
+
+                sf::Vector2i position = sf::Mouse::getPosition();
+                auto objects = inputStorage.game.get();
+                for( auto object : *objects ){
+                    if(object.get()->isInteractable()){
+                        if( object->getPosition().x <= position.x && int(object->getPosition().x + object->getSize()) >= position.x  
+                        && int(object->getPosition().y) <= position.y && int(object->getPosition().x + object->getSize()) >= position.y ){
+                            return new selectedCommand(object);
+                        }
+                    }
+                }
             }
         }
 
@@ -70,5 +93,6 @@ public:
     return NULL;
     }
 };
+
 
 #endif
