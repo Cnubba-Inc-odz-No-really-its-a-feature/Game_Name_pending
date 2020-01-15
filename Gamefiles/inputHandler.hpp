@@ -33,6 +33,7 @@ private:
     float currentDistance(std::shared_ptr<gameObject> objectPointer){
         sf::Vector2f mainCharPosition = mainCharacter->getPosition();
         sf::Vector2f objectPosition = objectPointer->getPosition();
+        std::cout << "getting distance" << std::endl;
         
         return sqrt( pow(objectPosition.x - mainCharPosition.x, 2) + pow(objectPosition.y - mainCharPosition.y, 2) );
     }
@@ -45,11 +46,13 @@ public:
 
     inputHandler(objectStorage &inputStorage):
         inputStorage{inputStorage}
-    {}
+    {
+        mainCharacter = inputStorage.character;
+    }
 
     command* handleInput(){
 
-        //for dungeonGamestate
+        // for dungeonGamestate
         for( auto movementKey : moveKeys){
             if(sf::Keyboard::isKeyPressed(movementKey)){
                 return new moveCommand( movementKey, inputStorage.getMainCharacter());
@@ -60,14 +63,27 @@ public:
         for( auto interactKey : interactionKeys){
             if(sf::Keyboard::isKeyPressed(interactKey)){
 
-                for(std::shared_ptr<gameObject> objectPointer : *inputStorage.game){
+                std::shared_ptr<gameObject> closestInteractablePointer = nullptr; //needs to be changed to a "nullObject" ie distance = infinite
 
-                    std::shared_ptr<gameObject> closestInteractablePointer = NULL; //needs to be changed to a "nullObject" ie distance = infinite
-                    if(objectPointer->isInteractable() && inRange(objectPointer) && currentDistance(objectPointer) < currentDistance(closestInteractablePointer)){
+                for(std::shared_ptr<gameObject> interactableObject : *inputStorage.game){
+                    if(interactableObject->isInteractable() && inRange(interactableObject)){
+                        closestInteractablePointer = interactableObject;
+                    }
+                }
+
+                for(std::shared_ptr<gameObject> objectPointer : *inputStorage.game ){
+
+                    if(objectPointer->isInteractable() && inRange(objectPointer) && (currentDistance(objectPointer) < currentDistance(closestInteractablePointer) && closestInteractablePointer != nullptr)){
                         closestInteractablePointer = objectPointer;
                     }
 
+                }
+                
+                if(closestInteractablePointer != nullptr){
                     return new interactCommand(closestInteractablePointer);
+                }
+                else{
+                    return NULL;
                 }
             }
         }

@@ -9,11 +9,12 @@ class chest: gameObject{
 private:
     sf::RectangleShape chestRectangle;
 public:
-    chest():
-        chestRectangle{sf::RectangleShape(sf::Vector2f(200,120))}
+    chest(const sf::Vector2f& position):
+        chestRectangle{position}
     {
         chestRectangle.setFillColor(sf::Color::Red);
-        chestRectangle.setPosition(sf::Vector2f(500,600));
+        chestRectangle.setPosition(position);
+        chestRectangle.setSize( sf::Vector2f(200,125) );
     }
 
     void interact() override{
@@ -23,6 +24,8 @@ public:
     void draw(sf::RenderWindow& window) override{
         window.draw(chestRectangle);
     }
+
+    void move(sf::Vector2f delta) override{}
 };
 
 #endif
