@@ -38,7 +38,7 @@ private:
     }
 
     bool inRange(std::shared_ptr<gameObject> objectPointer){
-        return currentDistance(objectPointer) <= 20;
+        return currentDistance(objectPointer) <= 80;
     }
     
 public:
