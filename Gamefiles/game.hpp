@@ -25,9 +25,11 @@ public:
         gameInputHandler(storage)
     
     {
-
+        std::cout << "1" << std::endl;
         auto fact = factory(storage);
-        std::cout<<(*storage.game).size()<<std::endl;
+        std::cout << "2" << std::endl;
+        std::cout<<(*storage.title).size()<<std::endl;
+        std::cout << "3" << std::endl;
 
 
     }
