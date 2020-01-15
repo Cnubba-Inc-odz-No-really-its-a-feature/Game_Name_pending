@@ -4,7 +4,7 @@
 
 class gameObject{
 public:
-    gameObject(){}
+    gameObject(int priority):priority(priority){}
 
     virtual ~gameObject(){}
 
@@ -24,7 +24,6 @@ public:
     virtual void draw(sf::RenderWindow& window) =0;
     virtual void move(sf::Vector2f delta) = 0;
     virtual void update(){}
-
 };
 
 #endif

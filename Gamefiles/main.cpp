@@ -5,7 +5,7 @@
 
 int main(){
     
-    sf::RenderWindow window{ sf::VideoMode{ 1000, 1000 }, "SFML window" };
+    sf::RenderWindow window{ sf::VideoMode{ 1920,1080 }, "SFML window" };
     game mainGame(window);
     mainGame.gameLoop();
 

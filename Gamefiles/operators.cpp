@@ -75,3 +75,7 @@ std::ifstream &operator>>(std::ifstream &input, sf::Color &rhs) {
   }
   return input;
 }
+
+bool operator<(const gameObject& lhs, const gameObject& rhs){
+        return lhs.priority < rhs.priority;
+    } 

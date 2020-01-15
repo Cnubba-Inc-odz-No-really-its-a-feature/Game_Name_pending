@@ -8,8 +8,8 @@ private:
     sf::Sprite sprite;
     std::map<std::string, sf::Texture> textureMap;
 public:
-    textureSprite(sf::Vector2f pos, sf::Vector2f size, std::map<std::string, sf::Texture> textureMap):
-    textureMap(textureMap){
+    textureSprite(sf::Vector2f pos, sf::Vector2f size, std::map<std::string, sf::Texture> textureMap, int priority):
+    gameObject(priority), textureMap(textureMap){
         sprite.setPosition(pos);
         sprite.setScale(size.x, size.y);
         sprite.setTexture(textureMap["texture1"]);

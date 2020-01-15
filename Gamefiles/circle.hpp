@@ -7,10 +7,12 @@
 class circleObject : public gameObject {
 public:
 
-	circleObject( sf::Vector2f position, sf::Vector2f size, std::map<std::string, sf::Texture> textureMap):
-	    position( position ),
+	circleObject( sf::Vector2f position, sf::Vector2f size, std::map<std::string, sf::Texture> textureMap, int prio):
+	    gameObject(prio),
+		position( position ),
 	    size( size ),
-		textureMap(textureMap){
+		textureMap(textureMap)
+		{
             circleSprite.setPosition(position);
 			circleSprite.setScale(size);
 			circleSprite.setTexture((textureMap.begin())->second);

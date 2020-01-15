@@ -14,9 +14,10 @@ std::shared_ptr<gameObject> factory::factorObject(std::ifstream & inputFile){
     std::string textureFile;
     sf::Texture objectTexture;
     char textureBind;
+    int prio;
 
     try{
-        inputFile >> objectType >> pos >> size;
+        inputFile >> objectType >> pos >> size >> prio;
         try{
             while(true){
                 std::cout<<"new texture" <<std::endl;
@@ -34,10 +35,10 @@ std::shared_ptr<gameObject> factory::factorObject(std::ifstream & inputFile){
         }catch(end_of_textures & e){std::cerr<<e.what() <<std::endl;};
 
         if(objectType == objectTypes_E::TESTSPRITE_E){
-            return std::shared_ptr<gameObject>(new textureSprite(pos, size, textureMap));
+            return std::shared_ptr<gameObject>(new textureSprite(pos, size, textureMap, prio));
         }
         else if(objectType == objectTypes_E::CIRCLE_E){
-            return std::shared_ptr<gameObject>(new circleObject(pos, size, textureMap));
+            return std::shared_ptr<gameObject>(new circleObject(pos, size, textureMap, prio));
         }
     
         throw invalid_type("invalid type found");
@@ -59,7 +60,7 @@ void factory::factorObjectsFromFile(std::string inputFileName){
                 throw end_of_file("end of file reached");
             }
             if(storageType == "Game"){
-                std::cout<<"added to gamestoragee" <<std::endl;
+                std::cout<<"added to gamestorage" <<std::endl;
                 storage.game.get()->push_back(factorObject(inputFile));
             }else if(storageType == "Menu"){
                 std::cout<<"added to gamestoragee" <<std::endl;
