@@ -1,0 +1,2 @@
+Game objectTypes_E::TESTSPRITE_E (300,300) (1,1) texture1  pop1.png , texture2  pop4.png ; 
+Menu objectTypes_E::CIRCLE_E (300,300) (1,1)  texture1  pop1.png , texture2  pop4.png ; 

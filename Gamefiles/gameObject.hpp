@@ -14,6 +14,7 @@ public:
     sf::Vector2f position;
     int size;
     bool interactable;
+    sf::Sprite objectSprite;
 
     bool isInteractable(){ return interactable; }
     void interact(){}

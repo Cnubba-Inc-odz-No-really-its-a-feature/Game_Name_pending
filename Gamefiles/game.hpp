@@ -12,6 +12,7 @@ private:
     objectStorage storage;
     renderer objectRenderer;
     inputHandler gameInputHandler;
+    factory objectFactory;
 
     time_t timerPrevious;
     time_t timerCurrent;
@@ -22,13 +23,11 @@ public:
     game(sf::RenderWindow& window):
         window(window),
         objectRenderer(window, storage),
-        gameInputHandler(storage)
+        gameInputHandler(storage),
+        objectFactory(storage)
     
     {
-
-        auto fact = factory(storage);
-        std::cout<<(*storage.game).size()<<std::endl;
-
+        objectFactory.factorObjectsFromFile("gameState1.txt");
 
     }
 

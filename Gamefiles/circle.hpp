@@ -7,26 +7,29 @@
 class circleObject : public gameObject {
 public:
 
-	circleObject( sf::Vector2f position, float size):
+	circleObject( sf::Vector2f position, sf::Vector2f size, std::map<std::string, sf::Texture> textureMap):
 	    position( position ),
-	    size( size ){
-            objectCircle.setPosition(position);
-            objectCircle.setRadius(size);
+	    size( size ),
+		textureMap(textureMap){
+            circleSprite.setPosition(position);
+			circleSprite.setScale(size);
+			circleSprite.setTexture((textureMap.begin())->second);
         };
 	~circleObject(){}
 
 	void move( sf::Vector2f delta) override{
         position+= delta;
-        objectCircle.setPosition(objectCircle.getPosition() + delta);
+        circleSprite.setPosition(circleSprite.getPosition() + delta);
     };
 	void draw( sf::RenderWindow & window ){
-        window.draw(objectCircle);
+        window.draw(circleSprite);
     };
 
 private:
 	sf::Vector2f position;
-	float size;
-	sf::CircleShape objectCircle;
+	sf::Vector2f size;
+	std::map<std::string, sf::Texture> textureMap;
+	sf::Sprite circleSprite;
 };
 
 #endif
