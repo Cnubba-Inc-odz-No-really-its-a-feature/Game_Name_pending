@@ -7,6 +7,7 @@
 #include "interactCommand.hpp"
 #include "moveCommand.hpp"
 #include "objectStorage.hpp"
+#include "math.h"
 
 class inputHandler{
 private:
@@ -21,6 +22,19 @@ private:
     };
 
     objectStorage &inputStorage;
+
+    std::shared_ptr<gameObject> mainCharacter;
+
+    float currentDistance(std::shared_ptr<gameObject> objectPointer){
+        sf::Vector2f mainCharPosition = mainCharacter->getPosition();
+        sf::Vector2f objectPosition = objectPointer->getPosition();
+        
+        return sqrt( pow(objectPosition.x - mainCharPosition.x, 2) + pow(objectPosition.y - mainCharPosition.y, 2) );
+    }
+
+    bool inRange(std::shared_ptr<gameObject> objectPointer){
+        return currentDistance(objectPointer) <= 20;
+    }
     
 public:
 
@@ -31,7 +45,7 @@ public:
 
         for( auto movementKey : moveKeys){
             if(sf::Keyboard::isKeyPressed(movementKey)){
-                auto j = inputStorage.get()[0];
+                auto j = inputStorage.get()[0]; //get matthies info
                 return new moveCommand( movementKey, inputStorage.getObject() );
             }
         }
@@ -42,8 +56,8 @@ public:
                 for(std::shared_ptr<gameObject> objectPointer : inputStorage.game){
 
                     std::shared_ptr<gameObject> closestInteractablePointer = NULL; //needs to be changed to a "nullObject" ie distance = infinite
-                    if(objectPointer->interactable && objectPointer->inRange() && objectPointer->CurrentDistance() < closestInteractablePointer->currentDistance()){
-                        closestInteractable = objectPointer;
+                    if(objectPointer->interactable && inRange(objectPointer) && currentDistance(objectPointer) < currentDistance(closestInteractablePointer)){
+                        closestInteractablePointer = objectPointer;
                     }
 
                     return new interactCommand(closestInteractablePointer);

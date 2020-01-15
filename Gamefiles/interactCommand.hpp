@@ -19,6 +19,6 @@ public:
         toInteractObject.get()->interact();
     }
 
-    virtual void undo(){}
+    void undo() override {}
 };
 #endif
