@@ -5,36 +5,39 @@
 #include "objectStorage.hpp"
 #include "fstream"
 #include "operators.hpp"
+#include "character.hpp"
 
+// class textureSprite : public gameObject{
+// private:
+//     sf::Sprite sprite;
+//     sf::Texture spriteTexture;
+// public:
+//     textureSprite(sf::Vector2f pos, sf::Vector2f size, sf::Texture &texture):spriteTexture(texture){
+//         sprite.setPosition(pos);
+//         sprite.setScale(size.x, size.y);
+//         sprite.setTexture(spriteTexture);
+//     }
 
-class textureSprite : public gameObject{
-private:
-    sf::Sprite sprite;
-    sf::Texture spriteTexture;
-public:
-    textureSprite(sf::Vector2f pos, sf::Vector2f size, sf::Texture &texture):spriteTexture(texture){
-        sprite.setPosition(pos);
-        sprite.setScale(size.x, size.y);
-        sprite.setTexture(spriteTexture);
-    }
+//     void draw(sf::RenderWindow& window){
+//         window.draw(sprite);
+//         std::cout<<"texture drawn" << std::endl;
+//     }
 
-    void draw(sf::RenderWindow& window){
-        window.draw(sprite);
-        std::cout<<"texture drawn" << std::endl;
-    }
-
-    void move(sf::Vector2f delta){
-        sprite.setPosition(sprite.getPosition()+delta);
-    }
-};
+//     void move(sf::Vector2f delta){
+//         sprite.setPosition(sprite.getPosition()+delta);
+//     }
+// };
 
 class factory{
 private:
     std::ifstream inputFile;
     objectStorage &storage;
-
+    sf::RenderWindow & window;
 public:
-    factory(objectStorage &storage): storage(storage){
+    factory(objectStorage &storage, sf::RenderWindow & window): 
+        storage(storage),
+        window(window)
+    {
         //generate all objects and add them to the storage
         inputFile.open("texture.txt");
         std::string nameTexture;
@@ -54,17 +57,22 @@ public:
         std::string idString;
         try{while (inputFile >> pos >> size >> idString >> nameTexture)
         {
-            auto pointer = storage.textureMap[nameTexture].get();
-            auto texture = *pointer;
-            std::shared_ptr<textureSprite> obj(new textureSprite(pos, size, texture));
+            //auto pointer = storage.textureMap[nameTexture].get();
+            //auto texture = *pointer;
+            std::shared_ptr<gameObject> obj(new character(pos, size, nameTexture, window));
+
             if(idString == "Menu"){
-                storage.menu.get()->push_back(obj);
+                //storage.menu.get()->push_back(obj);
                 std::cout<<"thrown in menu" << std::endl;
             }
             else if (idString == "Game")
             {
                 std::cout<<"added to gamestoragee" <<std::endl;
                 storage.game.get()->push_back(obj);
+            }else if (idString == "Character"){
+                std::shared_ptr<character> obj(new character(pos, size, nameTexture, window));
+                storage.character1 = obj;
+                std::cout<<"character made" << std::endl;
             }
             std::cout<<"1 try done" << std::endl;
         }}catch(...){std::cout<<"caught" << std::endl;}

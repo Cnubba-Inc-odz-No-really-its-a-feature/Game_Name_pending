@@ -1,0 +1,24 @@
+#ifndef _CHARACTER_HPP
+#define _CHARACTER_HPP
+
+#include "gameObject.hpp"
+#include <iostream>
+
+class character : public gameObject {
+private:
+    sf::RenderWindow & window;
+public:
+    character( sf::Vector2f position, sf::Vector2f scale, std::string spriteTextureName, sf::RenderWindow & window );
+
+    void draw(sf::RenderWindow& window) override;
+
+    void move(sf::Vector2f delta) override;
+    bool collision();
+    void update() override;
+    void interact() override;
+
+};
+
+
+
+#endif //_CHARACTER_HPP

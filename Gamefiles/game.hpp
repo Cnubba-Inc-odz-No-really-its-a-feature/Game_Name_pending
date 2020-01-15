@@ -5,6 +5,7 @@
 #include "renderer.hpp"
 #include "inputHandler.hpp"
 #include "factory.hpp"
+
 class game{
 private:
     sf::RenderWindow& window;
@@ -26,7 +27,7 @@ public:
     
     {
 
-        auto fact = factory(storage);
+        auto fact = factory(storage, window);
         std::cout<<(*storage.game).size()<<std::endl;
 
 
