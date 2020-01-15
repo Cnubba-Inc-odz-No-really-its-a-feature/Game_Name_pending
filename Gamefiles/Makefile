@@ -13,7 +13,7 @@ SOURCES := game.cpp exeptions.cpp factory.cpp objectStorage.cpp operators.cpp
 
 # header files in this project
 
-HEADERS := circle.hpp command.hpp exeptions.hpp factory.hpp game.hpp gameObject.hpp inputHandler.hpp moveCommand.hpp objectStorage.hpp operators.hpp renderer.hpp selectedCommand.hpp
+HEADERS := circle.hpp command.hpp exeptions.hpp factory.hpp game.hpp gameObject.hpp inputHandler.hpp moveCommand.hpp objectStorage.hpp operators.hpp renderer.hpp selectedCommand.hpp testSprite.hpp
 # other places to look for files for this project
 SEARCH  := 
 
