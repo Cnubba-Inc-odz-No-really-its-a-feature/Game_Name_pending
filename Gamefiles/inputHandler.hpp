@@ -12,8 +12,7 @@
 
 class inputHandler{
 private:
-    std::array<sf::Keyboard::Key, 4>  moveKeys = {
-        sf::Keyboard::Up, sf::Keyboard::Down,
+    std::array<sf::Keyboard::Key, 2>  moveKeys = {
         sf::Keyboard::Left, sf::Keyboard::Right
     };
 
@@ -42,6 +41,8 @@ private:
         return currentDistance(objectPointer) <= 80;
     }
     
+    
+
 public:
 
     inputHandler(objectStorage &inputStorage):
@@ -105,6 +106,28 @@ public:
                 }
             }
         }
+        for( auto i : moveKeys){
+            if(sf::Keyboard::isKeyPressed(i)){
+                command* newMoveCommand = new moveCommand( i, inputStorage.character1);
+                return newMoveCommand;
+            }
+        }
+
+        // for( auto i : selectKeys ){
+        //     if(sf::Mouse::isButtonPressed(i)){
+        //         sf::Vector2i position = sf::Mouse::getPosition();
+        //         auto objects = inputStorage.game.get();
+        //         for( auto i : *objects ){
+        //             if(i.get()->isInteractable()){
+        //                 if( i.get()->getPosition().x <= position.x && int(i.get()->getPosition().x + i.get()->getSize()) >= position.x  
+        //                 && int(i.get()->getPosition().y) <= position.y && int(i.get()->getPosition().x + i.get()->getSize()) >= position.y ){
+        //                     command* newSelectedcommand = new selectedCommand(i);
+        //                     return newSelectedcommand;
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
 
 
     return NULL;

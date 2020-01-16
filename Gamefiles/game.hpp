@@ -1,10 +1,12 @@
 #ifndef _GAME_HPP
 #define _GAME_HPP
+
 #include <SFML/Graphics.hpp>
 #include <ctime>
 #include "renderer.hpp"
 #include "inputHandler.hpp"
 #include "factory.hpp"
+
 class game{
 private:
     sf::RenderWindow& window;
@@ -24,11 +26,10 @@ public:
         window(window),
         objectRenderer(window, storage),
         gameInputHandler(storage),
-        objectFactory(storage)
-    
+        objectFactory(storage, window)
     {
-        objectFactory.factorObjectsFromFile("gameState1.txt");
-
+        objectFactory.factorObjectsFromFile("objects.txt");
+        std::cout<<(*storage.game).size()<<std::endl;
     }
 
     void gameLoop();

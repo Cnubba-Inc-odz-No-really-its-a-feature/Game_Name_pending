@@ -3,10 +3,7 @@
 void game::gameLoop(){
 
 	//objectRenderer.factorObjects();
-
-
     while (window.isOpen()) {
-
 		time(&timerCurrent);
 		auto elapsed = timerCurrent - timerPrevious;
 		timerPrevious = timerCurrent;
@@ -27,7 +24,7 @@ void game::gameLoop(){
 
 
         window.clear();
-        //objectRenderer.update();
+        objectRenderer.update();
         objectRenderer.draw();
 		window.display();
 
@@ -35,6 +32,9 @@ void game::gameLoop(){
 	    while( window.pollEvent(event) ){
 			if( event.type == sf::Event::Closed ){
 				window.close();
+			}else if(event.type == sf::Event::Resized){
+				sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
+        		window.setView(sf::View(visibleArea));
 			}
 		}
        
