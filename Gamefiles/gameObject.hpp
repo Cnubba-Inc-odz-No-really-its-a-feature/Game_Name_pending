@@ -12,7 +12,7 @@ protected:
     sf::Sprite sprite;
     sf::Texture spriteTexture;
     std::map<std::string, sf::Texture> textureMap;
-    bool interactable;
+    // bool interactable;
 
 public:
     gameObject(sf::Vector2f position, sf::Vector2f scale, std::map<std::string, sf::Texture> textureMap)
@@ -27,8 +27,8 @@ public:
 
     virtual ~gameObject(){}
     int priority;
-    int objectID;
-    int typeID;
+    // int objectID;
+    // int typeID;
     int size;
     bool interactable;
     sf::Vector2f position;
@@ -39,13 +39,12 @@ public:
     sf::Vector2f getPosition(){ return position; }
     int getSize(){ return size; }
 
-    virtual void interact(){}
-    bool isInteractable(){ return interactable; }
+    // virtual void interact(){}
     sf::Sprite getSprite(){ return sprite; }
-    virtual void interact() = 0;
-    virtual void draw(sf::RenderWindow& window) =0;
-    virtual void move(sf::Vector2f delta) = 0;
-    virtual void update() = 0;
+    virtual void interact() {};
+    virtual void draw(sf::RenderWindow& window) {};
+    virtual void move(sf::Vector2f delta) {};
+    virtual void update() {};
 
 };
 

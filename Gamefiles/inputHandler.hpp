@@ -32,6 +32,7 @@ private:
     float currentDistance(std::shared_ptr<gameObject> objectPointer){
         sf::Vector2f mainCharPosition = mainCharacter->getPosition();
         sf::Vector2f objectPosition = objectPointer->getPosition();
+        
         std::cout << "getting distance" << std::endl;
         
         return sqrt( pow(objectPosition.x - mainCharPosition.x, 2) + pow(objectPosition.y - mainCharPosition.y, 2) );
@@ -48,7 +49,7 @@ public:
     inputHandler(objectStorage &inputStorage):
         inputStorage{inputStorage}
     {
-        mainCharacter = inputStorage.character;
+        mainCharacter = inputStorage.character1;
     }
 
     command* handleInput(){
@@ -57,18 +58,20 @@ public:
         for( auto movementKey : moveKeys){
             if(sf::Keyboard::isKeyPressed(movementKey)){
                 std::cout << "creating move command" << std::endl;
-                return new moveCommand( movementKey, inputStorage.character);
+                return new moveCommand( movementKey, inputStorage.character1);
             }
         }
 
         //for dungeonGamestate
         for( auto interactKey : interactionKeys){
             if(sf::Keyboard::isKeyPressed(interactKey)){
+                std::cout << "searching for interactables" << std::endl;
 
-                std::shared_ptr<gameObject> closestInteractablePointer = nullptr; //needs to be changed to a "nullObject" ie distance = infinite
+                std::shared_ptr<gameObject> closestInteractablePointer = nullptr;
 
                 for(std::shared_ptr<gameObject> interactableObject : *inputStorage.game){
                     if(interactableObject->isInteractable() && inRange(interactableObject)){
+                        std::cout << "interactable found" << std::endl;
                         closestInteractablePointer = interactableObject;
                     }
                 }
