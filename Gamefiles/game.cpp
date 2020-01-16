@@ -22,7 +22,6 @@ void game::gameLoop(){
 			lag -= MS_PER_FRAME;
 		}
 
-
         window.clear();
         objectRenderer.update();
         objectRenderer.draw();
