@@ -24,7 +24,7 @@ void game::gameLoop(){
 
 
         window.clear();
-        //objectRenderer.update();
+        objectRenderer.update();
         objectRenderer.draw();
 		window.display();
 

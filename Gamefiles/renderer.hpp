@@ -8,7 +8,7 @@ class renderer{
 private:
     sf::RenderWindow& window;
     objectStorage& renderStorage;
-
+    std::priority_queue<std::shared_ptr<gameObject>> queue;
 public:
     renderer(sf::RenderWindow & window, objectStorage& renderStorage):
     window(window),
@@ -20,15 +20,20 @@ public:
     }
 
     void  draw(){
-        //for(auto &i : *renderStorage.game){
-        //    i->draw(window);
-        //}
+        for(auto &i : *renderStorage.getActive()){
+            queue.push(i);
+            //i->draw(window);
+    }
 
+    while(queue.size()){
+        queue.top()->draw(window);
+        queue.pop();
+    }
         renderStorage.character1.get()->draw(window);
     }
 
     void update(){
-        for(auto i : *renderStorage.menu){
+        for(auto i : *renderStorage.getActive()){
             i->update();
         }
     }

@@ -1,9 +1,11 @@
 #include "character.hpp"
 
-character::character( sf::Vector2f position, sf::Vector2f scale, std::string spriteTextureName, sf::RenderWindow & window):
-    gameObject(position, scale, spriteTextureName),
+character::character( sf::Vector2f position, sf::Vector2f scale, std::map<std::string, sf::Texture> textureMap, sf::RenderWindow & window, int prio):
+    gameObject(position, scale, textureMap),
     window(window)
-{}
+{
+    priority = prio;
+}
 
 void character::draw(sf::RenderWindow& window){
     window.draw(sprite);

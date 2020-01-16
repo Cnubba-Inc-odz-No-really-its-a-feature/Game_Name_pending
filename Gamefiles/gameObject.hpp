@@ -5,26 +5,26 @@
 
 class gameObject{
 protected:
-    int drawPriority;
     int objectID;
     int typeID;
     sf::Sprite sprite;
     sf::Texture spriteTexture;
+    std::map<std::string, sf::Texture> textureMap;
     bool interactable;
 
 public:
-    gameObject(sf::Vector2f position, sf::Vector2f scale, std::string spriteTextureName)
+    gameObject(sf::Vector2f position, sf::Vector2f scale, std::map<std::string, sf::Texture> textureMap)
     {
         sprite.setPosition(position);
         sprite.setScale(scale.x, scale.y);
-        spriteTexture.loadFromFile(spriteTextureName);
-        sprite.setTexture(spriteTexture);
+        //spriteTexture.loadFromFile(spriteTextureName);
+        sprite.setTexture(textureMap["texture1"]);
     }
 
     gameObject(){}
 
     virtual ~gameObject(){}
-
+    int priority;
     bool isInteractable(){ return interactable; }
     sf::Sprite getSprite(){ return sprite; }
     virtual void interact() = 0;
