@@ -27,11 +27,9 @@ private:
 
     objectStorage &inputStorage;
 
-    std::shared_ptr<gameObject> mainCharacter;
-
     float currentDistance(std::shared_ptr<gameObject> objectPointer){
         std::cout << "currentDistance" << std::endl;
-        sf::Vector2f mainCharPosition = mainCharacter->getPosition();
+        sf::Vector2f mainCharPosition = inputStorage.character1->getPosition();
         std::cout << "mainChar ok" << std::endl;
         sf::Vector2f objectPosition = objectPointer->getPosition();
         
@@ -52,7 +50,6 @@ public:
     inputHandler(objectStorage &inputStorage):
         inputStorage{inputStorage}
     {
-        mainCharacter = inputStorage.character1;
     }
 
     command* handleInput(){
@@ -61,7 +58,7 @@ public:
         for( auto movementKey : moveKeys){
             if(sf::Keyboard::isKeyPressed(movementKey)){
                 std::cout << "creating move command" << std::endl;
-                return new moveCommand( movementKey, mainCharacter);
+                return new moveCommand( movementKey, inputStorage.character1);
             }
         }
 

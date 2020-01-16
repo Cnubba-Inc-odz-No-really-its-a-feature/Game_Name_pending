@@ -8,9 +8,8 @@
 class character : public gameObject {
 private:
     sf::RenderWindow & window;
-    inventory playerInventory;
-    friend class lootObject;
 public:
+    inventory playerInventory;
     character( sf::Vector2f position, sf::Vector2f scale, std::map<std::string, sf::Texture> textureMap, sf::RenderWindow & window, int prio );
 
     void draw(sf::RenderWindow& window) override;

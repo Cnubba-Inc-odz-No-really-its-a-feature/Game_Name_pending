@@ -2,7 +2,6 @@
 #define _GAMEOBJECT_HPP
 
 #include "iostream"
-#include "lootObject.hpp"
 #include <SFML/Graphics.hpp>
 
 class gameObject{

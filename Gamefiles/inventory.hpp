@@ -2,7 +2,6 @@
 #define _INVENTORY_HPP
 
 #include "memory"
-#include "game.hpp"
 #include "gameObject.hpp"
 
 struct inventory{
