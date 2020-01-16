@@ -1,1 +1,2 @@
-Character objectTypes_E::CHARACTER_E (400,200) (2,2) 1 texture1 pop1.png , texture2 pop1.png ;
+Game objectTypes_E::CHEST_E (100,200) (2,2) 1 texture1 pop4.png , texture2 pop4.png ;
+Game objectTypes_e::TESTSPRITE_E (200, 10) (1,2) 2 texture1 pop1.png ;

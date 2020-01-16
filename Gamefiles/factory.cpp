@@ -48,10 +48,7 @@ std::shared_ptr<gameObject> factory::factorObject(std::ifstream & inputFile){
 }
 
 void factory::factorNewGameState(std::string stateFileName){
-
-
-
-
+    
 
     std::ifstream inputFile(stateFileName);
     std::string storageType;
