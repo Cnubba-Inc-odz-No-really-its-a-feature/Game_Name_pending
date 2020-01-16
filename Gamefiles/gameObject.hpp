@@ -2,6 +2,7 @@
 #define _GAMEOBJECT_HPP
 
 #include "iostream"
+#include "lootObject.hpp"
 #include <SFML/Graphics.hpp>
 
 class gameObject{
@@ -12,6 +13,7 @@ protected:
     sf::Texture spriteTexture;
     std::map<std::string, sf::Texture> textureMap;
     bool interactable;
+    friend class lootObject;
 
 public:
     gameObject(sf::Vector2f position, sf::Vector2f scale, std::map<std::string, sf::Texture> textureMap)
@@ -28,7 +30,7 @@ public:
     int priority;
     bool isInteractable(){ return interactable; }
     sf::Vector2f getPosition(){ return sprite.getPosition(); }
-    sf::Vector2f getSize(){ return sprite.getScale(); }
+    int getSize(){ return sprite.getScale().x; }
 
     // virtual void interact(){}
     sf::Sprite getSprite(){ return sprite; }

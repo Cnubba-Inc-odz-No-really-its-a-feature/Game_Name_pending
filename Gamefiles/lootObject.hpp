@@ -1,35 +1,28 @@
 #ifndef _LOOTOBJECT_HPP
 #define _LOOTOBJECT_HPP
 
-#include "gameObject.hpp"
 #include "memory"
+#include "character.hpp"
 #include "objectStorage.hpp"
+#include "gameObject.hpp"
 
-class lootObject : public gameObject{
+class lootObject : public gameObject {
 private:
     std::shared_ptr<gameObject> loot;
-    std::map<std::string, sf::Texture> placeholderMap;
-    objectStorage& storage;
+    character mainCharacter;
+    std::map<std::string, sf::Texture> fakeTextureMap;
 public:
-    lootObject(std::shared_ptr<gameObject> lootObject, const sf::Vector2f& position, objectStorage& storage):
-        gameObject(position, sf::Vector2f(1,1), placeholderMap),
-        storage{storage}
+    lootObject(const sf::Vector2f& position, character& mainCharacter, std::shared_ptr<gameObject> containedLoot):
+        gameObject{position, sf::Vector2f(1,1), fakeTextureMap},
+        loot{containedLoot},
+        mainCharacter{mainCharacter}
     {
-        interactable = true;
-        objectSprite = lootObject->objectSprite;
-        lootObject->position = position;
+        sprite = loot.get()->getSprite();
     }
 
     void interact() override{
-        storage.inventory->push_back(loot);
+        mainCharacter.playerInventory.itemList->push_back(loot);
     }
-
-    void draw(sf::RenderWindow& window) override{
-        loot->draw(window);
-    }
-
-    void move(sf::Vector2f delta) override {}
-    void update() override {};
 };
 
 
