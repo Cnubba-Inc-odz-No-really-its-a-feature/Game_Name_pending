@@ -3,6 +3,9 @@
 void game::gameLoop(){
 
 	//objectRenderer.factorObjects();
+	auto defaultSize = sf::Vector2f((float)window.getSize().x, (float)window.getSize().y);
+	auto lastSize = defaultSize;
+
     while (window.isOpen()) {
 		time(&timerCurrent);
 		auto elapsed = timerCurrent - timerPrevious;
@@ -34,9 +37,15 @@ void game::gameLoop(){
 				window.close();
 			}else if(event.type == sf::Event::Resized){
 				sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
+				for (auto & i : storage.allVectors)
+				{
+					for(auto & j : *i.second){
+						j->resize(sf::Vector2f(event.size.width, event.size.height), defaultSize, lastSize);
+						lastSize = sf::Vector2f(event.size.width, event.size.height);
+					}
+				}
         		window.setView(sf::View(visibleArea));
 			}
 		}
-       
 	}
 }
