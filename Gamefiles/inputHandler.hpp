@@ -30,7 +30,9 @@ private:
     std::shared_ptr<gameObject> mainCharacter;
 
     float currentDistance(std::shared_ptr<gameObject> objectPointer){
+        std::cout << "currentDistance" << std::endl;
         sf::Vector2f mainCharPosition = mainCharacter->getPosition();
+        std::cout << "mainChar ok" << std::endl;
         sf::Vector2f objectPosition = objectPointer->getPosition();
         
         std::cout << "getting distance" << std::endl;
@@ -39,7 +41,8 @@ private:
     }
 
     bool inRange(std::shared_ptr<gameObject> objectPointer){
-        return currentDistance(objectPointer) <= 80;
+        std::cout << "checking if object inrange" << std::endl;
+        return currentDistance(objectPointer) <= 0;
     }
     
     
@@ -58,7 +61,7 @@ public:
         for( auto movementKey : moveKeys){
             if(sf::Keyboard::isKeyPressed(movementKey)){
                 std::cout << "creating move command" << std::endl;
-                return new moveCommand( movementKey, inputStorage.character1);
+                return new moveCommand( movementKey, mainCharacter);
             }
         }
 
