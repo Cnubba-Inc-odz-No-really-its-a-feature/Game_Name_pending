@@ -37,7 +37,6 @@ void game::gameLoop(){
 			lag -= MS_PER_FRAME;
 		}
 
-
         window.clear();
         objectRenderer.update();
         objectRenderer.draw();
@@ -47,11 +46,7 @@ void game::gameLoop(){
 	    while( window.pollEvent(event) ){
 			if( event.type == sf::Event::Closed ){
 				window.close();
-			}else if(event.type == sf::Event::Resized){
-				sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
-        		window.setView(sf::View(visibleArea));
 			}
 		}
-       
 	}
 }
