@@ -11,6 +11,8 @@ private:
     sf::RectangleShape chestRectangle;
     std::vector<gameObject> lootVector;
     bool open;
+
+    float getDistance(const sf::Vector2f mainCharacterPosition, const sf::Vector2f lootPosition)
 public:
     chest(const sf::Vector2f& position):
         chestRectangle{position}
@@ -25,7 +27,7 @@ public:
         std::cout << "chest has been interacted with: "  << objectID << std::endl;
     }
 
-    void interact(objectStorage& objectStorage, const float& mainCharacterPosition{
+    void interact(objectStorage& objectStorage, const float& mainCharacterPosition){
 
     }
 
