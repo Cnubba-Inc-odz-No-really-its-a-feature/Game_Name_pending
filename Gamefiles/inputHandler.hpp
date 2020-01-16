@@ -40,7 +40,7 @@ private:
 
     bool inRange(std::shared_ptr<gameObject> objectPointer){
         std::cout << "checking if object inrange" << std::endl;
-        return currentDistance(objectPointer) <= 0;
+        return currentDistance(objectPointer) <= 200;
     }
     
     

@@ -24,6 +24,7 @@ public:
 
     void interact() override{
         std::cout << "chest has been interacted with: "  << objectID << std::endl;
+        exit(0);
     }
 
     void interact(objectStorage& objectStorage, const float& mainCharacterPosition){
