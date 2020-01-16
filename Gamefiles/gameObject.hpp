@@ -1,18 +1,17 @@
 #ifndef _GAMEOBJECT_HPP
 #define _GAMEOBJECT_HPP
 
+#include "iostream"
 #include <SFML/Graphics.hpp>
 
 class gameObject{
 protected:
     int objectID;
     int typeID;
-
-    
     sf::Sprite sprite;
     sf::Texture spriteTexture;
     std::map<std::string, sf::Texture> textureMap;
-    // bool interactable;
+    bool interactable;
 
 public:
     gameObject(sf::Vector2f position, sf::Vector2f scale, std::map<std::string, sf::Texture> textureMap)
@@ -27,17 +26,9 @@ public:
 
     virtual ~gameObject(){}
     int priority;
-    // int objectID;
-    // int typeID;
-    int size;
-    bool interactable;
-    sf::Vector2f position;
-    
-    sf::Sprite objectSprite;
-
     bool isInteractable(){ return interactable; }
-    sf::Vector2f getPosition(){ return position; }
-    int getSize(){ return size; }
+    sf::Vector2f getPosition(){ return sprite.getPosition(); }
+    sf::Vector2f getSize(){ return sprite.getScale(); }
 
     // virtual void interact(){}
     sf::Sprite getSprite(){ return sprite; }

@@ -35,4 +35,9 @@
 *.link
 *.md
 *.native
+
+# makefiles
+*.link
+*.md
+*.native
 Makefile
