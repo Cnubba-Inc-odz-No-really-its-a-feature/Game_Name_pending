@@ -3,9 +3,12 @@
 void game::gameLoop(){
 
 	//objectRenderer.factorObjects();
+<<<<<<< HEAD
+=======
 	auto defaultSize = sf::Vector2f((float)window.getSize().x, (float)window.getSize().y);
 	auto lastSize = defaultSize;
 
+>>>>>>> origin/master
     while (window.isOpen()) {
 		time(&timerCurrent);
 		auto elapsed = timerCurrent - timerPrevious;
@@ -35,6 +38,9 @@ void game::gameLoop(){
 	    while( window.pollEvent(event) ){
 			if( event.type == sf::Event::Closed ){
 				window.close();
+			}else if(event.type == sf::Event::Resized){
+				sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
+        		window.setView(sf::View(visibleArea));
 			}
 		}
 	}

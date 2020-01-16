@@ -12,16 +12,14 @@ protected:
     sf::Texture spriteTexture;
     std::map<std::string, sf::Texture> textureMap;
     bool interactable;
-    sf::Vector2f originalScale;
 
 public:
-    gameObject(sf::Vector2f position, sf::Vector2f scale, std::map<std::string, sf::Texture> textureMap): originalScale(scale)
+    gameObject(sf::Vector2f position, sf::Vector2f scale, std::map<std::string, sf::Texture> textureMap)
     {
         sprite.setPosition(position);
         sprite.setScale(scale.x, scale.y);
         spriteTexture = textureMap["texture1"];
         sprite.setTexture(spriteTexture);
-
     }
 
     gameObject(){}
