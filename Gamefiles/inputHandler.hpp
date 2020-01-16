@@ -55,7 +55,8 @@ public:
         // for dungeonGamestate
         for( auto movementKey : moveKeys){
             if(sf::Keyboard::isKeyPressed(movementKey)){
-                return new moveCommand( movementKey, inputStorage.getMainCharacter());
+                std::cout << "creating move command" << std::endl;
+                return new moveCommand( movementKey, inputStorage.character);
             }
         }
 

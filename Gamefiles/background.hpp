@@ -3,46 +3,42 @@
 
 #include "gameObject.hpp"
 
-template<int layerCount>
 class background : public gameObject{
 private:
-    std::array<sf::RectangleShape, layerCount> layerArray;
+    std::vector<sf::Sprite> layerVector;
     int filledCount;
     
     void fillLayer(const std::string& filePath){
-        if(filledCount <= layerCount){
-            sf::RectangleShape rect = sf::RectangleShape(sf::Vector2f(0,0));
-            sf::Texture texture;
-            texture.loadFromFile(filePath)
-            rect.setTexture(&texture);
-            rect.setSize(sf::Vector2f(2560,1440));
-            rect.setPosition(sf::Vector2f(-500,0));
-            layerArray[filledCount] = rect;
-            
-            filledCount++;
-        }
+         
+        sf::Sprite rect;
+        sf::Texture texture;
+        texture.loadFromFile(filePath);
+        rect.setTexture(texture);
+        rect.setPosition(sf::Vector2f(-800,0));
+        rect.setScale(sf::Vector2f(10,10));
+        layerVector.push_back(rect);   
+    
     }
 
 public:
-    background(const (&std::string)[layerCount] filepaths){
-        filledCount = 0;
+    background(const std::vector<std::string> filepaths){
         
-        for (std::string filepath : filepaths){
-            fillLayer(filepath);
+        for (uint_fast8_t i = 0; i < filepaths.size(); i++){
+            fillLayer(filepaths[i]);
         }
     }
 
     void draw(sf::RenderWindow& window) override{
-        for(uint_fast8_t i = 0; i < filledCount; i++){
-            window.draw(layerArray[i])
+        for(uint_fast8_t i = 0; i < layerVector.size(); i++){
+            window.draw(layerVector[i]);
         }
     }
 
-    void move(sf::vector2f& delta) override{
-        for(uint_fast8_t i = 0; i < filledCount; i++){
-            sf::Vector2f position = layerArray[i].getPosition();
+    void move(sf::Vector2f delta) override{
+        for(uint_fast8_t i = 0; i < layerVector.size(); i++){
+            sf::Vector2f position = layerVector[i].getPosition();
             sf::Vector2f newPosition = sf::Vector2f(position.x + delta.x * 0.25 * i ,position.y + delta.y * 0.10 * i);
-            layerArray[i].setPosition(newPosition);
+            layerVector[i].setPosition(newPosition);
         }
     }
     
