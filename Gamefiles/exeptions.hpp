@@ -9,6 +9,32 @@ class problem : public std::exception{
 
 };
 
+class end_of_textures : public problem{
+private:
+  std::string msg;
+public:
+  end_of_textures(const char *c);
+  const char *what() const noexcept;  
+};
+
+
+
+class invalid_type : public problem{
+private:
+  std::string msg;
+public:
+  invalid_type(const char *c);
+  const char *what() const noexcept;  
+};
+
+class unknown_textureKey : public problem{
+private:
+  std::string msg;
+public:
+  unknown_textureKey(const char *c);
+  const char *what() const noexcept;  
+};
+
 class unknown_pos : public problem {
  private:
   std::string msg;

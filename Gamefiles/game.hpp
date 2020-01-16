@@ -1,10 +1,12 @@
 #ifndef _GAME_HPP
 #define _GAME_HPP
+
 #include <SFML/Graphics.hpp>
 #include <ctime>
 #include "renderer.hpp"
 #include "inputHandler.hpp"
 #include "factory.hpp"
+
 class game{
 private:
     sf::RenderWindow& window;
@@ -12,6 +14,7 @@ private:
     objectStorage storage;
     renderer objectRenderer;
     inputHandler gameInputHandler;
+    factory objectFactory;
 
     time_t timerPrevious;
     time_t timerCurrent;
@@ -22,14 +25,11 @@ public:
     game(sf::RenderWindow& window):
         window(window),
         objectRenderer(window, storage),
-        gameInputHandler(storage)
-    
+        gameInputHandler(storage),
+        objectFactory(storage, window)
     {
-
-        auto fact = factory(storage);
+        objectFactory.factorObjectsFromFile("objects.txt");
         std::cout<<(*storage.game).size()<<std::endl;
-
-
     }
 
     void gameLoop();

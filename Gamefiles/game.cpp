@@ -3,10 +3,10 @@
 void game::gameLoop(){
 
 	//objectRenderer.factorObjects();
-
+	auto defaultSize = sf::Vector2f((float)window.getSize().x, (float)window.getSize().y);
+	auto lastSize = defaultSize;
 
     while (window.isOpen()) {
-
 		time(&timerCurrent);
 		auto elapsed = timerCurrent - timerPrevious;
 		timerPrevious = timerCurrent;
@@ -27,7 +27,7 @@ void game::gameLoop(){
 
 
         window.clear();
-        //objectRenderer.update();
+        objectRenderer.update();
         objectRenderer.draw();
 		window.display();
 
@@ -37,6 +37,5 @@ void game::gameLoop(){
 				window.close();
 			}
 		}
-       
 	}
 }

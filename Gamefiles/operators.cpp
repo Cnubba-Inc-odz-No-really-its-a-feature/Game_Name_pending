@@ -1,18 +1,45 @@
 #include "operators.hpp"
 
+std::ifstream &operator>>(std::ifstream &input, objectTypes_E &objectType){
+  std::string typeString;
+  input>>typeString;
+  if(typeString == "objectTypes_E::TESTSPRITE_E"){
+    std::cout<<"testSprite found" <<std::endl;
+    objectType = objectTypes_E::TESTSPRITE_E;
+  }else if(typeString == "objectTypes_E::CIRCLE_E"){
+    objectType = objectTypes_E::CIRCLE_E;
+    std::cout<<"circle found"  <<std::endl;
+  }else if(typeString == "objectTypes_E::CHARACTER_E"){
+    objectType = objectTypes_E::CHARACTER_E;
+    std::cout<<"character found"  <<std::endl;
+  }else{
+    throw invalid_type("invalid Type string Found");
+  }
+  return input;
+}
+
+
+
+
 std::ifstream &operator>>(std::ifstream &input, sf::Vector2f &rhs) {
   char c;
   if (!(input >> c)) {
     throw end_of_file("end_of_file");
   }
-  if (!(input >> rhs.x)) {
+  if (! (c == '(')){
     throw unknown_pos(c);
+  }
+  if (!(input >> rhs.x)) {
+    throw unknown_pos('X');
   }
   if (!(input >> c)) {
     throw unknown_pos(c);
   }
-  if (!(input >> rhs.y)) {
+  if (! (c == ',')){
     throw unknown_pos(c);
+  }
+  if (!(input >> rhs.y)) {
+    throw unknown_pos('y');
   }
   if (!(input >> c)) {
     throw unknown_pos(c);
@@ -20,6 +47,8 @@ std::ifstream &operator>>(std::ifstream &input, sf::Vector2f &rhs) {
   if (c != ')') {
     throw unknown_pos(c);
   }
+
+  std::cout<< "position made"  <<std::endl;
   return input;
 }
 
@@ -49,3 +78,7 @@ std::ifstream &operator>>(std::ifstream &input, sf::Color &rhs) {
   }
   return input;
 }
+
+bool operator<(const gameObject& lhs, const gameObject& rhs){
+        return lhs.priority < rhs.priority;
+} 
