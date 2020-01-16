@@ -1,13 +1,28 @@
 #include "game.hpp"
 
 void game::gameLoop(){
-
+	std::cout<<"entered gameLoop" << std::endl;
+	objectFactory.factorMainCharacter();
+	std::cout<<"reentered gameLoop" << std::endl;
+	bool state1 = true;
 	//objectRenderer.factorObjects();
     while (window.isOpen()) {
 		time(&timerCurrent);
 		auto elapsed = timerCurrent - timerPrevious;
 		timerPrevious = timerCurrent;
 		lag += elapsed;
+
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::N)){
+			if(state1){
+				state1 = !state1;
+				objectFactory.factorNewGameState("gameState2.txt");
+			}else{
+				state1 = !state1;
+				objectFactory.factorNewGameState("gameState1.txt");
+			}
+
+			std::cout<<"state swithed" << std::endl;
+		}
 		
 
 		command* newCommand;
