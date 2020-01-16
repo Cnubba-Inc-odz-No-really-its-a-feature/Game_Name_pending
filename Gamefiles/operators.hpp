@@ -8,7 +8,7 @@
 #include <map>
 
 
-enum objectTypes_E{TESTSPRITE_E, CIRCLE_E, CHARACTER_E};
+enum objectTypes_E{TESTSPRITE_E, CIRCLE_E, CHARACTER_E, CHEST_E};
 enum storageSpecifier_E{STORAGEM_E, STORAGEG_E};
 
 

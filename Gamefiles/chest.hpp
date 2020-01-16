@@ -6,15 +6,14 @@
 #include "objectStorage.hpp"
 #include <iostream>
 
-class chest: gameObject{
+class chest: public gameObject{
 private:
     sf::RectangleShape chestRectangle;
     std::vector<gameObject> lootVector;
-    bool open;
-
-    float getDistance(const sf::Vector2f mainCharacterPosition, const sf::Vector2f lootPosition)
+    bool open = false;
 public:
-    chest(const sf::Vector2f& position):
+    chest(sf::Vector2f position, sf::Vector2f scale, std::map<std::string, sf::Texture> textureMap, int prio):
+        gameObject(position, scale, textureMap),
         chestRectangle{position}
     {
         chestRectangle.setFillColor(sf::Color::Red);
@@ -41,6 +40,8 @@ public:
     }
 
     void move(sf::Vector2f delta) override{}
+
+    void update(){}
 };
 
 #endif
