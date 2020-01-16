@@ -13,20 +13,12 @@ protected:
     bool interactable;
 
 public:
-    gameObject(sf::Vector2f position, sf::Vector2f scale, std::map<std::string, sf::Texture> textureMap)
-    {
-        sprite.setPosition(position);
-        sprite.setScale(scale.x, scale.y);
-        //spriteTexture.loadFromFile(spriteTextureName);
-        sprite.setTexture(textureMap["texture1"]);
-    }
-
-    gameObject(){}
-
-    virtual ~gameObject(){}
     int priority;
-    bool isInteractable(){ return interactable; }
-    sf::Sprite getSprite(){ return sprite; }
+    gameObject(sf::Vector2f position, sf::Vector2f scale, std::map<std::string, sf::Texture> textureMap);
+    gameObject();
+    virtual ~gameObject();
+    bool isInteractable();
+    sf::Sprite getSprite();
     virtual void interact() = 0;
     virtual void draw(sf::RenderWindow& window) =0;
     virtual void move(sf::Vector2f delta) = 0;

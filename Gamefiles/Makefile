@@ -9,7 +9,7 @@
 #############################################################################
 
 # source files in this project (main.cpp is automatically assumed)
-SOURCES := game.cpp exeptions.cpp factory.cpp objectStorage.cpp operators.cpp character.cpp
+SOURCES := game.cpp exeptions.cpp factory.cpp objectStorage.cpp operators.cpp character.cpp gameObject.cpp
 
 # header files in this project
 

@@ -19,11 +19,7 @@ private:
     };
 
     objectStorage &inputStorage;
-
-    
-
 public:
-
     inputHandler(objectStorage &inputStorage):
     inputStorage(inputStorage){}
 

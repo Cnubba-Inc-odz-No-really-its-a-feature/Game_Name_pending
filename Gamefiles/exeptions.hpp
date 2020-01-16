@@ -1,9 +1,9 @@
+#ifndef EXEPTIONS_HPP
+#define EXEPTIONS_HPP
+
 #include <exception>
 #include <iostream>
 #include <string>
-
-#ifndef EXEPTIONS_HPP
-#define EXEPTIONS_HPP
 
 class problem : public std::exception{
 
@@ -16,8 +16,6 @@ public:
   end_of_textures(const char *c);
   const char *what() const noexcept;  
 };
-
-
 
 class invalid_type : public problem{
 private:
@@ -36,46 +34,41 @@ public:
 };
 
 class unknown_pos : public problem {
- private:
+private:
   std::string msg;
-
- public:
+public:
   unknown_pos(const char c);
   const char *what() const noexcept;
 };
 
 class unknown_rad : public problem {
- private:
+private:
   const char *msg;
-
- public:
+public:
   unknown_rad(const char *msg);
   const char *what() const noexcept;
 };
 
 class unknown_color : public problem {
- private:
+private:
   const char *msg;
-
- public:
+public:
   unknown_color(const char *msg);
   const char *what() const noexcept;
 };
 
 class end_of_file : public std::exception {
- private:
+private:
   const char *msg;
-
- public:
+public:
   end_of_file(const char *msg);
   const char *what() const noexcept;
 };
 
 class unknown_shape : public problem {
- private:
+private:
   const char *msg;
-
- public:
+public:
   unknown_shape(const char *msg);
   const char *what() const noexcept;
 };

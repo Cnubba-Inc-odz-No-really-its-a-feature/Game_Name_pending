@@ -1,14 +1,30 @@
 #include "game.hpp"
+#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
+
+game::game(sf::RenderWindow& window):
+    window(window),
+    objectRenderer(window, storage),
+    gameInputHandler(storage),
+    objectFactory(storage, window)
+{
+    objectFactory.factorObjectsFromFile("objects.txt");
+    std::cout<<(*storage.game).size()<<std::endl;
+}
 
 void game::gameLoop(){
-
+	sf::Music music;
+	if(!music.openFromFile("Denzel Curry - Ultimate (Full Video).wav"))
+	music.play();
+	music.pause();
+	music.play();
+	music.setVolume(20.0);
 	//objectRenderer.factorObjects();
     while (window.isOpen()) {
 		time(&timerCurrent);
 		auto elapsed = timerCurrent - timerPrevious;
 		timerPrevious = timerCurrent;
-		lag += elapsed;
-		
+		lag += elapsed;		
 
 		command* newCommand;
 		newCommand  = gameInputHandler.handleInput();
