@@ -7,6 +7,8 @@ class gameObject{
 protected:
     int objectID;
     int typeID;
+
+    
     sf::Sprite sprite;
     sf::Texture spriteTexture;
     std::map<std::string, sf::Texture> textureMap;
@@ -17,8 +19,8 @@ public:
     {
         sprite.setPosition(position);
         sprite.setScale(scale.x, scale.y);
-        //spriteTexture.loadFromFile(spriteTextureName);
-        sprite.setTexture(textureMap["texture1"]);
+        spriteTexture = textureMap["texture1"];
+        sprite.setTexture(spriteTexture);
     }
 
     gameObject(){}
