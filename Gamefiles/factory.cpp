@@ -48,8 +48,9 @@ std::shared_ptr<gameObject> factory::factorObject(std::ifstream & inputFile){
 }
 
 void factory::factorNewGameState(std::string stateFileName){
-    
 
+    storage.menu.get()->clear();
+    storage.game.get()->clear();
     std::ifstream inputFile(stateFileName);
     std::string storageType;
     try{
@@ -76,6 +77,23 @@ void factory::factorNewGameState(std::string stateFileName){
         std::cerr << e.what() << std::endl;
     }
 
+    std::cout<<"original state made" << std::endl;
+
+}
+
+void factory::factorMainCharacter(){
+    try{
+        std::ifstream characterFile("mainCharacter.txt");
+        std::string storageType;
+        characterFile >> storageType;
+        if(storageType != "Character"){
+            throw invalid_type("invalid CharacterType found");
+        }
+        storage.character1 = factorObject(characterFile);
+        std::cout<<"characterMade" << std::endl;
+
+    }catch(end_of_file & e){
+    }catch(problem& e){std::cerr<<e.what()<<std::endl;}   
 }
 
 

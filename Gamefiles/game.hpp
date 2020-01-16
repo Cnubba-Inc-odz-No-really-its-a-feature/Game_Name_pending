@@ -28,7 +28,7 @@ public:
         gameInputHandler(storage),
         objectFactory(storage, window)
     {
-        objectFactory.factorNewGameState("objects.txt");
+        objectFactory.factorNewGameState("gameState1.txt");
         std::cout<<(*storage.game).size()<<std::endl;
     }
 
