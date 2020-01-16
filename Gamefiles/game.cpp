@@ -35,16 +35,6 @@ void game::gameLoop(){
 	    while( window.pollEvent(event) ){
 			if( event.type == sf::Event::Closed ){
 				window.close();
-			}else if(event.type == sf::Event::Resized){
-				sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
-				for (auto & i : storage.allVectors)
-				{
-					for(auto & j : *i.second){
-						j->resize(sf::Vector2f(event.size.width, event.size.height), defaultSize, lastSize);
-						lastSize = sf::Vector2f(event.size.width, event.size.height);
-					}
-				}
-        		window.setView(sf::View(visibleArea));
 			}
 		}
 	}
