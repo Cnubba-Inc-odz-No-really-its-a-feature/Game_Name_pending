@@ -9,6 +9,7 @@
 #include "testSprite.hpp"
 #include <map>
 #include "chest.hpp"
+#include "string"
 
 class factory{
 private:

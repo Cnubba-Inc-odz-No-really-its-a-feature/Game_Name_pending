@@ -1,14 +1,13 @@
 #ifndef _GAMEOBJECT_HPP
 #define _GAMEOBJECT_HPP
 
+#include "iostream"
 #include <SFML/Graphics.hpp>
 
 class gameObject{
 protected:
     int objectID;
     int typeID;
-
-    
     sf::Sprite sprite;
     sf::Texture spriteTexture;
     std::map<std::string, sf::Texture> textureMap;
