@@ -14,6 +14,8 @@ public:
 
     void draw(sf::RenderWindow& window) override;
 
+    void setFrame(int max_frame, int row);
+
     void move(sf::Vector2f delta) override;
     bool collision();
     void update() override;

@@ -9,15 +9,15 @@
 #############################################################################
 
 # source files in this project (main.cpp is automatically assumed)
-SOURCES := game.cpp exeptions.cpp factory.cpp objectStorage.cpp operators.cpp character.cpp titlecard.cpp background.cpp button.cpp renderer.cpp
+SOURCES := Animation.cpp
 
 # header files in this project
+HEADERS := Animation.hpp
 
-HEADERS := chest.hpp command.hpp exeptions.hpp factory.hpp game.hpp gameObject.hpp inputHandler.hpp moveCommand.hpp objectStorage.hpp operators.hpp renderer.hpp selectedCommand.hpp character.hpp testSprite.hpp exitCommand.hpp interactCommand.hpp background.cpp titlecard.hpp button.hpp
 # other places to look for files for this project
 SEARCH  := 
 
 # set REATIVE to the next higher directory 
 # and defer to the Makefile.due there
 RELATIVE := $(RELATIVE)../
-include $(RELATIVE)/Makefile.native
+include $(RELATIVE)Makefile.native

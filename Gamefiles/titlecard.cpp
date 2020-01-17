@@ -9,6 +9,8 @@ void titlecard::draw(sf::RenderWindow& window){
     window.draw(sprite);
 }
 
+void titlecard::setFrame(int max_frame, int row){}
+
 void titlecard::move(sf::Vector2f delta){}
 void titlecard::update(){
     frameCounter++;
@@ -23,7 +25,7 @@ void titlecard::update(){
         return;
     }
     std::cout << sprite.getPosition().x << sprite.getPosition().y;
-    storage.setActive("Menu");
+    storage.setActive("Game");
     
 }
 void titlecard::interact(){}

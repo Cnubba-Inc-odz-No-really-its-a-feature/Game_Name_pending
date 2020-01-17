@@ -10,6 +10,8 @@ public:
 
     void draw(sf::RenderWindow& window) override;
 
+    void setFrame(int max_frame, int row);
+
     void move(sf::Vector2f delta) override;
     void update() override;
     void interact() override;

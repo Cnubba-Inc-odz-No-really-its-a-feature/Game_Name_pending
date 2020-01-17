@@ -12,6 +12,8 @@ void button::draw(sf::RenderWindow& window){
     window.draw(sprite);
 }
 
+void button::setFrame(int max_frame, int row){}
+
 void button::move(sf::Vector2f delta){}
 
 void button::update(){}

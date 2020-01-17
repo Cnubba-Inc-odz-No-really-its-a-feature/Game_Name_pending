@@ -18,7 +18,7 @@ private:
 
     time_t timerPrevious;
     time_t timerCurrent;
-    int MS_PER_FRAME = 2000;
+    int MS_PER_FRAME = 10;
     int lag = 0;
 public:
 

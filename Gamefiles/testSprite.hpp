@@ -22,10 +22,8 @@ public:
     }
 
     void update(){}
-    void interact(){
-        
-    }
-
+    void interact(){}
+    void setFrame(int max_frame, int row){}
 };
 
 #endif

@@ -6,9 +6,10 @@ background::background( sf::Vector2f position, sf::Vector2f scale, std::map<std:
 }
 
 void background::draw(sf::RenderWindow& window){
-    std::cout << "im being drawn: background" << std::endl;
     window.draw(sprite);
 }
+
+void background::setFrame(int max_frame, int row){}
 
 void background::move(sf::Vector2f delta){}
 

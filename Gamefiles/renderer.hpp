@@ -28,7 +28,8 @@ public:
             // std::cout << "pushed to queue" << std::endl;
             i->draw(window);
     }
-        // renderStorage.character1.get()->draw(window);
+    if(renderStorage.keyActive == "Game"){
+        renderStorage.character1.get()->draw(window);}
     }
 
     void update(){

@@ -7,6 +7,9 @@
 class character : public gameObject {
 private:
     sf::RenderWindow & window;
+    int frame = 0;
+    int counter = 0;
+    bool moved = false;
 public:
     character( sf::Vector2f position, sf::Vector2f scale, std::map<std::string, sf::Texture> textureMap, sf::RenderWindow & window, int prio );
 
@@ -16,9 +19,10 @@ public:
     bool collision();
     void update() override;
     void interact() override;
+    void setFrame(int max_frame, int row) override;
 
 };
 
 
 
-#endif //_CHARACTER_HPP
+#endif 
