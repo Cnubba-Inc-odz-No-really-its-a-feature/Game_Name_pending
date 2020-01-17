@@ -23,7 +23,7 @@ public:
 
     void update(){}
     void interact(){}
-
+    void setFrame(int max_frame){}
 };
 
 #endif

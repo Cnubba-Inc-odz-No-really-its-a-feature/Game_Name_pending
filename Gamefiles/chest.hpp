@@ -44,6 +44,7 @@ public:
     void move(sf::Vector2f delta) override{}
 
     void update(){}
+    void setFrame(int max_frame){}
 };
 
 #endif
