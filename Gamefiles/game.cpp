@@ -1,14 +1,24 @@
 #include "game.hpp"
+#include <SFML/Audio.hpp>
+#include "background.hpp"
 
 void game::gameLoop(){
-
+	sf::SoundBuffer buffer;
+	sf::Sound sound;
+	if(!buffer.loadFromFile("Denzel Curry - Ultimate (Full Video).wav"));
+	sound.setBuffer(buffer);
+	//sound.pause();
+	sound.play();
 	//objectRenderer.factorObjects();
-<<<<<<< HEAD
-=======
 	auto defaultSize = sf::Vector2f((float)window.getSize().x, (float)window.getSize().y);
 	auto lastSize = defaultSize;
-
->>>>>>> origin/master
+	std::vector<std::string> files;
+	files.push_back("background_back.png");
+	files.push_back("background_front.png");
+	files.push_back("background_middle.png");
+	files.push_back("background_sky.png");
+	std::shared_ptr<gameObject> bckgrnd(new background(files));
+	storage.game->push_back(bckgrnd);
     while (window.isOpen()) {
 		time(&timerCurrent);
 		auto elapsed = timerCurrent - timerPrevious;
