@@ -1,5 +1,10 @@
 #include "factory.hpp"
 
+factory::factory(objectStorage &storage, sf::RenderWindow & window): 
+        storage(storage),
+        window(window)
+    {}
+
 std::shared_ptr<gameObject> factory::factorObject(std::ifstream & inputFile){
     objectTypes_E objectType;
     sf::Vector2f pos;
@@ -37,8 +42,16 @@ std::shared_ptr<gameObject> factory::factorObject(std::ifstream & inputFile){
         }else if(objectType == objectTypes_E::CHEST_E){
             std::cout<<"chest begin made" << std::endl;
             return std::shared_ptr<gameObject>(new chest(pos, scale, textureMap, prio));
+        }else if(objectType == objectTypes_E::BUTTON_E){
+            std::cout<<"Button begin made" << std::endl;
+            return std::shared_ptr<gameObject>(new button(pos, scale, textureMap, prio));
+        }else if(objectType == objectTypes_E::BACKGROUND_E){
+            std::cout<<"Background begin made" << std::endl;
+            return std::shared_ptr<gameObject>(new background(pos, scale, textureMap, prio));
+        }else if(objectType == objectTypes_E::TITLECARD_E){
+            std::cout<<"Titlecard begin made" << std::endl;
+            return std::shared_ptr<gameObject>(new titlecard(pos, scale, textureMap, prio, storage));
         }
-
     
         throw invalid_type("invalid type found");
 
@@ -48,7 +61,7 @@ std::shared_ptr<gameObject> factory::factorObject(std::ifstream & inputFile){
 }
 
 void factory::factorNewGameState(std::string stateFileName){
-
+    storage.title.get()->clear();
     storage.menu.get()->clear();
     storage.game.get()->clear();
     std::ifstream inputFile(stateFileName);
@@ -68,6 +81,10 @@ void factory::factorNewGameState(std::string stateFileName){
             }else if(storageType == "Character"){
                 storage.character1 = factorObject(inputFile);
                 std::cout<<"character made" << std::endl;
+            }
+            else if(storageType == "Title"){
+                storage.title.get()->push_back(factorObject(inputFile));
+                std::cout<<"Title added to storage" << std::endl;
             }
 
         }

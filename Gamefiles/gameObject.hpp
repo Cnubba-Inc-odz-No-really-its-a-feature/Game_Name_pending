@@ -14,7 +14,7 @@ protected:
     bool interactable;
 
 public:
-    gameObject(sf::Vector2f position, sf::Vector2f scale, std::map<std::string, sf::Texture> textureMap)
+    gameObject(sf::Vector2f position, sf::Vector2f scale, std::map<std::string, sf::Texture> textureMap, int prio = 0) : priority(prio)
     {
         sprite.setPosition(position);
         sprite.setScale(scale.x, scale.y);

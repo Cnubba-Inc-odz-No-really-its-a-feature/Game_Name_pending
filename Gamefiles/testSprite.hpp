@@ -22,7 +22,9 @@ public:
     }
 
     void update(){}
-    void interact(){}
+    void interact(){
+        
+    }
 
 };
 

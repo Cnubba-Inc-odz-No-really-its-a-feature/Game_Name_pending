@@ -1,1 +1,5 @@
-Game objectTypes_E::CHEST_E (100,200) (2,2) 1 texture1 pop4.png , texture2 pop4.png ;
+Game objectTypes_E::CHEST_E (100,200) (2,2) 2 texture1 pop4.png , texture2 pop4.png ;
+Menu objectTypes_E::BUTTON_E (500,200) (1,1) 2 texture1 StartRed.png , texture2 StartBlack.png ;
+Title objectTypes_E::BACKGROUND_E (0,0) (1,1) 1 texture1 Background.jpg ;
+Title objectTypes_E::TITLECARD_E (500,200) (1,1) 2 texture1 Titlecard.png ;
+Menu objectTypes_E::BACKGROUND_E (0,0) (1,1) 2 texture1 Background.jpg ;

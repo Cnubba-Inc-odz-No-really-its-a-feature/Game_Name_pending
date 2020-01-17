@@ -9,11 +9,11 @@
 #############################################################################
 
 # source files in this project (main.cpp is automatically assumed)
-SOURCES := game.cpp exeptions.cpp factory.cpp objectStorage.cpp operators.cpp character.cpp
+SOURCES := game.cpp exeptions.cpp factory.cpp objectStorage.cpp operators.cpp character.cpp titlecard.cpp background.cpp button.cpp
 
 # header files in this project
 
-HEADERS := chest.hpp command.hpp exeptions.hpp factory.hpp game.hpp gameObject.hpp inputHandler.hpp moveCommand.hpp objectStorage.hpp operators.hpp renderer.hpp selectedCommand.hpp character.hpp testSprite.hpp
+HEADERS := chest.hpp command.hpp exeptions.hpp factory.hpp game.hpp gameObject.hpp inputHandler.hpp moveCommand.hpp objectStorage.hpp operators.hpp renderer.hpp selectedCommand.hpp character.hpp testSprite.hpp background.cpp titlecard.hpp button.hpp
 # other places to look for files for this project
 SEARCH  := 
 
