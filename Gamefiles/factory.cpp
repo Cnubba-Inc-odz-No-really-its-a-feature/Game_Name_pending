@@ -33,6 +33,7 @@ std::shared_ptr<gameObject> factory::factorObject(std::ifstream & inputFile){
         if(objectType == objectTypes_E::CHARACTER_E){
             return std::shared_ptr<gameObject>(new character(pos, scale, textureMap, window, prio));
         }else if(objectType == objectTypes_E::TESTSPRITE_E){
+            std::cout<<"textSpriteMade" << std::endl;
             return std::shared_ptr<gameObject>(new textureSprite(pos, scale, textureMap, prio));
         }else if(objectType == objectTypes_E::CHEST_E){
             std::cout<<"chest begin made" << std::endl;

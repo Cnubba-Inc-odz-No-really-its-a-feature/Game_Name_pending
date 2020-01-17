@@ -32,6 +32,7 @@ public:
     virtual void draw(sf::RenderWindow& window) =0;
     virtual void move(sf::Vector2f delta) = 0;
     virtual void update() = 0;
+    virtual void setFrame(int max_frame ) =0;
 
 };
 
