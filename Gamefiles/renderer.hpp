@@ -4,11 +4,13 @@
 #include "objectStorage.hpp"
 //#include "circle.hpp"
 
+bool objSort(const std::shared_ptr<gameObject> & lhs, const std::shared_ptr<gameObject> & rhs);
+
 class renderer{
 private:
     sf::RenderWindow& window;
     objectStorage& renderStorage;
-    std::priority_queue<std::shared_ptr<gameObject>, std::vector<std::shared_ptr<gameObject>>> queue;
+    // std::priority_queue<std::shared_ptr<gameObject>, std::vector<std::shared_ptr<gameObject>>> queue;
 public:
     renderer(sf::RenderWindow & window, objectStorage& renderStorage):
     window(window),
@@ -20,18 +22,11 @@ public:
     }
 
     void  draw(){
+        std::sort(renderStorage.getActive().get()->begin(), renderStorage.getActive().get()->end(), objSort);
         // std::cout << "curr gamestate: " << renderStorage.keyActive << std::endl;
         for(auto &i : *renderStorage.getActive()){
-            queue.push(i);
             // std::cout << "pushed to queue" << std::endl;
-            //i->draw(window);
-    }
-
-    while(queue.size()){
-        std::cout << "prio: " << queue.top()->priority << std::endl;
-        queue.top()->draw(window);
-        queue.pop();
-        // std::cout << "popped from queue" << std::endl;
+            i->draw(window);
     }
         // renderStorage.character1.get()->draw(window);
     }
