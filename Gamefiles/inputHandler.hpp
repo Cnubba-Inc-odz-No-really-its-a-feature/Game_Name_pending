@@ -9,6 +9,7 @@
 #include "objectStorage.hpp"
 #include "math.h"
 #include "selectedCommand.hpp"
+#include "exitCommand.hpp"
 
 class inputHandler{
 private:
@@ -23,6 +24,10 @@ private:
 
     std::array<sf::Mouse::Button, 2> selectKeys = {
         sf::Mouse::Left, sf::Mouse::Right
+    };
+
+    std::array<sf::Keyboard::Key,1> exitKeys = {
+        sf::Keyboard::Key::Escape
     };
 
     objectStorage &inputStorage;
@@ -90,6 +95,12 @@ public:
                 else{
                     return NULL;
                 }
+            }
+        }
+
+        for(auto exitKey : exitKeys){
+            if(sf::Keyboard::isKeyPressed(exitKey)){
+                return new exitCommand();
             }
         }
 
