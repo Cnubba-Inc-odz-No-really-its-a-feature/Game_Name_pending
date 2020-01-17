@@ -14,6 +14,10 @@ public:
 
     void draw(sf::RenderWindow& window) override;
 
+    void addToInventory(std::shared_ptr<gameObject> loot) override{
+        playerInventory.itemList->push_back(loot);
+    }
+
     void move(sf::Vector2f delta) override;
     bool collision();
     void update() override;

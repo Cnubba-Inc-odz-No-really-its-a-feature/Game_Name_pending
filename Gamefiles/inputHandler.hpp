@@ -33,18 +33,13 @@ private:
     objectStorage &inputStorage;
 
     float currentDistance(std::shared_ptr<gameObject> objectPointer){
-        std::cout << "currentDistance" << std::endl;
         sf::Vector2f mainCharPosition = inputStorage.character1->getPosition();
-        std::cout << "mainChar ok" << std::endl;
         sf::Vector2f objectPosition = objectPointer->getPosition();
-        
-        std::cout << "getting distance" << std::endl;
         
         return sqrt( pow(objectPosition.x - mainCharPosition.x, 2) + pow(objectPosition.y - mainCharPosition.y, 2) );
     }
 
     bool inRange(std::shared_ptr<gameObject> objectPointer){
-        std::cout << "checking if object inrange" << std::endl;
         return currentDistance(objectPointer) <= 200;
     }
     

@@ -2,6 +2,7 @@
 #define _GAMEOBJECT_HPP
 
 #include "iostream"
+#include "memory"
 #include <SFML/Graphics.hpp>
 
 class gameObject{
@@ -37,6 +38,7 @@ public:
     virtual void draw(sf::RenderWindow& window) {};
     virtual void move(sf::Vector2f delta) {};
     virtual void update() {};
+    virtual void addToInventory(std::shared_ptr<gameObject> loot){};
 
 };
 
