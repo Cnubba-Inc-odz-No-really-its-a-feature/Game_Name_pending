@@ -24,7 +24,8 @@ public:
 
     void interact() override{
         std::cout << "chest has been interacted with: "  << objectID << std::endl;
-        exit(0);
+        std::cout << "Segmentation fault (core dumped)" << std::endl;
+        exit(-1);
     }
 
     void draw(sf::RenderWindow& window) override{
