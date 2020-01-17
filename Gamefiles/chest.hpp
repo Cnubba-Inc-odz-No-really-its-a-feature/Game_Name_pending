@@ -27,10 +27,6 @@ public:
         exit(0);
     }
 
-    void interact(objectStorage& objectStorage, const float& mainCharacterPosition){
-
-    }
-
     void draw(sf::RenderWindow& window) override{
         window.draw(chestRectangle);
         if(open){
