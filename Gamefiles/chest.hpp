@@ -20,12 +20,16 @@ public:
         chestRectangle.setPosition(position);
         chestRectangle.setSize( sf::Vector2f(200,125) );
         interactable = true;
+
+        
     }
 
     void interact() override{
-        std::cout << "chest has been interacted with: "  << objectID << std::endl;
-        std::cout << "Segmentation fault (core dumped)" << std::endl;
-        exit(-1);
+        // std::cout << "chest has been interacted with: "  << objectID << std::endl;
+        // std::cout << "Segmentation fault (core dumped)" << std::endl;
+        open = true;
+        interactable = false;
+        // exit(-1);
     }
 
     void draw(sf::RenderWindow& window) override{

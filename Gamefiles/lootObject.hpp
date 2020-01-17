@@ -34,6 +34,10 @@ public:
     void draw(sf::RenderWindow& window) override{
         window.draw(sprite);
     }
+
+    bool isPickedUp(){
+        return pickedUp;
+    }
 };
 
 
