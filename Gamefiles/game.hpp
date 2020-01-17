@@ -18,7 +18,7 @@ private:
 
     time_t timerPrevious;
     time_t timerCurrent;
-    int MS_PER_FRAME = 100;
+    int MS_PER_FRAME = 1000;
     int lag = 0;
 public:
 
@@ -28,7 +28,7 @@ public:
         gameInputHandler(storage),
         objectFactory(storage, window)
     {
-        objectFactory.factorNewGameState("objects.txt");
+        objectFactory.factorNewGameState("gameState1.txt");
         std::cout<<(*storage.game).size()<<std::endl;
     }
 

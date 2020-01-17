@@ -25,6 +25,7 @@ public:
 std::shared_ptr<gameObject> factorObject(std::ifstream & inputFile);
 
 void factorNewGameState(std::string stateFileName);
+void factorMainCharacter();
 
     void saveState()
     {

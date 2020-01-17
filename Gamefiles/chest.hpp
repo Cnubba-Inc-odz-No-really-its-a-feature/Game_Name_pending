@@ -16,14 +16,18 @@ public:
         gameObject(position, scale, textureMap),
         chestRectangle{position}
     {
-        chestRectangle.setFillColor(sf::Color::Red);
-        chestRectangle.setPosition(position);
-        chestRectangle.setSize( sf::Vector2f(200,125) );
+        //chestRectangle.setFillColor(sf::Color::Red);
+        //chestRectangle.setPosition(position);
+        //chestRectangle.setSize( sf::Vector2f(200,125) );
         interactable = true;
+
+	    sprite.setTextureRect(sf::IntRect(0, 0, 20, 16));
+        
     }
 
     void interact() override{
-        std::cout << "chest has been interacted with: "  << objectID << std::endl;
+           sprite.setTextureRect(sf::IntRect(20, 0, 20, 16));
+     
     }
 
     void interact(objectStorage& objectStorage, const float& mainCharacterPosition){
@@ -31,7 +35,7 @@ public:
     }
 
     void draw(sf::RenderWindow& window) override{
-        window.draw(chestRectangle);
+        window.draw(sprite);
         if(open){
             for(auto& loot : lootVector){
                 loot.draw(window);
@@ -42,6 +46,8 @@ public:
     void move(sf::Vector2f delta) override{}
 
     void update(){}
+    void setFrame(int max_frame, int row){
+    }
 };
 
 #endif
