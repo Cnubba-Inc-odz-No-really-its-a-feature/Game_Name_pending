@@ -66,13 +66,13 @@ public:
 
                 std::shared_ptr<gameObject> closestInteractablePointer = nullptr;
 
-                for(std::shared_ptr<gameObject> interactableObject : *gameObjectStorage.game){
+                for(std::shared_ptr<gameObject> interactableObject : *gameObjectStorage.getActive()){
                     if(interactableObject->isInteractable() && inRange(interactableObject)){
                         closestInteractablePointer = interactableObject;
                     }
                 }
 
-                for(std::shared_ptr<gameObject> objectPointer : *gameObjectStorage.game ){
+                for(std::shared_ptr<gameObject> objectPointer : *gameObjectStorage.getActive()){
 
                     if(objectPointer->isInteractable() && inRange(objectPointer) && (currentDistance(objectPointer) < currentDistance(closestInteractablePointer) && closestInteractablePointer != nullptr)){
                         closestInteractablePointer = objectPointer;
