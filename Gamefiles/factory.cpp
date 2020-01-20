@@ -42,7 +42,7 @@ std::shared_ptr<gameObject> factory::factorObject(std::ifstream & inputFile){
             return std::shared_ptr<gameObject>(new chest(pos, scale, textureMap, prio));
         }else if(objectType == objectTypes_E::BUTTON_E){
             std::cout<<"Button begin made" << std::endl;
-            return std::shared_ptr<gameObject>(new button(pos, scale, textureMap, prio));
+            return std::shared_ptr<gameObject>(new button(pos, scale, textureMap, prio, storage));
         }else if(objectType == objectTypes_E::BACKGROUND_E){
             std::cout<<"Background begin made" << std::endl;
             return std::shared_ptr<gameObject>(new background(pos, scale, textureMap, prio));
@@ -73,7 +73,7 @@ void factory::factorNewGameState(std::string stateFileName){
             if(storageType == "Game"){
                 storage.game.get()->push_back(factorObject(inputFile));
             }else if(storageType == "Menu"){
-                storage.game.get()->push_back(factorObject(inputFile));
+                storage.menu.get()->push_back(factorObject(inputFile));
             }else if(storageType == "Character"){
                 storage.character1 = factorObject(inputFile);
             }

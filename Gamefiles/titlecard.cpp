@@ -22,7 +22,7 @@ void titlecard::update(){
     if (frameCounter < 1500){
         return;
     }
-    titleCardStorage.setActive("Game");
+    titleCardStorage.setActive("Menu");
     
 }
 void titlecard::interact(){}
