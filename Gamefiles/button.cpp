@@ -4,17 +4,16 @@
 #include <iostream>
 
 
-button::button( sf::Vector2f position, sf::Vector2f scale, std::map<std::string, sf::Texture> textureMap, int prio):
-    gameObject(position, scale, textureMap, prio)
+button::button(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, int objectPriority):gameObject(spritePosition, spriteScale, textureMap, objectPriority)
 {}
 
-void button::draw(sf::RenderWindow& window){
-    window.draw(sprite);
+void button::draw(sf::RenderWindow& gameWindow){
+    gameWindow.draw(objectSprite);
 }
 
-void button::setFrame(int max_frame, int row){}
+void button::setFrame(int maxFrame, int textureRow){}
 
-void button::move(sf::Vector2f delta){}
+void button::move(sf::Vector2f moveDirection){}
 
 void button::update(){}
 void button::interact(){}

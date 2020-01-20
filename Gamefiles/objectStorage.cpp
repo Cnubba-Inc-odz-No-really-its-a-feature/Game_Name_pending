@@ -4,8 +4,8 @@ std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> objectStorage::getActi
         return allVectors[keyActive];
     }
 
-void objectStorage::setActive(std::string key){
-    keyActive = key;
+void objectStorage::setActive(std::string newKey){
+    keyActive = newKey;
 }
 
 objectStorage::objectStorage():
@@ -15,6 +15,5 @@ objectStorage::objectStorage():
 {
     allVectors.insert({"Menu", menu});
     allVectors.insert({"Game", game});
-    allVectors.insert({"Title", title});  
-    std::cout<<"object storage is created" << std::endl;
+    allVectors.insert({"Title", title});
 }

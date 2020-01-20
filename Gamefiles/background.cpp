@@ -1,20 +1,19 @@
 #include "background.hpp"
 
-background::background( sf::Vector2f position, sf::Vector2f scale, std::map<std::string, sf::Texture> textureMap, int prio):
-    gameObject(position, scale, textureMap, prio)
+background::background( sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, int objectPriority):
+    gameObject(spritePosition, spriteScale, textureMap, objectPriority)
 {
 }
 
-void background::draw(sf::RenderWindow& window){
-    window.draw(sprite);
+void background::draw(sf::RenderWindow& gameWindow){
+    gameWindow.draw(objectSprite);
 }
 
-void background::setFrame(int max_frame, int row){}
+void background::setFrame(int maxFrame, int textureRow){}
 
-void background::move(sf::Vector2f delta){}
+void background::move(sf::Vector2f moveDirection){}
 
 void background::update(){
-    // std::cout << "Hello" << std::endl;
     }
 
 void background::interact(){}

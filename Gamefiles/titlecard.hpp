@@ -8,15 +8,15 @@
 class titlecard : public gameObject {
 private:
     int frameCounter = 0;
-    objectStorage & storage;
+    objectStorage & titleCardStorage;
 public:
-    titlecard( sf::Vector2f position, sf::Vector2f scale, std::map<std::string, sf::Texture> textureMap, int prio, objectStorage & storage );
+    titlecard( sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, int objectPriority, objectStorage & titleCardStorage );
 
     void draw(sf::RenderWindow& window) override;
 
-    void setFrame(int max_frame, int row);
+    void setFrame(int maxFrame, int textureRow);
 
-    void move(sf::Vector2f delta) override;
+    void move(sf::Vector2f moveDirection) override;
     bool collision();
     void update() override;
     void interact() override;
