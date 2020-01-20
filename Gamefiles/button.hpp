@@ -4,6 +4,7 @@
 #include "gameObject.hpp"
 #include "objectStorage.hpp"
 #include <iostream>
+#include <string>
 
 class button : public gameObject {
 private:
@@ -12,7 +13,7 @@ private:
     objectStorage & storage;
 
 public:
-    button( sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, int objectPriority, objectStorage & storage );
+    button( sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, objectStorage & storage, int objectPriority );
 
     void draw(sf::RenderWindow& gameWindow) override;
 

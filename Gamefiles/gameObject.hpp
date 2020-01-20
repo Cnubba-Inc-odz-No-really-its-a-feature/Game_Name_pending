@@ -6,6 +6,7 @@
 #include "iostream"
 #include "memory"
 #include <SFML/Graphics.hpp>
+#include <string>
 
 class gameObject{
 protected:
@@ -22,12 +23,14 @@ protected:
     }
 
 public:
-    gameObject(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, int objectPriority =0): 
-    textureMap(textureMap), objectPriority(objectPriority)
+    gameObject(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, int objectPriority =0): 
+        textureMap(textureMap),
+        objectPriority(objectPriority)
     {
+        std::cout<<firstKey<<std::endl;
         objectSprite.setPosition(spritePosition);
         objectSprite.setScale(spriteScale.x, spriteScale.y);
-        spriteTexture = textureMap["texture1"];
+        spriteTexture = textureMap[firstKey];
         objectSprite.setTexture(spriteTexture);
     }
 

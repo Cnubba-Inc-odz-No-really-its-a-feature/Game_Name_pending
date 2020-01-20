@@ -2,10 +2,12 @@
 #define _GAME_HPP
 
 #include <SFML/Graphics.hpp>
-#include <ctime>
 #include "renderer.hpp"
 #include "inputHandler.hpp"
 #include "factory.hpp"
+#include <chrono>
+#include <cstdint>
+#include <iostream>
 
 class game{
 private:
@@ -16,11 +18,9 @@ private:
     inputHandler gameInputHandler;
     factory gameObjectFactory;
 
-    int MS_PER_FRAME = 1000;
+    int MS_PER_FRAME = 1000 / 60;
     int lag = 0;
 
-    clock_t clockNow;
-    clock_t clockPrevious;
 
 
 public:
