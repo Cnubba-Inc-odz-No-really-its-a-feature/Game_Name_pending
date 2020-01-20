@@ -9,53 +9,40 @@
 
 class chest: public gameObject{
 private:
-    sf::RectangleShape chestRectangle;
-    std::vector<lootObject> lootVector;
+    std::vector<gameObject> lootObjectVector;
     bool open = false;
 public:
-    chest(sf::Vector2f position, sf::Vector2f scale, std::map<std::string, sf::Texture> textureMap, std::shared_ptr<gameObject> playerPointer, int prio):
-        gameObject(position, scale, textureMap),
-        chestRectangle{position}
+    chest(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, int objectPriority):
+        gameObject(spritePosition, spriteScale, textureMap)
     {
-        chestRectangle.setFillColor(sf::Color::Red);
-        chestRectangle.setPosition(position);
-        chestRectangle.setSize( sf::Vector2f(200,125) );
         interactable = true;
-
-        std::shared_ptr<gameObject> item0(new textureSprite(sf::Vector2f(position + sf::Vector2f(-100, -50)), sf::Vector2f(1,1), textureMap, 5));
-        std::shared_ptr<gameObject> item1(new textureSprite(sf::Vector2f(position + sf::Vector2f(-100, -50)), sf::Vector2f(1,1), textureMap, 5));
-        std::shared_ptr<gameObject> item2(new textureSprite(sf::Vector2f(position + sf::Vector2f(-100, -50)), sf::Vector2f(1,1), textureMap, 5));
-        
-        lootObject loot0 = lootObject(sf::Vector2f(position + sf::Vector2f(-100, -50)), playerPointer, item0);
-        lootObject loot1 = lootObject(sf::Vector2f(position + sf::Vector2f(-100, -50)), playerPointer, item1);
-        lootObject loot2 = lootObject(sf::Vector2f(position + sf::Vector2f(-100, -50)), playerPointer, item2);
-
-        lootVector = {
-            loot0, loot1, loot2
-        };
+        gameObject::objectPriority = objectPriority;
+	    objectSprite.setTextureRect(sf::IntRect(0, 0, 20, 16));
     }
 
     void interact() override{
-        // std::cout << "chest has been interacted with: "  << objectID << std::endl;
-        // std::cout << "Segmentation fault (core dumped)" << std::endl;
-        open = true;
-        interactable = false;
-        // exit(-1);
+           objectSprite.setTextureRect(sf::IntRect(20, 0, 20, 16));
+     
     }
 
-    void draw(sf::RenderWindow& window) override{
-        window.draw(chestRectangle);
+    void interact(objectStorage& gameStorage, const float& mainCharacterPosition){
+
+    }
+
+    void draw(sf::RenderWindow& gameWindow) override{
+        gameWindow.draw(objectSprite);
         if(open){
-            for(auto& loot : lootVector){
-                loot.draw(window);
+            for(auto& loot : lootObjectVector){
+                loot.draw(gameWindow);
             }
         }
     }
 
-    void move(sf::Vector2f delta) override{}
+    void move(sf::Vector2f moveDirection) override{}
 
     void update(){}
-    void setFrame(int max_frame){}
+    void setFrame(int maxFrame, int textureRow){
+    }
 };
 
 #endif

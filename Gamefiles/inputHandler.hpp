@@ -30,12 +30,11 @@ private:
         sf::Keyboard::Key::Escape
     };
 
-    objectStorage &inputStorage;
+    objectStorage &gameObjectStorage;
 
     float currentDistance(std::shared_ptr<gameObject> objectPointer){
-        sf::Vector2f mainCharPosition = inputStorage.character1->getPosition();
-        sf::Vector2f objectPosition = objectPointer->getPosition();
-        
+        sf::Vector2f mainCharPosition = gameObjectStorage.character1->getSprite().getPosition();
+        sf::Vector2f objectPosition = objectPointer->getSprite().getPosition();
         return sqrt( pow(objectPosition.x - mainCharPosition.x, 2) + pow(objectPosition.y - mainCharPosition.y, 2) );
     }
 
@@ -47,36 +46,33 @@ private:
 
 public:
 
-    inputHandler(objectStorage &inputStorage):
-        inputStorage{inputStorage}
+    inputHandler(objectStorage &gameObjectStorage):
+        gameObjectStorage{gameObjectStorage}
     {
     }
 
-    command* handleInput(){
+    std::unique_ptr<command> handleInput(){
 
         // for dungeonGamestate
         for( auto movementKey : moveKeys){
             if(sf::Keyboard::isKeyPressed(movementKey)){
-                std::cout << "creating move command" << std::endl;
-                return new moveCommand( movementKey, inputStorage.character1);
+                std::unique_ptr<command>( new moveCommand( movementKey, gameObjectStorage.character1));
             }
         }
 
         //for dungeonGamestate
         for( auto interactKey : interactionKeys){
             if(sf::Keyboard::isKeyPressed(interactKey)){
-                std::cout << "searching for interactables" << std::endl;
 
                 std::shared_ptr<gameObject> closestInteractablePointer = nullptr;
 
-                for(std::shared_ptr<gameObject> interactableObject : *inputStorage.game){
+                for(std::shared_ptr<gameObject> interactableObject : *gameObjectStorage.game){
                     if(interactableObject->isInteractable() && inRange(interactableObject)){
-                        std::cout << "interactable found" << std::endl;
                         closestInteractablePointer = interactableObject;
                     }
                 }
 
-                for(std::shared_ptr<gameObject> objectPointer : *inputStorage.game ){
+                for(std::shared_ptr<gameObject> objectPointer : *gameObjectStorage.game ){
 
                     if(objectPointer->isInteractable() && inRange(objectPointer) && (currentDistance(objectPointer) < currentDistance(closestInteractablePointer) && closestInteractablePointer != nullptr)){
                         closestInteractablePointer = objectPointer;
@@ -85,7 +81,7 @@ public:
                 }
                 
                 if(closestInteractablePointer != nullptr){
-                    return new interactCommand(closestInteractablePointer);
+                    return std::unique_ptr<command>(new interactCommand(closestInteractablePointer));
                 }
                 else{
                     return NULL;
@@ -95,32 +91,17 @@ public:
 
         for(auto exitKey : exitKeys){
             if(sf::Keyboard::isKeyPressed(exitKey)){
-                return new exitCommand();
+                return std::unique_ptr<command>( new exitCommand());
             }
         }
 
-        //for DungeonGameState
-        for( auto automovementKey : selectKeys ){
-            if(sf::Mouse::isButtonPressed(automovementKey)){
-
-                sf::Vector2i position = sf::Mouse::getPosition();
-                auto objects = inputStorage.game.get();
-                for( auto object : *objects ){
-                    if(object.get()->isInteractable()){
-                        if( object->getPosition().x <= position.x && int(object->getPosition().x + object->getSize()) >= position.x  
-                        && int(object->getPosition().y) <= position.y && int(object->getPosition().x + object->getSize()) >= position.y ){
-                            return new selectedCommand(object);
-                        }
-                    }
-                }
-            }
-        }
+   
         for( auto i : moveKeys){
             if(sf::Keyboard::isKeyPressed(i)){
-                command* newMoveCommand = new moveCommand( i, inputStorage.character1);
-                return newMoveCommand;
+                return std::unique_ptr<command>(new moveCommand( i, gameObjectStorage.character1));
             }
         }
+
 
         for( auto i : selectKeys ){
             if(sf::Mouse::isButtonPressed(i)){
@@ -128,19 +109,17 @@ public:
                 sf::Vector2f mouseRectPos;
                 mouseRectPos.x = position.x;
                 mouseRectPos.y = position.y;
-                auto objects = inputStorage.game.get();
+                auto objects = gameObjectStorage.game.get();
                 sf::FloatRect mousePosition(mouseRectPos, mouseRectPos);
                 for( auto i : *objects ){
                     if(i.get()->isInteractable()){
-                        if( i.get()->getSprite().getGlobalBounds().intersects(mousePosition)  ){
-                            command* newSelectedcommand = new selectedCommand(i);
-                            return newSelectedcommand;
+                        if( i->getSprite().getGlobalBounds().intersects(mousePosition)  ){
+                            return std::unique_ptr<command>( new selectedCommand(i));
                         }
                     }
                 }
             }
         }
-
 
     return NULL;
     }

@@ -1,53 +1,58 @@
 #include "game.hpp"
-#include <SFML/Audio.hpp>
-#include "background.hpp"
 
 void game::gameLoop(){
-	std::cout<<"entered gameLoop" << std::endl;
-	objectFactory.factorMainCharacter();
-	std::cout<<"reentered gameLoop" << std::endl;
+	gameObjectFactory.factorMainCharacter();
 	bool state1 = true;
-	//objectRenderer.factorObjects();
-    while (window.isOpen()) {
-		time(&timerCurrent);
-		auto elapsed = timerCurrent - timerPrevious;
-		timerPrevious = timerCurrent;
-		lag += elapsed;
+	clockPrevious = clock();
+
+	//twee tests voor het frames bijhouden
+	int secondsPassed = 0;
+	int framecounter = 0;
+
+
+    while (gameWindow.isOpen()) {
+		clockNow = clock();
+		auto elapsedTime = clockNow - clockPrevious;
+		clockPrevious = clockNow;
+		lag += elapsedTime;
 
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::N)){
 			if(state1){
 				state1 = !state1;
-				objectFactory.factorNewGameState("gameState2.txt");
+				gameObjectFactory.factorNewGameState("gameState2.txt");
 			}else{
 				state1 = !state1;
-				objectFactory.factorNewGameState("gameState1.txt");
+				gameObjectFactory.factorNewGameState("gameState1.txt");
 			}
-
-			std::cout<<"state swithed" << std::endl;
 		}
 		
+		framecounter++;
+		if(framecounter == 60){
+			framecounter = 0;
+			secondsPassed++;
+			std::cout<<secondsPassed<<std::endl;
+		}
 
-		command* newCommand;
+
+
+		std::unique_ptr<command> newCommand;
 		newCommand  = gameInputHandler.handleInput();
 		if(newCommand != NULL){
 			newCommand->execute();
 		}
-		delete newCommand;
 
 		while(lag >= MS_PER_FRAME){
-
+			gameObjectRenderer.update();
 			lag -= MS_PER_FRAME;
 		}
-
-        window.clear();
-        objectRenderer.update();
-        objectRenderer.draw();
-		window.display();
+        gameWindow.clear();
+        gameObjectRenderer.draw();
+		gameWindow.display();
 
         sf::Event event;		
-	    while( window.pollEvent(event) ){
-			if( event.type == sf::Event::Closed ){
-				window.close();
+	    while( gameWindow.pollEvent(event) ){
+			if( event.type == sf::Event::Closed ){ 
+				gameWindow.close();
 			}
 		}
 	}

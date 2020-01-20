@@ -9,27 +9,29 @@
 
 class game{
 private:
-    sf::RenderWindow& window;
+    sf::RenderWindow& gameWindow;
 
-    objectStorage storage;
-    renderer objectRenderer;
+    objectStorage gameObjectStorage;
+    renderer gameObjectRenderer;
     inputHandler gameInputHandler;
-    factory objectFactory;
+    factory gameObjectFactory;
 
-    time_t timerPrevious;
-    time_t timerCurrent;
-    int MS_PER_FRAME = 100;
+    int MS_PER_FRAME = 1000;
     int lag = 0;
+
+    clock_t clockNow;
+    clock_t clockPrevious;
+
+
 public:
 
-    game(sf::RenderWindow& window):
-        window(window),
-        objectRenderer(window, storage),
-        gameInputHandler(storage),
-        objectFactory(storage, window)
+    game(sf::RenderWindow& gameWindow):
+        gameWindow(gameWindow),
+        gameObjectRenderer(gameWindow, gameObjectStorage),
+        gameInputHandler(gameObjectStorage),
+        gameObjectFactory(gameObjectStorage, gameWindow)
     {
-        objectFactory.factorNewGameState("gameState1.txt");
-        std::cout<<(*storage.game).size()<<std::endl;
+        gameObjectFactory.factorNewGameState("gameState1.txt");
     }
 
     void gameLoop();

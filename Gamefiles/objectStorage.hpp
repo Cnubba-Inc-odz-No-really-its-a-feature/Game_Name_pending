@@ -11,11 +11,8 @@
 #include "character.hpp"
 
 class objectStorage {
-private:
-    std::string keyActive = "Game";
-    
-
 public:
+    std::string keyActive = "Title";
     std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> menu;
     std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> game;
     std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> title;
@@ -25,7 +22,7 @@ public:
     std::shared_ptr<gameObject> character1;
     std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> getActive();
 
-    void setActive(std::string key);
+    void setActive(std::string newKey);
 };
 
 #endif // _OBJECTSTORAGE_HPP_

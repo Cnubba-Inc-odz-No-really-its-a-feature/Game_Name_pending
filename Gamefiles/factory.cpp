@@ -1,5 +1,10 @@
 #include "factory.hpp"
 
+factory::factory(objectStorage &storage, sf::RenderWindow & window): 
+        storage(storage),
+        window(window)
+    {}
+
 std::shared_ptr<gameObject> factory::factorObject(std::ifstream & inputFile){
     objectTypes_E objectType;
     sf::Vector2f pos;
@@ -16,17 +21,14 @@ std::shared_ptr<gameObject> factory::factorObject(std::ifstream & inputFile){
         inputFile >> objectType >> pos >> scale >> prio;
         try{
             while(true){
-                std::cout<<"new texture" <<std::endl;
                 inputFile >> textureMapKey;
                 inputFile >> textureFile;
                 objectTexture.loadFromFile(textureFile);
                 textureMap[textureMapKey] = objectTexture;
-                std::cout<<"before texturebind"  <<std::endl;
                 inputFile>> textureBind;
                 if(! (textureBind == ',')){
                     throw end_of_textures("end of textures reached");
                 }
-                std::cout<<"texture made" << std::endl;
             }
         }catch(end_of_textures & e){std::cerr<<e.what() <<std::endl;};
 
@@ -37,9 +39,17 @@ std::shared_ptr<gameObject> factory::factorObject(std::ifstream & inputFile){
             return std::shared_ptr<gameObject>(new textureSprite(pos, scale, textureMap, prio));
         }else if(objectType == objectTypes_E::CHEST_E){
             std::cout<<"chest begin made" << std::endl;
-            return std::shared_ptr<gameObject>(new chest(pos, scale, textureMap, storage.character1, prio));
+            return std::shared_ptr<gameObject>(new chest(pos, scale, textureMap, prio));
+        }else if(objectType == objectTypes_E::BUTTON_E){
+            std::cout<<"Button begin made" << std::endl;
+            return std::shared_ptr<gameObject>(new button(pos, scale, textureMap, prio));
+        }else if(objectType == objectTypes_E::BACKGROUND_E){
+            std::cout<<"Background begin made" << std::endl;
+            return std::shared_ptr<gameObject>(new background(pos, scale, textureMap, prio));
+        }else if(objectType == objectTypes_E::TITLECARD_E){
+            std::cout<<"Titlecard begin made" << std::endl;
+            return std::shared_ptr<gameObject>(new titlecard(pos, scale, textureMap, prio, storage));
         }
-
     
         throw invalid_type("invalid type found");
 
@@ -49,7 +59,7 @@ std::shared_ptr<gameObject> factory::factorObject(std::ifstream & inputFile){
 }
 
 void factory::factorNewGameState(std::string stateFileName){
-
+    storage.title.get()->clear();
     storage.menu.get()->clear();
     storage.game.get()->clear();
     std::ifstream inputFile(stateFileName);
@@ -61,14 +71,14 @@ void factory::factorNewGameState(std::string stateFileName){
                 throw end_of_file("end of file reached");
             }
             if(storageType == "Game"){
-                std::cout<<"added to gamestorage" <<std::endl;
                 storage.game.get()->push_back(factorObject(inputFile));
             }else if(storageType == "Menu"){
-                std::cout<<"added to gamestoragee" <<std::endl;
                 storage.game.get()->push_back(factorObject(inputFile));
             }else if(storageType == "Character"){
                 storage.character1 = factorObject(inputFile);
-                std::cout<<"character made" << std::endl;
+            }
+            else if(storageType == "Title"){
+                storage.title.get()->push_back(factorObject(inputFile));
             }
 
         }
@@ -77,9 +87,6 @@ void factory::factorNewGameState(std::string stateFileName){
     }catch(problem & e){
         std::cerr << e.what() << std::endl;
     }
-
-    std::cout<<"original state made" << std::endl;
-
 }
 
 void factory::factorMainCharacter(){
@@ -91,7 +98,6 @@ void factory::factorMainCharacter(){
             throw invalid_type("invalid CharacterType found");
         }
         storage.character1 = factorObject(characterFile);
-        std::cout<<"characterMade" << std::endl;
 
     }catch(end_of_file & e){
     }catch(problem& e){std::cerr<<e.what()<<std::endl;}   
