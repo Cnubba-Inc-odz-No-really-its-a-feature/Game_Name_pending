@@ -15,8 +15,8 @@ private:
     renderer gameObjectRenderer;
     inputHandler gameInputHandler;
     factory gameObjectFactory;
-    std::string stateFile;
-    int MS_PER_FRAME = 1000;
+
+    int MS_PER_FRAME = 100;
     int lag = 0;
 
     clock_t clockNow;
