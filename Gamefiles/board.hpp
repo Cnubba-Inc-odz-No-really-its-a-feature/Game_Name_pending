@@ -3,7 +3,7 @@
 
 #include "memory"
 #include "gameObject.hpp"
-#include "card.hpp"
+// #include "card.hpp"
 
 #define LANE_SIZE 7
 
@@ -33,18 +33,34 @@ public:
     }
 
     void placeEffect(const int index, std::shared_ptr<gameObject> effectPointer){
-        laneArray[index].push_back(effectPointer);
+        laneEffects[index].push_back(effectPointer);
     }
 
-    void updateLane(){
+    void updateLane(board* boardPointer){
         for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
-            laneArray[i]->update(i, this);
+            laneArray[i]->update(i, this, boardPointer);
         }
 
         //for every position
         for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
             //for every spell on that position
-            for(uint_fast8_t j = 0; j < laneEffects[i]; j++){
+            for(uint_fast8_t j = 0; j < laneEffects[i].size(); j++){
+                laneEffects[i][j]->update(i, j, this);
+            }
+        }
+    }
+    
+    void updateUnits(board* boardPointer){
+        for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
+            laneArray[i]->update(i, this, boardPointer);
+        }
+    }
+
+    void updateEffects(board* boardPointer){
+        //for every position
+        for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
+            //for every spell on that position
+            for(uint_fast8_t j = 0; j < laneEffects[i].size(); j++){
                 laneEffects[i][j]->update(i, j, this);
             }
         }
@@ -60,6 +76,22 @@ public:
         laneEffects[positionIndex][laneEffects[positionIndex].size() - 1] = toRemoveEffect;
         laneEffects[positionIndex].pop_back();
     }
+
+    void removeByID(const std::string& id){
+        for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
+            if(laneArray[i]->getObjectID() == id){
+                laneArray[i] = nullptr;
+            }
+        }
+
+        for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
+            for(uint_fast8_t j = 0; j < laneEffects[i].size(); j++){
+                if(laneEffects[i][j]->getObjectID() == id){
+                    laneEffects[i][j] = nullptr;
+                }
+            }
+        }
+    }
 };
 
 
@@ -73,12 +105,32 @@ public:
 
     void update(){
         for(lane& currentLane : lanes){
-            currentLane.updateLane();
+            currentLane.updateLane(this);
+        }
+    }
+
+    void updateUnits(const int E_lane){
+        for(lane& currentLane : lanes){
+            currentLane.updateUnits(this);
+        }
+    }
+
+    void updateEffects(const int E_lane){
+        for(lane& currentLane : lanes){
+            currentLane.updateLane(this);
         }
     }
 
     void updateLane(const int E_lane){
-        lanes[E_lane].updateLane();
+        lanes[E_lane].updateLane(this);
+    }
+
+    void updateUnitsOnLane(const int E_lane){
+        lanes[E_lane].updateUnits(this);
+    }
+
+    void updateEffectsOnLane(const int E_lane){
+        lanes[E_lane].updateEffects(this);
     }
 
     void placeUnit(const int E_lane, const int laneIndex, std::shared_ptr<gameObject> unitPointer){
@@ -90,7 +142,7 @@ public:
     }
 
     void placeEffect(const int E_lane, const int index, std::shared_ptr<gameObject> effectPointer){
-        lanes[E_lane].placeEffect(index, effectPointer)
+        lanes[E_lane].placeEffect(index, effectPointer);
     }
 
     void castSpell(const int E_lane, const int index, std::shared_ptr<gameObject> spell){
@@ -105,6 +157,12 @@ public:
         lanes[E_lane].removeEffectAtIndex(index, effectIndex);
     }
 
+    void removeByID(const std::string& id){
+        for(lane& currentLane : lanes){
+            currentLane.removeByID(id);
+        }
+    }
+
     std::shared_ptr<gameObject> getUnitPointer(const int E_lane, const int laneIndex){
         return lanes[E_lane].getUnitPointerAtIndex(laneIndex);
     }
@@ -114,7 +172,7 @@ public:
     }
 
     bool isTrapCardOnPosition(const int index){
-        return lanes[E_lane:::trapLane].isIndexEmpty(index);
+        return lanes[E_lane::trapLane].isIndexEmpty(index);
     }
 };
 

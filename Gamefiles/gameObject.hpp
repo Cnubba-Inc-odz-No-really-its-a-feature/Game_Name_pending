@@ -7,7 +7,7 @@
 
 class gameObject{
 protected:
-    int objectID;
+    std::string objectID;
     int objectTypeID;
     sf::Sprite objectSprite;
     sf::Texture spriteTexture;
@@ -35,6 +35,7 @@ public:
     int objectPriority;
     bool isInteractable(){ return interactable; }
     sf::Sprite getSprite(){ return objectSprite; }
+    std::String getObjectID(){ return objectID; }
     virtual void interact() = 0;
     virtual void draw(sf::RenderWindow& gameWindow) =0;
     virtual void move(sf::Vector2f moveDirection) = 0;
