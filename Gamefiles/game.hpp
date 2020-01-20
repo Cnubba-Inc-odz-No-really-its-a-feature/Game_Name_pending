@@ -25,7 +25,7 @@ private:
 
 public:
 
-    game(sf::RenderWindow& gameWindow, char state = 'd'):
+    game(sf::RenderWindow& gameWindow, char state = 'D'):
         gameWindow(gameWindow),
         gameObjectRenderer(gameWindow, gameObjectStorage),
         gameInputHandler(gameObjectStorage),

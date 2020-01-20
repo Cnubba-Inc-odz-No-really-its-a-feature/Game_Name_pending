@@ -19,7 +19,7 @@ protected:
 
 public:
     gameObject(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, int objectPriority =0): 
-    objectPriority(objectPriority)
+    textureMap(textureMap), objectPriority(objectPriority)
     {
         objectSprite.setPosition(spritePosition);
         objectSprite.setScale(spriteScale.x, spriteScale.y);
