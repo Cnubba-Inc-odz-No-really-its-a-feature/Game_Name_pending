@@ -10,7 +10,7 @@ private:
     int frameCounter = 0;
     objectStorage & titleCardStorage;
 public:
-    titlecard( sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, int objectPriority, objectStorage & titleCardStorage );
+    titlecard( sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, objectStorage & titleCardStorage, std::string firstKey, int objectPriority);
 
     void draw(sf::RenderWindow& window) override;
 

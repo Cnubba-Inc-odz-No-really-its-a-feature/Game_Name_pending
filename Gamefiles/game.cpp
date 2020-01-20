@@ -2,19 +2,21 @@
 
 void game::gameLoop(){
 	gameObjectFactory.factorMainCharacter();
+	using namespace std::chrono;
 	bool state1 = true;
-	clockPrevious = clock();
-
+	uint64_t clockPrevious = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
+	uint64_t clockNow;
 	//twee tests voor het frames bijhouden
 	int secondsPassed = 0;
 	int framecounter = 0;
 
-
+	std::cout << clockPrevious << std::endl;
     while (gameWindow.isOpen()) {
-		clockNow = clock();
+		clockNow = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 		auto elapsedTime = clockNow - clockPrevious;
 		clockPrevious = clockNow;
 		lag += elapsedTime;
+		//std::cout << lag << std::endl;
 
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::N)){
 			if(state1){
@@ -26,12 +28,7 @@ void game::gameLoop(){
 			}
 		}
 		
-		framecounter++;
-		if(framecounter == 60){
-			framecounter = 0;
-			secondsPassed++;
-			std::cout<<secondsPassed<<std::endl;
-		}
+
 
 
 
@@ -42,6 +39,12 @@ void game::gameLoop(){
 		}
 
 		while(lag >= MS_PER_FRAME){
+		framecounter++;
+		if(framecounter == 60){
+			framecounter = 0;
+			secondsPassed++;
+			std::cout<<secondsPassed<<std::endl;
+		}
 			gameObjectRenderer.update();
 			lag -= MS_PER_FRAME;
 		}
