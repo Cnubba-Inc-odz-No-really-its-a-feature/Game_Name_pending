@@ -3,11 +3,12 @@
 
 #include "gameObject.hpp"
 #include <iostream>
+#include <string>
 
 class background : public gameObject {
 
 public:
-    background( sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, int objectPriority );
+    background( sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, int objectPriority );
 
     void draw(sf::RenderWindow& gameWindow) override;
     void setFrame(int maxFrame, int textureRow);

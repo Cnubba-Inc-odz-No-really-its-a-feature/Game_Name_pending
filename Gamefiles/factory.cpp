@@ -16,39 +16,46 @@ std::shared_ptr<gameObject> factory::factorObject(std::ifstream & inputFile){
     sf::Texture objectTexture;
     char textureBind;
     int prio;
+    std::string firstKey;
 
     try{
         inputFile >> objectType >> pos >> scale >> prio;
         try{
+            bool firstrun = true;
             while(true){
                 inputFile >> textureMapKey;
                 inputFile >> textureFile;
                 objectTexture.loadFromFile(textureFile);
                 textureMap[textureMapKey] = objectTexture;
-                inputFile>> textureBind;
+                inputFile >> textureBind;
+                if( firstrun ){
+                    firstKey = textureMapKey;
+                    firstrun = false;
+                }
                 if(! (textureBind == ',')){
                     throw end_of_textures("end of textures reached");
                 }
+
             }
         }catch(end_of_textures & e){std::cerr<<e.what() <<std::endl;};
 
         if(objectType == objectTypes_E::CHARACTER_E){
-            return std::shared_ptr<gameObject>(new character(pos, scale, textureMap, window, prio));
+            return std::shared_ptr<gameObject>(new character(pos, scale, textureMap, window, firstKey, prio));
         }else if(objectType == objectTypes_E::TESTSPRITE_E){
-            std::cout<<"textSpriteMade" << std::endl;
-            return std::shared_ptr<gameObject>(new textureSprite(pos, scale, textureMap, prio));
+            std::cout<< "textSpriteMade " << firstKey << std::endl;
+            return std::shared_ptr<gameObject>(new textureSprite(pos, scale, textureMap, firstKey, prio));
         }else if(objectType == objectTypes_E::CHEST_E){
-            std::cout<<"chest begin made" << std::endl;
-            return std::shared_ptr<gameObject>(new chest(pos, scale, textureMap, prio));
+            std::cout<<"chest begin made " << firstKey << std::endl;
+            return std::shared_ptr<gameObject>(new chest(pos, scale, textureMap, firstKey, prio));
         }else if(objectType == objectTypes_E::BUTTON_E){
-            std::cout<<"Button begin made" << std::endl;
-            return std::shared_ptr<gameObject>(new button(pos, scale, textureMap, prio));
+            std::cout<<"Button begin made " << firstKey << std::endl;
+            return std::shared_ptr<gameObject>(new button(pos, scale, textureMap, firstKey, prio));
         }else if(objectType == objectTypes_E::BACKGROUND_E){
-            std::cout<<"Background begin made" << std::endl;
-            return std::shared_ptr<gameObject>(new background(pos, scale, textureMap, prio));
+            std::cout<<"Background begin made " << firstKey << std::endl;
+            return std::shared_ptr<gameObject>(new background(pos, scale, textureMap, firstKey, prio));
         }else if(objectType == objectTypes_E::TITLECARD_E){
-            std::cout<<"Titlecard begin made" << std::endl;
-            return std::shared_ptr<gameObject>(new titlecard(pos, scale, textureMap, prio, storage));
+            std::cout<<"Titlecard begin made " << firstKey << std::endl;
+            return std::shared_ptr<gameObject>(new titlecard(pos, scale, textureMap, storage, firstKey, prio));
         }
     
         throw invalid_type("invalid type found");

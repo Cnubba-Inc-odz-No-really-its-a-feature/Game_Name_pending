@@ -3,8 +3,10 @@
 #include <iostream>
 
 
-button::button(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, int objectPriority)
-:gameObject(spritePosition, spriteScale, textureMap, objectPriority), origScale(spriteScale), origPos(spritePosition)
+button::button(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, int objectPriority):
+    gameObject(spritePosition, spriteScale, textureMap, firstKey, objectPriority), 
+    origScale(spriteScale), 
+    origPos(spritePosition)
 {interactable = true;}
 
 void button::draw(sf::RenderWindow& gameWindow){

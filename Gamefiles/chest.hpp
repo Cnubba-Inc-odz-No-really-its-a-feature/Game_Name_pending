@@ -12,8 +12,8 @@ private:
     std::vector<gameObject> lootObjectVector;
     bool open = false;
 public:
-    chest(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, int objectPriority):
-        gameObject(spritePosition, spriteScale, textureMap)
+    chest(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, int objectPriority):
+        gameObject(spritePosition, spriteScale, textureMap, firstKey)
     {
         interactable = true;
         gameObject::objectPriority = objectPriority;

@@ -1,14 +1,14 @@
 #include "character.hpp"
 
-character::character(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, sf::RenderWindow & gameWindow, int objectPriority):
-    gameObject(spritePosition, spriteScale, textureMap),
+character::character(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, sf::RenderWindow & gameWindow, std::string firstKey, int objectPriority):
+    gameObject(spritePosition, spriteScale, textureMap, firstKey),
     gameWindow(gameWindow)
 {
     gameObject::objectPriority = objectPriority;
 }
 
 void character::setFrame(int maxFrame, int textureRow){
-        if(frameCounter > 200) {frameCounter = 0; textureFrame++;}
+        if(frameCounter > 15) {frameCounter = 0; textureFrame++;}
 	    if(maxFrame < textureFrame) textureFrame = 0;
 	    objectSprite.setTextureRect(sf::IntRect(64*textureFrame, 64*textureRow, 64, 64));
 	    frameCounter++;
