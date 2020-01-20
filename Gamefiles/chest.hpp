@@ -3,6 +3,7 @@
 
 #include "gameObject.hpp"
 #include "memory"
+#include "lootObject.hpp"
 #include "objectStorage.hpp"
 #include <iostream>
 
@@ -40,8 +41,10 @@ public:
     void move(sf::Vector2f moveDirection) override{}
 
     void update(){}
+
     void setFrame(int maxFrame, int textureRow){
     }
+
 };
 
 #endif
