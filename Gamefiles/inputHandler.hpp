@@ -113,7 +113,7 @@ public:
                 sf::FloatRect mousePosition(mouseRectPos, mouseRectPos);
                 for( auto i : *objects ){
                     if(i.get()->isInteractable()){
-                        if( i->getSprite().getGlobalBounds().intersects(mousePosition)  ){
+                        if( i->getSprite().getGlobalBounds().intersects(mousePosition)){
                             return std::unique_ptr<command>( new selectedCommand(i));
                         }
                     }

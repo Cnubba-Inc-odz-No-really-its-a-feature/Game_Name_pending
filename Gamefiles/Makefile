@@ -19,5 +19,5 @@ SEARCH  :=
 
 # set REATIVE to the next higher directory 
 # and defer to the Makefile.due there
-RELATIVE := /home/xiaoyi/v1oopc-examples
+RELATIVE := ../
 include $(RELATIVE)/Makefile.native
