@@ -1,1 +1,2 @@
-Character objectTypes_E::CHARACTER_E (10,500) (5,5) 1 texture1 gameAssets/mainCharacter/skeleton.png , texture2 pop4.png ;
+
+Character objectTypes_E::CHARACTER_E (10,500) (5,5) 1 texture1 skeleton.png , texture2 pop4.png ;

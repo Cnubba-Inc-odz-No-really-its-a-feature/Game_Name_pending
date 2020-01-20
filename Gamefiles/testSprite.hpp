@@ -23,7 +23,9 @@ public:
 
     void update(){}
     void interact(){}
+
     void setFrame(int maxFrame, int textureRow){}
+
 };
 
 #endif

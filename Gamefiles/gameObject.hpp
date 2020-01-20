@@ -39,15 +39,9 @@ public:
     virtual void draw(sf::RenderWindow& gameWindow) =0;
     virtual void move(sf::Vector2f moveDirection) = 0;
     virtual void update() = 0;
-    virtual void setFrame(int maxFrame, int textureRow) =0;
 
-    sf::Sprite getSprite(){ return sprite; }
-    virtual void interact() {};
-    virtual void draw(sf::RenderWindow& window) {};
-    virtual void move(sf::Vector2f delta) {};
-    virtual void update() {};
-    virtual void addToInventory(std::shared_ptr<gameObject> loot){};
-    virtual void setFrame(int max_frame) {};
+    virtual void setFrame(int maxFrame, int textureRow) =0;
+=
 };
 
 #endif

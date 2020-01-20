@@ -21,7 +21,9 @@ public:
     bool collision();
     void update() override;
     void interact() override;
+
     void setFrame(int maxFrame, int textureRow) override;
+
 
 };
 

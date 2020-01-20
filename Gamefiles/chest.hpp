@@ -41,8 +41,10 @@ public:
     void move(sf::Vector2f moveDirection) override{}
 
     void update(){}
+
     void setFrame(int maxFrame, int textureRow){
     }
+
 };
 
 #endif
