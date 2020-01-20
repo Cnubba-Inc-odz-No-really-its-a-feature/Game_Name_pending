@@ -7,22 +7,18 @@ class background : public gameObject{
 private:
     std::vector<sf::Sprite> layerVector;
     int filledCount;
-    
+
     void fillLayer(const std::string& filePath){
-         
-        sf::Sprite rect;
-        sf::Texture texture;
-        texture.loadFromFile(filePath);
-        rect.setTexture(texture);
-        rect.setPosition(sf::Vector2f(-800,0));
-        rect.setScale(sf::Vector2f(10,10));
-        layerVector.push_back(rect);   
-    
+        spriteTexture.loadFromFile(filePath);
+        sprite.setTexture(spriteTexture);
+        sprite.setPosition(sf::Vector2f(-800,0));
+        sprite.setScale(sf::Vector2f(10,10));
+        layerVector.push_back(sprite);   
     }
 
 public:
-    background(const std::vector<std::string> filepaths){
-        
+    background(const std::vector<std::string> filepaths)
+    {        
         for (uint_fast8_t i = 0; i < filepaths.size(); i++){
             fillLayer(filepaths[i]);
         }
@@ -41,7 +37,8 @@ public:
             layerVector[i].setPosition(newPosition);
         }
     }
-    
+    void update()override{}
+    void interact()override{}
         
 };
 

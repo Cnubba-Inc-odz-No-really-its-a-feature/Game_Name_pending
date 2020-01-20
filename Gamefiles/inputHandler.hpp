@@ -122,21 +122,24 @@ public:
             }
         }
 
-        // for( auto i : selectKeys ){
-        //     if(sf::Mouse::isButtonPressed(i)){
-        //         sf::Vector2i position = sf::Mouse::getPosition();
-        //         auto objects = inputStorage.game.get();
-        //         for( auto i : *objects ){
-        //             if(i.get()->isInteractable()){
-        //                 if( i.get()->getPosition().x <= position.x && int(i.get()->getPosition().x + i.get()->getSize()) >= position.x  
-        //                 && int(i.get()->getPosition().y) <= position.y && int(i.get()->getPosition().x + i.get()->getSize()) >= position.y ){
-        //                     command* newSelectedcommand = new selectedCommand(i);
-        //                     return newSelectedcommand;
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
+        for( auto i : selectKeys ){
+            if(sf::Mouse::isButtonPressed(i)){
+                sf::Vector2i position = sf::Mouse::getPosition();
+                sf::Vector2f mouseRectPos;
+                mouseRectPos.x = position.x;
+                mouseRectPos.y = position.y;
+                auto objects = inputStorage.game.get();
+                sf::FloatRect mousePosition(mouseRectPos, mouseRectPos);
+                for( auto i : *objects ){
+                    if(i.get()->isInteractable()){
+                        if( i.get()->getSprite().getGlobalBounds().intersects(mousePosition)  ){
+                            command* newSelectedcommand = new selectedCommand(i);
+                            return newSelectedcommand;
+                        }
+                    }
+                }
+            }
+        }
 
 
     return NULL;

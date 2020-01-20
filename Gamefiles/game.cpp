@@ -1,4 +1,6 @@
 #include "game.hpp"
+#include <SFML/Audio.hpp>
+#include "background.hpp"
 
 void game::gameLoop(){
 	std::cout<<"entered gameLoop" << std::endl;

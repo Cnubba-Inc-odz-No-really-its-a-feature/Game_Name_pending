@@ -32,14 +32,13 @@ public:
     sf::Vector2f getPosition(){ return sprite.getPosition(); }
     int getSize(){ return sprite.getScale().x; }
 
-    // virtual void interact(){}
     sf::Sprite getSprite(){ return sprite; }
     virtual void interact() {};
     virtual void draw(sf::RenderWindow& window) {};
     virtual void move(sf::Vector2f delta) {};
     virtual void update() {};
     virtual void addToInventory(std::shared_ptr<gameObject> loot){};
-
+    virtual void setFrame(int max_frame) {};
 };
 
 #endif

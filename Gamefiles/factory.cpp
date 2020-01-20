@@ -37,7 +37,7 @@ std::shared_ptr<gameObject> factory::factorObject(std::ifstream & inputFile){
             return std::shared_ptr<gameObject>(new textureSprite(pos, scale, textureMap, prio));
         }else if(objectType == objectTypes_E::CHEST_E){
             std::cout<<"chest begin made" << std::endl;
-            return std::shared_ptr<gameObject>(new chest(pos, scale, textureMap, prio));
+            return std::shared_ptr<gameObject>(new chest(pos, scale, textureMap, storage.character1, prio));
         }
 
     

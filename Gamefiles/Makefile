@@ -13,7 +13,7 @@ SOURCES := game.cpp exeptions.cpp factory.cpp objectStorage.cpp operators.cpp ch
 
 # header files in this project
 
-HEADERS := chest.hpp command.hpp exeptions.hpp factory.hpp game.hpp gameObject.hpp inputHandler.hpp moveCommand.hpp objectStorage.hpp operators.hpp renderer.hpp selectedCommand.hpp character.hpp testSprite.hpp background.hpp chest.hpp lootObject.hpp inventory.hpp
+HEADERS := chest.hpp command.hpp exeptions.hpp factory.hpp game.hpp gameObject.hpp inputHandler.hpp moveCommand.hpp objectStorage.hpp operators.hpp renderer.hpp selectedCommand.hpp character.hpp testSprite.hpp background.hpp
 # other places to look for files for this project
 SEARCH  := 
 

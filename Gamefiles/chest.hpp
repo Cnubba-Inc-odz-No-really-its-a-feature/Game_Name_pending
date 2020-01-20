@@ -3,16 +3,17 @@
 
 #include "gameObject.hpp"
 #include "memory"
+#include "lootObject.hpp"
 #include "objectStorage.hpp"
 #include <iostream>
 
 class chest: public gameObject{
 private:
     sf::RectangleShape chestRectangle;
-    std::vector<gameObject> lootVector;
+    std::vector<lootObject> lootVector;
     bool open = false;
 public:
-    chest(sf::Vector2f position, sf::Vector2f scale, std::map<std::string, sf::Texture> textureMap, int prio):
+    chest(sf::Vector2f position, sf::Vector2f scale, std::map<std::string, sf::Texture> textureMap, std::shared_ptr<gameObject> playerPointer, int prio):
         gameObject(position, scale, textureMap),
         chestRectangle{position}
     {
@@ -21,7 +22,17 @@ public:
         chestRectangle.setSize( sf::Vector2f(200,125) );
         interactable = true;
 
+        std::shared_ptr<gameObject> item0(new textureSprite(sf::Vector2f(position + sf::Vector2f(-100, -50)), sf::Vector2f(1,1), textureMap, 5));
+        std::shared_ptr<gameObject> item1(new textureSprite(sf::Vector2f(position + sf::Vector2f(-100, -50)), sf::Vector2f(1,1), textureMap, 5));
+        std::shared_ptr<gameObject> item2(new textureSprite(sf::Vector2f(position + sf::Vector2f(-100, -50)), sf::Vector2f(1,1), textureMap, 5));
         
+        lootObject loot0 = lootObject(sf::Vector2f(position + sf::Vector2f(-100, -50)), playerPointer, item0);
+        lootObject loot1 = lootObject(sf::Vector2f(position + sf::Vector2f(-100, -50)), playerPointer, item1);
+        lootObject loot2 = lootObject(sf::Vector2f(position + sf::Vector2f(-100, -50)), playerPointer, item2);
+
+        lootVector = {
+            loot0, loot1, loot2
+        };
     }
 
     void interact() override{
