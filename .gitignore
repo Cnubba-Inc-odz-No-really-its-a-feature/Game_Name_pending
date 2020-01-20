@@ -31,15 +31,7 @@
 *.out
 *.app
 
-<<<<<<< HEAD
 # Makefiles
-*.native
-*.md
-*.link
-=======
-# makefiles
 *.link
 *.md
 *.native
->>>>>>> MatthiesBranch
-Makefile

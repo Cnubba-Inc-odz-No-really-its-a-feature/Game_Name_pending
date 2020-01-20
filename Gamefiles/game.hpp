@@ -25,13 +25,18 @@ private:
 
 public:
 
-    game(sf::RenderWindow& gameWindow):
+    game(sf::RenderWindow& gameWindow, char state = 'D'):
         gameWindow(gameWindow),
         gameObjectRenderer(gameWindow, gameObjectStorage),
         gameInputHandler(gameObjectStorage),
         gameObjectFactory(gameObjectStorage, gameWindow)
     {
-        gameObjectFactory.factorNewGameState("gameState1.txt");
+        if(state == 'C'){
+            gameObjectFactory.factorNewGameState("cardGame.txt");
+        }else if(state == 'D'){
+            gameObjectFactory.factorNewGameState("dungeon.txt");
+
+        }
     }
 
     void gameLoop();

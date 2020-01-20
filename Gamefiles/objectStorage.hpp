@@ -16,7 +16,6 @@ public:
     std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> menu;
     std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> game;
     std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> title;
-    std::map<std::string, std::shared_ptr<sf::Texture>> textureMap;
     std::map<std::string, std::shared_ptr<std::vector<std::shared_ptr<gameObject>>>> allVectors;
 
     objectStorage();

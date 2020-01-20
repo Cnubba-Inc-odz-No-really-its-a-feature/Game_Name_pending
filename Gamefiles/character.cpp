@@ -23,12 +23,12 @@ void character::draw(sf::RenderWindow& gameWindow){
 }
 
 void character::move(sf::Vector2f moveDirection){
-  //  if(delta.x < 0) setFrame(8, 9);
-	//if(delta.x > 0) setFrame(8, 11);
-    //sprite.setPosition(sprite.getPosition()+delta);
- //   if(collision()){
-   //     sprite.setPosition(sprite.getPosition()-delta);
-    //}
+//    if(delta.x < 0) setFrame(8, 9);
+// 	if(delta.x > 0) setFrame(8, 11);
+//     sprite.setPosition(sprite.getPosition()+delta);
+   if(collision()){
+       objectSprite.setPosition(objectSprite.getPosition()-moveDirection);
+    }
     moved = true;
     direction = moveDirection;
     //setFrame(2, 2);
