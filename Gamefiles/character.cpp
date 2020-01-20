@@ -7,6 +7,7 @@ character::character(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std:
     gameObject::objectPriority = objectPriority;
 }
 
+
 void character::setFrame(int maxFrame, int textureRow){
         if(frameCounter > 200) {frameCounter = 0; textureFrame++;}
 	    if(maxFrame < textureFrame) textureFrame = 0;
@@ -32,6 +33,7 @@ void character::move(sf::Vector2f moveDirection){
     moved = true;
     direction = moveDirection;
     //setFrame(2, 2);
+
 }
 
 bool character::collision(){

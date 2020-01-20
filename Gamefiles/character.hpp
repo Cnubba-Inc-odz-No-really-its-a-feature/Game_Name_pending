@@ -6,11 +6,13 @@
 
 class character : public gameObject {
 private:
+
     sf::RenderWindow & gameWindow;
     int textureFrame = 0;
     int frameCounter = 0;
     bool moved = false;
     sf::Vector2f direction = sf::Vector2f(0,0);
+
 public:
     character(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, sf::RenderWindow & gameWindow, int objectPriority);
 
@@ -20,7 +22,9 @@ public:
     bool collision();
     void update() override;
     void interact() override;
+
     void setFrame(int maxFrame, int textureRow) override;
+
 
 };
 
