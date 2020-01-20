@@ -7,23 +7,23 @@ class textureSprite : public gameObject{
 
 
 public:
-    textureSprite(sf::Vector2f position, sf::Vector2f scale, std::map<std::string, sf::Texture> textureMap, int prio):
-    gameObject(position, scale, textureMap){
-        priority = prio;
+    textureSprite(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, int objectPriority):
+    gameObject(spritePosition, spriteScale, textureMap){
+        gameObject::objectPriority = objectPriority;
     }
 
     void draw(sf::RenderWindow& window){
-        window.draw(sprite);
+        window.draw(objectSprite);
 
     }
 
-    void move(sf::Vector2f delta) override{
-        sprite.setPosition(sprite.getPosition()+delta);
+    void move(sf::Vector2f moveDirection) override{
+        objectSprite.setPosition(objectSprite.getPosition()+moveDirection);
     }
 
     void update(){}
     void interact(){}
-
+    void setFrame(int maxFrame, int textureRow){}
 };
 
 #endif

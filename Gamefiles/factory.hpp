@@ -7,6 +7,9 @@
 #include "operators.hpp"
 #include "character.hpp"
 #include "testSprite.hpp"
+#include "button.hpp"
+#include "titlecard.hpp"
+#include "background.hpp"
 #include <map>
 #include "chest.hpp"
 #include "string"
@@ -17,14 +20,12 @@ private:
     objectStorage &storage;
     sf::RenderWindow & window;
 public:
-    factory(objectStorage &storage, sf::RenderWindow & window): 
-        storage(storage),
-        window(window)
-    {}
+    factory(objectStorage &storage, sf::RenderWindow & window);
 
-std::shared_ptr<gameObject> factorObject(std::ifstream & inputFile);
+    std::shared_ptr<gameObject> factorObject(std::ifstream & inputFile);
 
 void factorNewGameState(std::string stateFileName);
+void factorMainCharacter();
 
     void saveState()
     {

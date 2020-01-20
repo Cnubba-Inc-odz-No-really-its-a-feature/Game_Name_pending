@@ -1,29 +1,54 @@
 #include "character.hpp"
 
-character::character( sf::Vector2f position, sf::Vector2f scale, std::map<std::string, sf::Texture> textureMap, sf::RenderWindow & window, int prio):
-    gameObject(position, scale, textureMap),
-    window(window)
+character::character(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, sf::RenderWindow & gameWindow, int objectPriority):
+    gameObject(spritePosition, spriteScale, textureMap),
+    gameWindow(gameWindow)
 {
-    priority = prio;
+    gameObject::objectPriority = objectPriority;
 }
 
-void character::draw(sf::RenderWindow& window){
-    window.draw(sprite);
-}
-
-void character::move(sf::Vector2f delta){
-    sprite.setPosition(sprite.getPosition()+delta);
-    if(collision()){
-        sprite.setPosition(sprite.getPosition()-delta);
+void character::setFrame(int maxFrame, int textureRow){
+        if(frameCounter > 200) {frameCounter = 0; textureFrame++;}
+	    if(maxFrame < textureFrame) textureFrame = 0;
+	    objectSprite.setTextureRect(sf::IntRect(64*textureFrame, 64*textureRow, 64, 64));
+	    frameCounter++;
     }
+
+void character::draw(sf::RenderWindow& gameWindow){
+    if(!moved){
+        setFrame(2,2);
+    } 
+    moved = false;
+    gameWindow.draw(objectSprite);
+}
+
+void character::move(sf::Vector2f moveDirection){
+  //  if(delta.x < 0) setFrame(8, 9);
+	//if(delta.x > 0) setFrame(8, 11);
+    //sprite.setPosition(sprite.getPosition()+delta);
+ //   if(collision()){
+   //     sprite.setPosition(sprite.getPosition()-delta);
+    //}
+    moved = true;
+    direction = moveDirection;
+    //setFrame(2, 2);
 }
 
 bool character::collision(){
-    if(sprite.getPosition().x <= window.getPosition().x || sprite.getGlobalBounds().width + sprite.getPosition().x >= (window.getPosition().x + window.getSize().x) ){
+    if(objectSprite.getPosition().x <= gameWindow.getPosition().x || objectSprite.getGlobalBounds().width + objectSprite.getPosition().x >= (gameWindow.getPosition().x + gameWindow.getSize().x) ){
         return true;
     }
     return false;
 }
 
-void character::update(){}
+void character::update(){
+    if(moved){
+        if(direction.x < 0) setFrame(8, 9);
+	    if(direction.x > 0) setFrame(8, 11);
+        objectSprite.setPosition(objectSprite.getPosition()+direction);
+    }else{
+        setFrame(2,2);
+    }
+
+}
 void character::interact(){}

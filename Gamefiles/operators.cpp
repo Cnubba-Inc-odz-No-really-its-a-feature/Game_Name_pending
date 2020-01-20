@@ -1,6 +1,6 @@
 #include "operators.hpp"
 
-std::ifstream &operator>>(std::ifstream &input, objectTypes_E &objectType){
+std::ifstream& operator>>(std::ifstream &input, objectTypes_E &objectType){
   std::string typeString;
   input>>typeString;
   if(typeString == "objectTypes_E::TESTSPRITE_E"){
@@ -14,6 +14,15 @@ std::ifstream &operator>>(std::ifstream &input, objectTypes_E &objectType){
     std::cout<<"character found"  <<std::endl;
   }else if(typeString == "objectTypes_E::CHEST_E"){
     objectType = objectTypes_E::CHEST_E;
+    std::cout<<"character found"  <<std::endl;
+  }else if(typeString == "objectTypes_E::BUTTON_E"){
+    objectType = objectTypes_E::BUTTON_E;
+    std::cout<<"character found"  <<std::endl;
+  }else if(typeString == "objectTypes_E::TITLECARD_E"){
+    objectType = objectTypes_E::TITLECARD_E;
+    std::cout<<"character found"  <<std::endl;
+  }else if(typeString == "objectTypes_E::BACKGROUND_E"){
+    objectType = objectTypes_E::BACKGROUND_E;
     std::cout<<"character found"  <<std::endl;
   }else{
     throw invalid_type("invalid Type string Found");
@@ -83,5 +92,5 @@ std::ifstream &operator>>(std::ifstream &input, sf::Color &rhs) {
 }
 
 bool operator<(const gameObject& lhs, const gameObject& rhs){
-        return lhs.priority < rhs.priority;
+        return lhs.objectPriority < rhs.objectPriority;
 } 

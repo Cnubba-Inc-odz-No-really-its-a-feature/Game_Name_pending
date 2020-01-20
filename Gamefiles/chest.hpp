@@ -8,40 +8,40 @@
 
 class chest: public gameObject{
 private:
-    sf::RectangleShape chestRectangle;
-    std::vector<gameObject> lootVector;
+    std::vector<gameObject> lootObjectVector;
     bool open = false;
 public:
-    chest(sf::Vector2f position, sf::Vector2f scale, std::map<std::string, sf::Texture> textureMap, int prio):
-        gameObject(position, scale, textureMap),
-        chestRectangle{position}
+    chest(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, int objectPriority):
+        gameObject(spritePosition, spriteScale, textureMap)
     {
-        chestRectangle.setFillColor(sf::Color::Red);
-        chestRectangle.setPosition(position);
-        chestRectangle.setSize( sf::Vector2f(200,125) );
         interactable = true;
+        gameObject::objectPriority = objectPriority;
+	    objectSprite.setTextureRect(sf::IntRect(0, 0, 20, 16));
     }
 
     void interact() override{
-        std::cout << "chest has been interacted with: "  << objectID << std::endl;
+           objectSprite.setTextureRect(sf::IntRect(20, 0, 20, 16));
+     
     }
 
-    void interact(objectStorage& objectStorage, const float& mainCharacterPosition){
+    void interact(objectStorage& gameStorage, const float& mainCharacterPosition){
 
     }
 
-    void draw(sf::RenderWindow& window) override{
-        window.draw(chestRectangle);
+    void draw(sf::RenderWindow& gameWindow) override{
+        gameWindow.draw(objectSprite);
         if(open){
-            for(auto& loot : lootVector){
-                loot.draw(window);
+            for(auto& loot : lootObjectVector){
+                loot.draw(gameWindow);
             }
         }
     }
 
-    void move(sf::Vector2f delta) override{}
+    void move(sf::Vector2f moveDirection) override{}
 
     void update(){}
+    void setFrame(int maxFrame, int textureRow){
+    }
 };
 
 #endif
