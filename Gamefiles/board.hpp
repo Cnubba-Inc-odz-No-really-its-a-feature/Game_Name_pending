@@ -32,7 +32,7 @@ public:
 
     void updateLane(){
         for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
-            laneArray[i]->update(i, laneArray);
+            laneArray[i]->update(i, this);
         }
     }
 
