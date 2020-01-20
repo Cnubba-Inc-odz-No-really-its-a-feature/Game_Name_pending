@@ -6,9 +6,8 @@
 
 #define LANE_SIZE 7
 
-enum E_lane{
-  skyLane, groundLane, trapLane  
-};
+
+
 
 class lane{
 private:
@@ -64,9 +63,9 @@ public:
         lanes[E_lane].placeUnit(laneIndex, unitPointer);
     }
 
-    void castSpell(const int E_lane, const int index, std::shared_ptr<gameObject> spell){
-        spell.activate(lanes, E_lane, index);
-    }
+    //void castSpell(const int E_lane, const int index, std::shared_ptr<gameObject> spell){
+    //   spell.activate(lanes, E_lane, index);
+    //}
 
     void placeSpell(const int index, std::shared_ptr<gameObject> trapcardPointer){
         lanes[E_lane::trapLane].placeUnit(index, trapcardPointer);
