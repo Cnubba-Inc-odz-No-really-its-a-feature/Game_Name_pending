@@ -15,7 +15,7 @@ private:
     renderer gameObjectRenderer;
     inputHandler gameInputHandler;
     factory gameObjectFactory;
-
+    std::string stateFile;
     int MS_PER_FRAME = 1000;
     int lag = 0;
 
@@ -25,13 +25,18 @@ private:
 
 public:
 
-    game(sf::RenderWindow& gameWindow):
+    game(sf::RenderWindow& gameWindow, char state):
         gameWindow(gameWindow),
         gameObjectRenderer(gameWindow, gameObjectStorage),
         gameInputHandler(gameObjectStorage),
         gameObjectFactory(gameObjectStorage, gameWindow)
     {
-        gameObjectFactory.factorNewGameState("gameState1.txt");
+        if(state == 'C'){
+            gameObjectFactory.factorNewGameState("cardGame.txt");
+        }else if(state == 'D'){
+            gameObjectFactory.factorNewGameState("dungeon.txt");
+
+        }
     }
 
     void gameLoop();

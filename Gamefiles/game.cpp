@@ -2,13 +2,12 @@
 
 void game::gameLoop(){
 	gameObjectFactory.factorMainCharacter();
-	bool state1 = true;
+
 	clockPrevious = clock();
 
 	//twee tests voor het frames bijhouden
 	int secondsPassed = 0;
 	int framecounter = 0;
-
 
     while (gameWindow.isOpen()) {
 		clockNow = clock();
@@ -16,16 +15,7 @@ void game::gameLoop(){
 		clockPrevious = clockNow;
 		lag += elapsedTime;
 
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::N)){
-			if(state1){
-				state1 = !state1;
-				gameObjectFactory.factorNewGameState("gameState2.txt");
-			}else{
-				state1 = !state1;
-				gameObjectFactory.factorNewGameState("gameState1.txt");
-			}
-		}
-		
+
 		framecounter++;
 		if(framecounter == 60){
 			framecounter = 0;
