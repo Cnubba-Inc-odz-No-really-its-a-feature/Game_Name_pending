@@ -20,6 +20,8 @@ private:
     std::ifstream inputFile;
     objectStorage &storage;
     sf::RenderWindow & window;
+    std::vector<std::string> fileMemory;
+
 public:
     factory(objectStorage &storage, sf::RenderWindow & window);
 

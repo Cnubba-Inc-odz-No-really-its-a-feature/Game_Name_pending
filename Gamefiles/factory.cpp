@@ -13,6 +13,7 @@ std::shared_ptr<gameObject> factory::factorObject(std::ifstream & inputFile){
     std::map<std::string, sf::Texture> textureMap;
     std::string textureMapKey;
     std::string textureFile;
+    std::string target;
     sf::Texture objectTexture;
     char textureBind;
     int prio;
@@ -22,6 +23,9 @@ std::shared_ptr<gameObject> factory::factorObject(std::ifstream & inputFile){
         inputFile >> objectType >> pos >> scale >> prio;
         try{
             bool firstrun = true;
+            if(objectType == DOOR_E){
+                inputFile >> target;
+            } 
             while(true){
                 inputFile >> textureMapKey;
                 inputFile >> textureFile;
@@ -69,11 +73,15 @@ std::shared_ptr<gameObject> factory::factorObject(std::ifstream & inputFile){
 }
 
 void factory::factorNewGameState(std::string stateFileName){
-    storage.title.get()->clear();
-    storage.menu.get()->clear();
-    storage.game.get()->clear();
     std::ifstream inputFile(stateFileName);
     std::string storageType;
+
+    if (std::find(fileMemory.begin(), fileMemory.end(), stateFileName) == fileMemory.end())
+    {
+        return;
+    }
+    fileMemory.push_back(stateFileName);
+
     try{
         while(true){
             inputFile >> storageType;
@@ -86,8 +94,9 @@ void factory::factorNewGameState(std::string stateFileName){
                 storage.menu.get()->push_back(factorObject(inputFile));
             }else if(storageType == "Character"){
                 storage.character1 = factorObject(inputFile);
-            }
-            else if(storageType == "Title"){
+            }else if(storageType == "Title"){
+                storage.title.get()->push_back(factorObject(inputFile));
+            }else if(storageType == "Room1"){
                 storage.title.get()->push_back(factorObject(inputFile));
             }
 
