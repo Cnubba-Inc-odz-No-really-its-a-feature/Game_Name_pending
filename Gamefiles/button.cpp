@@ -8,7 +8,7 @@ button::button(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<s
     origPos(spritePosition),
     storage(storage)
 
-{interactable = true;}
+{interactable = true; objectTypeID = 100;}
 
 void button::draw(sf::RenderWindow& gameWindow){
     gameWindow.draw(objectSprite);

@@ -15,4 +15,9 @@ Game objectTypes_E::TESTSPRITE_E (970, 800) (1, 1) 2 texture1 gameAssets/basicFl
 Game objectTypes_E::TESTSPRITE_E (1170, 800) (1, 1) 2 texture1 gameAssets/basicFloor.png ;
 Game objectTypes_E::TESTSPRITE_E (1370, 800) (1, 1) 2 texture1 gameAssets/basicFloor.png ;
 Game objectTypes_E::TESTSPRITE_E (1570, 800) (1, 1) 2 texture1 gameAssets/basicFloor.png ;
+<<<<<<< HEAD
 Game objectTypes_E::TESTSPRITE_E (1770, 800) (1, 1) 2 texture1 gameAssets/basicFloor.png ;
+=======
+Game objectTypes_E::TESTSPRITE_E (1770, 800) (1, 1) 2 texture1 gameAssets/basicFloor.png ;
+
+>>>>>>> b6c50f08ca963365c903ff277cf239f40becf911

@@ -12,6 +12,7 @@ void titlecard::draw(sf::RenderWindow& gameWindow){
 void titlecard::setFrame(int maxFrame, int textureRow){}
 
 void titlecard::move(sf::Vector2f Miretion){}
+
 void titlecard::update(){
     frameCounter++;
     if (frameCounter < 5){
@@ -24,6 +25,6 @@ void titlecard::update(){
         return;
     }
     titleCardStorage.setActive("Menu");
-    
 }
+
 void titlecard::interact(){}

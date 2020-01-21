@@ -32,6 +32,7 @@ public:
         objectSprite.setScale(spriteScale.x, spriteScale.y);
         spriteTexture = textureMap[firstKey];
         objectSprite.setTexture(spriteTexture);
+        objectID = 5;
     }
 
     gameObject(){}
