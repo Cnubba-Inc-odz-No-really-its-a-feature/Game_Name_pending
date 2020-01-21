@@ -34,6 +34,11 @@ private:
 
     float currentDistance(std::shared_ptr<gameObject> objectPointer){
         sf::Vector2f mainCharPosition = gameObjectStorage.character1->getSprite().getPosition();
+        auto width = gameObjectStorage.character1->getSprite().getGlobalBounds().width;
+        auto height = gameObjectStorage.character1->getSprite().getGlobalBounds().height;
+        sf::Vector2f compensationVector = sf::Vector2f( width*0.5, height*0.5);
+        mainCharPosition += compensationVector;
+
         sf::Vector2f objectPosition = objectPointer->getSprite().getPosition();
         return sqrt( pow(objectPosition.x - mainCharPosition.x, 2) + pow(objectPosition.y - mainCharPosition.y, 2) );
     }
@@ -95,7 +100,6 @@ public:
             }
         }
 
-   
         for( auto i : moveKeys){
             if(sf::Keyboard::isKeyPressed(i)){
                 return std::unique_ptr<command>(new moveCommand( i, gameObjectStorage.character1));
@@ -106,16 +110,9 @@ public:
         for( auto i : selectKeys ){
             if(sf::Mouse::isButtonPressed(i)){
                 sf::Vector2i position = sf::Mouse::getPosition();
-                sf::Vector2f mouseRectPos;
-                mouseRectPos.x = position.x;
-                mouseRectPos.y = position.y;
-                auto objects = gameObjectStorage.game.get();
-                sf::FloatRect mousePosition(mouseRectPos, mouseRectPos);
-                for( auto i : *objects ){
-                    if(i.get()->isInteractable()){
-                        if( i->getSprite().getGlobalBounds().intersects(mousePosition)){
-                            return std::unique_ptr<command>( new selectedCommand(i));
-                        }
+                for( auto i : *gameObjectStorage.getActive() ){
+                    if( i->isInteractable() && i->getSprite().getGlobalBounds().contains(sf::Vector2f(position.x, position.y))){
+                        return std::unique_ptr<command>( new selectedCommand(i));
                     }
                 }
             }

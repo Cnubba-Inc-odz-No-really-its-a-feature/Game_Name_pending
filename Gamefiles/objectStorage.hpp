@@ -20,7 +20,7 @@ public:
 
     objectStorage();
     std::shared_ptr<gameObject> character1;
-    std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> getActive();
+    std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> & getActive();
 
     void setActive(std::string newKey);
 };
