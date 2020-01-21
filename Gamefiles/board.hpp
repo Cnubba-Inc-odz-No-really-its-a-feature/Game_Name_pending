@@ -3,6 +3,7 @@
 
 #include "memory"
 #include "gameObject.hpp"
+#include "testSprite.hpp"
 #include "card.hpp"
 
 #define LANE_SIZE 7
@@ -10,6 +11,32 @@
 enum E_lane{
   skyLane, groundLane, trapLane  
 };
+
+struct drawSprite{
+    sf::Sprite sprite;
+    sf::Vector2f position;
+
+    drawSprite(){
+        sprite = sf::Sprite();
+        position = sf::Vector2f();
+    }
+
+    drawSprite(sf::Sprite, sprite, const sf::Vector2f& position):
+        sprite{sprite},
+        position{position}
+    {
+        sprite.setPosition(position);
+    }
+
+    void update(sf::Sprite, sprite, const sf::Vector2f& position){
+        sprite = sprite;
+        sprite.setPosition(position);
+    }
+
+    void draw(sf::RenderWindow& window){
+        window.draw(sprite);
+    }
+}
 
 class lane{
 private:
@@ -92,15 +119,29 @@ public:
             }
         }
     }
+
+    void draw(sf::RenderWindow& window, const sf::Vector2f& startPosition){
+        drawSprite drawingSprite;
+        sf::Vector2f drawPosition = startPosition;
+        for(auto& unit : laneArray){
+            drawingSprite.update(unit->getSprite(), drawPosition);
+            drawingSprite.draw(window);
+
+            drawPosition.x += window.getSize().x * 0.1;
+        }
+    }
+
 };
 
 
 class board {
 private:
     lane lanes[3];
+    sf::Sprite boardSprite;
 public:
-    board():
-        lanes{lane(), lane(), lane()}
+    board(const Texture& boardTexture):
+        lanes{lane(), lane(), lane()},
+        boardSprite{boardTexture}
     {}
 
     void update(){
@@ -173,6 +214,16 @@ public:
 
     bool isTrapCardOnPosition(const int index){
         return lanes[E_lane::trapLane].isIndexEmpty(index);
+    }
+
+    void draw(sf::RenderWindow& window){
+        sf::Vector2f drawPosition = sf::Vector2f(window.getSize().x * 0.2, window.getSize().y * 0.2);
+
+        for(auto& currentLane : lanes){
+            currentLane.draw(window, drawPosition);
+            drawPosition.y += window.getSize().y *0.2;
+            drawPosition.x = window.getSize().x * 0.2;
+        }
     }
 };
 
