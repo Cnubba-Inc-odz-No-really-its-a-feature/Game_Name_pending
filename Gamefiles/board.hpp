@@ -11,16 +11,19 @@ enum E_lane{
 };
 
 struct unitUpdateResult{
-    int position;
-    bool ally;
+    int selfPosition;
+    int opponentPosition;
+
     bool openentKilled;
+    bool selfKilled;
     bool valid;
 
-    unitUpdateResult(bool valid, int position = 1, bool ally = -1, bool oponentKilled = -1):
-        position{position},
-        ally{ally},
+    unitUpdateResult(bool valid, int selfPosition = 1, int opponentPosition = 1, bool oponentKilled = 1, bool selfKilled = 1):
+        valid{valid},
+        selfPosition{selfPosition},
+        opponentPosition{opponentPosition},
         openentKilled{oponentKilled},
-        valid{valid}
+        selfKilled{selfKilled}
     {}
 
 
@@ -100,7 +103,10 @@ public:
         filterOutInValidResults(updateResults);
         for(auto& result : updateResults){
             if(result.openentKilled){
-                enemyArray[result.position] = nullptr;
+                enemyArray[result.opponentPosition] = nullptr;
+            }
+            if(result.selfKilled){
+                allyArray[result.selfPosition] = nullptr;
             }
         }
 
@@ -111,7 +117,10 @@ public:
         filterOutInValidResults(updateResults);
         for(auto& result : updateResults){
             if(result.openentKilled){
-                allyArray[result.position] = nullptr;
+                allyArray[result.opponentPosition] = nullptr;
+            }
+            if(result.selfKilled){
+                enemyArray[result.selfPosition] = nullptr;
             }
         }
 
@@ -132,7 +141,7 @@ public:
             }
         }
 
-        rawResults = cleanVector
+        rawResults = cleanVector;
     }
 
     unitUpdateResult updateUnit(const int index, std::shared_ptr<gameObject> unit){
@@ -145,14 +154,14 @@ public:
                 *enemyHP.get() -= unit.getDamage();
             }
             else if(index + 1 < LANE_SIZE){
-                unitUpdateResult result = fight(unit, enemyArray[index + 1]);
+                unitUpdateResult result = fight(unit, enemyArray[index + 1], index);
 
-                if(result.openentKilled){
+                if(result.openentKilled && !result.selfKilled){
                     allyArray[index + 1] = unit;
                     allyArray[index] = nullptr;
                 }
 
-                return result
+                return result;
             }
 
                 return unitUpdateResult(false);
@@ -166,18 +175,38 @@ public:
                 *playerHP.get() -= unit.getDamage();
             }
             else if(index > 0){
-                unitUpdateResult result = fight(unit, allyArray[index - 1]);
+                unitUpdateResult result = fight(unit, allyArray[index - 1], index);
 
-                if(result.openentKilled){
+                if(result.openentKilled && !result.selfKilled){
                     enemyArray[index - 1] = unit;
                     enemyArray[index] = nullptr;
                 }
 
-                return result
+                return result;
             }
             
             return unitUpdateResult(false);
         }
+    }
+
+    unitUpdateResult fight(std::shared_ptr<gameObject> initiator, std::shared_ptr<gameObject> assaulted, const int index){
+        assaulted.takeDamage(initiator.getDamage());
+        initiator.takeDamage(assaulted.getDamage());
+
+        int selfPosition = index;
+        int opponentPosition;
+
+        if(initiator->ally){
+            opponentPosition = index + 1;
+        }
+        else{
+            opponentPosition = index - 1;
+        }
+
+        bool selfKilled = initiator.checkIsDead();
+        bool opponentKilled = assaulted.checkIsDead();
+
+        return unitUpdateResult(1, selfPosition, opponentPosition ,opponentKilled, selfKilled);
     }
     
     void updateAllUnits(board* boardPointer){
@@ -230,6 +259,20 @@ public:
                 }
             }
         }
+    }
+
+    std::shared_ptr<gameObject> getUnitPointerByID(const std::string& id){
+        for(auto& unit : allyArray){
+            if(unit->getObjectID() == id){
+                return unit;
+            }
+        }
+        for(auto& unit : enemyArray){
+            if(unit->getObjectID() == id){
+                return unit;
+            }
+        }
+        return nullptr;
     }
 
     void draw(sf::RenderWindow& window, const sf::Vector2f& startPosition){
@@ -331,6 +374,19 @@ public:
 
     std::shared_ptr<gameObject> getUnitPointer(const int E_lane, const int laneIndex){
         return lanes[E_lane].getUnitPointerAtIndex(laneIndex);
+    }
+
+    std::shared_ptr<gameObject> getUnitPointerByID(const std::string& id){
+        std::shared_ptr<gameObject> unitPointer;
+
+        for(auto& currentLane : lanes){
+            unitPointer = currentLane.getUnitPointerByID(id);
+            if(unitPointer != nullptr){
+                return unitPointer;
+            }
+        }
+
+        return nullptr;
     }
 
     bool isPositionEmpty(const int E_lane, const int index){
