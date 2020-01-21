@@ -18,8 +18,8 @@ private:
     inputHandler gameInputHandler;
     factory gameObjectFactory;
 
-    int MS_PER_FRAME = 1000 / 60;
-    int lag = 0;
+    uint64_t MS_PER_FRAME = 1000 / 60;
+    uint64_t loopTime = 0;
 
 
 

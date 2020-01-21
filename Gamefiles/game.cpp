@@ -4,19 +4,18 @@ void game::gameLoop(){
 	gameObjectFactory.factorMainCharacter();
 	using namespace std::chrono;
 	bool state1 = true;
-	uint64_t clockPrevious = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
-	uint64_t clockNow;
-	//twee tests voor het frames bijhouden
+	uint64_t clockPrevious;
 	int secondsPassed = 0;
 	int framecounter = 0;
+	clockPrevious = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 
-	std::cout << clockPrevious << std::endl;
     while (gameWindow.isOpen()) {
-		clockNow = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
-		auto elapsedTime = clockNow - clockPrevious;
-		clockPrevious = clockNow;
-		lag += elapsedTime;
-		//std::cout << lag << std::endl;
+		loopTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count() - clockPrevious;
+
+		while( loopTime < MS_PER_FRAME ){
+			loopTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count() - clockPrevious;
+		}
+		clockPrevious = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::N)){
 			if(state1){
@@ -27,10 +26,6 @@ void game::gameLoop(){
 				gameObjectFactory.factorNewGameState("gameState1.txt");
 			}
 		}
-		
-
-
-
 
 		std::unique_ptr<command> newCommand;
 		newCommand  = gameInputHandler.handleInput();
@@ -38,16 +33,16 @@ void game::gameLoop(){
 			newCommand->execute();
 		}
 
-		while(lag >= MS_PER_FRAME){
+		gameObjectRenderer.update();
+
+		
 		framecounter++;
 		if(framecounter == 60){
 			framecounter = 0;
 			secondsPassed++;
 			std::cout<<secondsPassed<<std::endl;
 		}
-			gameObjectRenderer.update();
-			lag -= MS_PER_FRAME;
-		}
+
         gameWindow.clear();
         gameObjectRenderer.draw();
 		gameWindow.display();
