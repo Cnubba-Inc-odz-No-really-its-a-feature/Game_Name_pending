@@ -137,7 +137,7 @@ public:
                 allyArray[index] = nullptr;
             }
             else if(index == LANE_SIZE - 1){
-                EnemySummoner.health -= unit.damage;
+                EnemySummoner.takeDamage(unit.getDamage());
             }
             else if(index + 1 < LANE_SIZE){
                 unitUpdateResult result = fight(unit, enemyArray[index + 1]);
@@ -149,9 +149,29 @@ public:
 
                 return result
             }
-            else{
+
                 return unitUpdateResult(false);
+        }
+        else{
+            if(index - 1 > 0 && isIndexEmpty(index - 1)){
+                enemyArray[index - 1] = unit;
+                enemyArray[index] = nullptr;
             }
+            else if(index == 0){
+                playerSummoner.takeDamage(unit.getDamage());
+            }
+            else if(index > 0){
+                unitUpdateResult result = fight(unit, allyArray[index - 1]);
+
+                if(result.openentKilled){
+                    enemyArray[index - 1] = unit;
+                    enemyArray[index] = nullptr;
+                }
+
+                return result
+            }
+            
+            return unitUpdateResult(false);
         }
     }
     
@@ -245,7 +265,7 @@ public:
 
     void updateUnitsOnAllLanes(const int E_lane){
         for(lane& currentLane : lanes){
-            currentLane.updateUnits(this);
+            currentLane.updateAllUnits(this);
         }
     }
 
@@ -260,7 +280,7 @@ public:
     }
 
     void updateUnitsOnLane(const int E_lane){
-        lanes[E_lane].updateUnits(this);
+        lanes[E_lane].updateAllUnits(this);
     }
 
     void updateEffectsOnLane(const int E_lane){
