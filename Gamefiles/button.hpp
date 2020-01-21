@@ -2,6 +2,7 @@
 #define _BUTTON_HPP
 
 #include "gameObject.hpp"
+#include "objectStorage.hpp"
 #include <iostream>
 #include <string>
 
@@ -9,8 +10,10 @@ class button : public gameObject {
 private:
     sf::Vector2f origScale;
     sf::Vector2f origPos;
+    objectStorage & storage;
+
 public:
-    button( sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, int objectPriority );
+    button( sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, objectStorage & storage, int objectPriority );
 
     void draw(sf::RenderWindow& gameWindow) override;
 

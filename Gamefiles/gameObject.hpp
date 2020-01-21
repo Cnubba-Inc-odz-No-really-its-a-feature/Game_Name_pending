@@ -1,6 +1,8 @@
 #ifndef _GAMEOBJECT_HPP
 #define _GAMEOBJECT_HPP
 
+#include "string"
+
 #include "iostream"
 #include "memory"
 #include <SFML/Graphics.hpp>

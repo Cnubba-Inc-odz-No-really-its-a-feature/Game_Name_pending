@@ -17,13 +17,13 @@ public:
     renderObjectStorage{renderObjectStorage}
     {}
 
-    void  draw(){
-        std::sort(renderObjectStorage.getActive().get()->begin(), renderObjectStorage.getActive().get()->end(), objSort);
+    void draw(){
+        std::sort(renderObjectStorage.getActive()->begin(), renderObjectStorage.getActive()->end(), objSort);
         for(auto &i : *renderObjectStorage.getActive()){
             i->draw(gameWindow);
     }
     if(renderObjectStorage.keyActive == "Game"){
-        renderObjectStorage.character1.get()->draw(gameWindow);}
+        renderObjectStorage.character1->draw(gameWindow);}
     }
 
     void update(){
