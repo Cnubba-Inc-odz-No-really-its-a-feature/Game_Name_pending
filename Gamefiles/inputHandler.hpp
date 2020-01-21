@@ -40,6 +40,7 @@ private:
         mainCharPosition += compensationVector;
 
         sf::Vector2f objectPosition = objectPointer->getSprite().getPosition();
+        objectPosition += sf::Vector2f(objectPointer->getSprite().getGlobalBounds().width/2, objectPointer->getSprite().getGlobalBounds().height/2);
         return sqrt( pow(objectPosition.x - mainCharPosition.x, 2) + pow(objectPosition.y - mainCharPosition.y, 2) );
     }
 
@@ -78,11 +79,9 @@ public:
                 }
 
                 for(std::shared_ptr<gameObject> objectPointer : *gameObjectStorage.game ){
-
                     if(objectPointer->isInteractable() && inRange(objectPointer) && (currentDistance(objectPointer) < currentDistance(closestInteractablePointer) && closestInteractablePointer != nullptr)){
                         closestInteractablePointer = objectPointer;
                     }
-
                 }
                 
                 if(closestInteractablePointer != nullptr){
