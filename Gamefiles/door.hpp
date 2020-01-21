@@ -11,9 +11,10 @@ class door: public gameObject{
 private:
     std::vector<gameObject> lootObjectVector;
     bool open = false;
+    objectStorage & storage;
 public:
-    door(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, int objectPriority):
-        gameObject(spritePosition, spriteScale, textureMap, firstKey)
+    door(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, objectStorage & storage, int objectPriority, std::string target):
+        gameObject(spritePosition, spriteScale, textureMap, firstKey), storage(storage)
     {
         interactable = true;
         gameObject::objectPriority = objectPriority;
