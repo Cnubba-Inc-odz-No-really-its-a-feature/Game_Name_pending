@@ -10,6 +10,22 @@ enum E_lane{
   skyLane, groundLane, trapLane  
 };
 
+struct unitUpdateResult{
+    int position;
+    bool ally;
+    bool openentKilled;
+    bool valid;
+
+    unitUpdateResult(bool valid, int position = 1, bool ally = -1, bool oponentKilled = -1):
+        position{position},
+        ally{ally},
+        openentKilled{oponentKilled},
+        valid{valid}
+    {}
+
+
+};
+
 struct drawSprite{
     sf::Sprite sprite;
     sf::Vector2f position;
@@ -39,6 +55,8 @@ struct drawSprite{
 class lane{
 private:
     std::shared_ptr<gameObject> laneArray[LANE_SIZE];
+    std::shared_ptr<gameObject> allyArray[LANE_SIZE];
+    std::shared_ptr<gameObject> enemyArray[LANE_SIZE];
     std::vector<std::shared_ptr<gameObject>> laneEffects[LANE_SIZE];
 public:
     lane():
@@ -46,15 +64,22 @@ public:
     {}
 
     bool isIndexEmpty(const int index){
-        return laneArray[index] == nullptr;
+        return allyArray[index] == nullptr && enemyArray[index] == nullptr;
     }
 
     std::shared_ptr<gameObject> getUnitPointerAtIndex(const int index){
-        return laneArray[index];
+        if(allyArray[index] == nullptr){
+            return enemyArray[index];
+        }
+        else{
+            return allyArray[index];
+        }
     }
 
     void placeUnit(const int index, std::shared_ptr<gameObject> unitPointer){
-        laneArray[index] = unitPointer;
+        if(unitPointer->ally){
+            allyArray[index] = unitPointer;
+        }
     }
 
     void placeEffect(const int index, std::shared_ptr<gameObject> effectPointer){
@@ -62,8 +87,27 @@ public:
     }
 
     void updateLane(board* boardPointer){
+        std::vector<unitUpdateResult> updateResults = {};
+        for(uint_fast8_t i = LANE_SIZE -1; i >= 0; i--){
+            updateResults.push_back(updateUnit(i, allyArray[i]));
+        }
+
+        filterOutInValidResults(updateResults);
+        for(auto& result : updateResults){
+            if(result.openentKilled){
+                enemyArray[result.position] = nullptr;
+            }
+        }
+
         for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
-            laneArray[i]->update(i, this, boardPointer);
+            updateResults.push_back(updateUnit(i, enemyArray[i]));
+        }
+
+        filterOutInValidResults(updateResults);
+        for(auto& result : updateResults){
+            if(result.openentKilled){
+                allyArray[result.position] = nullptr;
+            }
         }
 
         //for every position
@@ -74,10 +118,50 @@ public:
             }
         }
     }
+
+    void filterOutInValidResults(std::vector<unitUpdateResult>& rawResults){
+        std::vector<unitUpdateResult> cleanVector;
+        for(const auto result : rawResults){
+            if(result.valid){
+                cleanVector.push_back(result);
+            }
+        }
+
+        rawResults = cleanVector
+    }
+
+    unitUpdateResult updateUnit(const int index, std::shared_ptr<gameObject> unit){
+        if(unit->ally){
+            if(index + 1 < LANE_SIZE && isIndexEmpty(index + 1)){
+                allyArray[index + 1] = unit;
+                allyArray[index] = nullptr;
+            }
+            else if(index == LANE_SIZE - 1){
+                EnemySummoner.health -= unit.damage;
+            }
+            else if(index + 1 < LANE_SIZE){
+                unitUpdateResult result = fight(unit, enemyArray[index + 1]);
+
+                if(result.openentKilled){
+                    allyArray[index + 1] = unit;
+                    allyArray[index] = nullptr;
+                }
+
+                return result
+            }
+            else{
+                return unitUpdateResult(false);
+            }
+        }
+    }
     
-    void updateUnits(board* boardPointer){
+    void updateAllUnits(board* boardPointer){
+        for(uint_fast8_t i = LANE_SIZE -1; i >= 0; i--){
+            updateUnit(i, allyArray[i]);
+        }
+
         for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
-            laneArray[i]->update(i, this, boardPointer);
+            updateUnit(i, enemyArray[i]);
         }
     }
 
@@ -93,6 +177,7 @@ public:
 
     void removeAtIndex(const int index){
         laneArray[index] = nullptr;
+        enemyArray[index] = nullptr;
     }
 
     void removeEffectAtIndex(const int positionIndex, const int effectIndex){
@@ -104,8 +189,12 @@ public:
 
     void removeByID(const std::string& id){
         for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
-            if(laneArray[i]->getObjectID() == id){
-                laneArray[i] = nullptr;
+            if(allyArray[i]->getObjectID() == id){
+                allyArray[i] = nullptr;
+            }
+
+            if(enemyArray[i]->getObjectID() == id){
+                enemyArray[i] = nullptr;
             }
         }
 
@@ -136,25 +225,31 @@ class board {
 private:
     lane lanes[3];
     sf::Sprite boardSprite;
+    E_lane priorityLane;
 public:
     board(const sf::Texture& boardTexture):
         lanes{lane(), lane(), lane()},
-        boardSprite{boardTexture}
+        boardSprite{boardTexture},
+        priorityLane{E_lane::skyLane}
     {}
 
     void update(){
-        for(lane& currentLane : lanes){
-            currentLane.updateLane(this);
+        lanes[priorityLane].updateLane(this);
+        
+        for(uint_fast8_t i = 0; i < 3; i++){
+            if(i != priorityLane){
+                lanes[i].updateLane(this);
+            }
         }
     }
 
-    void updateUnits(const int E_lane){
+    void updateUnitsOnAllLanes(const int E_lane){
         for(lane& currentLane : lanes){
             currentLane.updateUnits(this);
         }
     }
 
-    void updateEffects(const int E_lane){
+    void updateEffectsOnAllLanes(const int E_lane){
         for(lane& currentLane : lanes){
             currentLane.updateLane(this);
         }
