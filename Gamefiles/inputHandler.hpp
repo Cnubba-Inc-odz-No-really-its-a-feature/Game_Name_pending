@@ -84,7 +84,6 @@ public:
                     if(objectPointer->isInteractable() && inRange(objectPointer) && (currentDistance(objectPointer) < currentDistance(closestInteractablePointer) && closestInteractablePointer != nullptr)){
                         closestInteractablePointer = objectPointer;
                     }
-
                 }
                 
                 if(closestInteractablePointer != nullptr){

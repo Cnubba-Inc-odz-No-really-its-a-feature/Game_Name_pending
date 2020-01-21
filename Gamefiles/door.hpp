@@ -32,8 +32,8 @@ public:
     }
 
     void interact() override{
-            interacted = true;
-           std::cout << "door" << std::endl;
+        interacted = true;
+        std::cout << "door" << std::endl;
      
     }
 
