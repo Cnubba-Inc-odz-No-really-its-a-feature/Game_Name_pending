@@ -8,7 +8,7 @@
 #include <map>
 
 
-enum objectTypes_E{TESTSPRITE_E, CIRCLE_E, CHARACTER_E, CHEST_E, BUTTON_E, BACKGROUND_E, TITLECARD_E};
+enum objectTypes_E{TESTSPRITE_E, CIRCLE_E, CHARACTER_E, CHEST_E, DOOR_E , BUTTON_E, BACKGROUND_E, TITLECARD_E};
 enum storageSpecifier_E{STORAGEM_E, STORAGEG_E};
 
 std::ifstream &operator>>(std::ifstream &input, sf::Texture &objectTexture);
