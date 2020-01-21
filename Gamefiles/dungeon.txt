@@ -15,3 +15,4 @@ Game objectTypes_E::TESTSPRITE_E (1170, 800) (1, 1) 2 texture1 gameAssets/basicF
 Game objectTypes_E::TESTSPRITE_E (1370, 800) (1, 1) 2 texture1 gameAssets/basicFloor.png ;
 Game objectTypes_E::TESTSPRITE_E (1570, 800) (1, 1) 2 texture1 gameAssets/basicFloor.png ;
 Game objectTypes_E::TESTSPRITE_E (1770, 800) (1, 1) 2 texture1 gameAssets/basicFloor.png ;
+
