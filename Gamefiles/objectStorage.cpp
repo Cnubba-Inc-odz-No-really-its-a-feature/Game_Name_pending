@@ -5,7 +5,8 @@ std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> & objectStorage::getAc
     }
 
 void objectStorage::setActive(std::string newKey){
-    keyActive = newKey;
+    swappedActive = true;
+    tmpActive = newKey;
 }
 
 objectStorage::objectStorage():
