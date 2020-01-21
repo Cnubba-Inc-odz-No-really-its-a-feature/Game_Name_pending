@@ -7,8 +7,9 @@ class textureSprite : public gameObject{
 
 
 public:
-    textureSprite(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, int objectPriority):
-    gameObject(spritePosition, spriteScale, textureMap){
+    textureSprite(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, int objectPriority):
+    gameObject(spritePosition, spriteScale, textureMap, firstKey)
+    {
         gameObject::objectPriority = objectPriority;
     }
 
@@ -23,7 +24,9 @@ public:
 
     void update(){}
     void interact(){}
+
     void setFrame(int maxFrame, int textureRow){}
+
 };
 
 #endif

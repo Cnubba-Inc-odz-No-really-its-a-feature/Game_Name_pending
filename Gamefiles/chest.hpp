@@ -3,6 +3,7 @@
 
 #include "gameObject.hpp"
 #include "memory"
+#include "lootObject.hpp"
 #include "objectStorage.hpp"
 #include <iostream>
 
@@ -11,8 +12,8 @@ private:
     std::vector<gameObject> lootObjectVector;
     bool open = false;
 public:
-    chest(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, int objectPriority):
-        gameObject(spritePosition, spriteScale, textureMap)
+    chest(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, int objectPriority):
+        gameObject(spritePosition, spriteScale, textureMap, firstKey)
     {
         interactable = true;
         gameObject::objectPriority = objectPriority;
@@ -40,8 +41,10 @@ public:
     void move(sf::Vector2f moveDirection) override{}
 
     void update(){}
+
     void setFrame(int maxFrame, int textureRow){
     }
+
 };
 
 #endif

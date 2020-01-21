@@ -2,10 +2,12 @@
 #define _GAME_HPP
 
 #include <SFML/Graphics.hpp>
-#include <ctime>
 #include "renderer.hpp"
 #include "inputHandler.hpp"
 #include "factory.hpp"
+#include <chrono>
+#include <cstdint>
+#include <iostream>
 
 class game{
 private:
@@ -16,16 +18,14 @@ private:
     inputHandler gameInputHandler;
     factory gameObjectFactory;
 
-    int MS_PER_FRAME = 100;
+    int MS_PER_FRAME = 1000 / 60;
     int lag = 0;
 
-    clock_t clockNow;
-    clock_t clockPrevious;
 
 
 public:
 
-    game(sf::RenderWindow& gameWindow, char state):
+    game(sf::RenderWindow& gameWindow, char state = 'D'):
         gameWindow(gameWindow),
         gameObjectRenderer(gameWindow, gameObjectStorage),
         gameInputHandler(gameObjectStorage),

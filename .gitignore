@@ -32,6 +32,6 @@
 *.app
 
 # Makefiles
-*.native
-*.md
 *.link
+*.md
+*.native
