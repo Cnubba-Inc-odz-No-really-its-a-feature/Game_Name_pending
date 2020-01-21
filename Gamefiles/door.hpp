@@ -17,10 +17,13 @@ public:
     {
         interactable = true;
         gameObject::objectPriority = objectPriority;
+        std::cout << "test" << std::endl;
+        objectSprite.setTextureRect(sf::IntRect(0, 0, 165, 220));
     }
 
     void interact() override{
            std::cout << "door" << std::endl;
+           objectSprite.setTextureRect(sf::IntRect(165, 0, 165, 220));
      
     }
 
