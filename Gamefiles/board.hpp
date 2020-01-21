@@ -54,13 +54,18 @@ struct drawSprite{
 
 class lane{
 private:
+    std::shared_ptr<int> playerHP;
+    std::shared_ptr<int> enemyHP;
+
     std::shared_ptr<gameObject> laneArray[LANE_SIZE];
     std::shared_ptr<gameObject> allyArray[LANE_SIZE];
     std::shared_ptr<gameObject> enemyArray[LANE_SIZE];
     std::vector<std::shared_ptr<gameObject>> laneEffects[LANE_SIZE];
 public:
-    lane():
-        laneArray{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr}
+    lane(std::shared_ptr<int> playerHP,std::shared_ptr<int> enemyHP):
+        laneArray{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr},
+        playerHP{playerHP},
+        enemyHP{enemyHP}
     {}
 
     bool isIndexEmpty(const int index){
@@ -137,7 +142,7 @@ public:
                 allyArray[index] = nullptr;
             }
             else if(index == LANE_SIZE - 1){
-                EnemySummoner.takeDamage(unit.getDamage());
+                *enemyHP.get() -= unit.getDamage();
             }
             else if(index + 1 < LANE_SIZE){
                 unitUpdateResult result = fight(unit, enemyArray[index + 1]);
@@ -158,7 +163,7 @@ public:
                 enemyArray[index] = nullptr;
             }
             else if(index == 0){
-                playerSummoner.takeDamage(unit.getDamage());
+                *playerHP.get() -= unit.getDamage();
             }
             else if(index > 0){
                 unitUpdateResult result = fight(unit, allyArray[index - 1]);
@@ -246,9 +251,16 @@ private:
     lane lanes[3];
     sf::Sprite boardSprite;
     E_lane priorityLane;
+
+    int playerHP = 5;
+    int enemyHP = 5;
 public:
     board(const sf::Texture& boardTexture):
-        lanes{lane(), lane(), lane()},
+        lanes{
+            lane(std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP)),
+            lane(std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP)),
+            lane(std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP))
+        },
         boardSprite{boardTexture},
         priorityLane{E_lane::skyLane}
     {}
