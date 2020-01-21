@@ -218,6 +218,7 @@ public:
 
     void draw(sf::RenderWindow& window){
         sf::Vector2f drawPosition = sf::Vector2f(window.getSize().x * 0.2, window.getSize().y * 0.2);
+        window.draw(boardSprite);
 
         for(auto& currentLane : lanes){
             currentLane.draw(window, drawPosition);
