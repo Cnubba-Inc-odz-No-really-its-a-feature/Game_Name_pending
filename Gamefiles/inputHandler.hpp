@@ -23,7 +23,7 @@ private:
     };
 
     std::array<sf::Mouse::Button, 2> selectKeys = {
-        sf::Mouse::Left, sf::Mouse::Right
+        sf::Mouse::Left, sf::Mouse::Right, sf:
     };
 
     std::array<sf::Keyboard::Key,1> exitKeys = {
@@ -78,11 +78,9 @@ public:
                 }
 
                 for(std::shared_ptr<gameObject> objectPointer : *gameObjectStorage.game ){
-
                     if(objectPointer->isInteractable() && inRange(objectPointer) && (currentDistance(objectPointer) < currentDistance(closestInteractablePointer) && closestInteractablePointer != nullptr)){
                         closestInteractablePointer = objectPointer;
                     }
-
                 }
                 
                 if(closestInteractablePointer != nullptr){
@@ -110,10 +108,10 @@ public:
         for( auto i : selectKeys ){
             if(sf::Mouse::isButtonPressed(i)){
                 sf::Vector2i position = sf::Mouse::getPosition();
-                for( auto i : *gameObjectStorage.getActive() ){
-                    if( i->isInteractable() && i->getSprite().getGlobalBounds().contains(sf::Vector2f(position.x, position.y))){
+                for( auto j : *gameObjectStorage.getActive() ){
+                    if( j->isInteractable() && j->getSprite().getGlobalBounds().contains(sf::Vector2f(position.x, position.y))){
                         std::cout << "interctable found" << std::endl;
-                        return std::unique_ptr<command>( new selectedCommand(i));
+                        return std::unique_ptr<command>( new selectedCommand(j));
                     }
                 }
             }

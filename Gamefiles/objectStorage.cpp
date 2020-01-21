@@ -7,14 +7,13 @@ std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> & objectStorage::getAc
 void objectStorage::setActive(std::string newKey){
     swappedActive = true;
     tmpActive = newKey;
+    if(allVectors.count(newKey) == 0)
+    {
+        
+    }
+    
 }
 
-objectStorage::objectStorage():
-    menu(new std::vector<std::shared_ptr<gameObject>>), 
-    game(new std::vector<std::shared_ptr<gameObject>>), 
-    title(new std::vector<std::shared_ptr<gameObject>>)
+objectStorage::objectStorage()
 {
-    allVectors.insert({"Menu", menu});
-    allVectors.insert({"Game", game});
-    allVectors.insert({"Title", title});
 }

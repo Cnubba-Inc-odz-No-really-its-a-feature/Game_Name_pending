@@ -76,31 +76,13 @@ void factory::factorNewGameState(std::string stateFileName){
     std::ifstream inputFile(stateFileName);
     std::string storageType;
 
-    if (std::find(fileMemory.begin(), fileMemory.end(), stateFileName) == fileMemory.end())
-    {
-        return;
-    }
-    fileMemory.push_back(stateFileName);
-
     try{
         while(true){
-            inputFile >> storageType;
-            if(storageType == ""){
+            if(inputFile.peek() == EOF){
                 throw end_of_file("end of file reached");
             }
-            if(storageType == "Game"){
-                storage.game.get()->push_back(factorObject(inputFile));
-            }else if(storageType == "Menu"){
-                storage.menu.get()->push_back(factorObject(inputFile));
-            }else if(storageType == "Character"){
-                storage.character1 = factorObject(inputFile);
-            }else if(storageType == "Title"){
-                storage.title.get()->push_back(factorObject(inputFile));
-            }else if(storageType == "Room1"){
-                storage.title.get()->push_back(factorObject(inputFile));
-            }
-
-        }
+            storage.allVectors[stateFileName]->push_back(factorObject(inputFile));
+        } 
     }catch(end_of_file & e){
         std::cerr << e.what() << std::endl;
     }catch(problem & e){
