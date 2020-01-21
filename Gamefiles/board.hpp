@@ -19,14 +19,14 @@ struct drawSprite{
         position = sf::Vector2f();
     }
 
-    drawSprite(sf::Sprite, sprite, const sf::Vector2f& position):
+    drawSprite(sf::Sprite sprite, const sf::Vector2f& position):
         sprite{sprite},
         position{position}
     {
         sprite.setPosition(position);
     }
 
-    void update(sf::Sprite, sprite, const sf::Vector2f& position){
+    void update(sf::Sprite sprite, const sf::Vector2f& position){
         sprite = sprite;
         sprite.setPosition(position);
     }
@@ -34,7 +34,7 @@ struct drawSprite{
     void draw(sf::RenderWindow& window){
         window.draw(sprite);
     }
-}
+};
 
 class lane{
 private:
@@ -137,7 +137,7 @@ private:
     lane lanes[3];
     sf::Sprite boardSprite;
 public:
-    board(const Texture& boardTexture):
+    board(const sf::Texture& boardTexture):
         lanes{lane(), lane(), lane()},
         boardSprite{boardTexture}
     {}
