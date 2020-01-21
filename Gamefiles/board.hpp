@@ -3,7 +3,6 @@
 
 #include "memory"
 #include "gameObject.hpp"
-#include "testSprite.hpp"
 #include "card.hpp"
 
 #define LANE_SIZE 7
