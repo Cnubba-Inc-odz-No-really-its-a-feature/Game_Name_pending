@@ -4,7 +4,6 @@
 
 
 int main(){
-    //test    
 
     char state;
 	std::cout<<"Do you want to work on the cardgame(C) or on the dungeon(D)?:\t";
