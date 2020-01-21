@@ -12,6 +12,8 @@
 
 class objectStorage {
 public:
+    bool swappedActive = false;
+    std::string tmpActive;
     std::string keyActive = "Title";
     std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> menu;
     std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> game;
@@ -21,6 +23,7 @@ public:
     objectStorage();
     std::shared_ptr<gameObject> character1;
     std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> & getActive();
+
 
     void setActive(std::string newKey);
 };
