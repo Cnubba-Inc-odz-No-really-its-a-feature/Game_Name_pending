@@ -15,7 +15,7 @@ protected:
     sf::Sprite objectSprite;
     sf::Texture spriteTexture;
     std::map<std::string, sf::Texture> textureMap;
-    bool interactable;
+    bool interactable = false;
     friend class lootObject;
 
     bool isHovering(){
@@ -32,6 +32,7 @@ public:
         objectSprite.setScale(spriteScale.x, spriteScale.y);
         spriteTexture = textureMap[firstKey];
         objectSprite.setTexture(spriteTexture);
+        objectID = 5;
     }
 
     gameObject(){}
