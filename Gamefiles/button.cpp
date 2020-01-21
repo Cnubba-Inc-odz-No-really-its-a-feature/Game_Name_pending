@@ -8,13 +8,13 @@ button::button(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<s
     origPos(spritePosition),
     storage(storage)
 
-{interactable = true;}
+{interactable = true; objectTypeID = 100;}
 
 void button::draw(sf::RenderWindow& gameWindow){
     gameWindow.draw(objectSprite);
 }
 
-void button::setFrame(int maxFrame, int textureRow){}
+void button::setFrame(int maxFrame, int textureRow  ){}
 
 void button::move(sf::Vector2f moveDirection){}
 
@@ -34,6 +34,7 @@ void button::update(){
 }
 
 void button::interact(){
-    storage.setActive("Game");
+
     std::cout << "Clicked" << std::endl;
+    storage.setActive("Game");
 }

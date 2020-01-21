@@ -13,6 +13,7 @@
 #include <map>
 #include "chest.hpp"
 #include "string"
+#include "door.hpp"
 
 class factory{
 private:

@@ -22,6 +22,7 @@ public:
         for(auto &i : *renderObjectStorage.getActive()){
             i->draw(gameWindow);
     }
+    
     if(renderObjectStorage.keyActive == "Game"){
         renderObjectStorage.character1->draw(gameWindow);}
     }

@@ -15,6 +15,9 @@ std::ifstream& operator>>(std::ifstream &input, objectTypes_E &objectType){
   }else if(typeString == "objectTypes_E::CHEST_E"){
     objectType = objectTypes_E::CHEST_E;
     std::cout<<"character found"  <<std::endl;
+  }else if(typeString == "objectTypes_E::DOOR_E"){
+    objectType = objectTypes_E::DOOR_E;
+    std::cout<<"character found"  <<std::endl;
   }else if(typeString == "objectTypes_E::BUTTON_E"){
     objectType = objectTypes_E::BUTTON_E;
     std::cout<<"character found"  <<std::endl;

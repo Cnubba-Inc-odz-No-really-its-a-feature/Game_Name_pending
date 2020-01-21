@@ -1,6 +1,7 @@
 Menu objectTypes_E::BUTTON_E (500,200) (1,1) 2 texture1 gameAssets/StartBlack.png , texture2 gameAssets/StartRed.png ;
 Title objectTypes_E::BACKGROUND_E (0,0) (1,1) 1 texture1 gameAssets/Background.jpg ;
 Title objectTypes_E::TITLECARD_E (500,200) (1,1) 2 texture1 gameAssets/Titlecard.png ;
+Game objectTypes_E::DOOR_E (1100, 640) (10,10) 3 texture1 gameAssets/chest1.png , texture2 chest2.png ;
 Game objectTypes_E::CHEST_E (1200, 640) (10,10) 3 texture1 gameAssets/chest1.png , texture2 chest2.png ;
 Menu objectTypes_E::BACKGROUND_E (0,0) (1,1) 1 texture1 gameAssets/Background.jpg ;
 Game objectTypes_E::BACKGROUND_E (0,0) (1,1) 1 texture1 gameAssets/Background.jpg ;
@@ -14,4 +15,9 @@ Game objectTypes_E::TESTSPRITE_E (970, 800) (1, 1) 2 texture1 gameAssets/basicFl
 Game objectTypes_E::TESTSPRITE_E (1170, 800) (1, 1) 2 texture1 gameAssets/basicFloor.png ;
 Game objectTypes_E::TESTSPRITE_E (1370, 800) (1, 1) 2 texture1 gameAssets/basicFloor.png ;
 Game objectTypes_E::TESTSPRITE_E (1570, 800) (1, 1) 2 texture1 gameAssets/basicFloor.png ;
+<<<<<<< HEAD
 Game objectTypes_E::TESTSPRITE_E (1770, 800) (1, 1) 2 texture1 gameAssets/basicFloor.png ;
+=======
+Game objectTypes_E::TESTSPRITE_E (1770, 800) (1, 1) 2 texture1 gameAssets/basicFloor.png ;
+
+>>>>>>> b6c50f08ca963365c903ff277cf239f40becf911
