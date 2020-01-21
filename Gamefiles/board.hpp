@@ -60,7 +60,6 @@ private:
     std::shared_ptr<int> playerHP;
     std::shared_ptr<int> enemyHP;
 
-    std::shared_ptr<gameObject> laneArray[LANE_SIZE];
     std::shared_ptr<gameObject> allyArray[LANE_SIZE];
     std::shared_ptr<gameObject> enemyArray[LANE_SIZE];
     std::vector<std::shared_ptr<gameObject>> laneEffects[LANE_SIZE];
@@ -278,7 +277,15 @@ public:
     void draw(sf::RenderWindow& window, const sf::Vector2f& startPosition){
         drawSprite drawingSprite;
         sf::Vector2f drawPosition = startPosition;
-        for(auto& unit : laneArray){
+        for(auto& unit : allyArray){
+            drawingSprite.update(unit->getSprite(), drawPosition);
+            drawingSprite.draw(window);
+
+            drawPosition.x += window.getSize().x * 0.1;
+        }
+        
+        drawPosition = startPosition;
+        for(auto& unit : enemyArray){
             drawingSprite.update(unit->getSprite(), drawPosition);
             drawingSprite.draw(window);
 
