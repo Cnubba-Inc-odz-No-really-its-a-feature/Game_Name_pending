@@ -47,6 +47,9 @@ std::shared_ptr<gameObject> factory::factorObject(std::ifstream & inputFile){
         }else if(objectType == objectTypes_E::CHEST_E){
             std::cout<<"chest begin made " << firstKey << std::endl;
             return std::shared_ptr<gameObject>(new chest(pos, scale, textureMap, firstKey, prio));
+        }else if(objectType == objectTypes_E::DOOR_E){
+            std::cout<<"door begin made " << firstKey << std::endl;
+            return std::shared_ptr<gameObject>(new door(pos, scale, textureMap, firstKey, prio));
         }else if(objectType == objectTypes_E::BUTTON_E){
             std::cout<<"Button begin made " << firstKey << std::endl;
             return std::shared_ptr<gameObject>(new button(pos, scale, textureMap, firstKey, storage, prio));

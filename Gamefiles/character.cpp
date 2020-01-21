@@ -8,7 +8,7 @@ character::character(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std:
 }
 
 void character::setFrame(int maxFrame, int textureRow){
-        if(frameCounter > 15) {frameCounter = 0; textureFrame++;}
+        if(frameCounter > 10) {frameCounter = 0; textureFrame++;}
 	    if(maxFrame < textureFrame) textureFrame = 0;
 	    objectSprite.setTextureRect(sf::IntRect(64*textureFrame, 64*textureRow, 64, 64));
 	    frameCounter++;

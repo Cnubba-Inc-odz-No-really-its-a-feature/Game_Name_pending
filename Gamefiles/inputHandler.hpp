@@ -107,6 +107,7 @@ public:
                 sf::Vector2i position = sf::Mouse::getPosition();
                 for( auto i : *gameObjectStorage.getActive() ){
                     if( i->isInteractable() && i->getSprite().getGlobalBounds().contains(sf::Vector2f(position.x, position.y))){
+                        std::cout << "interctable found" << std::endl;
                         return std::unique_ptr<command>( new selectedCommand(i));
                     }
                 }

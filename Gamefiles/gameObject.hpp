@@ -15,7 +15,7 @@ protected:
     sf::Sprite objectSprite;
     sf::Texture spriteTexture;
     std::map<std::string, sf::Texture> textureMap;
-    bool interactable;
+    bool interactable = false;
     friend class lootObject;
 
     bool isHovering(){
