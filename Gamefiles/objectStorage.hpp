@@ -19,6 +19,7 @@ public:
     std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> menu;
     std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> game;
     std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> title;
+    std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> game_1;
     std::map<std::string, std::shared_ptr<std::vector<std::shared_ptr<gameObject>>>> allVectors;
 
     std::shared_ptr<gameObject> allyArrayLane1[LANE_SIZE];

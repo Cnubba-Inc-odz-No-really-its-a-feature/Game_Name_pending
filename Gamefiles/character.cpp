@@ -41,7 +41,7 @@ void character::update(){
 	    if(direction.x > 0) setFrame(8, 11);
         moved = false;
     }else{
-        setFrame(2,2);
+        setFrame(1,2);
     }
 }
 
