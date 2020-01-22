@@ -1,4 +1,6 @@
 #include "game.hpp"
+#include "card.hpp"
+
 
 void game::gameLoop(){
 	gameObjectFactory.factorMainCharacter();
@@ -9,6 +11,14 @@ void game::gameLoop(){
 	//twee tests voor het frames bijhouden
 	int secondsPassed = 0;
 	int framecounter = 0;
+
+	deckClass testDeck;
+	auto testCard = testDeck.factorCard(1);
+
+
+
+
+
 
 	std::cout << clockPrevious << std::endl;
     while (gameWindow.isOpen()) {
@@ -31,7 +41,6 @@ void game::gameLoop(){
 
 
 
-
 		std::unique_ptr<command> newCommand;
 		newCommand  = gameInputHandler.handleInput();
 		if(newCommand != NULL){
@@ -50,6 +59,9 @@ void game::gameLoop(){
 		}
         gameWindow.clear();
         gameObjectRenderer.draw();
+
+
+		testCard->draw(gameWindow);
 		gameWindow.display();
 
         sf::Event event;		

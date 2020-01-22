@@ -1,9 +1,12 @@
 #ifndef _CARD_HPP
 #define _CARD_HPP
-#include "gameObject"
+#include "gameObject.hpp"
 #include "memory"
 #include "SFML/Graphics.hpp"
-#include "exception.hpp"
+#include "exeptions.hpp"
+#include "string"
+#include <iostream>
+#include <vector>
 
 enum E_lane{
   skyLane, groundLane, trapLane  
@@ -14,6 +17,7 @@ private:
     int unitMaxHealth;
     int unitDamage;
     E_lane unitLane;
+    bool ally = true;
 public:
     unit(int unitMaxHealth, int unitDamage, E_lane unitLane):
         unitMaxHealth(unitMaxHealth),
@@ -25,66 +29,123 @@ public:
 
 };
 
-class card : public GameObject{
+
+
+class summonCard : public gameObject{
 private:
-    int cardName;
-    sf::Sprite cardArtSprite;
-    sf::Sprite basicCardFrameSprite;
+    int cardUnitHealth;
+    int cardUnitDamage;
+    sf::Font summonCardFont;
+    sf::Text summonCardName;
+    sf::Text summonCardDamage;
+    sf::Text summonCardHealth;
+
+    sf::Sprite summonCardArtSprite;
+    E_lane cardUnitLane;
+
 public:
-    card(std::string cardName, std::map<std::string, sf::Texture> textureMap):
-    gameObject(sf::Vector2f(0,0), sf::Vector2f(1,1), textureMap, 1),
-    cardName(cardName){
-        cardArtSprite.setTexture(textureMap["cardArtTexture"]);
-        basicCardFrameSprite.setTexture(textureMap["basicCardFrame"]);
+    summonCard(std::string cardName, int cardUnitDamage, int cardUnitHealth, E_lane cardUnitLane, std::map<std::string, sf::Texture> textureMap):
+        gameObject(sf::Vector2f(300, 100), sf::Vector2f(1,1),  textureMap, std::string("basicCardFrame"), 1),
+        cardUnitHealth(cardUnitHealth),
+        cardUnitDamage(cardUnitDamage),
+        cardUnitLane(cardUnitLane)
+    {
+
+        summonCardName.setScale(sf::Vector2f(0.5, 0.5));
+        objectSprite.setScale(sf::Vector2f(0.5, 0.5));
+        summonCardDamage.setScale(sf::Vector2f(0.5, 0.5));
+        summonCardHealth.setScale(sf::Vector2f(0.5, 0.5));
+        summonCardArtSprite.setScale(sf::Vector2f(0.5, 0.5));
+
+        summonCardFont.loadFromFile("gameAssets/cardAssets/cardFont.otf");
+        
+
+        auto cardPosition = objectSprite.getGlobalBounds();
+
+
+        summonCardName.setFont(summonCardFont);
+        summonCardName.setString(cardName);
+        summonCardName.setOrigin(summonCardName.getLocalBounds().left +(summonCardName.getLocalBounds().width / 2),summonCardName.getLocalBounds().top + (summonCardName.getLocalBounds().height / 2));
+        summonCardName.setCharacterSize(80);
+        summonCardName.setFillColor(sf::Color::Black);
+        summonCardName.setPosition(sf::Vector2f(cardPosition.left + (0.175 * cardPosition.width) , cardPosition.top + (0.05 * cardPosition.height)));
+
+
+        summonCardDamage.setFont(summonCardFont);
+        summonCardDamage.setString(std::to_string(cardUnitDamage));
+        summonCardDamage.setOrigin(summonCardDamage.getLocalBounds().left + (summonCardDamage.getLocalBounds().width / 2) , summonCardDamage.getLocalBounds().top +(summonCardDamage.getLocalBounds().height / 2));
+        summonCardDamage.setCharacterSize(90);
+        summonCardDamage.setFillColor(sf::Color::Black);
+        summonCardDamage.setPosition(sf::Vector2f(cardPosition.left + (0.26* cardPosition.width) , cardPosition.top + (0.835 * cardPosition.height)));
+
+
+        summonCardHealth.setFont(summonCardFont);
+        summonCardHealth.setString(std::to_string(cardUnitHealth));
+        summonCardHealth.setOrigin(summonCardHealth.getLocalBounds().left +(summonCardHealth.getLocalBounds().width / 2),summonCardHealth.getLocalBounds().top + (summonCardHealth.getLocalBounds().height / 2));
+        summonCardHealth.setCharacterSize(90);
+        summonCardHealth.setFillColor(sf::Color::Black);
+        summonCardHealth.setPosition(sf::Vector2f(cardPosition.left + (0.68* cardPosition.width) , cardPosition.top + (0.835 * cardPosition.height)));
+
+
+        summonCardArtSprite.setTexture(gameObject::textureMap["cardArtTexture"]);
+        summonCardArtSprite.setPosition(objectSprite.getPosition());
+        
     }
 
 
-    void draw(sf::RenderWindow & gameWindow){
-        gameWindow.draw(cardArtSprite);
-        gameWindow.draw(basicCardFrameSprite);
+    void draw(sf::RenderWindow& gameWindow){
+            gameWindow.draw(summonCardArtSprite);
+            gameWindow.draw(objectSprite);
+            gameWindow.draw(summonCardName);
+            gameWindow.draw(summonCardDamage);
+            gameWindow.draw(summonCardHealth);
     }
 
+     void interact(){}
+     void move(sf::Vector2f moveDirection){}
+     void update(){}
+     void setFrame(int maxFrame, int textureRow){}
 
 
 };
 
 
-class summonCard : public card{
-private:
-    int cardUnitHealth;
-    int cardUnitDamage;
-    E_lane cardUnitLane;
-
-    summonCard(std::string cardName, int cardUnitDamage, int cardUnitHealth, E_lane cardUnitLane, std::map<std::string, sf::Texture> textureMap):
-    card(cardName, textureMap),
-    cardUnitHealth(cardUnitHealth),
-    cardUnitDamage(cardUnitDamage),
-    cardUnitLane(cardUnitLane)
-    {}
-
-}
-
-
-class deckClass{
-public:
-
-
-    std::ifstream& operator>>(std::ifstream& input, E_Lane& unitLane){
+ std::ifstream& operator>>(std::ifstream& input, E_lane& unitLane){
         std::string laneString;
         input>>laneString;
         if(laneString == "groundLane"){
-            unitLane = E_lane::groundlane;
+            unitLane = E_lane::groundLane;
             return input;
-        }else if(laneString == "skylane"){
-            unitLane = E_lane::skylane;
+        }else if(laneString == "skyLane"){
+            unitLane = E_lane::skyLane;
             return input;
         }else if(laneString == "traplane"){
-            unitLane = E_lane::traplane;
+            unitLane = E_lane::trapLane;
             return input;
         }else{
-            throw invalid_UnitLand("invalid UnitLane");
+            throw invalid_UnitLane("invalid UnitLane");
         }
     }
+    
+
+
+
+class deckClass{
+private:
+    std::vector<int> completeDeck;
+    std::vector<int> drawPile;
+    std::vector<int> discardPile;
+    std::vector<int> hand;
+
+public:
+
+    std::vector<std::shared_ptr<gameObject>> drawNewHand(){
+        
+
+    }
+
+
+
 
 
     std::shared_ptr<gameObject> factorCard(int cardID){
@@ -93,6 +154,9 @@ public:
         try{
             while(true){
                 cardFactoryFile>>objectID;
+                if(objectID != 0){
+                    std::cout<<objectID << std::endl;
+                }
                 if(objectID == cardID){
                     std::string cardType;
                     char fileBind;
@@ -101,26 +165,40 @@ public:
 
                     cardFactoryFile >> cardType >> fileBind;
                     if(!(fileBind == '{')){throw invalid_Factory_Binds("invalid Factory Bind found: " + fileBind);}
-                    if(!(cardFactoryFile >> cardName){throw end_Of_File("no cardName found!");}
-                    if(!(cardFactoryFile >> cardTextureFileName)){throw end_Of_File("invalid textureFilename!");}
-
+                    if(!(cardFactoryFile >> cardName)){throw end_of_file("no cardName found!");}
+                    if(!(cardFactoryFile >> cardTextureFileName)){throw end_of_file("invalid textureFilename!");}
+                    
                     if(cardType == "summon"){
-                        E_Lane cardUnitLane;
+                        E_lane cardUnitLane;
                         int cardUnitDamage;
-                        int cardunitHealth;
+                        int cardUnitHealth;
                         std::string cardUnitTextureFileName;
                         cardFactoryFile >> cardUnitLane >> cardUnitDamage >> fileBind >> cardUnitHealth >> cardUnitTextureFileName;
                         std::map<std::string, sf::Texture> textureMap;
 
             
                         sf::Texture unitCardFrame;
-                        basicCardFrame.loadFromFile("cardFrame.png");
+
+
+                        if(cardUnitLane == E_lane::groundLane){
+                            unitCardFrame.loadFromFile("gameAssets/cardAssets/summonCardFrame_W.png");
+                        }else{
+                            unitCardFrame.loadFromFile("gameAssets/cardAssets/summonCardFrame_F.png");
+                        }
+
+                        sf::Texture summonCardTexture;
+                        summonCardTexture.loadFromFile(cardTextureFileName); 
+                        
                         sf::Texture cardUnitTexture;
-                        sf::Texture unitTexture;
+                        cardUnitTexture.loadFromFile(cardUnitTextureFileName);
+                       // sf::Texture unitTexture;
+
+
+
 
                         textureMap["basicCardFrame"] = unitCardFrame;
-                        textureMap["cardArtTexture"] = cardUnitTexture;
-                        textureMap["unitTexture"] = unitTexture;
+                        textureMap["cardArtTexture"] = summonCardTexture;
+                        //textureMap["unitTexture"] = unitTexture;
 
                         cardFactoryFile >> fileBind;
                         if(!(fileBind == '}')){throw invalid_Factory_Binds("invalid end factory bind");}
@@ -129,13 +207,83 @@ public:
                         return std::shared_ptr<gameObject> (new summonCard(cardName, cardUnitDamage, cardUnitHealth, cardUnitLane, textureMap)); 
                     }
                 }else{
-                    cardFactoryFile.ignore();
+                    cardFactoryFile.ignore(300, '\n');
                 }
             }
         }catch(problem & e){std::cerr<< e.what() <<std::endl;}
+        return nullptr;
 
     }
-}
+
+
+
+
+    // std::shared_ptr<gameObject> factorCard(int cardID){
+    //     std::ifstream cardFactoryFile("cardFactoryFile.txt");
+    //     int objectID;
+    //     try{
+    //         while(true){
+    //             cardFactoryFile>>objectID;
+    //             std::cout<<objectID << std::endl;
+    //             if(objectID == cardID){
+    //                 std::string cardType;
+    //                 char fileBind;
+    //                 std::string cardName;
+    //                 std::string cardTextureFileName;
+
+    //                 cardFactoryFile >> cardType >> fileBind;
+    //                 if(!(fileBind == '{')){throw invalid_Factory_Binds("invalid Factory Bind found: " + fileBind);}
+    //                 if(!(cardFactoryFile >> cardName)){throw end_of_file("no cardName found!");}
+    //                 if(!(cardFactoryFile >> cardTextureFileName)){throw end_of_file("invalid textureFilename!");}
+                    
+    //                 if(cardType == "summon"){
+    //                     E_lane cardUnitLane;
+    //                     int cardUnitDamage;
+    //                     int cardUnitHealth;
+    //                     std::string cardUnitTextureFileName;
+    //                     cardFactoryFile >> cardUnitLane >> cardUnitDamage >> fileBind >> cardUnitHealth >> cardUnitTextureFileName;
+    //                     std::map<std::string, sf::Texture> textureMap;
+
+            
+    //                     sf::Texture unitCardFrame;
+
+
+    //                     if(cardUnitLane == E_lane::groundLane){
+    //                         unitCardFrame.loadFromFile("gameAssets/cardAssets/summonCardFrame_W.png");
+    //                     }else{
+    //                         unitCardFrame.loadFromFile("gameAssets/cardAssets/summonCardFrame_F.png");
+    //                     }
+
+    //                     sf::Texture summonCardTexture;
+    //                     summonCardTexture.loadFromFile(cardTextureFileName); 
+                        
+    //                     sf::Texture cardUnitTexture;
+    //                     cardUnitTexture.loadFromFile(cardUnitTextureFileName);
+    //                    // sf::Texture unitTexture;
+
+
+
+
+    //                     textureMap["basicCardFrame"] = unitCardFrame;
+    //                     textureMap["cardArtTexture"] = summonCardTexture;
+    //                     //textureMap["unitTexture"] = unitTexture;
+
+    //                     cardFactoryFile >> fileBind;
+    //                     if(!(fileBind == '}')){throw invalid_Factory_Binds("invalid end factory bind");}
+
+
+    //                     return std::shared_ptr<gameObject> (new summonCard(cardName, cardUnitDamage, cardUnitHealth, cardUnitLane, textureMap)); 
+    //                 }
+    //             }else{
+    //                     std::cout<<"card ignored" <<std::endl;
+    //                 cardFactoryFile.ignore(1, '\n');
+    //             }
+    //         }
+    //     }catch(problem & e){std::cerr<< e.what() <<std::endl;}
+    //     return nullptr;
+
+    // }
+};
 
 
 #endif
