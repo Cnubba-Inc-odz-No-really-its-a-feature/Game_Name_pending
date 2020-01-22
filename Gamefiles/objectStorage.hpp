@@ -13,12 +13,8 @@
 #include "fstream"
 #include "operators.hpp"
 #include "testSprite.hpp"
-#include "button.hpp"
-#include "titlecard.hpp"
 #include "background.hpp"
 #include <map>
-#include "chest.hpp"
-#include "door.hpp"
 
 class objectStorage {
 private:

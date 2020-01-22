@@ -1,4 +1,8 @@
 #include "objectStorage.hpp"
+#include "button.hpp"
+#include "titlecard.hpp"
+#include "chest.hpp"
+#include "door.hpp"
 
 std::shared_ptr<std::vector<std::shared_ptr<gameObject>>>&
 objectStorage::getActive() {
@@ -16,7 +20,7 @@ void objectStorage::setActive(std::string newKey) {
 
 objectStorage::objectStorage(sf::RenderWindow& window) : window(window) {
     setActive("title.txt");
-    factorMainCharacter<std::vector<std::shared_ptr<gameObject>>();
+    factorMainCharacter();
 }
 
 std::shared_ptr<gameObject> objectStorage::factorObject(
