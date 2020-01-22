@@ -4,7 +4,7 @@ Title objectTypes_E::BACKGROUND_E (0,0) (1,1) 1 texture1 gameAssets/Background.j
 Title objectTypes_E::TITLECARD_E (500,200) (1,1) 2 texture1 gameAssets/Titlecard.png ;
 Title objectTypes_E::TITLECARD_E (500,200) (1,1) 2 texture1 gameAssets/Titlecard.png ;
 Game objectTypes_E::DOOR_E (100, 700) (2,2) 4 texture1 gameAssets/door.png ;
-Game objectTypes_E::CHEST_E (1200, 850) (10,10) 4 texture1 gameAssets/chest1.png ;
+Game objectTypes_E::CHEST_E (1200, 1080) (2,2) 4 texture1 gameAssets/chest1.png ;
 Game objectTypes_E::TESTSPRITE_E (1792, 0) (2, 2) 2 texture1 gameAssets/wall_right.png ;
 Game objectTypes_E::TESTSPRITE_E (1792, 128) (2, 2) 2 texture1 gameAssets/wall_right.png ;
 Game objectTypes_E::TESTSPRITE_E (1792, 256) (2, 2) 2 texture1 gameAssets/wall_right.png ;

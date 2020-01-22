@@ -8,6 +8,9 @@ void game::gameLoop(){
 	int framecounter = 0;
 	clockPrevious = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 
+	bool gamePlay = true;
+	bool titlePlay = true;
+	bool menuPlay = true;
     while (gameWindow.isOpen()) {
 		loopTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count() - clockPrevious;
 
@@ -35,6 +38,32 @@ void game::gameLoop(){
         gameWindow.clear();
         gameObjectRenderer.draw();
 		gameWindow.display();
+
+		if(gameObjectStorage.keyActive == "Game" && gamePlay){
+			buffer.loadFromFile("gameAssets/Sounds/game.wav");
+			sound.setBuffer(buffer);
+			sound.setLoop(true);
+			sound.play();
+			std::cout << "speelt dungeon game geluid" << std::endl;
+			gamePlay = false;
+			titlePlay = true;
+			menuPlay = true;
+		}else if(gameObjectStorage.keyActive == "Title" && titlePlay){
+			buffer.loadFromFile("gameAssets/Sounds/game.wav");
+			sound.setBuffer(buffer);
+			sound.setLoop(true);
+			sound.play();
+			std::cout << "speelt title geluid" << std::endl;
+			gamePlay = true;
+			titlePlay = false;
+			menuPlay = true;
+		}else if(gameObjectStorage.keyActive == "Menu" && menuPlay){
+			std::cout << "speelt menu geluid" << std::endl;
+			gamePlay = true;
+			titlePlay = true;
+			menuPlay = false;
+		}
+
 
         sf::Event event;		
 	    while( gameWindow.pollEvent(event) ){

@@ -2,7 +2,6 @@
 #define _RENDERER_HPP
 #include "SFML/Graphics.hpp"
 #include "objectStorage.hpp"
-//#include "circle.hpp"
 
 bool objSort(const std::shared_ptr<gameObject> & lhs, const std::shared_ptr<gameObject> & rhs);
 
