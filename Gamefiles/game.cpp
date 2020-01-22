@@ -1,9 +1,8 @@
 #include "game.hpp"
 
 void game::gameLoop(){
-	gameObjectFactory.factorMainCharacter();
 	using namespace std::chrono;
-	bool state1 = true;
+	// bool state1 = true;
 	uint64_t clockPrevious;
 	int secondsPassed = 0;
 	int framecounter = 0;
