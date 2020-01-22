@@ -34,6 +34,7 @@ void game::gameLoop(){
 		}
 
 		gameObjectRenderer.update();
+		
 
 		
 		framecounter++;

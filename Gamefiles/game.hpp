@@ -23,6 +23,7 @@ public:
     game(sf::RenderWindow& gameWindow, char state = 'D'):
         gameWindow(gameWindow),
         gameObjectRenderer(gameWindow, gameObjectStorage),
+        gameObjectStorage(gameWindow),
         gameInputHandler(gameObjectStorage)
     {}
 
