@@ -17,16 +17,13 @@
 
 class factory{
 private:
-    std::ifstream inputFile;
-    objectStorage &storage;
-    sf::RenderWindow & window;
+    
 
 public:
-    factory(objectStorage &storage, sf::RenderWindow & window);
+    factory(sf::RenderWindow & window);
     std::shared_ptr<gameObject> factorObject(std::ifstream & inputFile);
     void factorNewGameState(std::string stateFileName);
     void factorMainCharacter();
-
 };
 
 

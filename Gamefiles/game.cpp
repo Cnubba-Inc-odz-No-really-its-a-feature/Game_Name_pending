@@ -17,15 +17,15 @@ void game::gameLoop(){
 		}
 		clockPrevious = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::N)){
-			if(state1){
-				state1 = !state1;
-				gameObjectFactory.factorNewGameState("gameState2.txt");
-			}else{
-				state1 = !state1;
-				gameObjectFactory.factorNewGameState("gameState1.txt");
-			}
-		}
+		// if(sf::Keyboard::isKeyPressed(sf::Keyboard::N)){
+		// 	if(state1){
+		// 		state1 = !state1;
+		// 		gameObjectFactory.factorNewGameState("gameState2.txt");
+		// 	}else{
+		// 		state1 = !state1;
+		// 		gameObjectFactory.factorNewGameState("gameState1.txt");
+		// 	}
+		// }
 
 		std::unique_ptr<command> newCommand;
 		newCommand  = gameInputHandler.handleInput();

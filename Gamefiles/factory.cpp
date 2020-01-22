@@ -1,9 +1,8 @@
 #include "factory.hpp"
 
-factory::factory(objectStorage &storage, sf::RenderWindow & window): 
-        storage(storage),
+factory::factory(sf::RenderWindow & window): 
         window(window)
-    {}
+    {};
 
 std::shared_ptr<gameObject> factory::factorObject(std::ifstream & inputFile){
     objectTypes_E objectType;
@@ -39,7 +38,6 @@ std::shared_ptr<gameObject> factory::factorObject(std::ifstream & inputFile){
                 if(! (textureBind == ',')){
                     throw end_of_textures("end of textures reached");
                 }
-
             }
         }catch(end_of_textures & e){std::cerr<<e.what() <<std::endl;};
 

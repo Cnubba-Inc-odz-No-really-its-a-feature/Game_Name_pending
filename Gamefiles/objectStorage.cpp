@@ -9,11 +9,10 @@ void objectStorage::setActive(std::string newKey){
     tmpActive = newKey;
     if(allVectors.count(newKey) == 0)
     {
-        
+        fact.factorNewGameState(newKey);
     }
-    
 }
 
-objectStorage::objectStorage()
+objectStorage::objectStorage(factory & fact) : fact(fact)
 {
 }

@@ -58,7 +58,12 @@ public:
 
     void update(){
         for(auto i : *renderObjectStorage.getActive()){
-            i->update();
+            auto tmp = i->update();
+            if (tmp != "")
+            {
+                renderObjectStorage.setActive(tmp);
+            }
+            
         }
         renderObjectStorage.character1->update();
     }

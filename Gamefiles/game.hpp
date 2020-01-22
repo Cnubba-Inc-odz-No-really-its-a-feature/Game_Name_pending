@@ -12,7 +12,6 @@
 class game{
 private:
     sf::RenderWindow& gameWindow;
-
     objectStorage gameObjectStorage;
     renderer gameObjectRenderer;
     inputHandler gameInputHandler;
@@ -21,15 +20,13 @@ private:
     uint64_t MS_PER_FRAME = 1000 / 60;
     uint64_t loopTime = 0;
 
-
-
 public:
 
     game(sf::RenderWindow& gameWindow, char state = 'D'):
         gameWindow(gameWindow),
         gameObjectRenderer(gameWindow, gameObjectStorage),
         gameInputHandler(gameObjectStorage),
-        gameObjectFactory(gameObjectStorage, gameWindow)
+        gameObjectFactory(gameWindow)
     {
         if(state == 'C'){
             gameObjectFactory.factorNewGameState("cardGame.txt");
