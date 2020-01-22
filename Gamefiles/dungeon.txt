@@ -94,6 +94,3 @@ Game objectTypes_E::TESTSPRITE_E (1118, 768 ) (2, 2) 2 texture1 gameAssets/pilla
 Game objectTypes_E::TESTSPRITE_E (1502, 256 ) (2, 2) 2 texture1 gameAssets/pillar.png ;
 Game objectTypes_E::TESTSPRITE_E (1502, 512 ) (2, 2) 2 texture1 gameAssets/pillar.png ;
 Game objectTypes_E::TESTSPRITE_E (1502, 768 ) (2, 2) 2 texture1 gameAssets/pillar.png ;
-Game_1 objectTypes_E::DOOR_E (100, 700) (2,2) 3 texture1 gameAssets/door.png ;
-Game_1 objectTypes_E::CHEST_E (1200, 850) (10,10) 3 texture1 gameAssets/chest1.png ;
-Game_1 objectTypes_E::TESTSPRITE_E (1792, 0) (2, 2) 2 texture1 gameAssets/wall_right.png ;

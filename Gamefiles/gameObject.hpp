@@ -48,7 +48,6 @@ public:
     virtual void update() = 0;
 
     virtual void setFrame(int maxFrame, int textureRow) =0;
-
 };
 
 #endif

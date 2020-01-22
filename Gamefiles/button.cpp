@@ -23,7 +23,6 @@ void button::update(){
         objectSprite.setScale(origScale.x * 1.2, origScale.y * 1.2);
         objectSprite.setPosition(sf::Vector2f(origPos.x - objectSprite.getGlobalBounds().width/10, origPos.y - objectSprite.getGlobalBounds().height/10));
         objectSprite.setTexture(textureMap["texture2"]);
-        storage.setActive("Game");
     }
     else
     {

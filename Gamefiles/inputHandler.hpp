@@ -34,12 +34,14 @@ private:
 
     float currentDistance(std::shared_ptr<gameObject> objectPointer){
         sf::Vector2f mainCharPosition = gameObjectStorage.character1->getSprite().getPosition();
-        auto width = gameObjectStorage.character1->getSprite().getGlobalBounds().width;
-        auto height = gameObjectStorage.character1->getSprite().getGlobalBounds().height;
-        sf::Vector2f compensationVector = sf::Vector2f( width*0.5, height*0.5);
-        mainCharPosition += compensationVector;
-
         sf::Vector2f objectPosition = objectPointer->getSprite().getPosition();
+        
+        sf::Vector2f characterPosCorrectionVector = sf::Vector2f( gameObjectStorage.character1->getSprite().getGlobalBounds().width *0.5, gameObjectStorage.character1->getSprite().getGlobalBounds().height *0.5);
+        sf::Vector2f objectPosCorrectionVector = sf::Vector2f( objectPointer->getSprite().getGlobalBounds().width *0.5, objectPointer->getSprite().getGlobalBounds().height *0.5);
+
+        mainCharPosition += characterPosCorrectionVector;
+        objectPosition += objectPosCorrectionVector;
+
         return sqrt( pow(objectPosition.x - mainCharPosition.x, 2) + pow(objectPosition.y - mainCharPosition.y, 2) );
     }
 
@@ -71,18 +73,17 @@ public:
 
                 std::shared_ptr<gameObject> closestInteractablePointer = nullptr;
 
-                for(std::shared_ptr<gameObject> interactableObject : *gameObjectStorage.game){
+                for(std::shared_ptr<gameObject> interactableObject : *gameObjectStorage.getActive()){
                     if(interactableObject->isInteractable() && inRange(interactableObject)){
                         closestInteractablePointer = interactableObject;
                     }
                 }
 
-                for(std::shared_ptr<gameObject> objectPointer : *gameObjectStorage.game ){
+                for(std::shared_ptr<gameObject> objectPointer : *gameObjectStorage.getActive()){
 
                     if(objectPointer->isInteractable() && inRange(objectPointer) && (currentDistance(objectPointer) < currentDistance(closestInteractablePointer) && closestInteractablePointer != nullptr)){
                         closestInteractablePointer = objectPointer;
                     }
-
                 }
                 
                 if(closestInteractablePointer != nullptr){

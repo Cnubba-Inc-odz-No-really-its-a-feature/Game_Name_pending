@@ -3,7 +3,6 @@
 void game::gameLoop(){
 	gameObjectFactory.factorMainCharacter();
 	using namespace std::chrono;
-	bool state1 = true;
 	uint64_t clockPrevious;
 	int secondsPassed = 0;
 	int framecounter = 0;
@@ -16,16 +15,6 @@ void game::gameLoop(){
 			loopTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count() - clockPrevious;
 		}
 		clockPrevious = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
-
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::N)){
-			if(state1){
-				state1 = !state1;
-				gameObjectFactory.factorNewGameState("gameState2.txt");
-			}else{
-				state1 = !state1;
-				gameObjectFactory.factorNewGameState("gameState1.txt");
-			}
-		}
 
 		std::unique_ptr<command> newCommand;
 		newCommand  = gameInputHandler.handleInput();
