@@ -6,7 +6,7 @@
 #include "lootObject.hpp"
 #include "objectStorage.hpp"
 #include <iostream>
-
+#include <SFML/Audio.hpp>
 class chest: public gameObject{
 private:
     std::vector<gameObject> lootObjectVector;
