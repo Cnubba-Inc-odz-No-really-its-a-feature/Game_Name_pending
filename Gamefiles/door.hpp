@@ -5,6 +5,7 @@
 #include "memory"
 #include "lootObject.hpp"
 #include "objectStorage.hpp"
+#
 #include <iostream>
 
 class door: public gameObject{
@@ -14,9 +15,11 @@ private:
     int textureFrame = 0;
     int frameCounter = 0;
     bool interacted = false;
+    objectStorage & storage;
 public:
-    door(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, int objectPriority):
-        gameObject(spritePosition, spriteScale, textureMap, firstKey)
+    door(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, objectStorage &storage, int objectPriority):
+        gameObject(spritePosition, spriteScale, textureMap, firstKey),
+        storage(storage)
     {
         interactable = true;
         gameObject::objectPriority = objectPriority;
@@ -28,13 +31,13 @@ public:
         if(frameCounter > 10) {frameCounter = 0; textureFrame++;}
 	    objectSprite.setTextureRect(sf::IntRect(133.5*textureFrame, 0*textureRow, 133, 160));
         if(maxFrame < textureFrame) interacted = false;
-	    frameCounter++;
+	    else frameCounter++;
     }
 
     void interact() override{
+        std::cout << textureFrame << std::endl;
+        if (textureFrame > 1)storage.setActive("Game_1");
         interacted = true;
-        std::cout << "door" << std::endl;
-     
     }
 
     void interact(objectStorage& gameStorage, const float& mainCharacterPosition){
