@@ -6,10 +6,10 @@
 #include "macrodefinitions.hpp"
 
 struct laneArrayContainer{
-    std::shared_ptr<std::shared_ptr<gameObject>[LANE_SIZE]> allyArray;
-    std::shared_ptr<std::shared_ptr<gameObject>[LANE_SIZE]> enemyArray;
+    std::shared_ptr<std::array<std::shared_ptr<gameObject>, LANE_SIZE>>  allyArray;
+    std::shared_ptr<std::array<std::shared_ptr<gameObject>, LANE_SIZE>>  enemyArray;
 
-    laneArrayContainer(std::shared_ptr<std::shared_ptr<gameObject>[LANE_SIZE]> allyArray,std::shared_ptr<std::shared_ptr<gameObject>[LANE_SIZE]> enemyArray):
+    laneArrayContainer(std::shared_ptr<std::array<std::shared_ptr<gameObject>, LANE_SIZE>>  allyArray, std::shared_ptr<std::array<std::shared_ptr<gameObject>, LANE_SIZE>> enemyArray):
         allyArray{allyArray},
         enemyArray{enemyArray}
     {}
