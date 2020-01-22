@@ -1,6 +1,5 @@
 #include "game.hpp"
 #include "objectStorage.hpp"
-#include "factory.hpp"
 
 
 int main(){

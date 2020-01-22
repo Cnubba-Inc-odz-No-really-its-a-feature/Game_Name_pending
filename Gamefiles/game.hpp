@@ -11,8 +11,8 @@
 class game{
 private:
     sf::RenderWindow& gameWindow;
-    objectStorage gameObjectStorage;
     renderer gameObjectRenderer;
+    objectStorage gameObjectStorage;
     inputHandler gameInputHandler;
 
     uint64_t MS_PER_FRAME = 1000 / 60;
@@ -23,6 +23,7 @@ public:
     game(sf::RenderWindow& gameWindow, char state = 'D'):
         gameWindow(gameWindow),
         gameObjectRenderer(gameWindow, gameObjectStorage),
+        gameObjectStorage(gameWindow),
         gameInputHandler(gameObjectStorage)
     {}
 
