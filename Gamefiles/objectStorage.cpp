@@ -18,3 +18,14 @@ objectStorage::objectStorage():
     allVectors.insert({"Game", game});
     allVectors.insert({"Title", title});
 }
+
+boardLaneArraysContainer objectStorage::getLaneArrays(){
+    return boardLaneArraysContainer(
+                                    laneArrayContainer(std::shared_ptr<std::shared_ptr<gameObject>[LANE_SIZE]>(allyArrayAir),
+                                                std::shared_ptr<std::shared_ptr<gameObject>[LANE_SIZE]>(EnemyArrayAir)),
+                                    laneArrayContainer(std::shared_ptr<std::shared_ptr<gameObject>[LANE_SIZE]>(allyArrayGround),
+                                                std::shared_ptr<std::shared_ptr<gameObject>[LANE_SIZE]>(allyArrayGround)), 
+                                    laneArrayContainer(std::shared_ptr<std::shared_ptr<gameObject>[LANE_SIZE]>(allyArrayTraps),
+                                                std::shared_ptr<std::shared_ptr<gameObject>[LANE_SIZE]>(EnemyArrayTraps))
+                                    );
+}
