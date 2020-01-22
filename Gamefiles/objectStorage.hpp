@@ -33,10 +33,10 @@ public:
     std::vector<std::shared_ptr<gameObject>> effectsLane2[LANE_SIZE];
     std::vector<std::shared_ptr<gameObject>> effectsLane3[LANE_SIZE];
 
-    std::vector<gameObject> hand;
-    std::vector<gameObject> drawpile;
-    std::vector<gameObject> discardpile;
-    std::vector<gameObject> completedeck;
+    std::vector<int> hand;
+    std::vector<int> drawpile;
+    std::vector<int> discardpile;
+    std::vector<int> completedeck;
 
     objectStorage();
     std::shared_ptr<gameObject> character1;

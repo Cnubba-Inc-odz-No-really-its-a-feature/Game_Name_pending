@@ -1,4 +1,6 @@
 #include "game.hpp"
+#include "card.hpp"
+
 
 void game::gameLoop(){
 	gameObjectFactory.factorMainCharacter();
@@ -11,6 +13,16 @@ void game::gameLoop(){
 	bool gamePlay = true;
 	bool titlePlay = true;
 	bool menuPlay = true;
+	
+	deckClass testDeck;
+	auto testCard = testDeck.factorCard(1);
+
+
+
+
+
+
+	std::cout << clockPrevious << std::endl;
     while (gameWindow.isOpen()) {
 		loopTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count() - clockPrevious;
 
@@ -37,6 +49,9 @@ void game::gameLoop(){
 
         gameWindow.clear();
         gameObjectRenderer.draw();
+
+
+		//testCard->draw(gameWindow);
 		gameWindow.display();
 
 		if(gameObjectStorage.keyActive == "Game" && gamePlay){
