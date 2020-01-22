@@ -45,7 +45,7 @@ public:
     virtual void interact() = 0;
     virtual void draw(sf::RenderWindow& gameWindow) =0;
     virtual void move(sf::Vector2f moveDirection) = 0;
-    virtual std::string update() = 0;
+    virtual void update() = 0;
 
     virtual void setFrame(int maxFrame, int textureRow) =0;
 

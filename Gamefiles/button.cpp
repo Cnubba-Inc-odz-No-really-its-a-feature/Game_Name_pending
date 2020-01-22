@@ -2,11 +2,12 @@
 #include <iostream>
 
 
-button::button(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, objectStorage &storage,  int objectPriority):
+button::button(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, objectStorage &storage,  int objectPriority, std::string target):
     gameObject(spritePosition, spriteScale, textureMap, firstKey, objectPriority), 
     origScale(spriteScale), 
     origPos(spritePosition),
-    storage(storage)
+    storage(storage),
+    target(target)
 
 {interactable = true; objectTypeID = 100;}
 
@@ -33,7 +34,6 @@ void button::update(){
 }
 
 void button::interact(){
-
     std::cout << "Clicked" << std::endl;
-    storage.setActive("Game");
+    storage.setActive(target);
 }

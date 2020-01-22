@@ -33,7 +33,7 @@ public:
     std::string keyActive = "Title";
     std::map<std::string, std::shared_ptr<std::vector<std::shared_ptr<gameObject>>>> allVectors;
 
-    objectStorage(factory & fact);
+    objectStorage(sf::RenderWindow & window);
     std::shared_ptr<gameObject> character1;
     std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> & getActive();
     void setActive(std::string newKey);
