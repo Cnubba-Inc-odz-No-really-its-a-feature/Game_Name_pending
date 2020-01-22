@@ -25,16 +25,18 @@ void game::gameLoop(){
 		// 		gameObjectFactory.factorNewGameState("gameState1.txt");
 		// 	}
 		// }
+		std::cout << "Test5" << std::endl;
 
 		std::unique_ptr<command> newCommand;
 		newCommand  = gameInputHandler.handleInput();
 		if(newCommand != NULL){
 			newCommand->execute();
 		}
+		std::cout << "Test6" << std::endl;
 
 		gameObjectRenderer.update();
 		
-
+		std::cout << "Test7" << std::endl;
 		
 		framecounter++;
 		if(framecounter == 60){
@@ -42,10 +44,13 @@ void game::gameLoop(){
 			secondsPassed++;
 			std::cout<<secondsPassed<<std::endl;
 		}
+		std::cout << "Test8" << std::endl;
 
         gameWindow.clear();
         gameObjectRenderer.draw();
 		gameWindow.display();
+
+		std::cout << "Test9" << std::endl;
 
         sf::Event event;		
 	    while( gameWindow.pollEvent(event) ){

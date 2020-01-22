@@ -49,7 +49,7 @@ class inputHandler {
 
  public:
   inputHandler(objectStorage &gameObjectStorage)
-      : gameObjectStorage{gameObjectStorage} {}
+      : gameObjectStorage{gameObjectStorage} {std::cout << "Test4" << std::endl;}
 
   std::unique_ptr<command> handleInput() {
     // for dungeonGamestate

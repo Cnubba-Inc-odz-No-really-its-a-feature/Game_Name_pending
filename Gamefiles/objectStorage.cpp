@@ -4,14 +4,15 @@
 #include "chest.hpp"
 #include "door.hpp"
 
-std::shared_ptr<std::vector<std::shared_ptr<gameObject>>>&
-objectStorage::getActive() {
+std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> & objectStorage::getActive() {
+  if(allVectors[keyActive].get() == nullptr){std::cout << "NullptrgetAvtive" << std::endl;}
   return allVectors[keyActive];
 }
 
 void objectStorage::setActive(std::string newKey) {
   swappedActive = true;
   tmpActive = newKey;
+  keyActive = newKey;
   if (allVectors.count(newKey) == 0) {
       allVectors[newKey] = std::shared_ptr<std::vector<std::shared_ptr<gameObject>>>(new std::vector<std::shared_ptr<gameObject>>);
       factorNewGameState(newKey);
@@ -19,8 +20,11 @@ void objectStorage::setActive(std::string newKey) {
 }
 
 objectStorage::objectStorage(sf::RenderWindow& window) : window(window) {
+  std::cout << "Test1" << std::endl;
     setActive("title.txt");
+    std::cout << "Test2" << std::endl;
     factorMainCharacter();
+    std::cout << "Test3" << std::endl;
 }
 
 std::shared_ptr<gameObject> objectStorage::factorObject(
@@ -114,6 +118,7 @@ void objectStorage::factorNewGameState(std::string stateFileName) {
         throw end_of_file("end of file reached");
       }
       allVectors[stateFileName]->push_back(factorObject(inputFile));
+      std::cout << "Size allVectors: " << allVectors[stateFileName]->size() << std::endl;
     }
   } catch (end_of_file& e) {
     std::cerr << e.what() << std::endl;
