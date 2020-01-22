@@ -31,14 +31,13 @@ public:
         if(frameCounter > 10) {frameCounter = 0; textureFrame++;}
 	    objectSprite.setTextureRect(sf::IntRect(133.5*textureFrame, 0*textureRow, 133, 160));
         if(maxFrame < textureFrame) interacted = false;
-	    frameCounter++;
+	    else frameCounter++;
     }
 
     void interact() override{
-            interacted = true;
-           std::cout << "door" << std::endl;
-            storage.setActive("Game_1");
-     
+        std::cout << textureFrame << std::endl;
+        if (textureFrame > 1)storage.setActive("Game_1");
+        interacted = true;
     }
 
     void interact(objectStorage& gameStorage, const float& mainCharacterPosition){
