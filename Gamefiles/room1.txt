@@ -1,9 +1,9 @@
-Game objectTypes_E::DOOR_E (500, 481) (2,2) 3 room2.txt texture1 gameAssets/door.png ;
-Game objectTypes_E::CHEST_E (1200, 641) (10,10) 3 texture1 gameAssets/chest1.png ;
-Game objectTypes_E::BACKGROUND_E (128,0) (2,2) 1 texture1 gameAssets/brick_bg.png ;
-Game objectTypes_E::TESTSPRITE_E (-256, 0) (2, 2) 2 texture1 gameAssets/Tile.png ;
-Game objectTypes_E::TESTSPRITE_E (-256, 384) (2, 2) 2 texture1 gameAssets/Tile.png ;
-Game objectTypes_E::TESTSPRITE_E (-256, 768) (2, 2) 2 texture1 gameAssets/Tile.png ;
-Game objectTypes_E::TESTSPRITE_E (1792, 0) (2, 2) 2 texture1 gameAssets/Tile.png ;
-Game objectTypes_E::TESTSPRITE_E (1792, 384) (2, 2) 2 texture1 gameAssets/Tile.png ;
-Game objectTypes_E::TESTSPRITE_E (1792, 768) (2, 2) 2 texture1 gameAssets/Tile.png ;
+objectTypes_E::DOOR_E (500, 481) (2,2) 3 room2.txt texture1 gameAssets/door.png ;
+objectTypes_E::CHEST_E (1200, 641) (10,10) 3 texture1 gameAssets/chest1.png ;
+objectTypes_E::BACKGROUND_E (128,0) (2,2) 1 texture1 gameAssets/brick_bg.png ;
+objectTypes_E::TESTSPRITE_E (-256, 0) (2, 2) 2 texture1 gameAssets/Tile.png ;
+objectTypes_E::TESTSPRITE_E (-256, 384) (2, 2) 2 texture1 gameAssets/Tile.png ;
+objectTypes_E::TESTSPRITE_E (-256, 768) (2, 2) 2 texture1 gameAssets/Tile.png ;
+objectTypes_E::TESTSPRITE_E (1792, 0) (2, 2) 2 texture1 gameAssets/Tile.png ;
+objectTypes_E::TESTSPRITE_E (1792, 384) (2, 2) 2 texture1 gameAssets/Tile.png ;
+objectTypes_E::TESTSPRITE_E (1792, 768) (2, 2) 2 texture1 gameAssets/Tile.png ;

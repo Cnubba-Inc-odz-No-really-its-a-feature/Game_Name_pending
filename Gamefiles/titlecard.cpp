@@ -24,7 +24,7 @@ void titlecard::update(){
     if (frameCounter < 150){
         return;
     }
-    titleCardStorage.setActive("Menu");
+    titleCardStorage.setActive("menu.txt");
 }
 
 void titlecard::interact(){}
