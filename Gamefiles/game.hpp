@@ -21,7 +21,8 @@ private:
     uint64_t MS_PER_FRAME = 1000 / 60;
     uint64_t loopTime = 0;
 
-
+    sf::Sound sound;
+    sf::SoundBuffer buffer;
 
 public:
 
