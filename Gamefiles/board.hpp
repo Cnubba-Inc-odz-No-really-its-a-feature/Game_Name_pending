@@ -4,6 +4,7 @@
 #include "memory"
 #include "gameObject.hpp"
 #include "macrodefinitions.hpp"
+#include "laneArrayContainer.hpp"
 
 enum E_lane{
   skyLane, groundLane, trapLane  
@@ -63,9 +64,9 @@ private:
     std::shared_ptr<std::shared_ptr<gameObject>[LANE_SIZE]> enemyArray;
     std::vector<std::shared_ptr<gameObject>> laneEffects[LANE_SIZE];
 public:
-    lane(std::shared_ptr<int> playerHP,std::shared_ptr<int> enemyHP):
-        allyArray{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr},
-        enemyArray{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr},
+    lane(std::shared_ptr<int> playerHP,std::shared_ptr<int> enemyHP, laneArrayContainer& laneArrays):
+        allyArray{laneArrays.allyArray},
+        enemyArray{laneArrays.enemyArray},
         playerHP{playerHP},
         enemyHP{enemyHP}
     {}
@@ -305,15 +306,14 @@ private:
     int playerHP = 5;
     int enemyHP = 5;
 public:
-    board(const sf::Texture& boardTexture):
-        lanes{
-            lane(std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP)),
-            lane(std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP)),
-            lane(std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP))
-        },
+    board(const sf::Texture& boardTexture, boardLaneArraysContainer& boardContainer):
         boardSprite{boardTexture},
         priorityLane{E_lane::skyLane}
-    {}
+    {
+        lanes[E_lane::skyLane] = lane(std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.skyLane);
+        lanes[E_lane::groundLane] = lane(std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.groundLane);
+        lanes[E_lane::trapLane] = lane(std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.trapLane);
+    }
 
     void update(){
         lanes[priorityLane].updateLane(this);
