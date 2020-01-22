@@ -1,4 +1,6 @@
 #include "game.hpp"
+#include "card.hpp"
+
 
 void game::gameLoop(){
 	gameObjectFactory.factorMainCharacter();
@@ -8,6 +10,15 @@ void game::gameLoop(){
 	int framecounter = 0;
 	clockPrevious = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 
+	deckClass testDeck;
+	auto testCard = testDeck.factorCard(1);
+
+
+
+
+
+
+	std::cout << clockPrevious << std::endl;
     while (gameWindow.isOpen()) {
 		loopTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count() - clockPrevious;
 
@@ -34,6 +45,9 @@ void game::gameLoop(){
 
         gameWindow.clear();
         gameObjectRenderer.draw();
+
+
+		testCard->draw(gameWindow);
 		gameWindow.display();
 
         sf::Event event;		
