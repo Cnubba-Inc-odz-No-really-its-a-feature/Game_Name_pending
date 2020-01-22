@@ -11,7 +11,7 @@ int main(){
 
 
     sf::RenderWindow gameWindow{ sf::VideoMode{ 1920, 1080}, "SFML window", 8};
-    game mainGame(gameWindow, 'D');
+    game mainGame(gameWindow, 'C');
     mainGame.gameLoop();
     return 0;
 
