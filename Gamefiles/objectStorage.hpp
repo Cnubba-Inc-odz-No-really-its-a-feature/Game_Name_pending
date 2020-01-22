@@ -9,6 +9,7 @@
 #include "SFML/Graphics.hpp"
 #include <iostream>
 #include "character.hpp"
+#include "macrodefinitions.hpp"
 
 class objectStorage {
 public:
@@ -19,6 +20,22 @@ public:
     std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> game;
     std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> title;
     std::map<std::string, std::shared_ptr<std::vector<std::shared_ptr<gameObject>>>> allVectors;
+
+    std::shared_ptr<gameObject> allyArrayLane1[LANE_SIZE];
+    std::shared_ptr<gameObject> EnemyArrayLane1[LANE_SIZE];
+    std::shared_ptr<gameObject> allyArrayLane2[LANE_SIZE];
+    std::shared_ptr<gameObject> EnemyArrayLane2[LANE_SIZE];
+    std::shared_ptr<gameObject> allyArrayLane3[LANE_SIZE];
+    std::shared_ptr<gameObject> EnemyArrayLane3[LANE_SIZE];
+
+    std::vector<std::shared_ptr<gameObject>> effectsLane1[LANE_SIZE];
+    std::vector<std::shared_ptr<gameObject>> effectsLane2[LANE_SIZE];
+    std::vector<std::shared_ptr<gameObject>> effectsLane3[LANE_SIZE];
+
+    std::vector<gameObject> hand;
+    std::vector<gameObject> drawpile;
+    std::vector<gameObject> discardpile;
+    std::vector<gameObject> completedeck;
 
     objectStorage();
     std::shared_ptr<gameObject> character1;
