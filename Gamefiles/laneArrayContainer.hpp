@@ -16,12 +16,12 @@ struct laneArrayContainer{
 };
 
 struct boardLaneArraysContainer{
-    laneArrayContainer airLane;
+    laneArrayContainer skyLane;
     laneArrayContainer groundLane;
     laneArrayContainer trapLane;
 
-    boardLaneArraysContainer(laneArrayContainer airLane, laneArrayContainer groundLane, laneArrayContainer trapLane):
-        airLane{airLane},
+    boardLaneArraysContainer(laneArrayContainer skyLane, laneArrayContainer groundLane, laneArrayContainer trapLane):
+        skyLane{skyLane},
         groundLane{groundLane},
         trapLane{trapLane}
     {}
