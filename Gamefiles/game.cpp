@@ -47,7 +47,7 @@ void game::gameLoop(){
         gameObjectRenderer.draw();
 
 
-		testCard->draw(gameWindow);
+		//testCard->draw(gameWindow);
 		gameWindow.display();
 
         sf::Event event;		

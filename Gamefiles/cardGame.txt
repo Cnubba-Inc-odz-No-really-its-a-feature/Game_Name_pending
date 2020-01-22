@@ -92,3 +92,4 @@ Game objectTypes_E::TESTSPRITE_E (1118, 768 ) (2, 2) 2 texture1 gameAssets/pilla
 Game objectTypes_E::TESTSPRITE_E (1502, 256 ) (2, 2) 2 texture1 gameAssets/pillar.png ;
 Game objectTypes_E::TESTSPRITE_E (1502, 512 ) (2, 2) 2 texture1 gameAssets/pillar.png ;
 Game objectTypes_E::TESTSPRITE_E (1502, 768 ) (2, 2) 2 texture1 gameAssets/pillar.png ;
+Game objectTypes_E::TESTSPRITE_E (900, 900 ) (3, 2) 4 texture1 gameAssets/cardAssets/handParchment.png ;
