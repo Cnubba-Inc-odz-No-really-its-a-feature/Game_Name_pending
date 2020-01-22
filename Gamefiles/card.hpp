@@ -132,18 +132,20 @@ public:
 
 class deckClass{
 private:
-    std::vector<int> completeDeck;
-    std::vector<int> drawPile;
-    std::vector<int> discardPile;
-    std::vector<int> hand;
+    std::vector<int> &hand;
+    std::vector<int> &drawPile;
+    std::vector<int> &discardPile;
+    std::vector<int> &completeDeck;
 
 public:
 
-    //std::vector<std::shared_ptr<gameObject>> drawNewHand(){
-        
-
-    //}
-
+    deckClass(std::vector<int> & hand, std::vector<int> &drawPile, std::vector<int> &discardPile, std::vector<int> &completeDeck):
+        hand(hand),
+        drawPile(drawPile),
+        discardPile(discardPile),
+        completeDeck(completeDeck){
+            completeDeck
+            }
 
 
 
