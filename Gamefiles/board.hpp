@@ -308,6 +308,14 @@ private:
     int playerHP = 5;
     int enemyHP = 5;
 public:
+    board(boardLaneArraysContainer& boardContainer):
+        priorityLane{E_lane::skyLane}
+    {
+        lanes[E_lane::skyLane] = lane(std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.skyLane);
+        lanes[E_lane::groundLane] = lane(std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.groundLane);
+        lanes[E_lane::trapLane] = lane(std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.trapLane);
+    }
+
     board(const sf::Texture& boardTexture, boardLaneArraysContainer& boardContainer):
         boardSprite{boardTexture},
         priorityLane{E_lane::skyLane}

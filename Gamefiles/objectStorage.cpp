@@ -30,3 +30,14 @@ boardLaneArraysContainer objectStorage::getLaneArrays(){
                                                 std::make_shared<std::array<std::shared_ptr<gameObject>, LANE_SIZE>>(enemyArrayTraps))
                                     );
 }
+
+std::vector<std::shared_ptr<std::vector<int>>> objectStorage::getDeckVector(){
+    std::vector<std::shared_ptr<std::vector<int>>> deckVector;
+
+    deckVector.push_back(std::make_shared<std::vector<int>>(hand));
+    deckVector.push_back(std::make_shared<std::vector<int>>(drawPile));
+    deckVector.push_back(std::make_shared<std::vector<int>>(discardPile));
+    deckVector.push_back(std::make_shared<std::vector<int>>(completeDeck));
+
+    return deckVector;
+}
