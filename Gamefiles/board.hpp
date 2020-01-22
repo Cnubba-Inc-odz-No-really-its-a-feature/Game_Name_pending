@@ -3,8 +3,8 @@
 
 #include "memory"
 #include "gameObject.hpp"
-
-#define LANE_SIZE 7
+#include "macrodefinitions.hpp"
+#include "laneArrayContainer.hpp"
 
 enum E_lane{
   skyLane, groundLane, trapLane  
@@ -60,13 +60,13 @@ private:
     std::shared_ptr<int> playerHP;
     std::shared_ptr<int> enemyHP;
 
-    std::shared_ptr<gameObject> laneArray[LANE_SIZE];
-    std::shared_ptr<gameObject> allyArray[LANE_SIZE];
-    std::shared_ptr<gameObject> enemyArray[LANE_SIZE];
+    std::shared_ptr<std::shared_ptr<gameObject>[LANE_SIZE]> allyArray;
+    std::shared_ptr<std::shared_ptr<gameObject>[LANE_SIZE]> enemyArray;
     std::vector<std::shared_ptr<gameObject>> laneEffects[LANE_SIZE];
 public:
-    lane(std::shared_ptr<int> playerHP,std::shared_ptr<int> enemyHP):
-        laneArray{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr},
+    lane(std::shared_ptr<int> playerHP,std::shared_ptr<int> enemyHP, laneArrayContainer& laneArrays):
+        allyArray{laneArrays.allyArray},
+        enemyArray{laneArrays.enemyArray},
         playerHP{playerHP},
         enemyHP{enemyHP}
     {}
@@ -278,7 +278,15 @@ public:
     void draw(sf::RenderWindow& window, const sf::Vector2f& startPosition){
         drawSprite drawingSprite;
         sf::Vector2f drawPosition = startPosition;
-        for(auto& unit : laneArray){
+        for(auto& unit : allyArray){
+            drawingSprite.update(unit->getSprite(), drawPosition);
+            drawingSprite.draw(window);
+
+            drawPosition.x += window.getSize().x * 0.1;
+        }
+        
+        drawPosition = startPosition;
+        for(auto& unit : enemyArray){
             drawingSprite.update(unit->getSprite(), drawPosition);
             drawingSprite.draw(window);
 
@@ -298,15 +306,14 @@ private:
     int playerHP = 5;
     int enemyHP = 5;
 public:
-    board(const sf::Texture& boardTexture):
-        lanes{
-            lane(std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP)),
-            lane(std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP)),
-            lane(std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP))
-        },
+    board(const sf::Texture& boardTexture, boardLaneArraysContainer& boardContainer):
         boardSprite{boardTexture},
         priorityLane{E_lane::skyLane}
-    {}
+    {
+        lanes[E_lane::skyLane] = lane(std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.skyLane);
+        lanes[E_lane::groundLane] = lane(std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.groundLane);
+        lanes[E_lane::trapLane] = lane(std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.trapLane);
+    }
 
     void update(){
         lanes[priorityLane].updateLane(this);
@@ -342,16 +349,31 @@ public:
         lanes[E_lane].updateEffects(this);
     }
 
-    void placeUnit(const int E_lane, const int laneIndex, std::shared_ptr<gameObject> unitPointer){
-        lanes[E_lane].placeUnit(laneIndex, unitPointer);
+    void placeUnit(const int E_lane, const int index, std::shared_ptr<gameObject> unitPointer){
+        if(index >=0 && index < LANE_SIZE){
+            lanes[E_lane].placeUnit(index, unitPointer);
+        }
+        else{
+            std::cout << "index out of range" << std::endl;
+        }
     }
     
     void placeTrapcard(const int index, std::shared_ptr<gameObject> trapcardPointer){
-        lanes[E_lane::trapLane].placeUnit(index, trapcardPointer);
+        if(index >=0 && index < LANE_SIZE){
+            lanes[E_lane::trapLane].placeUnit(index, trapcardPointer);
+        }
+        else{
+            std::cout << "index out of range" << std::endl;
+        }
     }
 
     void placeEffect(const int E_lane, const int index, std::shared_ptr<gameObject> effectPointer){
-        lanes[E_lane].placeEffect(index, effectPointer);
+        if(index >=0 && index < LANE_SIZE){
+            lanes[E_lane].placeEffect(index, effectPointer);
+        }
+        else{
+            std::cout << "index out of range" << std::endl;
+        }
     }
 
     void castSpell(const int E_lane, const int index, std::shared_ptr<gameObject> spell){
