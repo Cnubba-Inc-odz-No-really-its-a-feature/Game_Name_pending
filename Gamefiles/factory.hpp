@@ -3,16 +3,13 @@
 
 #include "gameObject.hpp"
 #include "objectStorage.hpp"
-#include "fstream"
 #include "operators.hpp"
-#include "character.hpp"
 #include "testSprite.hpp"
 #include "button.hpp"
 #include "titlecard.hpp"
 #include "background.hpp"
 #include <map>
 #include "chest.hpp"
-#include "string"
 #include "door.hpp"
 
 class factory{

@@ -1,5 +1,4 @@
 #include "game.hpp"
-#include "card.hpp"
 
 
 void game::gameLoop(){
@@ -9,19 +8,6 @@ void game::gameLoop(){
 	int secondsPassed = 0;
 	int framecounter = 0;
 	clockPrevious = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
-
-
-
-
-	std::vector<std::shared_ptr<std::vector<int>>> deckVector = gameObjectStorage.getDeckVector();
-
-
-	deckClass testDeck(deckVector[0], deckVector[1], deckVector[2], deckVector[3]);
-	
-	auto testCard = testDeck.factorCard(1);
-
-
-
 
 
 
@@ -58,7 +44,6 @@ void game::gameLoop(){
         gameObjectRenderer.draw();
 
 
-		testCard->draw(gameWindow);
 		gameWindow.display();
 
 		if(gameObjectStorage.keyActive == "Game" && gamePlay){

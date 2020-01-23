@@ -1,12 +1,10 @@
 #ifndef _CARD_HPP
 #define _CARD_HPP
 #include "gameObject.hpp"
-#include "memory"
-#include "SFML/Graphics.hpp"
 #include "exeptions.hpp"
-#include "string"
-#include <iostream>
 #include <vector>
+
+#include <fstream>
 #include <algorithm>
 
 enum E_lane{
@@ -15,23 +13,7 @@ enum E_lane{
 
 
 
- std::ifstream& operator>>(std::ifstream& input, E_lane& unitLane){
-        std::string laneString;
-        input>>laneString;
-        if(laneString == "groundLane"){
-            unitLane = E_lane::groundLane;
-            return input;
-        }else if(laneString == "skyLane"){
-            unitLane = E_lane::skyLane;
-            return input;
-        }else if(laneString == "traplane"){
-            unitLane = E_lane::trapLane;
-            return input;
-        }else{
-            throw invalid_UnitLane("invalid UnitLane");
-        }
-}
-    
+std::ifstream& operator>>(std::ifstream& input, E_lane& unitLane);
 
 
 
@@ -52,17 +34,16 @@ public:
     ~unit(){}
 
 
-    void draw(sf::RenderWindow& gameWindow){
+    void draw(sf::RenderWindow& gameWindow) override{
         gameWindow.draw(objectSprite);
     }
     void scaleObjects(sf::Vector2f newScale){}
     void setPosition(sf::Vector2f newPosition){}
 
-
-    void interact(){}
-    void move(sf::Vector2f moveDirection){}
-    void update(){}
-    void setFrame(int maxFrame, int textureRow){}
+    void interact()override{}
+    void move(sf::Vector2f moveDirection)override{}
+    void update()override{}
+    void setFrame(int maxFrame, int textureRow)override{}
 
 
 
@@ -88,15 +69,15 @@ public:
         cardName.setPosition(sf::Vector2f(objectSprite.getGlobalBounds().left + (0.175 * objectSprite.getGlobalBounds().width) , objectSprite.getGlobalBounds().top + (0.05 * objectSprite.getGlobalBounds().height)));
     }
 
-    virtual void draw(sf::RenderWindow& gameWindow) = 0;
-    virtual void scaleObjects(sf::Vector2f newScale);
-    virtual void setPosition(sf::Vector2f newPosition);
+    void draw(sf::RenderWindow& gameWindow){}
+    virtual void scaleObjects(sf::Vector2f newScale)=0;
+    virtual void setPosition(sf::Vector2f newPosition)=0;
 
 
-    void interact(){}
-    void move(sf::Vector2f moveDirection){}
-    void update(){}
-    void setFrame(int maxFrame, int textureRow){}
+    void interact() override {}
+    void move(sf::Vector2f moveDirection) override {}
+    void update() override {}
+    void setFrame(int maxFrame, int textureRow) override {}
 
     virtual std::shared_ptr<gameObject> summonUnitFromCard() =0;
 
@@ -162,7 +143,7 @@ public:
             gameWindow.draw(summonCardHealth);
     }
 
-    void scaleObects(sf::Vector2f newScale){
+    void scaleObjects(sf::Vector2f newScale) override{
 
         cardName.setScale(sf::Vector2f(cardName.getScale().x * newScale.x, cardName.getScale().y * newScale.y));
         objectSprite.setScale(sf::Vector2f(objectSprite.getScale().x * newScale.x, objectSprite.getScale().y * newScale.y));
@@ -171,7 +152,7 @@ public:
         summonCardArtSprite.setScale(sf::Vector2f((summonCardArtSprite.getScale().x * newScale.x) , (summonCardArtSprite.getScale().y * newScale.y)));
     }
 
-    void setPosition(sf::Vector2f newPosition){
+    void setPosition(sf::Vector2f newPosition)override{
         objectSprite.setPosition(newPosition);
         auto cardPosition = objectSprite.getGlobalBounds();
 
@@ -190,47 +171,54 @@ public:
 
 class deckClass{
 private:
-    std::shared_ptr<std::vector<int>> hand;
-    std::shared_ptr<std::vector<int>> drawPile;
-    std::shared_ptr<std::vector<int>> discardPile;
-    std::shared_ptr<std::vector<int>> completeDeck;
+    std::vector<int> &hand;
+    std::vector<int> &drawPile;
+    std::vector<int> &discardPile;
+    std::vector<int> &completeDeck;
 
 public:
 
-    deckClass(std::shared_ptr<std::vector<int>> hand, std::shared_ptr<std::vector<int>> drawPile, std::shared_ptr<std::vector<int>> discardPile, std::shared_ptr<std::vector<int>> completeDeck):
+    deckClass(std::vector<int> &hand, std::vector<int>& drawPile, std::vector<int>&discardPile, std::vector<int>& completeDeck):
         hand(hand),
         drawPile(drawPile),
         discardPile(discardPile),
         completeDeck(completeDeck){
-            int basicDeck[20] = {1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2};
-            std::move(std::begin(basicDeck), std::end(basicDeck), completeDeck->end());
+            std::cout<<"hij komt in deeck constructor" << std::endl;
+            std::vector<int> basisDeck{1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2};
+
+            completeDeck.push_back(1);
+            std::cout<<completeDeck.size()<<std::endl;
+            std::cout<<"hij begint aan zijn deck moven"<<std::endl;
+            std::move(basisDeck.begin(), basisDeck.end(), completeDeck.end());
+            std::cout<<"Hij  initialiseerd al zijn decks" <<std::endl;
+
             }
 
     void newFight(){
-        hand->clear();
-        drawPile->clear();
-        discardPile->clear();
-        drawPile->insert(drawPile->end(), completeDeck->begin(), completeDeck->end());
-        std::random_shuffle(drawPile->begin(), drawPile->end());
+        hand.clear();
+        drawPile.clear();
+        discardPile.clear();
+        drawPile.insert(drawPile.end(), completeDeck.begin(), completeDeck.end());
+        std::random_shuffle(drawPile.begin(), drawPile.end());
         newHand();
     }
 
     void newHand(){
 
-        std::move(hand->begin(), hand->end(), discardPile->end());
-        hand->clear();
-        if(drawPile->size() < 7){
-            std::move(drawPile->begin(), drawPile->begin()+drawPile->size(), hand->end());
-            std::move(discardPile->begin(), discardPile->end(), drawPile->end());
-            discardPile->clear();
-            std::random_shuffle(drawPile->begin(), drawPile->end());
-            std::move(drawPile->begin(), drawPile->begin() + (7 - hand->size()), hand->end());
+        std::move(hand.begin(), hand.end(), discardPile.end());
+        hand.clear();
+        if(drawPile.size() < 7){
+            std::move(drawPile.begin(), drawPile.begin()+drawPile.size(), hand.end());
+            std::move(discardPile.begin(), discardPile.end(), drawPile.end());
+            discardPile.clear();
+            std::random_shuffle(drawPile.begin(), drawPile.end());
+            std::move(drawPile.begin(), drawPile.begin() + (7 - hand.size()), hand.end());
         }else{
-            std::move(drawPile->begin(), drawPile->begin()+7, hand->end());
+            std::move(drawPile.begin(), drawPile.begin()+7, hand.end());
         }
     }
 
-    std::shared_ptr<gameObject> factorCard(int cardID){
+    std::shared_ptr<card> factorCard(int cardID){
         std::ifstream cardFactoryFile("cardFactoryFile.txt");
         int objectID;
         try{
@@ -281,7 +269,8 @@ public:
                         if(!(fileBind == '}')){
                             throw invalid_Factory_Binds("invalid end factory bind");
                         }
-                        return std::shared_ptr<gameObject>(new summonCard(cardName, cardUnitDamage, cardUnitHealth, cardUnitLane, textureMap)); 
+                        std::cout<<"CCCCCCCCCCCCCCCCCCCCCCCCCC"<<std::endl;
+                        return std::shared_ptr<card>(new summonCard(cardName, cardUnitDamage, cardUnitHealth, cardUnitLane, textureMap)); 
                     }
                 }else{
                     cardFactoryFile.ignore(300, '\n');
