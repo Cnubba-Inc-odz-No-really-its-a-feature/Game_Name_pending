@@ -131,11 +131,6 @@ void objectStorage::factorNewGameState(std::string stateFileName) {
 void objectStorage::factorMainCharacter() {
   try {
     std::ifstream characterFile("mainCharacter.txt");
-    std::string storageType;
-    characterFile >> storageType;
-    if (storageType != "Character") {
-      throw invalid_type("invalid CharacterType found");
-    }
     character1 = factorObject(characterFile);
 
   } catch (end_of_file& e) {

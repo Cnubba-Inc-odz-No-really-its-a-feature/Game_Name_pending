@@ -10,29 +10,6 @@ void game::gameLoop(){
 	int framecounter = 0;
 	clockPrevious = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 
-<<<<<<< HEAD
-=======
-
-
-
-	std::vector<std::shared_ptr<std::vector<int>>> deckVector = gameObjectStorage.getDeckVector();
-
-
-	deckClass testDeck(deckVector[0], deckVector[1], deckVector[2], deckVector[3]);
-	
-	auto testCard = testDeck.factorCard(1);
-
-
-
-
-
-
-	std::cout << clockPrevious << std::endl;
-	bool gamePlay = true;
-	bool titlePlay = true;
-	bool menuPlay = true;
-
->>>>>>> 6ba92785a46c376835f34579fc05b75b6755bf03
     while (gameWindow.isOpen()) {
 		loopTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count() - clockPrevious;
 
@@ -75,7 +52,6 @@ void game::gameLoop(){
         gameObjectRenderer.draw();
 
 
-		testCard->draw(gameWindow);
 		gameWindow.display();
 
 

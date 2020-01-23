@@ -30,7 +30,7 @@ public:
 
 
 
-        if(renderObjectStorage.keyActive == "Game"){
+        if(renderObjectStorage.keyActive.at(0) == 'r'){
             renderObjectStorage.character1->draw(gameWindow);
         }
 
