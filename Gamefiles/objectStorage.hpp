@@ -55,7 +55,6 @@ public:
     objectStorage(sf::RenderWindow & window);
     std::shared_ptr<gameObject> character1;
 
-    objectStorage(sf::RenderWindow & window);
 
 
     
