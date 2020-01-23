@@ -70,6 +70,21 @@
                 laneEffects[i][j]->update(i, j, this);
             }
         }
+
+        //set drawingPosition for the units
+        sf::Vector2f laneStartPosition = lanePositionMap[laneID];
+
+        sf::Vector2f drawPosition = laneStartPosition;
+        for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
+            allyArray->at(i)->jumpLocationTo(drawPosition);
+            drawPosition.x += 350;
+        }
+        
+        drawPosition = laneStartPosition;
+        for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
+            enemyArray->at(i)->jumpLocationTo(drawPosition);
+            drawPosition.x += 350;
+        }
     }
 
     void lane::filterOutInValidResults(std::vector<unitUpdateResult>& rawResults){
