@@ -4,7 +4,7 @@
 #include "character.hpp"
 #include "macrodefinitions.hpp"
 #include "laneArrayContainer.hpp"
-#include "card.hpp"
+// #include "card.hpp"
 // #include <iostream>
 // #include "memory"
 // #include "vector"
@@ -47,7 +47,7 @@ public:
     std::vector<int> drawPile;
     std::vector<int> discardPile;
     std::vector<int> completeDeck;
-    deckClass storageDeck;
+    // deckClass storageDeck;
 
     //objectStorage();
     objectStorage(sf::RenderWindow & window);

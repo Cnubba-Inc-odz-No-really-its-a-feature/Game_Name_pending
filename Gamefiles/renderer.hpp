@@ -59,7 +59,10 @@ public:
         for(auto i : *renderObjectStorage.getActive()){
             i->update();
         }
-        renderObjectStorage.character1->update();
+        if(renderObjectStorage.keyActive.at(0) == 'r'){
+            renderObjectStorage.character1->update();
+        }
+        
     }
 
 
