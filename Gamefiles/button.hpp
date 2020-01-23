@@ -12,11 +12,10 @@ private:
     sf::Vector2f origScale;
     sf::Vector2f origPos;
     objectStorage & storage;
-    sf::Sound sound;
-    sf::SoundBuffer buffer;
-    bool interacted;
+    std::string target;
+
 public:
-    button( sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, objectStorage & storage, int objectPriority );
+    button( sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, objectStorage & storage, int objectPriority, std::string target);
 
     void draw(sf::RenderWindow& gameWindow) override;
 

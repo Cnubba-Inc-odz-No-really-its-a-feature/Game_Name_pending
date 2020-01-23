@@ -1,17 +1,16 @@
 #include "button.hpp"
 #include <iostream>
 
-button::button(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, objectStorage &storage,  int objectPriority):
+
+button::button(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, objectStorage &storage,  int objectPriority, std::string target):
     gameObject(spritePosition, spriteScale, textureMap, firstKey, objectPriority), 
     origScale(spriteScale), 
     origPos(spritePosition),
-    storage(storage)
+    storage(storage),
+    target(target)
 
 {
     interactable = true; objectTypeID = 100;
-    buffer.loadFromFile("gameAssets/Sounds/button.wav");
-    sound.setBuffer(buffer);
-    interacted = false;
 }
 
 void button::draw(sf::RenderWindow& gameWindow){
@@ -35,10 +34,6 @@ void button::update(){
 }
 
 void button::interact(){
-    if(!interacted){
-        std::cout << "Clicked" << std::endl;
-        sound.play();
-        storage.setActive("Game");
-        interacted = true;
-    }
+    std::cout << "Clicked" << std::endl;
+    storage.setActive(target);
 }

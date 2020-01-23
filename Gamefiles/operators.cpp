@@ -1,5 +1,8 @@
 #include "operators.hpp"
 
+
+
+
 std::ifstream& operator>>(std::ifstream &input, objectTypes_E &objectType){
   std::string typeString;
   input>>typeString;

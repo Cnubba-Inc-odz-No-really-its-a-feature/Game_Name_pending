@@ -5,7 +5,7 @@
 #include "memory"
 #include "lootObject.hpp"
 #include "objectStorage.hpp"
-#include <SFML/Audio.hpp>
+#
 #include <iostream>
 
 class door: public gameObject{
@@ -16,19 +16,17 @@ private:
     int frameCounter = 0;
     bool interacted = false;
     objectStorage & storage;
-    sf::Sound sound;
-    sf::SoundBuffer buffer;
+    std::string target;
+
 public:
-    door(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, objectStorage &storage, int objectPriority):
+    door(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, objectStorage &storage, int objectPriority, std::string target):
         gameObject(spritePosition, spriteScale, textureMap, firstKey),
-        storage(storage)
+        storage(storage), target(target)
     {
         interactable = true;
         gameObject::objectPriority = objectPriority;
         std::cout << "test" << std::endl;
         objectSprite.setTextureRect(sf::IntRect(0, 0, 135, 160));
-        buffer.loadFromFile("gameAssets/Sounds/door.wav");
-        sound.setBuffer(buffer);
     }
 
     void setFrame(int maxFrame, int textureRow) override{
@@ -40,9 +38,8 @@ public:
 
     void interact() override{
         std::cout << textureFrame << std::endl;
-        if (textureFrame > 1)storage.setActive("Game_1");
+        if (textureFrame > 2)storage.setActive(target);
         interacted = true;
-        sound.play();
     }
 
     void interact(objectStorage& gameStorage, const float& mainCharacterPosition){
