@@ -183,9 +183,10 @@ private:
     std::vector<std::shared_ptr<card>> & cardsInHand;
     std::map<int, sf::Vector2f> handPositionMap;
     sf::Font deckStatsFont;
-    sf::Text deckStats;
 
 public:
+    sf::Text deckStats_drawPile;
+    sf::Text deckStats_discardPile;
 
     deckClass(std::vector<int> &hand, std::vector<int>& drawPile, std::vector<int>&discardPile, std::vector<int>& completeDeck, std::vector<std::shared_ptr<card>> & cardsInHand):
         hand(hand),
@@ -202,6 +203,16 @@ public:
             handPositionMap[4] = sf::Vector2f(1300, 850);
             handPositionMap[5] = sf::Vector2f(1475, 850);
             handPositionMap[6] = sf::Vector2f(1650, 850);
+
+
+            deckStatsFont.loadFromFile("gameAssets/cardAssets/cardFont.otf");
+            deckStats_drawPile.setFont(deckStatsFont);
+            deckStats_drawPile.setString("DrawPile size: " + std::to_string(drawPile.size()));
+            deckStats_discardPile.setFont(deckStatsFont);
+            deckStats_discardPile.setString("DrawPile size: " + std::to_string(discardPile.size()));
+            
+            deckStats_drawPile.setPosition(sf::Vector2f(20, 900));
+            deckStats_drawPile.setPosition(sf::Vector2f(20, 1000));
             }
 
     void newFight(){
@@ -210,46 +221,49 @@ public:
         discardPile.clear();
         drawPile = completeDeck;
         std::random_shuffle(drawPile.begin(), drawPile.end());
+
+        deckStats_discardPile.setString("DrawPile size: " + std::to_string(discardPile.size()));
+        deckStats_drawPile.setString("DrawPile size: " + std::to_string(drawPile.size()));
+
     }
 
     void newHand(){
         std::random_shuffle(drawPile.begin(), drawPile.end());
         std::for_each(hand.begin(), hand.end(), [this](auto &i){discardPile.push_back(i);});
+        std::cout<<discardPile.size()<<std::endl;
         hand.clear();
-
 
         if(drawPile.size() < 7){
             std::cout<<"drawPile =< 7, size: " << drawPile.size() << std::endl;
             hand = drawPile;
             auto cardsInHand = hand.size();
+
             drawPile.clear();
             drawPile = discardPile;
             discardPile.clear();
             std::random_shuffle(drawPile.begin(), drawPile.end());
+            std::cout<<"current drawpile during reset: "<< drawPile.size() << std::endl;
             std::for_each(drawPile.begin(), drawPile.begin() +(7-cardsInHand), 
                     [this](auto & i){hand.push_back(i);});
-            drawPile.erase(drawPile.begin(), drawPile.begin() + cardsInHand-1 );
-            std::cout<<"drawpile after reset: " << drawPile.size() << std::endl;
-            std::cout<<"hand after reset: " << hand.size() << std::endl;
+            drawPile.erase(drawPile.begin(), drawPile.begin() + (7-cardsInHand) );
+
 
 
         }else{
-            std::cout<<"moving new hand" << std::endl;
             std::for_each(drawPile.begin(), drawPile.begin()+7, [this](auto & i){hand.push_back(i);});
             drawPile.erase(drawPile.begin(), drawPile.begin()+7);      
-            std::cout<<"drawPileSize after move:" << drawPile.size() << std::endl;
-            std::cout<<"handSize:" << hand.size() <<std::endl;      
+     
         }
-        std::cout<<"factoring cards" << std::endl;
         cardsInHand.clear();
         std::for_each(hand.begin(), hand.end(), [this](auto & i){cardsInHand.push_back(factorCard(i));});
-        std::cout<<"created new hand, size:" << hand.size() <<std::endl;
-        std::cout<<"currentRealCardSize: " << cardsInHand.size() << std::endl;
-        std::cout<<"current drawPilesize: " << drawPile.size() << std::endl;
-        std::cout<<"current discardPilesize: " << discardPile.size() << std::endl;
+
         for(int i = 0; i < 7; i++){
             cardsInHand[i]->setPosition(handPositionMap[i]);
         }
+
+        deckStats_discardPile.setString("DrawPile size: " + std::to_string(discardPile.size()));
+        deckStats_drawPile.setString("DrawPile size: " + std::to_string(drawPile.size()));
+
     }
 
 

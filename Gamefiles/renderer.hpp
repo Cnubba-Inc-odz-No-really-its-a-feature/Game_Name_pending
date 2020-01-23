@@ -26,9 +26,16 @@ public:
         for(auto &i : *renderObjectStorage.getActive()){
             i->draw(gameWindow);
         }
+
+
+
+        //VOOR KAART TESTS
         for(auto &i : renderObjectStorage.cardsInHand){
             i->draw(gameWindow);
         }
+        gameWindow.draw(renderObjectStorage.storageDeck.deckStats_drawPile);
+        gameWindow.draw(renderObjectStorage.storageDeck.deckStats_discardPile);
+        
 
 
 
