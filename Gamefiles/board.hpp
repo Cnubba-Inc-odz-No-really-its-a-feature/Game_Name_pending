@@ -9,7 +9,7 @@ private:
     E_lane priorityLane;
 
     std::shared_ptr<int> playerHP;
-    std::shared_ptr<int> enemyH;
+    std::shared_ptr<int> enemyHP;
 public:
     // constructors
     board(boardLaneArraysContainer& boardContainer, std::shared_ptr<int> playerHP, std::shared_ptr<int> enemyHP);

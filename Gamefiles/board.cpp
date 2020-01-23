@@ -10,15 +10,6 @@ board::board(boardLaneArraysContainer& boardContainer, std::shared_ptr<int> play
         lanes[E_lane::trapLane] = lane(E_lane::trapLane, std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.trapLane);
     }
 
-    board::board(const sf::Texture& boardTexture, boardLaneArraysContainer& boardContainer):
-        boardSprite{boardTexture},
-        priorityLane{E_lane::skyLane}
-    {
-        lanes[E_lane::skyLane] = lane(E_lane::skyLane, std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.skyLane);
-        lanes[E_lane::groundLane] = lane(E_lane::groundLane, std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.groundLane);
-        lanes[E_lane::trapLane] = lane(E_lane::trapLane, std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.trapLane);
-    }
-
     void board::update(){
         lanes[priorityLane].updateLane();
         
@@ -132,8 +123,6 @@ board::board(boardLaneArraysContainer& boardContainer, std::shared_ptr<int> play
     }
 
     void board::draw(sf::RenderWindow& window){
-        window.draw(boardSprite);
-
         for(auto& currentLane : lanes){
             currentLane.draw(window);
         }
