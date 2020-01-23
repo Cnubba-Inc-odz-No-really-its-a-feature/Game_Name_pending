@@ -1,0 +1,2 @@
+objectTypes_E::BUTTON_E (500,200) (1,1) 2 room1.txt texture1 gameAssets/StartBlack.png , texture2 gameAssets/StartRed.png ;
+objectTypes_E::BACKGROUND_E (0,0) (1,1) 1 texture1 gameAssets/Background.jpg ;
