@@ -2,14 +2,15 @@
 #define _LANE_ARRAY_CONTAINER
 
 #include "memory"
-#include "gameObject.hpp"
+// #include "unit.hpp"
+#include "card.hpp"
 #include "macrodefinitions.hpp"
 
 struct laneArrayContainer{
-    std::shared_ptr<std::array<std::shared_ptr<gameObject>, LANE_SIZE>>  allyArray;
-    std::shared_ptr<std::array<std::shared_ptr<gameObject>, LANE_SIZE>>  enemyArray;
+    std::shared_ptr<std::array<std::shared_ptr<unit>, LANE_SIZE>>  allyArray;
+    std::shared_ptr<std::array<std::shared_ptr<unit>, LANE_SIZE>>  enemyArray;
 
-    laneArrayContainer(std::shared_ptr<std::array<std::shared_ptr<gameObject>, LANE_SIZE>>  allyArray, std::shared_ptr<std::array<std::shared_ptr<gameObject>, LANE_SIZE>> enemyArray):
+    laneArrayContainer(std::shared_ptr<std::array<std::shared_ptr<unit>, LANE_SIZE>>  allyArray, std::shared_ptr<std::array<std::shared_ptr<unit>, LANE_SIZE>> enemyArray):
         allyArray{allyArray},
         enemyArray{enemyArray}
     {}
