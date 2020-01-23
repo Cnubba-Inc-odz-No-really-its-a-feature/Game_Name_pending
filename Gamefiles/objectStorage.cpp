@@ -26,8 +26,13 @@ void objectStorage::tmpNewActive(){
 }
 
 objectStorage::objectStorage(sf::RenderWindow& window) : window(window)
+<<<<<<< HEAD
+    // storageDeck(hand, drawPile, discardPile, completeDeck)
+    {
+=======
     //storageDeck(hand, drawPile, discardPile, completeDeck){
 {
+>>>>>>> 5a5895d4e9abcb09be054d0143d51491d5a75ecf
     tmpActive = "title.txt";
     tmpNewActive();
     factorMainCharacter();
