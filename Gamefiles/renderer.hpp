@@ -29,6 +29,16 @@ public:
 
 
 
+        //VOOR KAART TESTS
+        for(auto &i : renderObjectStorage.cardsInHand){
+            i->draw(gameWindow);
+        }
+        gameWindow.draw(renderObjectStorage.storageDeck.deckStats_drawPile);
+        gameWindow.draw(renderObjectStorage.storageDeck.deckStats_discardPile);
+        
+
+
+
         if(renderObjectStorage.keyActive.at(0) == 'r'){
             renderObjectStorage.character1->draw(gameWindow);
         }

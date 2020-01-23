@@ -18,6 +18,7 @@
  #include "testSprite.hpp"
  #include "background.hpp"
  #include <map>
+ #include "card.hpp"
 
 class objectStorage {
 private:
@@ -47,7 +48,11 @@ public:
     std::vector<int> drawPile;
     std::vector<int> discardPile;
     std::vector<int> completeDeck;
-    //deckClass storageDeck;
+    std::vector<std::shared_ptr<card>> cardsInHand;
+    deckClass storageDeck;
+
+    //objectStorage();
+    objectStorage(sf::RenderWindow & window);
     std::shared_ptr<gameObject> character1;
 
     objectStorage(sf::RenderWindow & window);
