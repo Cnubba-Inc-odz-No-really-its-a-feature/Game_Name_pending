@@ -35,10 +35,13 @@
 
     void lane::updateLane(){
         std::vector<unitUpdateResult> updateResults = {};
+        
+        // update allies
         for(uint_fast8_t i = LANE_SIZE -1; i >= 0; i--){
             updateResults.push_back(updateUnit(i, allyArray.get()->at(i)));
         }
 
+        // filter result of fights and act on it
         filterOutInValidResults(updateResults);
         for(auto& result : updateResults){
             if(result.openentKilled){
@@ -49,10 +52,12 @@
             }
         }
 
+        // update enemies
         for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
             updateResults.push_back(updateUnit(i, enemyArray.get()->at(i)));
         }
 
+        // filter result of fights and act on it
         filterOutInValidResults(updateResults);
         for(auto& result : updateResults){
             if(result.openentKilled){
@@ -63,15 +68,16 @@
             }
         }
 
-        //for every position
+        // effects
+        // for every position
         for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
-            //for every spell on that position
+            // for every effect on that position
             for(uint_fast8_t j = 0; j < laneEffects[i].size(); j++){
                 laneEffects[i][j]->update(i, j, this);
             }
         }
 
-        //set drawingPosition for the units
+        // set drawingPosition for the units
         sf::Vector2f laneStartPosition = lanePositionMap[laneID];
 
         sf::Vector2f drawPosition = laneStartPosition;
@@ -164,12 +170,53 @@
     }
     
     void lane::updateAllUnits(){
+        std::vector<unitUpdateResult> updateResults = {};
+        
+        // update allies
         for(uint_fast8_t i = LANE_SIZE -1; i >= 0; i--){
-            updateUnit(i, allyArray.get()->at(i));
+            updateResults.push_back(updateUnit(i, allyArray.get()->at(i)));
         }
 
+        // filter result of fights and act on it
+        filterOutInValidResults(updateResults);
+        for(auto& result : updateResults){
+            if(result.openentKilled){
+                enemyArray.get()->at(result.opponentPosition) = nullptr;
+            }
+            if(result.selfKilled){
+                allyArray.get()->at(result.selfPosition) = nullptr;
+            }
+        }
+
+        // update enemies
         for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
-            updateUnit(i, enemyArray.get()->at(i));
+            updateResults.push_back(updateUnit(i, enemyArray.get()->at(i)));
+        }
+
+        // filter result of fights and act on it
+        filterOutInValidResults(updateResults);
+        for(auto& result : updateResults){
+            if(result.openentKilled){
+                allyArray.get()->at(result.opponentPosition) = nullptr;
+            }
+            if(result.selfKilled){
+                enemyArray.get()->at(result.selfPosition) = nullptr;
+            }
+        }
+
+        // set positions of the unit sprites
+        sf::Vector2f laneStartPosition = lanePositionMap[laneID];
+
+        sf::Vector2f drawPosition = laneStartPosition;
+        for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
+            allyArray->at(i)->jumpLocationTo(drawPosition);
+            drawPosition.x += 350;
+        }
+        
+        drawPosition = laneStartPosition;
+        for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
+            enemyArray->at(i)->jumpLocationTo(drawPosition);
+            drawPosition.x += 350;
         }
     }
 
