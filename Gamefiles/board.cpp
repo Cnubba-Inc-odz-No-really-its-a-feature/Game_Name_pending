@@ -1,7 +1,9 @@
 #include "board.hpp"
 
-board::board(boardLaneArraysContainer& boardContainer):
-        priorityLane{E_lane::skyLane}
+board::board(boardLaneArraysContainer& boardContainer, std::shared_ptr<int> playerHP, std::shared_ptr<int> enemyHP):
+        priorityLane{E_lane::skyLane},
+        playerHP{playerHP},
+        enemyHP{enemyHP}
     {
         lanes[E_lane::skyLane] = lane(E_lane::skyLane, std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.skyLane);
         lanes[E_lane::groundLane] = lane(E_lane::groundLane, std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.groundLane);
@@ -49,6 +51,14 @@ board::board(boardLaneArraysContainer& boardContainer):
 
     void board::updateEffectsOnLane(const int E_lane){
         lanes[E_lane].updateEffects();
+    }
+
+    bool placeUnit(std::shared_ptr<unit> unitPointer){
+        if(lanes[unit->laneType].isIndexEmpty(0)){
+            lanes[unit->laneType].placeUnit(unitPointer);
+            return true;
+        }
+        return false;
     }
 
     void board::placeUnit(const int E_lane, const int index, std::shared_ptr<gameObject> unitPointer){

@@ -23,7 +23,7 @@
         }
     }
 
-    void lane::placeUnit(const int index, std::shared_ptr<gameObject> unitPointer){
+    void lane::placeUnit(const int index, std::shared_ptr<unit> unitPointer){
         if(unitPointer->ally){
             allyArray.get()->at(index) = unitPointer;
         }
