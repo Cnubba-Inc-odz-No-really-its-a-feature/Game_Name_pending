@@ -1,5 +1,5 @@
 #include "game.hpp"
-
+#include <SFML/Audio.hpp>
 
 void game::gameLoop(){
 	using namespace std::chrono;
@@ -9,11 +9,12 @@ void game::gameLoop(){
 	int framecounter = 0;
 	clockPrevious = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 
+	sf::Sound sound;
+	sf::SoundBuffer buffer;
 
-
-	// bool gamePlay = true;
-	// bool titlePlay = true;
-	// bool menuPlay = true;
+	bool gamePlay = true;
+	bool menuPlay = true;
+	bool battlePlay = true;
 
     while (gameWindow.isOpen()) {
 		loopTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count() - clockPrevious;
@@ -53,6 +54,33 @@ void game::gameLoop(){
 		if(framecounter == 60){
 			framecounter = 0;
 			secondsPassed++;
+		}
+
+        if(gameObjectStorage.keyActive.at(0) == 'r' && gamePlay){
+			buffer.loadFromFile("gameAssets/Sounds/game.wav");
+			sound.setBuffer(buffer);
+			sound.setLoop(true);
+			sound.play();
+			gamePlay = false;
+			battlePlay = true;
+			menuPlay = true;
+		}else if(gameObjectStorage.keyActive.at(0) == 'b' && battlePlay){
+			buffer.loadFromFile("gameAssets/Sounds/battle.wav");
+			sound.setBuffer(buffer);
+			sound.setLoop(true);
+			sound.play();
+			gamePlay = true;
+			battlePlay = false;
+			menuPlay = true;
+		}else if(gameObjectStorage.keyActive.at(0) == 'm' && menuPlay){
+			std::cout << "speelt menu.wav" << std::endl;
+			buffer.loadFromFile("gameAssets/Sounds/menu.wav");
+			sound.setBuffer(buffer);
+			sound.setLoop(true);
+			sound.play();
+			gamePlay = true;
+			battlePlay = true;
+			menuPlay = false;			
 		}
 
         gameWindow.clear();

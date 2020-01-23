@@ -44,6 +44,7 @@ std::shared_ptr<gameObject> objectStorage::factorObject(
   std::string textureMapKey;
   std::string textureFile;
   std::string target;
+  std::string soundFile;
   sf::Texture objectTexture;
   char textureBind;
   int prio;
@@ -55,6 +56,11 @@ std::shared_ptr<gameObject> objectStorage::factorObject(
       bool firstrun = true;
       if (objectType == DOOR_E || objectType == BUTTON_E || objectType == ENEMY_E) {
         inputFile >> target;
+        if ( objectType == DOOR_E || objectType == BUTTON_E){  
+          inputFile >> soundFile;
+        }
+      }else if(objectType == CHEST_E){
+        inputFile >> soundFile;
       }
       while (true) {
         inputFile >> textureMapKey;
@@ -82,16 +88,16 @@ std::shared_ptr<gameObject> objectStorage::factorObject(
           new textureSprite(pos, scale, textureMap, firstKey, prio));
     } else if (objectType == objectTypes_E::CHEST_E) {
       return std::shared_ptr<gameObject>(
-          new chest(pos, scale, textureMap, firstKey, prio));
+          new chest(pos, scale, textureMap, firstKey, prio, soundFile));
     } else if (objectType == objectTypes_E::DOOR_E) {
       return std::shared_ptr<gameObject>(
-          new door(pos, scale, textureMap, firstKey, *this, prio, target));
+          new door(pos, scale, textureMap, firstKey, *this, prio, target, soundFile));
     } else if (objectType == objectTypes_E::ENEMY_E) {
       return std::shared_ptr<gameObject>(
           new enemy(pos, scale, textureMap, firstKey, *this, prio, target));
     } else if (objectType == objectTypes_E::BUTTON_E) {
       return std::shared_ptr<gameObject>(
-          new button(pos, scale, textureMap, firstKey, *this, prio, target));
+          new button(pos, scale, textureMap, firstKey, *this, prio, target, soundFile));
     } else if (objectType == objectTypes_E::BACKGROUND_E) {
       return std::shared_ptr<gameObject>(
           new background(pos, scale, textureMap, firstKey, prio));
