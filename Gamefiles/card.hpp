@@ -21,6 +21,7 @@ std::ifstream& operator>>(std::ifstream& input, E_lane& unitLane);
 class unit : public gameObject{
 private:
     int unitMaxHealth;
+    int unitCurrentHealth;
     int unitDamage;
     E_lane unitLane;
     bool ally = true;
@@ -28,12 +29,32 @@ public:
     unit(int unitMaxHealth, int unitDamage, E_lane unitLane, std::map<std::string, sf::Texture> textureMap):
     gameObject(sf::Vector2f(200, 100), sf::Vector2f(1,1), textureMap, std::string("unitTexture"), 5),
         unitMaxHealth(unitMaxHealth),
+        unitCurrentHealth(unitMaxHealth),
         unitDamage(unitDamage),
         unitLane(unitLane){}
     
     ~unit(){}
 
+    bool isAlly(){
+        return ally;
+    }
 
+    bool checkIsDead(){
+        return unitCurrentHealth <= 0;
+    }
+
+    int getDamage(){
+        return unitDamage;
+    }
+
+    void takeDamage(int damage){
+        unitCurrentHealth -= damage;
+    }
+
+    E_lane getLaneType(){
+        return unitLane;
+    }
+    
     void draw(sf::RenderWindow& gameWindow) override{
         gameWindow.draw(objectSprite);
     }

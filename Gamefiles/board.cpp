@@ -44,15 +44,15 @@ board::board(boardLaneArraysContainer& boardContainer, std::shared_ptr<int> play
         lanes[E_lane].updateEffects();
     }
 
-    bool placeUnit(std::shared_ptr<unit> unitPointer){
-        if(lanes[unit->laneType].isIndexEmpty(0)){
-            lanes[unit->laneType].placeUnit(unitPointer);
+    bool board::placeUnit(std::shared_ptr<unit> unitPointer){
+        if(lanes[unitPointer->laneType].isIndexEmpty(0)){
+            lanes[unitPointer->laneType].placeUnit(unitPointer);
             return true;
         }
         return false;
     }
 
-    void board::placeUnit(const int E_lane, const int index, std::shared_ptr<gameObject> unitPointer){
+    void board::placeUnit(const int E_lane, const int index, std::shared_ptr<unit> unitPointer){
         if(index >=0 && index < LANE_SIZE){
             lanes[E_lane].placeUnit(index, unitPointer);
         }
@@ -61,7 +61,7 @@ board::board(boardLaneArraysContainer& boardContainer, std::shared_ptr<int> play
         }
     }
     
-    void board::placeTrapcard(const int index, std::shared_ptr<gameObject> trapcardPointer){
+    void board::placeTrapcard(const int index, std::shared_ptr<unit> trapcardPointer){
         if(index >=0 && index < LANE_SIZE){
             lanes[E_lane::trapLane].placeUnit(index, trapcardPointer);
         }
@@ -80,7 +80,7 @@ board::board(boardLaneArraysContainer& boardContainer, std::shared_ptr<int> play
     }
 
     void board::castSpell(const int E_lane, const int index, std::shared_ptr<gameObject> spell){
-        spell.activate(&lanes, E_lane, index);
+        // spell.activate(&lanes, E_lane, index);
     }
 
     void board::removeUnit(const int E_lane, const int index){
