@@ -9,7 +9,7 @@
 #############################################################################
 
 # source files in this project (main.cpp is automatically assumed)
-SOURCES := game.cpp exeptions.cpp factory.cpp objectStorage.cpp operators.cpp character.cpp titlecard.cpp background.cpp button.cpp renderer.cpp
+SOURCES := game.cpp exeptions.cpp factory.cpp objectStorage.cpp operators.cpp character.cpp titlecard.cpp background.cpp button.cpp renderer.cpp board.cpp lane.cpp
 
 # header files in this project
 
@@ -19,5 +19,5 @@ SEARCH  :=
 
 # set REATIVE to the next higher directory 
 # and defer to the Makefile.due there
-RELATIVE := $(RELATIVE)../
+RELATIVE := ../
 include $(RELATIVE)/Makefile.native
