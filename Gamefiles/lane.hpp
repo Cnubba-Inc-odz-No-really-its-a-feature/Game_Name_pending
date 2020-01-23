@@ -5,6 +5,7 @@
 
 class lane{
 private:
+    E_lane laneID;
     std::shared_ptr<int> playerHP;
     std::shared_ptr<int> enemyHP;
 
@@ -14,7 +15,7 @@ private:
 public:
     // constructors
     lane();
-    lane(std::shared_ptr<int> playerHP,std::shared_ptr<int> enemyHP, laneArrayContainer& laneArrays);
+    lane(E_lane laneID, std::shared_ptr<int> playerHP,std::shared_ptr<int> enemyHP, laneArrayContainer& laneArrays);
 
     // checks
     bool isIndexEmpty(const int index);
@@ -24,24 +25,26 @@ public:
     void placeEffect(const int index, std::shared_ptr<gameObject> effectPointer);
 
     // updates for fights
-    void updateLane(board* boardPointer);
+    void updateLane();
     void filterOutInValidResults(std::vector<unitUpdateResult>& rawResults);
+    unitUpdateResult updateUnit(const int index, std::shared_ptr<gameObject> unit);
     unitUpdateResult fight(std::shared_ptr<gameObject> initiator, std::shared_ptr<gameObject> assaulted, const int index);
     
     // updates misc
-    void updateAllUnits(board* boardPointer);
-    void updateEffects(board* boardPointer);
+    void updateAllUnits();
+    void updateEffects();
 
     // removes
     void removeAtIndex(const int index);
     void removeEffectAtIndex(const int positionIndex, const int effectIndex);
+    void removeByID(const std::string& id);
 
     // get pointers
     std::shared_ptr<gameObject> getUnitPointerAtIndex(const int index);
     std::shared_ptr<gameObject> getUnitPointerByID(const std::string& id);
 
     // draw
-    void draw(sf::RenderWindow& window, const sf::Vector2f& startPosition);
+    void draw(sf::RenderWindow& window);
 
 };
 

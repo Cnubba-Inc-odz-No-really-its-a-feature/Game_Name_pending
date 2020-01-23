@@ -2,7 +2,8 @@
 
     lane::lane(){}
     
-    lane::lane(std::shared_ptr<int> playerHP,std::shared_ptr<int> enemyHP, laneArrayContainer& laneArrays):
+    lane::lane(E_lane laneID, std::shared_ptr<int> playerHP,std::shared_ptr<int> enemyHP, laneArrayContainer& laneArrays):
+        laneID{laneID},   
         allyArray{laneArrays.allyArray},
         enemyArray{laneArrays.enemyArray},
         playerHP{playerHP},
@@ -32,7 +33,7 @@
         laneEffects[index].push_back(effectPointer);
     }
 
-    void lane::updateLane(board* boardPointer){
+    void lane::updateLane(){
         std::vector<unitUpdateResult> updateResults = {};
         for(uint_fast8_t i = LANE_SIZE -1; i >= 0; i--){
             updateResults.push_back(updateUnit(i, allyArray.get()->at(i)));
@@ -147,7 +148,7 @@
         return unitUpdateResult(1, selfPosition, opponentPosition ,opponentKilled, selfKilled);
     }
     
-    void lane::updateAllUnits(board* boardPointer){
+    void lane::updateAllUnits(){
         for(uint_fast8_t i = LANE_SIZE -1; i >= 0; i--){
             updateUnit(i, allyArray.get()->at(i));
         }
@@ -157,7 +158,7 @@
         }
     }
 
-    void lane::updateEffects(board* boardPointer){
+    void lane::updateEffects(){
         //for every position
         for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
             //for every spell on that position
@@ -213,21 +214,22 @@
         return nullptr;
     }
 
-    void lane::draw(sf::RenderWindow& window, const sf::Vector2f& startPosition){
-        drawSprite drawingSprite;
-        sf::Vector2f drawPosition = startPosition;
-        for(auto& unit : *allyArray.get()){
-            drawingSprite.update(unit->getSprite(), drawPosition);
-            drawingSprite.draw(window);
+    void lane::draw(sf::RenderWindow& window){
+        sf::Vector2f laneStartPosition = lanePositionMap[laneID];
 
-            drawPosition.x += window.getSize().x * 0.1;
+        sf::Vector2f drawPosition = laneStartPosition;
+        for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
+            allyArray->at(i)->jumpLocationTo(drawPosition);
+            allyArray->at(i)->draw(window);
+
+            drawPosition.x += 350;
         }
         
-        drawPosition = startPosition;
-        for(auto& unit : *enemyArray.get()){
-            drawingSprite.update(unit->getSprite(), drawPosition);
-            drawingSprite.draw(window);
+        drawPosition = laneStartPosition;
+        for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
+            enemyArray->at(i)->jumpLocationTo(drawPosition);
+            enemyArray->at(i)->draw(window);
 
-            drawPosition.x += window.getSize().x * 0.1;
+            drawPosition.x += 350;
         }
     }

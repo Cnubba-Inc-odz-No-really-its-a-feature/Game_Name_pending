@@ -3,52 +3,52 @@
 board::board(boardLaneArraysContainer& boardContainer):
         priorityLane{E_lane::skyLane}
     {
-        lanes[E_lane::skyLane] = lane(std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.skyLane);
-        lanes[E_lane::groundLane] = lane(std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.groundLane);
-        lanes[E_lane::trapLane] = lane(std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.trapLane);
+        lanes[E_lane::skyLane] = lane(E_lane::skyLane, std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.skyLane);
+        lanes[E_lane::groundLane] = lane(E_lane::groundLane, std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.groundLane);
+        lanes[E_lane::trapLane] = lane(E_lane::trapLane, std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.trapLane);
     }
 
     board::board(const sf::Texture& boardTexture, boardLaneArraysContainer& boardContainer):
         boardSprite{boardTexture},
         priorityLane{E_lane::skyLane}
     {
-        lanes[E_lane::skyLane] = lane(std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.skyLane);
-        lanes[E_lane::groundLane] = lane(std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.groundLane);
-        lanes[E_lane::trapLane] = lane(std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.trapLane);
+        lanes[E_lane::skyLane] = lane(E_lane::skyLane, std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.skyLane);
+        lanes[E_lane::groundLane] = lane(E_lane::groundLane, std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.groundLane);
+        lanes[E_lane::trapLane] = lane(E_lane::trapLane, std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.trapLane);
     }
 
     void board::update(){
-        lanes[priorityLane].updateLane(this);
+        lanes[priorityLane].updateLane();
         
         for(uint_fast8_t i = 0; i < 3; i++){
             if(i != priorityLane){
-                lanes[i].updateLane(this);
+                lanes[i].updateLane();
             }
         }
     }
 
     void board::updateUnitsOnAllLanes(const int E_lane){
         for(lane& currentLane : lanes){
-            currentLane.updateAllUnits(this);
+            currentLane.updateAllUnits();
         }
     }
 
     void board::updateEffectsOnAllLanes(const int E_lane){
         for(lane& currentLane : lanes){
-            currentLane.updateLane(this);
+            currentLane.updateLane();
         }
     }
 
     void board::updateLane(const int E_lane){
-        lanes[E_lane].updateLane(this);
+        lanes[E_lane].updateLane();
     }
 
     void board::updateUnitsOnLane(const int E_lane){
-        lanes[E_lane].updateAllUnits(this);
+        lanes[E_lane].updateAllUnits();
     }
 
     void board::updateEffectsOnLane(const int E_lane){
-        lanes[E_lane].updateEffects(this);
+        lanes[E_lane].updateEffects();
     }
 
     void board::placeUnit(const int E_lane, const int index, std::shared_ptr<gameObject> unitPointer){
@@ -122,12 +122,9 @@ board::board(boardLaneArraysContainer& boardContainer):
     }
 
     void board::draw(sf::RenderWindow& window){
-        sf::Vector2f drawPosition = sf::Vector2f(window.getSize().x * 0.2, window.getSize().y * 0.2);
         window.draw(boardSprite);
 
         for(auto& currentLane : lanes){
-            currentLane.draw(window, drawPosition);
-            drawPosition.y += window.getSize().y *0.2;
-            drawPosition.x = window.getSize().x * 0.2;
+            currentLane.draw(window);
         }
     }
