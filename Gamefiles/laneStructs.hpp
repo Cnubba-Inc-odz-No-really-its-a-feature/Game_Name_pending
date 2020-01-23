@@ -25,8 +25,6 @@ struct unitUpdateResult{
         openentKilled{oponentKilled},
         selfKilled{selfKilled}
     {}
-
-
 };
 
 // very much probably going to get deleted
