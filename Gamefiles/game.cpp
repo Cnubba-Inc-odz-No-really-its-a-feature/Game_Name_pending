@@ -2,8 +2,8 @@
 
 
 void game::gameLoop(){
-	gameObjectFactory.factorMainCharacter();
 	using namespace std::chrono;
+	// bool state1 = true;
 	uint64_t clockPrevious;
 	int secondsPassed = 0;
 	int framecounter = 0;
@@ -11,10 +11,10 @@ void game::gameLoop(){
 
 
 
-	std::cout << clockPrevious << std::endl;
-	bool gamePlay = true;
-	bool titlePlay = true;
-	bool menuPlay = true;
+	// std::cout << clockPrevious << std::endl;
+	// bool gamePlay = true;
+	// bool titlePlay = true;
+	// bool menuPlay = true;
 
     while (gameWindow.isOpen()) {
 		loopTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count() - clockPrevious;
@@ -24,14 +24,27 @@ void game::gameLoop(){
 		}
 		clockPrevious = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 
+		// if(sf::Keyboard::isKeyPressed(sf::Keyboard::N)){
+		// 	if(state1){
+		// 		state1 = !state1;
+		// 		gameObjectFactory.factorNewGameState("gameState2.txt");
+		// 	}else{
+		// 		state1 = !state1;
+		// 		gameObjectFactory.factorNewGameState("gameState1.txt");
+		// 	}
+		// }
+		// std::cout << "Test5" << std::endl;
+
 		std::unique_ptr<command> newCommand;
 		newCommand  = gameInputHandler.handleInput();
 		if(newCommand != NULL){
 			newCommand->execute();
 		}
+		// std::cout << "Test6" << std::endl;
 
 		gameObjectRenderer.update();
-
+		
+		// std::cout << "Test7" << std::endl;
 		
 		framecounter++;
 		if(framecounter == 60){
@@ -39,37 +52,13 @@ void game::gameLoop(){
 			secondsPassed++;
 			std::cout<<secondsPassed<<std::endl;
 		}
+		// std::cout << "Test8" << std::endl;
 
         gameWindow.clear();
         gameObjectRenderer.draw();
 
 
 		gameWindow.display();
-
-		if(gameObjectStorage.keyActive == "Game" && gamePlay){
-			buffer.loadFromFile("gameAssets/Sounds/game.wav");
-			sound.setBuffer(buffer);
-			sound.setLoop(true);
-			sound.play();
-			std::cout << "speelt dungeon game geluid" << std::endl;
-			gamePlay = false;
-			titlePlay = true;
-			menuPlay = true;
-		}else if(gameObjectStorage.keyActive == "Title" && titlePlay){
-			buffer.loadFromFile("gameAssets/Sounds/game.wav");
-			sound.setBuffer(buffer);
-			sound.setLoop(true);
-			sound.play();
-			std::cout << "speelt title geluid" << std::endl;
-			gamePlay = true;
-			titlePlay = false;
-			menuPlay = true;
-		}else if(gameObjectStorage.keyActive == "Menu" && menuPlay){
-			std::cout << "speelt menu geluid" << std::endl;
-			gamePlay = true;
-			titlePlay = true;
-			menuPlay = false;
-		}
 
 
         sf::Event event;		

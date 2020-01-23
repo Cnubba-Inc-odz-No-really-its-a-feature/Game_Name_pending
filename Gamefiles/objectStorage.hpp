@@ -1,20 +1,35 @@
 #ifndef _OBJECTSTORAGE_HPP_
 #define _OBJECTSTORAGE_HPP_
 
-#include "queue"
 #include "character.hpp"
 #include "macrodefinitions.hpp"
 #include "laneArrayContainer.hpp"
 #include "card.hpp"
+// #include <iostream>
+// #include "memory"
+// #include "vector"
+// #include "string"
+// #include "SFML/Graphics.hpp"
+// #include "gameObject.hpp"
+// #include "objectStorage.hpp"
+// #include "character.hpp"
+// #include "fstream"
+ #include "operators.hpp"
+ #include "testSprite.hpp"
+ #include "background.hpp"
+ #include <map>
 
 class objectStorage {
+private:
+    std::shared_ptr<gameObject> factorObject(std::ifstream & inputFile);
+    void factorNewGameState(std::string stateFileName);
+    sf::RenderWindow & window;
+    void factorMainCharacter();
+
 public:
     bool swappedActive = false;
     std::string tmpActive;
     std::string keyActive = "Title";
-    std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> menu;
-    std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> game;
-    std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> title;
     std::map<std::string, std::shared_ptr<std::vector<std::shared_ptr<gameObject>>>> allVectors;
 
      std::array<std::shared_ptr<gameObject>, LANE_SIZE>  allyArrayAir;
@@ -34,23 +49,25 @@ public:
     std::vector<int> completeDeck;
     deckClass storageDeck;
 
-    objectStorage();
+    //objectStorage();
+    objectStorage(sf::RenderWindow & window);
     std::shared_ptr<gameObject> character1;
+
+
+    
     std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> & getActive();
-
-
     void setActive(std::string newKey);
     //boardLaneArraysContainer getLaneArrays();
-    std::vector<std::shared_ptr<std::vector<int>>> getDeckVector(){
-        std::vector<std::shared_ptr<std::vector<int>>> deckVector;
+//     std::vector<std::shared_ptr<std::vector<int>>> getDeckVector(){
+//         std::vector<std::shared_ptr<std::vector<int>>> deckVector;
 
-        deckVector.push_back(std::make_shared<std::vector<int>>(hand));
-        deckVector.push_back(std::make_shared<std::vector<int>>(drawPile));
-        deckVector.push_back(std::make_shared<std::vector<int>>(discardPile));
-        deckVector.push_back(std::make_shared<std::vector<int>>(completeDeck));
+//         deckVector.push_back(std::make_shared<std::vector<int>>(hand));
+//         deckVector.push_back(std::make_shared<std::vector<int>>(drawPile));
+//         deckVector.push_back(std::make_shared<std::vector<int>>(discardPile));
+//         deckVector.push_back(std::make_shared<std::vector<int>>(completeDeck));
 
-        return deckVector;
-    }
-};
+//         return deckVector;
+//     }
+ };
 
 #endif // _OBJECTSTORAGE_HPP_
