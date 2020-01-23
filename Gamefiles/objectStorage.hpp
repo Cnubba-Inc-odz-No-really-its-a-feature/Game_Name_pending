@@ -57,7 +57,6 @@ public:
     
     std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> & getActive();
     void setActive(std::string newKey);
-    //boardLaneArraysContainer getLaneArrays();
 //     std::vector<std::shared_ptr<std::vector<int>>> getDeckVector(){
 //         std::vector<std::shared_ptr<std::vector<int>>> deckVector;
 
@@ -68,6 +67,8 @@ public:
 
 //         return deckVector;
 //     }
+
+    void tmpNewActive();
  };
 
 #endif // _OBJECTSTORAGE_HPP_
