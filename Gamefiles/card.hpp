@@ -183,14 +183,10 @@ public:
         drawPile(drawPile),
         discardPile(discardPile),
         completeDeck(completeDeck){
-            std::cout<<"hij komt in deeck constructor" << std::endl;
             std::vector<int> basisDeck{1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2};
 
             completeDeck.push_back(1);
-            std::cout<<completeDeck.size()<<std::endl;
-            std::cout<<"hij begint aan zijn deck moven"<<std::endl;
             std::move(basisDeck.begin(), basisDeck.end(), completeDeck.end());
-            std::cout<<"Hij  initialiseerd al zijn decks" <<std::endl;
 
             }
 
@@ -225,7 +221,6 @@ public:
             while(true){
                 cardFactoryFile>>objectID;
                 if(objectID != 0){
-                    std::cout<<objectID << std::endl;
                 }
                 if(objectID == cardID){
                     std::string cardType;
@@ -269,7 +264,6 @@ public:
                         if(!(fileBind == '}')){
                             throw invalid_Factory_Binds("invalid end factory bind");
                         }
-                        std::cout<<"CCCCCCCCCCCCCCCCCCCCCCCCCC"<<std::endl;
                         return std::shared_ptr<card>(new summonCard(cardName, cardUnitDamage, cardUnitHealth, cardUnitLane, textureMap)); 
                     }
                 }else{

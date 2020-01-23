@@ -5,7 +5,7 @@
 #include "door.hpp"
 
 std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> & objectStorage::getActive() {
-  if(allVectors[keyActive].get() == nullptr){std::cout << "NullptrgetAvtive" << std::endl;}
+  if(allVectors[keyActive].get() == nullptr){}
   return allVectors[keyActive];
 }
 
@@ -21,11 +21,8 @@ void objectStorage::setActive(std::string newKey) {
 
 objectStorage::objectStorage(sf::RenderWindow& window) : window(window),
     storageDeck(hand, drawPile, discardPile, completeDeck){
-  std::cout << "Test1" << std::endl;
     setActive("title.txt");
-    std::cout << "Test2" << std::endl;
     factorMainCharacter();
-    std::cout << "Test3" << std::endl;
 }
 
 std::shared_ptr<gameObject> objectStorage::factorObject(
@@ -72,27 +69,21 @@ std::shared_ptr<gameObject> objectStorage::factorObject(
       return std::shared_ptr<gameObject>(
           new character(pos, scale, textureMap, window, firstKey, prio));
     } else if (objectType == objectTypes_E::TESTSPRITE_E) {
-      std::cout << "textSpriteMade " << firstKey << std::endl;
       return std::shared_ptr<gameObject>(
           new textureSprite(pos, scale, textureMap, firstKey, prio));
     } else if (objectType == objectTypes_E::CHEST_E) {
-      std::cout << "chest begin made " << firstKey << std::endl;
       return std::shared_ptr<gameObject>(
           new chest(pos, scale, textureMap, firstKey, prio));
     } else if (objectType == objectTypes_E::DOOR_E) {
-      std::cout << "door begin made " << firstKey << std::endl;
       return std::shared_ptr<gameObject>(
           new door(pos, scale, textureMap, firstKey, *this, prio, target));
     } else if (objectType == objectTypes_E::BUTTON_E) {
-      std::cout << "Button begin made " << firstKey << std::endl;
       return std::shared_ptr<gameObject>(
           new button(pos, scale, textureMap, firstKey, *this, prio, target));
     } else if (objectType == objectTypes_E::BACKGROUND_E) {
-      std::cout << "Background begin made " << firstKey << std::endl;
       return std::shared_ptr<gameObject>(
           new background(pos, scale, textureMap, firstKey, prio));
     } else if (objectType == objectTypes_E::TITLECARD_E) {
-      std::cout << "Titlecard begin made " << firstKey << std::endl;
       return std::shared_ptr<gameObject>(
           new titlecard(pos, scale, textureMap, *this, firstKey, prio));
     }
@@ -119,7 +110,6 @@ void objectStorage::factorNewGameState(std::string stateFileName) {
         throw end_of_file("end of file reached");
       }
       allVectors[stateFileName]->push_back(factorObject(inputFile));
-      std::cout << "Size allVectors: " << allVectors[stateFileName]->size() << std::endl;
     }
   } catch (end_of_file& e) {
     std::cerr << e.what() << std::endl;

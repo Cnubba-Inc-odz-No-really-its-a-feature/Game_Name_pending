@@ -27,7 +27,6 @@ public:
         textureMap(textureMap),
         objectPriority(objectPriority)
     {
-        std::cout<<firstKey<<std::endl;
         objectSprite.setPosition(spritePosition);
         objectSprite.setScale(spriteScale.x, spriteScale.y);
         spriteTexture = textureMap[firstKey];

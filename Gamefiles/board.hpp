@@ -363,26 +363,17 @@ public:
         if(index >=0 && index < LANE_SIZE){
             lanes[E_lane].placeUnit(index, unitPointer);
         }
-        else{
-            std::cout << "index out of range" << std::endl;
-        }
     }
     
     void placeTrapcard(const int index, std::shared_ptr<gameObject> trapcardPointer){
         if(index >=0 && index < LANE_SIZE){
             lanes[E_lane::trapLane].placeUnit(index, trapcardPointer);
         }
-        else{
-            std::cout << "index out of range" << std::endl;
-        }
     }
 
     void placeEffect(const int E_lane, const int index, std::shared_ptr<gameObject> effectPointer){
         if(index >=0 && index < LANE_SIZE){
             lanes[E_lane].placeEffect(index, effectPointer);
-        }
-        else{
-            std::cout << "index out of range" << std::endl;
         }
     }
 
