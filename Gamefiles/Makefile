@@ -1,23 +1,9 @@
-#############################################################################
-#
-# Project Makefile
-#
-# (c) Wouter van Ooijen (www.voti.nl) 2016
-#
-# This file is in the public domain.
-# 
-#############################################################################
+make:
+	g++ game.cpp exeptions.cpp objectStorage.cpp operators.cpp character.cpp titlecard.cpp background.cpp button.cpp renderer.cpp card.cpp main.cpp -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -o main.exe
 
-# source files in this project (main.cpp is automatically assumed)
-SOURCES := game.cpp exeptions.cpp objectStorage.cpp operators.cpp character.cpp titlecard.cpp background.cpp button.cpp renderer.cpp card.cpp
+run:
+	make
+	./main.exe
 
-# header files in this project
-
-HEADERS := door.hpp card.hpp chest.hpp command.hpp exeptions.hpp game.hpp gameObject.hpp inputHandler.hpp moveCommand.hpp objectStorage.hpp operators.hpp renderer.hpp selectedCommand.hpp character.hpp testSprite.hpp exitCommand.hpp interactCommand.hpp background.cpp titlecard.hpp button.hpp
-# other places to look for files for this project
-SEARCH  := 
-
-# set REATIVE to the next higher directory 
-# and defer to the Makefile.due there
-RELATIVE := /home/xiaoyi/v1oopc-examples
-include $(RELATIVE)/Makefile.native
+clean:
+	rm main.exe

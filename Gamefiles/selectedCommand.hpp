@@ -12,12 +12,9 @@ private:
 public:
     selectedCommand( std::shared_ptr<gameObject> object ):
         object(object)
-    {
-        std::cout << "Click made" << std::endl;
-    }
+    {}
 
     void execute() override{
-        std::cout << "who is this?" << object->getObjectID() << std::endl;
         object->interact();
     }
 

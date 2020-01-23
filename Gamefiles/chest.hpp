@@ -24,7 +24,6 @@ public:
     }
 
     void interact() override{
-        std::cout << textureFrame << std::endl;
         interacted = true;
     }
 

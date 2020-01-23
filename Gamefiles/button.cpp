@@ -34,6 +34,5 @@ void button::update(){
 }
 
 void button::interact(){
-    std::cout << "Clicked" << std::endl;
     storage.setActive(target);
 }

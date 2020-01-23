@@ -11,7 +11,6 @@ void game::gameLoop(){
 
 
 
-	// std::cout << clockPrevious << std::endl;
 	// bool gamePlay = true;
 	// bool titlePlay = true;
 	// bool menuPlay = true;
@@ -24,35 +23,19 @@ void game::gameLoop(){
 		}
 		clockPrevious = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 
-		// if(sf::Keyboard::isKeyPressed(sf::Keyboard::N)){
-		// 	if(state1){
-		// 		state1 = !state1;
-		// 		gameObjectFactory.factorNewGameState("gameState2.txt");
-		// 	}else{
-		// 		state1 = !state1;
-		// 		gameObjectFactory.factorNewGameState("gameState1.txt");
-		// 	}
-		// }
-		// std::cout << "Test5" << std::endl;
-
 		std::unique_ptr<command> newCommand;
 		newCommand  = gameInputHandler.handleInput();
 		if(newCommand != NULL){
 			newCommand->execute();
 		}
-		// std::cout << "Test6" << std::endl;
 
 		gameObjectRenderer.update();
-		
-		// std::cout << "Test7" << std::endl;
 		
 		framecounter++;
 		if(framecounter == 60){
 			framecounter = 0;
 			secondsPassed++;
-			std::cout<<secondsPassed<<std::endl;
 		}
-		// std::cout << "Test8" << std::endl;
 
         gameWindow.clear();
         gameObjectRenderer.draw();

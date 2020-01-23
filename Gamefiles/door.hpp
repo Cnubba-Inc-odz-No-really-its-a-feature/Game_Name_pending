@@ -25,7 +25,6 @@ public:
     {
         interactable = true;
         gameObject::objectPriority = objectPriority;
-        std::cout << "test" << std::endl;
         objectSprite.setTextureRect(sf::IntRect(0, 0, 135, 160));
     }
 
@@ -37,7 +36,6 @@ public:
     }
 
     void interact() override{
-        std::cout << textureFrame << std::endl;
         if (textureFrame > 2)storage.setActive(target);
         interacted = true;
     }
