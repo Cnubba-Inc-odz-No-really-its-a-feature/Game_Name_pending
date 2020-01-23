@@ -14,7 +14,7 @@
         return allyArray.get()->at(index) == nullptr && enemyArray.get()->at(index) == nullptr;
     }
 
-    std::shared_ptr<gameObject> lane::getUnitPointerAtIndex(const int index){
+    std::shared_ptr<unit> lane::getUnitPointerAtIndex(const int index){
         if(allyArray.get()->at(index) == nullptr){
             return enemyArray.get()->at(index);
         }
@@ -23,9 +23,9 @@
         }
     }
 
-    void lane::placeUnit(const int index, std::shared_ptr<gameObject> unitPointer){
-        if(unitPointer->ally){
-            allyArray.get()->at(index) = unitPointer;
+    void lane::placeUnit(std::shared_ptr<unit> unitPointer){
+        if(unitPointer->isAlly()){
+            allyArray.get()->at(0) = unitPointer;
         }
     }
 
@@ -73,7 +73,7 @@
         for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
             // for every effect on that position
             for(uint_fast8_t j = 0; j < laneEffects[i].size(); j++){
-                laneEffects[i][j]->update(i, j, this);
+                // laneEffects[i][j]->update(i, j, this);
             }
         }
 
@@ -104,14 +104,14 @@
         rawResults = cleanVector;
     }
 
-    unitUpdateResult lane::updateUnit(const int index, std::shared_ptr<gameObject> unit){
-        if(unit->ally){
+    unitUpdateResult lane::updateUnit(const int index, std::shared_ptr<unit> unit){
+        if(unit->isAlly()){
             if(index + 1 < LANE_SIZE && isIndexEmpty(index + 1)){
                 allyArray.get()->at(index + 1) = unit;
                 allyArray.get()->at(index) = nullptr;
             }
             else if(index == LANE_SIZE - 1){
-                *enemyHP.get() -= unit.getDamage();
+                *enemyHP.get() -= unit->getDamage();
             }
             else if(index + 1 < LANE_SIZE){
                 unitUpdateResult result = fight(unit, enemyArray.get()->at(index + 1), index);
@@ -132,7 +132,7 @@
                 enemyArray.get()->at(index) = nullptr;
             }
             else if(index == 0){
-                *playerHP.get() -= unit.getDamage();
+                *playerHP.get() -= unit->getDamage();
             }
             else if(index > 0){
                 unitUpdateResult result = fight(unit, allyArray.get()->at(index - 1), index);
@@ -149,22 +149,22 @@
         }
     }
 
-    unitUpdateResult lane::fight(std::shared_ptr<gameObject> initiator, std::shared_ptr<gameObject> assaulted, const int index){
-        assaulted.takeDamage(initiator.getDamage());
-        initiator.takeDamage(assaulted.getDamage());
+    unitUpdateResult lane::fight(std::shared_ptr<unit> initiator, std::shared_ptr<unit> assaulted, const int index){
+        assaulted->takeDamage(initiator->getDamage());
+        initiator->takeDamage(assaulted->getDamage());
 
         int selfPosition = index;
         int opponentPosition;
 
-        if(initiator->ally){
+        if(initiator->isAlly()){
             opponentPosition = index + 1;
         }
         else{
             opponentPosition = index - 1;
         }
 
-        bool selfKilled = initiator.checkIsDead();
-        bool opponentKilled = assaulted.checkIsDead();
+        bool selfKilled = initiator->checkIsDead();
+        bool opponentKilled = assaulted->checkIsDead();
 
         return unitUpdateResult(1, selfPosition, opponentPosition ,opponentKilled, selfKilled);
     }
@@ -225,7 +225,7 @@
         for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
             //for every spell on that position
             for(uint_fast8_t j = 0; j < laneEffects[i].size(); j++){
-                laneEffects[i][j]->update(i, j, this);
+                // laneEffects[i][j]->update(i, j, this);
             }
         }
     }
@@ -262,7 +262,7 @@
         }
     }
 
-    std::shared_ptr<gameObject> lane::getUnitPointerByID(const std::string& id){
+    std::shared_ptr<unit> lane::getUnitPointerByID(const std::string& id){
         for(auto& unit : *allyArray.get()){
             if(unit->getObjectID() == id){
                 return unit;

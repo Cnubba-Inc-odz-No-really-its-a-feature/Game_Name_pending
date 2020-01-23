@@ -26,9 +26,8 @@ void objectStorage::tmpNewActive(){
   }
 }
 
-objectStorage::objectStorage(sf::RenderWindow& window) : window(window)
-    //storageDeck(hand, drawPile, discardPile, completeDeck){
-{
+objectStorage::objectStorage(sf::RenderWindow& window) : window(window),
+    storageDeck(hand, drawPile, discardPile, completeDeck, cardsInHand){
     tmpActive = "title.txt";
     tmpNewActive();
     factorMainCharacter();
@@ -147,3 +146,5 @@ void objectStorage::factorMainCharacter() {
     std::cerr << e.what() << std::endl;
   }
 }
+
+
