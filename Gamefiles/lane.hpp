@@ -21,6 +21,7 @@ public:
     bool isIndexEmpty(const int index);
 
     // placements
+    void placeUnit(std::shared_ptr<unit> unitPointer);
     void placeUnit(const int index, std::shared_ptr<unit> unitPointer);
     void placeEffect(const int index, std::shared_ptr<gameObject> effectPointer);
 

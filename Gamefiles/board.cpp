@@ -45,8 +45,8 @@ board::board(boardLaneArraysContainer& boardContainer, std::shared_ptr<int> play
     }
 
     bool board::placeUnit(std::shared_ptr<unit> unitPointer){
-        if(lanes[unitPointer->laneType].isIndexEmpty(0)){
-            lanes[unitPointer->laneType].placeUnit(unitPointer);
+        if(lanes[unitPointer->getLaneType()].isIndexEmpty(0)){
+            lanes[unitPointer->getLaneType()].placeUnit(unitPointer);
             return true;
         }
         return false;

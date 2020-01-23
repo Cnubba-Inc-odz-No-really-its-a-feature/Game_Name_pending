@@ -23,9 +23,9 @@
         }
     }
 
-    void lane::placeUnit(const int index, std::shared_ptr<unit> unitPointer){
+    void lane::placeUnit(std::shared_ptr<unit> unitPointer){
         if(unitPointer->isAlly()){
-            allyArray.get()->at(index) = unitPointer;
+            allyArray.get()->at(0) = unitPointer;
         }
     }
 
