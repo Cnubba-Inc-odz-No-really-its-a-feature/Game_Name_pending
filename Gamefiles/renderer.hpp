@@ -41,7 +41,7 @@ public:
                 color += 15;
                 gameWindow.draw(fade);
                 if(color >= 255){
-                    renderObjectStorage.keyActive = renderObjectStorage.tmpActive;
+                    renderObjectStorage.tmpNewActive();
                     switchActive = true;
                 }
             }else if(switchActive){

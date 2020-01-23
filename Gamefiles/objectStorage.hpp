@@ -33,6 +33,7 @@ public:
     std::shared_ptr<gameObject> character1;
     std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> & getActive();
     void setActive(std::string newKey);
+    void tmpNewActive();
 };
 
 #endif // _OBJECTSTORAGE_HPP_
