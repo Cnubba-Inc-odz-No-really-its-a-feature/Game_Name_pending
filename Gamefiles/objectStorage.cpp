@@ -16,9 +16,11 @@ void objectStorage::setActive(std::string newKey) {
 
 void objectStorage::tmpNewActive(){
   keyActive = tmpActive;
+  allVectors.clear();
   if (allVectors.count(tmpActive) == 0) {
       allVectors[tmpActive] = std::shared_ptr<std::vector<std::shared_ptr<gameObject>>>(new std::vector<std::shared_ptr<gameObject>>);
       factorNewGameState(tmpActive);
+      std::cout << "Test13" << std::endl;
   }
 }
 
@@ -113,7 +115,9 @@ void objectStorage::factorNewGameState(std::string stateFileName) {
       if (inputFile.peek() == EOF) {
         throw end_of_file("end of file reached");
       }
+      std::cout << "Pushback1" << std::endl;
       allVectors[stateFileName]->push_back(factorObject(inputFile));
+      std::cout << "Pushback2" << std::endl;
     }
   } catch (end_of_file& e) {
     std::cerr << e.what() << std::endl;
