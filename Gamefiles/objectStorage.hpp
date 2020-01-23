@@ -34,9 +34,9 @@ public:
     std::vector<std::shared_ptr<gameObject>> effectsLane3[LANE_SIZE];
 
     std::vector<int> hand;
-    std::vector<int> drawpile;
-    std::vector<int> discardpile;
-    std::vector<int> completedeck;
+    std::vector<int> drawPile;
+    std::vector<int> discardPile;
+    std::vector<int> completeDeck;
 
     objectStorage();
     std::shared_ptr<gameObject> character1;
@@ -45,6 +45,16 @@ public:
 
     void setActive(std::string newKey);
     boardLaneArraysContainer getLaneArrays();
+    std::vector<std::shared_ptr<std::vector<int>>> getDeckVector(){
+    std::vector<std::shared_ptr<std::vector<int>>> deckVector;
+
+    deckVector.push_back(std::make_shared<std::vector<int>>(hand));
+    deckVector.push_back(std::make_shared<std::vector<int>>(drawPile));
+    deckVector.push_back(std::make_shared<std::vector<int>>(discardPile));
+    deckVector.push_back(std::make_shared<std::vector<int>>(completeDeck));
+
+    return deckVector;
+}
 };
 
 #endif // _OBJECTSTORAGE_HPP_

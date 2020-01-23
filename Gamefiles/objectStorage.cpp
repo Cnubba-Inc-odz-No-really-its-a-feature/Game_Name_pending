@@ -30,3 +30,5 @@ boardLaneArraysContainer objectStorage::getLaneArrays(){
                                                 std::make_shared<std::array<std::shared_ptr<gameObject>, LANE_SIZE>>(enemyArrayTraps))
                                     );
 }
+
+//std::vector<std::shared_ptr<std::vector<int>>> objectStorage::getDeckVector()

@@ -30,7 +30,7 @@ enum E_lane{
         }else{
             throw invalid_UnitLane("invalid UnitLane");
         }
-    }
+}
     
 
 
@@ -190,44 +190,43 @@ public:
 
 class deckClass{
 private:
-    std::vector<int> &hand;
-    std::vector<int> &drawPile;
-    std::vector<int> &discardPile;
-    std::vector<int> &completeDeck;
+    std::shared_ptr<std::vector<int>> hand;
+    std::shared_ptr<std::vector<int>> drawPile;
+    std::shared_ptr<std::vector<int>> discardPile;
+    std::shared_ptr<std::vector<int>> completeDeck;
 
 public:
 
-    deckClass(std::vector<int> & hand, std::vector<int> &drawPile, std::vector<int> &discardPile, std::vector<int> &completeDeck):
+    deckClass(std::shared_ptr<std::vector<int>> hand, std::shared_ptr<std::vector<int>> drawPile, std::shared_ptr<std::vector<int>> discardPile, std::shared_ptr<std::vector<int>> completeDeck):
         hand(hand),
         drawPile(drawPile),
         discardPile(discardPile),
         completeDeck(completeDeck){
             int basicDeck[20] = {1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2};
-            std::move(std::begin(basicDeck), std::end(basicDeck), completeDeck.end());
+            std::move(std::begin(basicDeck), std::end(basicDeck), completeDeck->end());
             }
 
     void newFight(){
-        hand.clear();
-        drawPile.clear();
-        discardPile.clear();
-
-        drawPile.insert(drawPile.end(), completeDeck.begin(), completeDeck.end());
-        std::random_shuffle(drawPile.begin(), drawPile.end());
+        hand->clear();
+        drawPile->clear();
+        discardPile->clear();
+        drawPile->insert(drawPile->end(), completeDeck->begin(), completeDeck->end());
+        std::random_shuffle(drawPile->begin(), drawPile->end());
         newHand();
     }
 
     void newHand(){
 
-        std::move(hand.begin(), hand.end(), discardPile.end());
-        hand.clear();
-        if(drawPile.size() < 7){
-            std::move(drawPile.begin(), drawPile.begin()+drawPile.size(), hand.end());
-            std::move(discardPile.begin(), discardPile.end(), drawPile.end());
-            discardPile.clear();
-            std::random_shuffle(drawPile.begin(), drawPile.end());
-            std::move(drawPile.begin(), drawPile.end(), hand.end());
+        std::move(hand->begin(), hand->end(), discardPile->end());
+        hand->clear();
+        if(drawPile->size() < 7){
+            std::move(drawPile->begin(), drawPile->begin()+drawPile->size(), hand->end());
+            std::move(discardPile->begin(), discardPile->end(), drawPile->end());
+            discardPile->clear();
+            std::random_shuffle(drawPile->begin(), drawPile->end());
+            std::move(drawPile->begin(), drawPile->begin() + (7 - hand->size()), hand->end());
         }else{
-            std::move(drawPile.begin(), drawPile.end(), hand.end());
+            std::move(drawPile->begin(), drawPile->begin()+7, hand->end());
         }
     }
 
