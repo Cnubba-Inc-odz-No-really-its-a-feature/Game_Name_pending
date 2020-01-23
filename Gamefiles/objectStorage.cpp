@@ -123,9 +123,7 @@ void objectStorage::factorNewGameState(std::string stateFileName) {
       if (inputFile.peek() == EOF) {
         throw end_of_file("end of file reached");
       }
-      std::cout << "Pushback1" << std::endl;
       allVectors[stateFileName]->push_back(factorObject(inputFile));
-      std::cout << "Pushback2" << std::endl;
     }
   } catch (end_of_file& e) {
     std::cerr << e.what() << std::endl;
