@@ -29,6 +29,7 @@ struct unitUpdateResult{
 
 };
 
+// very much probably going to get deleted
 struct drawSprite{
     sf::Sprite sprite;
     sf::Vector2f position;
