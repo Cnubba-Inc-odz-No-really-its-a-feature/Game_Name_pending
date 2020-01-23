@@ -4,7 +4,7 @@
 #include "character.hpp"
 #include "macrodefinitions.hpp"
 #include "laneArrayContainer.hpp"
-// #include "card.hpp"
+#include "card.hpp"
 // #include <iostream>
 // #include "memory"
 // #include "vector"
@@ -49,6 +49,8 @@ public:
     std::vector<int> completeDeck;
     //deckClass storageDeck;
     std::shared_ptr<gameObject> character1;
+
+    objectStorage(sf::RenderWindow & window);
 
 
     
