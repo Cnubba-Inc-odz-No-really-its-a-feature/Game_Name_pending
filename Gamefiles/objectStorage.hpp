@@ -47,7 +47,7 @@ public:
     std::vector<int> drawPile;
     std::vector<int> discardPile;
     std::vector<int> completeDeck;
-    deckClass storageDeck;
+    //deckClass storageDeck;
 
     //objectStorage();
     objectStorage(sf::RenderWindow & window);
