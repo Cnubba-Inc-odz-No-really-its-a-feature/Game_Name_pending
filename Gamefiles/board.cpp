@@ -1,16 +1,9 @@
 #include "board.hpp"
 
-board::board(boardLaneArraysContainer& boardContainer):
-        priorityLane{E_lane::skyLane}
-    {
-        lanes[E_lane::skyLane] = lane(E_lane::skyLane, std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.skyLane);
-        lanes[E_lane::groundLane] = lane(E_lane::groundLane, std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.groundLane);
-        lanes[E_lane::trapLane] = lane(E_lane::trapLane, std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.trapLane);
-    }
-
-    board::board(const sf::Texture& boardTexture, boardLaneArraysContainer& boardContainer):
-        boardSprite{boardTexture},
-        priorityLane{E_lane::skyLane}
+board::board(boardLaneArraysContainer& boardContainer, std::shared_ptr<int> playerHP, std::shared_ptr<int> enemyHP):
+        priorityLane{E_lane::skyLane},
+        playerHP{playerHP},
+        enemyHP{enemyHP}
     {
         lanes[E_lane::skyLane] = lane(E_lane::skyLane, std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.skyLane);
         lanes[E_lane::groundLane] = lane(E_lane::groundLane, std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.groundLane);
@@ -51,7 +44,15 @@ board::board(boardLaneArraysContainer& boardContainer):
         lanes[E_lane].updateEffects();
     }
 
-    void board::placeUnit(const int E_lane, const int index, std::shared_ptr<gameObject> unitPointer){
+    bool board::placeUnit(std::shared_ptr<unit> unitPointer){
+        if(lanes[unitPointer->laneType].isIndexEmpty(0)){
+            lanes[unitPointer->laneType].placeUnit(unitPointer);
+            return true;
+        }
+        return false;
+    }
+
+    void board::placeUnit(const int E_lane, const int index, std::shared_ptr<unit> unitPointer){
         if(index >=0 && index < LANE_SIZE){
             lanes[E_lane].placeUnit(index, unitPointer);
         }
@@ -60,7 +61,7 @@ board::board(boardLaneArraysContainer& boardContainer):
         }
     }
     
-    void board::placeTrapcard(const int index, std::shared_ptr<gameObject> trapcardPointer){
+    void board::placeTrapcard(const int index, std::shared_ptr<unit> trapcardPointer){
         if(index >=0 && index < LANE_SIZE){
             lanes[E_lane::trapLane].placeUnit(index, trapcardPointer);
         }
@@ -79,7 +80,7 @@ board::board(boardLaneArraysContainer& boardContainer):
     }
 
     void board::castSpell(const int E_lane, const int index, std::shared_ptr<gameObject> spell){
-        spell.activate(&lanes, E_lane, index);
+        // spell.activate(&lanes, E_lane, index);
     }
 
     void board::removeUnit(const int E_lane, const int index){
@@ -122,8 +123,6 @@ board::board(boardLaneArraysContainer& boardContainer):
     }
 
     void board::draw(sf::RenderWindow& window){
-        window.draw(boardSprite);
-
         for(auto& currentLane : lanes){
             currentLane.draw(window);
         }
