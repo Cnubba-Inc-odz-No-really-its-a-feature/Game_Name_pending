@@ -1,5 +1,5 @@
-#ifndef _DOOR_HPP
-#define _DOOR_HPP
+#ifndef _ENEMY_HPP
+#define _ENEMY_HPP
 
 #include "gameObject.hpp"
 #include "memory"
@@ -7,7 +7,7 @@
 #include "objectStorage.hpp"
 #include <iostream>
 
-class door: public gameObject{
+class enemy: public gameObject{
 private:
     std::vector<gameObject> lootObjectVector;
     bool open = false;
@@ -18,25 +18,19 @@ private:
     std::string target;
 
 public:
-    door(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, objectStorage &storage, int objectPriority, std::string target):
+    enemy(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, objectStorage &storage, int objectPriority, std::string target):
         gameObject(spritePosition, spriteScale, textureMap, firstKey),
         storage(storage), target(target)
     {
         interactable = true;
         gameObject::objectPriority = objectPriority;
-        objectSprite.setTextureRect(sf::IntRect(0, 0, 135, 160));
+        objectSprite.setTextureRect(sf::IntRect(0, 0, 64, 64));
     }
 
-    void setFrame(int maxFrame, int textureRow) override{
-        if(frameCounter > 10) {frameCounter = 0; textureFrame++;}
-	    objectSprite.setTextureRect(sf::IntRect(133.5*textureFrame, 0*textureRow, 133, 160));
-        if(maxFrame < textureFrame) interacted = false;
-	    else frameCounter++;
-    }
+    void setFrame(int maxFrame, int textureRow) override{}
 
     void interact() override{
-        if (textureFrame > 2)storage.setActive(target);
-        interacted = true;
+        storage.setActive(target);
     }
 
     void interact(objectStorage& gameStorage, const float& mainCharacterPosition){
@@ -44,7 +38,6 @@ public:
     }
 
     void draw(sf::RenderWindow& gameWindow) override{
-        if(interacted) setFrame(4, 0);
         gameWindow.draw(objectSprite);
         if(open){
             for(auto& loot : lootObjectVector){

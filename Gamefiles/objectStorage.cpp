@@ -3,6 +3,7 @@
 #include "titlecard.hpp"
 #include "chest.hpp"
 #include "door.hpp"
+#include "enemy.hpp"
 
 std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> & objectStorage::getActive() {
   if(allVectors[keyActive].get() == nullptr){}
@@ -53,7 +54,7 @@ std::shared_ptr<gameObject> objectStorage::factorObject(
     inputFile >> objectType >> pos >> scale >> prio;
     try {
       bool firstrun = true;
-      if (objectType == DOOR_E || objectType == BUTTON_E) {
+      if (objectType == DOOR_E || objectType == BUTTON_E || objectType == ENEMY_E) {
         inputFile >> target;
       }
       while (true) {
@@ -86,6 +87,9 @@ std::shared_ptr<gameObject> objectStorage::factorObject(
     } else if (objectType == objectTypes_E::DOOR_E) {
       return std::shared_ptr<gameObject>(
           new door(pos, scale, textureMap, firstKey, *this, prio, target));
+    } else if (objectType == objectTypes_E::ENEMY_E) {
+      return std::shared_ptr<gameObject>(
+          new enemy(pos, scale, textureMap, firstKey, *this, prio, target));
     } else if (objectType == objectTypes_E::BUTTON_E) {
       return std::shared_ptr<gameObject>(
           new button(pos, scale, textureMap, firstKey, *this, prio, target));

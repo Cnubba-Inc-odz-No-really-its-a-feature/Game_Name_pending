@@ -29,16 +29,19 @@ class inputHandler {
   objectStorage &gameObjectStorage;
 
   float currentDistance(std::shared_ptr<gameObject> objectPointer) {
-    sf::Vector2f mainCharPosition =
-        gameObjectStorage.character1->getSprite().getPosition();
-    auto width =
-        gameObjectStorage.character1->getSprite().getGlobalBounds().width;
-    auto height =
-        gameObjectStorage.character1->getSprite().getGlobalBounds().height;
-    sf::Vector2f compensationVector = sf::Vector2f(width * 0.5, height * 0.5);
-    mainCharPosition += compensationVector;
+    sf::Vector2f mainCharPosition = gameObjectStorage.character1->getSprite().getPosition();
+    auto charWidth = gameObjectStorage.character1->getSprite().getGlobalBounds().width;
+    auto charHeight = gameObjectStorage.character1->getSprite().getGlobalBounds().height;
+    sf::Vector2f mainCharCompensationVector = sf::Vector2f(charWidth * 0.5, charHeight * 0.5);
 
     sf::Vector2f objectPosition = objectPointer->getSprite().getPosition();
+    auto objWidth = objectPointer->getSprite().getGlobalBounds().width;
+    auto objHeight = objectPointer->getSprite().getGlobalBounds().height;
+    sf::Vector2f objectCompensationVector = sf::Vector2f(objWidth * 0.5, objHeight * 0.5);
+
+    mainCharPosition += mainCharCompensationVector;
+    objectPosition += objectCompensationVector;
+
     return sqrt(pow(objectPosition.x - mainCharPosition.x, 2) +
                 pow(objectPosition.y - mainCharPosition.y, 2));
   }
