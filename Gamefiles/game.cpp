@@ -24,6 +24,24 @@ void game::gameLoop(){
 		}
 		clockPrevious = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 
+
+
+
+
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
+			gameObjectStorage.storageDeck.newFight();
+			std::cout<<"currentDecksize:" << gameObjectStorage.completeDeck.size()<<std::endl;
+		}
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::B)){
+			gameObjectStorage.storageDeck.newHand();
+			std::cout<<"hand created of size: " << gameObjectStorage.cardsInHand.size() << std::endl;
+		}
+
+
+
+
+
+
 		std::unique_ptr<command> newCommand;
 		newCommand  = gameInputHandler.handleInput();
 		if(newCommand != NULL){
@@ -56,7 +74,7 @@ void game::gameLoop(){
 			menuPlay = true;
 		}else if(gameObjectStorage.keyActive.at(0) == 'm' && menuPlay){
 			std::cout << "speelt menu.wav" << std::endl;
-			buffer.loadFromFile("gameAssets/Sounds/battle.wav");
+			buffer.loadFromFile("gameAssets/Sounds/menu.wav");
 			sound.setBuffer(buffer);
 			sound.setLoop(true);
 			sound.play();
