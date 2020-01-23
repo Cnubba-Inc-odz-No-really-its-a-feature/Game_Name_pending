@@ -25,9 +25,6 @@ void game::gameLoop(){
 		clockPrevious = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 
 
-
-
-
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
 			gameObjectStorage.storageDeck.newFight();
 			std::cout<<"currentDecksize:" << gameObjectStorage.completeDeck.size()<<std::endl;
@@ -61,6 +58,7 @@ void game::gameLoop(){
 			sound.setBuffer(buffer);
 			sound.setLoop(true);
 			sound.play();
+			sound.setVolume(100);
 			gamePlay = false;
 			battlePlay = true;
 			menuPlay = true;
@@ -69,6 +67,7 @@ void game::gameLoop(){
 			sound.setBuffer(buffer);
 			sound.setLoop(true);
 			sound.play();
+			sound.setVolume(20);
 			gamePlay = true;
 			battlePlay = false;
 			menuPlay = true;
@@ -78,6 +77,7 @@ void game::gameLoop(){
 			sound.setBuffer(buffer);
 			sound.setLoop(true);
 			sound.play();
+			sound.setVolume(20);
 			gamePlay = true;
 			battlePlay = true;
 			menuPlay = false;			
