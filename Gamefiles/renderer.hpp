@@ -26,6 +26,9 @@ public:
         for(auto &i : *renderObjectStorage.getActive()){
             i->draw(gameWindow);
         }
+        for(auto &i : renderObjectStorage.cardsInHand){
+            i->draw(gameWindow);
+        }
 
 
 

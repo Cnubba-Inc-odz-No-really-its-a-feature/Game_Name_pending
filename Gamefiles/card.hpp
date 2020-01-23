@@ -13,6 +13,9 @@ enum E_lane{
 
 
 
+
+
+
 std::ifstream& operator>>(std::ifstream& input, E_lane& unitLane);
 
 
@@ -125,11 +128,11 @@ public:
         summonCardArtSprite.setPosition(objectSprite.getPosition());
 
 
-        cardName.setScale(sf::Vector2f(0.5, 0.5));
-        objectSprite.setScale(sf::Vector2f(0.5, 0.5));
-        summonCardDamage.setScale(sf::Vector2f(0.5, 0.5));
-        summonCardHealth.setScale(sf::Vector2f(0.5, 0.5));
-        summonCardArtSprite.setScale(sf::Vector2f(0.5, 0.5));        
+        cardName.setScale(sf::Vector2f(0.2, 0.2));
+        objectSprite.setScale(sf::Vector2f(0.2, 0.2));
+        summonCardDamage.setScale(sf::Vector2f(0.2, 0.2));
+        summonCardHealth.setScale(sf::Vector2f(0.2, 0.2));
+        summonCardArtSprite.setScale(sf::Vector2f(0.2, 0.2));        
 
         
     }
@@ -167,7 +170,9 @@ public:
     }
 };
 
-     
+
+
+
 
 class deckClass{
 private:
@@ -175,48 +180,80 @@ private:
     std::vector<int> &drawPile;
     std::vector<int> &discardPile;
     std::vector<int> &completeDeck;
+    std::vector<std::shared_ptr<card>> & cardsInHand;
+    std::map<int, sf::Vector2f> handPositionMap;
+    sf::Font deckStatsFont;
+    sf::Text deckStats;
 
 public:
 
-    deckClass(std::vector<int> &hand, std::vector<int>& drawPile, std::vector<int>&discardPile, std::vector<int>& completeDeck):
+    deckClass(std::vector<int> &hand, std::vector<int>& drawPile, std::vector<int>&discardPile, std::vector<int>& completeDeck, std::vector<std::shared_ptr<card>> & cardsInHand):
         hand(hand),
         drawPile(drawPile),
         discardPile(discardPile),
-        completeDeck(completeDeck){
-            std::cout<<"hij komt in deeck constructor" << std::endl;
+        completeDeck(completeDeck),
+        cardsInHand(cardsInHand){
             std::vector<int> basisDeck{1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2};
-
-            completeDeck.push_back(1);
-            std::cout<<completeDeck.size()<<std::endl;
-            std::cout<<"hij begint aan zijn deck moven"<<std::endl;
-            std::move(basisDeck.begin(), basisDeck.end(), completeDeck.end());
-            std::cout<<"Hij  initialiseerd al zijn decks" <<std::endl;
-
+            completeDeck = std::move(basisDeck);
+            handPositionMap[0] = sf::Vector2f(600, 850);            
+            handPositionMap[1] = sf::Vector2f(775, 850);
+            handPositionMap[2] = sf::Vector2f(950, 850);
+            handPositionMap[3] = sf::Vector2f(1125, 850);
+            handPositionMap[4] = sf::Vector2f(1300, 850);
+            handPositionMap[5] = sf::Vector2f(1475, 850);
+            handPositionMap[6] = sf::Vector2f(1650, 850);
             }
 
     void newFight(){
         hand.clear();
         drawPile.clear();
         discardPile.clear();
-        drawPile.insert(drawPile.end(), completeDeck.begin(), completeDeck.end());
+        drawPile = completeDeck;
         std::random_shuffle(drawPile.begin(), drawPile.end());
-        newHand();
     }
 
     void newHand(){
-
-        std::move(hand.begin(), hand.end(), discardPile.end());
+        std::for_each(hand.begin(), hand.end(), [this](auto &i){discardPile.push_back(i);});
         hand.clear();
+
+
         if(drawPile.size() < 7){
-            std::move(drawPile.begin(), drawPile.begin()+drawPile.size(), hand.end());
-            std::move(discardPile.begin(), discardPile.end(), drawPile.end());
+            std::cout<<"drawPile =< 7, size: " << drawPile.size() << std::endl;
+            hand = drawPile;
+            auto cardsInHand = hand.size();
+            drawPile.clear();
+            drawPile = discardPile;
             discardPile.clear();
             std::random_shuffle(drawPile.begin(), drawPile.end());
-            std::move(drawPile.begin(), drawPile.begin() + (7 - hand.size()), hand.end());
+            std::for_each(drawPile.begin(), drawPile.begin() +(7-cardsInHand), 
+                    [this](auto & i){hand.push_back(i);});
+            drawPile.erase(drawPile.begin(), drawPile.begin() + cardsInHand-1 );
+            std::cout<<"drawpile after reset: " << drawPile.size() << std::endl;
+            std::cout<<"hand after reset: " << hand.size() << std::endl;
+
+
         }else{
-            std::move(drawPile.begin(), drawPile.begin()+7, hand.end());
+            std::cout<<"moving new hand" << std::endl;
+            std::for_each(drawPile.begin(), drawPile.begin()+7, [this](auto & i){hand.push_back(i);});
+            drawPile.erase(drawPile.begin(), drawPile.begin()+7);      
+            std::cout<<"drawPileSize after move:" << drawPile.size() << std::endl;
+            std::cout<<"handSize:" << hand.size() <<std::endl;      
+        }
+        std::cout<<"factoring cards" << std::endl;
+        cardsInHand.clear();
+        std::for_each(hand.begin(), hand.end(), [this](auto & i){cardsInHand.push_back(factorCard(i));});
+        std::cout<<"created new hand, size:" << hand.size() <<std::endl;
+        std::cout<<"currentRealCardSize: " << cardsInHand.size() << std::endl;
+        std::cout<<"current drawPilesize: " << drawPile.size() << std::endl;
+        std::cout<<"current discardPilesize: " << discardPile.size() << std::endl;
+        for(int i = 0; i < 7; i++){
+            cardsInHand[i]->setPosition(handPositionMap[i]);
         }
     }
+
+
+
+
 
     std::shared_ptr<card> factorCard(int cardID){
         std::ifstream cardFactoryFile("cardFactoryFile.txt");
@@ -269,7 +306,6 @@ public:
                         if(!(fileBind == '}')){
                             throw invalid_Factory_Binds("invalid end factory bind");
                         }
-                        std::cout<<"CCCCCCCCCCCCCCCCCCCCCCCCCC"<<std::endl;
                         return std::shared_ptr<card>(new summonCard(cardName, cardUnitDamage, cardUnitHealth, cardUnitLane, textureMap)); 
                     }
                 }else{

@@ -20,7 +20,7 @@ void objectStorage::setActive(std::string newKey) {
 }
 
 objectStorage::objectStorage(sf::RenderWindow& window) : window(window),
-    storageDeck(hand, drawPile, discardPile, completeDeck){
+    storageDeck(hand, drawPile, discardPile, completeDeck, cardsInHand){
   std::cout << "Test1" << std::endl;
     setActive("title.txt");
     std::cout << "Test2" << std::endl;
@@ -139,3 +139,5 @@ void objectStorage::factorMainCharacter() {
     std::cerr << e.what() << std::endl;
   }
 }
+
+

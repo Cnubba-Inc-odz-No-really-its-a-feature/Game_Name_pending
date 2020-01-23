@@ -47,6 +47,7 @@ public:
     std::vector<int> drawPile;
     std::vector<int> discardPile;
     std::vector<int> completeDeck;
+    std::vector<std::shared_ptr<card>> cardsInHand;
     deckClass storageDeck;
 
     //objectStorage();
