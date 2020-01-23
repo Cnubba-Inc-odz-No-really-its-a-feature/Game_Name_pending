@@ -27,7 +27,6 @@ public:
         textureMap(textureMap),
         objectPriority(objectPriority)
     {
-        std::cout<<firstKey<<std::endl;
         objectSprite.setPosition(spritePosition);
         objectSprite.setScale(spriteScale.x, spriteScale.y);
         spriteTexture = textureMap[firstKey];
@@ -45,6 +44,7 @@ public:
     virtual void interact() = 0;
     virtual void draw(sf::RenderWindow& gameWindow) =0;
     virtual void move(sf::Vector2f moveDirection) = 0;
+    virtual void jumpLocationTo(sf::Vector2f jumpLocation){};
     virtual void update() = 0;
 
     virtual void setFrame(int maxFrame, int textureRow) =0;

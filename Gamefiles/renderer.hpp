@@ -42,7 +42,7 @@ public:
                 color += 15;
                 gameWindow.draw(fade);
                 if(color >= 255){
-                    renderObjectStorage.keyActive = renderObjectStorage.tmpActive;
+                    renderObjectStorage.tmpNewActive();
                     switchActive = true;
                 }
             }else if(switchActive){
@@ -58,14 +58,8 @@ public:
     }
 
     void update(){
-        // std::cout << "Test11" << std::endl;
         // auto tmp = renderObjectStorage.getActive();
-        // if(tmp.get() == nullptr){std::cout << "Nullptr" << std::endl;}
-        // std::cout << "Test12" << std::endl;
-        // // std::cout << tmp.size() << std::endl;
-        // std::cout << "Test13" << std::endl;
         for(auto i : *renderObjectStorage.getActive()){
-            // std::cout << "update" << std::endl;
             i->update();
         }
         renderObjectStorage.character1->update();

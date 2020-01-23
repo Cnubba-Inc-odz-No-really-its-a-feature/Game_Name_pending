@@ -9,6 +9,12 @@ void game::gameLoop(){
 	int framecounter = 0;
 	clockPrevious = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 
+
+
+	// bool gamePlay = true;
+	// bool titlePlay = true;
+	// bool menuPlay = true;
+
     while (gameWindow.isOpen()) {
 		loopTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count() - clockPrevious;
 
@@ -40,19 +46,14 @@ void game::gameLoop(){
 		if(newCommand != NULL){
 			newCommand->execute();
 		}
-		// std::cout << "Test6" << std::endl;
 
 		gameObjectRenderer.update();
-		
-		// std::cout << "Test7" << std::endl;
 		
 		framecounter++;
 		if(framecounter == 60){
 			framecounter = 0;
 			secondsPassed++;
-			std::cout<<secondsPassed<<std::endl;
 		}
-		// std::cout << "Test8" << std::endl;
 
         gameWindow.clear();
         gameObjectRenderer.draw();

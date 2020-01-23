@@ -49,7 +49,7 @@ class inputHandler {
 
  public:
   inputHandler(objectStorage &gameObjectStorage)
-      : gameObjectStorage{gameObjectStorage} {std::cout << "Test4" << std::endl;}
+      : gameObjectStorage{gameObjectStorage} {}
 
   std::unique_ptr<command> handleInput() {
     // for dungeonGamestate
@@ -112,7 +112,6 @@ class inputHandler {
           if (j->isInteractable() &&
               j->getSprite().getGlobalBounds().contains(
                   sf::Vector2f(position.x, position.y))) {
-            std::cout << "interctable found" << std::endl;
             return std::unique_ptr<command>(new selectedCommand(j));
           }
         }

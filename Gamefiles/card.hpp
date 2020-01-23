@@ -213,6 +213,7 @@ public:
     }
 
     void newHand(){
+        std::random_shuffle(drawPile.begin(), drawPile.end());
         std::for_each(hand.begin(), hand.end(), [this](auto &i){discardPile.push_back(i);});
         hand.clear();
 
@@ -262,7 +263,6 @@ public:
             while(true){
                 cardFactoryFile>>objectID;
                 if(objectID != 0){
-                    std::cout<<objectID << std::endl;
                 }
                 if(objectID == cardID){
                     std::string cardType;

@@ -14,7 +14,6 @@ public:
     {}
 
     void execute() override{
-        std::cout << "exit command" << std::endl;
         exit(0);
     }
 

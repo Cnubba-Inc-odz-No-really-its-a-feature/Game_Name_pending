@@ -5,31 +5,37 @@
 #include "door.hpp"
 
 std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> & objectStorage::getActive() {
-  if(allVectors[keyActive].get() == nullptr){std::cout << "NullptrgetAvtive" << std::endl;}
+  if(allVectors[keyActive].get() == nullptr){}
   return allVectors[keyActive];
 }
 
 void objectStorage::setActive(std::string newKey) {
   swappedActive = true;
   tmpActive = newKey;
-  keyActive = newKey;
-  if (allVectors.count(newKey) == 0) {
-      allVectors[newKey] = std::shared_ptr<std::vector<std::shared_ptr<gameObject>>>(new std::vector<std::shared_ptr<gameObject>>);
-      factorNewGameState(newKey);
+}
+
+void objectStorage::tmpNewActive(){
+  keyActive = tmpActive;
+  allVectors.clear();
+  if (allVectors.count(tmpActive) == 0) {
+      allVectors[tmpActive] = std::shared_ptr<std::vector<std::shared_ptr<gameObject>>>(new std::vector<std::shared_ptr<gameObject>>);
+      std::cout << "Voor factor new gamestate" << std::endl;
+      factorNewGameState(tmpActive);
+      std::cout << "na factor new gamestate" << std::endl;
   }
 }
 
 objectStorage::objectStorage(sf::RenderWindow& window) : window(window),
-    storageDeck(hand, drawPile, discardPile, completeDeck, cardsInHand){
-  std::cout << "Test1" << std::endl;
-    setActive("title.txt");
-    std::cout << "Test2" << std::endl;
+    storageDeck(hand, drawPile, discardPile, completeDeck, cardsInHand)
+{
+    tmpActive = "title.txt";
+    tmpNewActive();
     factorMainCharacter();
-    std::cout << "Test3" << std::endl;
+    std::cout << "Consturctor objectStorage" << std::endl;
 }
 
 std::shared_ptr<gameObject> objectStorage::factorObject(
-    std::ifstream& inputFile) {
+  std::ifstream& inputFile) {
   objectTypes_E objectType;
   sf::Vector2f pos;
   sf::Vector2f scale;
@@ -72,27 +78,21 @@ std::shared_ptr<gameObject> objectStorage::factorObject(
       return std::shared_ptr<gameObject>(
           new character(pos, scale, textureMap, window, firstKey, prio));
     } else if (objectType == objectTypes_E::TESTSPRITE_E) {
-      std::cout << "textSpriteMade " << firstKey << std::endl;
       return std::shared_ptr<gameObject>(
           new textureSprite(pos, scale, textureMap, firstKey, prio));
     } else if (objectType == objectTypes_E::CHEST_E) {
-      std::cout << "chest begin made " << firstKey << std::endl;
       return std::shared_ptr<gameObject>(
           new chest(pos, scale, textureMap, firstKey, prio));
     } else if (objectType == objectTypes_E::DOOR_E) {
-      std::cout << "door begin made " << firstKey << std::endl;
       return std::shared_ptr<gameObject>(
           new door(pos, scale, textureMap, firstKey, *this, prio, target));
     } else if (objectType == objectTypes_E::BUTTON_E) {
-      std::cout << "Button begin made " << firstKey << std::endl;
       return std::shared_ptr<gameObject>(
           new button(pos, scale, textureMap, firstKey, *this, prio, target));
     } else if (objectType == objectTypes_E::BACKGROUND_E) {
-      std::cout << "Background begin made " << firstKey << std::endl;
       return std::shared_ptr<gameObject>(
           new background(pos, scale, textureMap, firstKey, prio));
     } else if (objectType == objectTypes_E::TITLECARD_E) {
-      std::cout << "Titlecard begin made " << firstKey << std::endl;
       return std::shared_ptr<gameObject>(
           new titlecard(pos, scale, textureMap, *this, firstKey, prio));
     }
@@ -111,15 +111,21 @@ std::shared_ptr<gameObject> objectStorage::factorObject(
 }
 
 void objectStorage::factorNewGameState(std::string stateFileName) {
-  std::ifstream inputFile(stateFileName);
+  std::ifstream inputFile;
+  std::cout << "factor new gamestate voor file" << std::endl;
+  std::cout << stateFileName << std::endl;
+  inputFile.open(stateFileName);
+  std::cout << "factor new gamestate na file" << std::endl;
   std::string storageType;
+  std::cout << "Factor net gamestate voor try" << std::endl;
   try {
     while (true) {
       if (inputFile.peek() == EOF) {
         throw end_of_file("end of file reached");
       }
+      std::cout << "Pushback1" << std::endl;
       allVectors[stateFileName]->push_back(factorObject(inputFile));
-      std::cout << "Size allVectors: " << allVectors[stateFileName]->size() << std::endl;
+      std::cout << "Pushback2" << std::endl;
     }
   } catch (end_of_file& e) {
     std::cerr << e.what() << std::endl;

@@ -7,29 +7,21 @@ std::ifstream& operator>>(std::ifstream &input, objectTypes_E &objectType){
   std::string typeString;
   input>>typeString;
   if(typeString == "objectTypes_E::TESTSPRITE_E"){
-    std::cout<<"testSprite found" <<std::endl;
     objectType = objectTypes_E::TESTSPRITE_E;
   }else if(typeString == "objectTypes_E::CIRCLE_E"){
     objectType = objectTypes_E::CIRCLE_E;
-    std::cout<<"circle found"  <<std::endl;
   }else if(typeString == "objectTypes_E::CHARACTER_E"){
     objectType = objectTypes_E::CHARACTER_E;
-    std::cout<<"character found"  <<std::endl;
   }else if(typeString == "objectTypes_E::CHEST_E"){
     objectType = objectTypes_E::CHEST_E;
-    std::cout<<"character found"  <<std::endl;
   }else if(typeString == "objectTypes_E::DOOR_E"){
     objectType = objectTypes_E::DOOR_E;
-    std::cout<<"character found"  <<std::endl;
   }else if(typeString == "objectTypes_E::BUTTON_E"){
     objectType = objectTypes_E::BUTTON_E;
-    std::cout<<"character found"  <<std::endl;
   }else if(typeString == "objectTypes_E::TITLECARD_E"){
     objectType = objectTypes_E::TITLECARD_E;
-    std::cout<<"character found"  <<std::endl;
   }else if(typeString == "objectTypes_E::BACKGROUND_E"){
     objectType = objectTypes_E::BACKGROUND_E;
-    std::cout<<"character found"  <<std::endl;
   }else{
     throw invalid_type("invalid Type string Found");
   }
@@ -66,7 +58,6 @@ std::ifstream &operator>>(std::ifstream &input, sf::Vector2f &rhs) {
     throw unknown_pos(c);
   }
 
-  std::cout<< "position made"  <<std::endl;
   return input;
 }
 

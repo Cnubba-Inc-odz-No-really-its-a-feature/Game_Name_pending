@@ -29,7 +29,7 @@ private:
 public:
     bool swappedActive = false;
     std::string tmpActive;
-    std::string keyActive = "Title";
+    std::string keyActive = "Title.txt";
     std::map<std::string, std::shared_ptr<std::vector<std::shared_ptr<gameObject>>>> allVectors;
 
      std::array<std::shared_ptr<gameObject>, LANE_SIZE>  allyArrayAir;
@@ -58,7 +58,6 @@ public:
     
     std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> & getActive();
     void setActive(std::string newKey);
-    //boardLaneArraysContainer getLaneArrays();
 //     std::vector<std::shared_ptr<std::vector<int>>> getDeckVector(){
 //         std::vector<std::shared_ptr<std::vector<int>>> deckVector;
 
@@ -69,6 +68,8 @@ public:
 
 //         return deckVector;
 //     }
+
+    void tmpNewActive();
  };
 
 #endif // _OBJECTSTORAGE_HPP_
