@@ -42,10 +42,8 @@ std::shared_ptr<gameObject> factory::factorObject(std::ifstream & inputFile){
         if(objectType == objectTypes_E::CHARACTER_E){
             return std::shared_ptr<gameObject>(new character(pos, scale, textureMap, window, firstKey, prio));
         }else if(objectType == objectTypes_E::TESTSPRITE_E){
-            std::cout<< "textSpriteMade " << firstKey << std::endl;
             return std::shared_ptr<gameObject>(new textureSprite(pos, scale, textureMap, firstKey, prio));
         }else if(objectType == objectTypes_E::CHEST_E){
-            std::cout<<"chest begin made " << firstKey << std::endl;
             return std::shared_ptr<gameObject>(new chest(pos, scale, textureMap, firstKey, prio));
         }else if(objectType == objectTypes_E::DOOR_E){
             std::cout<<"door begin made " << firstKey << std::endl;
@@ -54,10 +52,8 @@ std::shared_ptr<gameObject> factory::factorObject(std::ifstream & inputFile){
             std::cout<<"Button begin made " << firstKey << std::endl;
             return std::shared_ptr<gameObject>(new button(pos, scale, textureMap, firstKey, storage, prio));
         }else if(objectType == objectTypes_E::BACKGROUND_E){
-            std::cout<<"Background begin made " << firstKey << std::endl;
             return std::shared_ptr<gameObject>(new background(pos, scale, textureMap, firstKey, prio));
         }else if(objectType == objectTypes_E::TITLECARD_E){
-            std::cout<<"Titlecard begin made " << firstKey << std::endl;
             return std::shared_ptr<gameObject>(new titlecard(pos, scale, textureMap, storage, firstKey, prio));
         }
     

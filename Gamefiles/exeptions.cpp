@@ -1,6 +1,19 @@
 #include "exeptions.hpp"
 
 
+invalid_UnitLane::invalid_UnitLane(const char *c) {msg = c;};
+
+const char* invalid_UnitLane::what() const noexcept {
+  return msg.c_str();
+};
+
+
+invalid_Factory_Binds::invalid_Factory_Binds(const char *c) {msg = c;};
+
+const char* invalid_Factory_Binds::what() const noexcept {
+  return msg.c_str();
+};
+
 end_of_textures::end_of_textures(const char *c) {msg = c;};
 
 const char* end_of_textures::what() const noexcept {

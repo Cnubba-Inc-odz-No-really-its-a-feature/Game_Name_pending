@@ -9,6 +9,23 @@ class problem : public std::exception{
 
 };
 
+class invalid_UnitLane : public problem{
+private:
+  std::string msg;
+public:
+  invalid_UnitLane(const char *c);
+  const char *what() const noexcept;
+};
+
+
+class invalid_Factory_Binds : public problem{
+private:
+  std::string msg;
+public:
+  invalid_Factory_Binds(const char *c);
+  const char *what() const noexcept;
+};
+
 class end_of_textures : public problem{
 private:
   std::string msg;
