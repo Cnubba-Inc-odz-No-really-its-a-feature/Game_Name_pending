@@ -27,7 +27,12 @@ public:
         objectSprite.setTextureRect(sf::IntRect(0, 0, 64, 64));
     }
 
-    void setFrame(int maxFrame, int textureRow) override{}
+    void setFrame(int maxFrame, int textureRow) override{
+        if(frameCounter > 10) {frameCounter = 0; textureFrame++;}
+	    if(maxFrame < textureFrame) textureFrame = 0;
+	    objectSprite.setTextureRect(sf::IntRect(64*textureFrame, 64*textureRow, 64, 64));
+	    frameCounter++;
+    }
 
     void interact() override{
         storage.setActive(target);
@@ -38,6 +43,7 @@ public:
     }
 
     void draw(sf::RenderWindow& gameWindow) override{
+        setFrame(2,2);
         gameWindow.draw(objectSprite);
         if(open){
             for(auto& loot : lootObjectVector){
