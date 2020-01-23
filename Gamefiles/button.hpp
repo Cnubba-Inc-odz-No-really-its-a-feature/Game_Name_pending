@@ -14,8 +14,12 @@ private:
     objectStorage & storage;
     std::string target;
 
+    bool firstrun = true;
+    sf::Sound sound;
+    sf::SoundBuffer buffer;
+
 public:
-    button( sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, objectStorage & storage, int objectPriority, std::string target);
+    button( sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, objectStorage & storage, int objectPriority, std::string target, std::string soundFile);
 
     void draw(sf::RenderWindow& gameWindow) override;
 

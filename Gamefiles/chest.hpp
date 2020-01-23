@@ -14,16 +14,24 @@ private:
     int textureFrame = 0;
     int frameCounter = 0;
     bool interacted = false;
+
+    sf::Sound sound;
+    sf::SoundBuffer buffer;
 public:
-    chest(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, int objectPriority):
+    chest(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, int objectPriority, std::string soundFile):
         gameObject(spritePosition, spriteScale, textureMap, firstKey)
     {
         interactable = true;
         gameObject::objectPriority = objectPriority;
 	    objectSprite.setTextureRect(sf::IntRect(0, 0, 16, 30));
+        buffer.loadFromFile(soundFile);
+        sound.setBuffer(buffer);
     }
 
     void interact() override{
+        if(!interacted){
+            sound.play();
+        }
         interacted = true;
     }
 
