@@ -37,11 +37,11 @@ bool character::collision(){
 
 void character::update(){
     if(moved){
-        if(direction.x < 0) setFrame(8, 9);
-	    if(direction.x > 0) setFrame(8, 11);
+        if(direction.x < 0) setFrame(7, 1);
+	    if(direction.x > 0) setFrame(7, 2);
         moved = false;
     }else{
-        setFrame(1,5);
+        setFrame(5,0);
     }
 }
 

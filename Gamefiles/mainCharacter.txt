@@ -1,2 +1,2 @@
 
-objectTypes_E::CHARACTER_E (10,715) (5,5) 1 texture1 gameAssets/mainCharacter/idle.png ;
+objectTypes_E::CHARACTER_E (10,600) (3,3) 1 texture1 gameAssets/mainCharacter/main_char.png ;

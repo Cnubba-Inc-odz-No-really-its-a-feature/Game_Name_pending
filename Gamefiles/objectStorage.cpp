@@ -18,20 +18,25 @@ void objectStorage::tmpNewActive(){
   keyActive = tmpActive;
   allVectors.clear();
   if (allVectors.count(tmpActive) == 0) {
-    std::cout << "Test11" << std::endl;
       allVectors[tmpActive] = std::shared_ptr<std::vector<std::shared_ptr<gameObject>>>(new std::vector<std::shared_ptr<gameObject>>);
-      std::cout << "Test12" << std::endl;
+      std::cout << "Voor factor new gamestate" << std::endl;
       factorNewGameState(tmpActive);
-      std::cout << "Test13" << std::endl;
+      std::cout << "na factor new gamestate" << std::endl;
   }
 }
 
 objectStorage::objectStorage(sf::RenderWindow& window) : window(window)
+<<<<<<< HEAD
     // storageDeck(hand, drawPile, discardPile, completeDeck)
     {
+=======
+    //storageDeck(hand, drawPile, discardPile, completeDeck){
+{
+>>>>>>> 5a5895d4e9abcb09be054d0143d51491d5a75ecf
     tmpActive = "title.txt";
     tmpNewActive();
     factorMainCharacter();
+    std::cout << "Consturctor objectStorage" << std::endl;
 }
 
 std::shared_ptr<gameObject> objectStorage::factorObject(
@@ -111,16 +116,19 @@ std::shared_ptr<gameObject> objectStorage::factorObject(
 }
 
 void objectStorage::factorNewGameState(std::string stateFileName) {
-  std::ifstream inputFile(stateFileName);
+  std::ifstream inputFile;
+  std::cout << "factor new gamestate voor file" << std::endl;
+  std::cout << stateFileName << std::endl;
+  inputFile.open(stateFileName);
+  std::cout << "factor new gamestate na file" << std::endl;
   std::string storageType;
+  std::cout << "Factor net gamestate voor try" << std::endl;
   try {
     while (true) {
       if (inputFile.peek() == EOF) {
         throw end_of_file("end of file reached");
       }
-      std::cout << "Pushback1" << std::endl;
       allVectors[stateFileName]->push_back(factorObject(inputFile));
-      std::cout << "Pushback2" << std::endl;
     }
   } catch (end_of_file& e) {
     std::cerr << e.what() << std::endl;

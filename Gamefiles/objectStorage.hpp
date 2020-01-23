@@ -47,10 +47,7 @@ public:
     std::vector<int> drawPile;
     std::vector<int> discardPile;
     std::vector<int> completeDeck;
-    // deckClass storageDeck;
-
-    //objectStorage();
-    objectStorage(sf::RenderWindow & window);
+    //deckClass storageDeck;
     std::shared_ptr<gameObject> character1;
 
 
