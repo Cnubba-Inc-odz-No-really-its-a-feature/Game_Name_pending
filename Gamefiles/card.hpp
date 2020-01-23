@@ -24,6 +24,7 @@ std::ifstream& operator>>(std::ifstream& input, E_lane& unitLane);
 class unit : public gameObject{
 private:
     int unitMaxHealth;
+    int unitCurrentHealth;
     int unitDamage;
     E_lane unitLane;
     bool ally = true;
@@ -31,12 +32,32 @@ public:
     unit(int unitMaxHealth, int unitDamage, E_lane unitLane, std::map<std::string, sf::Texture> textureMap):
     gameObject(sf::Vector2f(200, 100), sf::Vector2f(1,1), textureMap, std::string("unitTexture"), 5),
         unitMaxHealth(unitMaxHealth),
+        unitCurrentHealth(unitMaxHealth),
         unitDamage(unitDamage),
         unitLane(unitLane){}
     
     ~unit(){}
 
+    bool isAlly(){
+        return ally;
+    }
 
+    bool checkIsDead(){
+        return unitCurrentHealth <= 0;
+    }
+
+    int getDamage(){
+        return unitDamage;
+    }
+
+    void takeDamage(int damage){
+        unitCurrentHealth -= damage;
+    }
+
+    E_lane getLaneType(){
+        return unitLane;
+    }
+    
     void draw(sf::RenderWindow& gameWindow) override{
         gameWindow.draw(objectSprite);
     }
@@ -82,7 +103,7 @@ public:
     void update() override {}
     void setFrame(int maxFrame, int textureRow) override {}
 
-    virtual std::shared_ptr<gameObject> summonUnitFromCard() =0;
+    virtual std::shared_ptr<unit> summonUnitFromCard() =0;
 
 };
 
@@ -133,8 +154,6 @@ public:
         summonCardDamage.setScale(sf::Vector2f(0.2, 0.2));
         summonCardHealth.setScale(sf::Vector2f(0.2, 0.2));
         summonCardArtSprite.setScale(sf::Vector2f(0.2, 0.2));        
-
-        
     }
 
 
@@ -157,16 +176,17 @@ public:
 
     void setPosition(sf::Vector2f newPosition)override{
         objectSprite.setPosition(newPosition);
-        auto cardPosition = objectSprite.getGlobalBounds();
 
         cardName.setPosition(sf::Vector2f(objectSprite.getGlobalBounds().left + (0.175 * objectSprite.getGlobalBounds().width) , objectSprite.getGlobalBounds().top + (0.05 * objectSprite.getGlobalBounds().height)));
-        summonCardDamage.setPosition(sf::Vector2f(cardPosition.left + (0.26* cardPosition.width) , cardPosition.top + (0.835 * cardPosition.height)));
-        summonCardHealth.setPosition(sf::Vector2f(cardPosition.left + (0.68* cardPosition.width) , cardPosition.top + (0.835 * cardPosition.height)));
+        summonCardDamage.setPosition(sf::Vector2f(objectSprite.getGlobalBounds().left + (0.26* objectSprite.getGlobalBounds().width) , objectSprite.getGlobalBounds().top + (0.835 * objectSprite.getGlobalBounds().height)));
+        summonCardHealth.setPosition(sf::Vector2f(objectSprite.getGlobalBounds().left + (0.68* objectSprite.getGlobalBounds().width) , objectSprite.getGlobalBounds().top + (0.835 * objectSprite.getGlobalBounds().height)));
         summonCardArtSprite.setPosition(objectSprite.getPosition());
+        cardName.setPosition(sf::Vector2f(objectSprite.getGlobalBounds().left + (0.175 * objectSprite.getGlobalBounds().width) , objectSprite.getGlobalBounds().top + (0.05 * objectSprite.getGlobalBounds().height)));
+
     }
 
-    std::shared_ptr<gameObject> summonUnitFromCard(){
-        return std::shared_ptr<gameObject>(new unit(cardUnitHealth, cardUnitDamage, cardUnitLane, textureMap));
+    std::shared_ptr<unit> summonUnitFromCard(){
+        return std::shared_ptr<unit>(new unit(cardUnitHealth, cardUnitDamage, cardUnitLane, textureMap));
     }
 };
 

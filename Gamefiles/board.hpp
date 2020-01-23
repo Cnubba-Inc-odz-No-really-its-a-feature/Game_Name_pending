@@ -6,15 +6,13 @@
 class board {
 private:
     lane lanes[3];
-    sf::Sprite boardSprite;
     E_lane priorityLane;
 
-    int playerHP = 5;
-    int enemyHP = 5;
+    std::shared_ptr<int> playerHP;
+    std::shared_ptr<int> enemyHP;
 public:
     // constructors
-    board(boardLaneArraysContainer& boardContainer);
-    board(const sf::Texture& boardTexture, boardLaneArraysContainer& boardContainer);
+    board(boardLaneArraysContainer& boardContainer, std::shared_ptr<int> playerHP, std::shared_ptr<int> enemyHP);
 
     // update functions
     void update();
@@ -25,8 +23,9 @@ public:
     void updateEffectsOnLane(const int E_lane);
 
     // placements
-    void placeUnit(const int E_lane, const int index, std::shared_ptr<gameObject> unitPointer);
-    void placeTrapcard(const int index, std::shared_ptr<gameObject> trapcardPointer);
+    bool placeUnit(std::shared_ptr<unit> unitPOinter);
+    void placeUnit(const int E_lane, const int index, std::shared_ptr<unit> unitPointer);
+    void placeTrapcard(const int index, std::shared_ptr<unit> trapcardPointer);
     void placeEffect(const int E_lane, const int index, std::shared_ptr<gameObject> effectPointer);
 
     //  spells

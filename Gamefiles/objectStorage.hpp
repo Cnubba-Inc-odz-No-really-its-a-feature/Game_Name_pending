@@ -4,7 +4,7 @@
 #include "character.hpp"
 #include "macrodefinitions.hpp"
 #include "laneArrayContainer.hpp"
-#include "card.hpp"
+// #include "card.hpp"
 // #include <iostream>
 // #include "memory"
 // #include "vector"
@@ -18,6 +18,7 @@
  #include "testSprite.hpp"
  #include "background.hpp"
  #include <map>
+ #include "card.hpp"
 
 class objectStorage {
 private:
@@ -32,16 +33,16 @@ public:
     std::string keyActive = "Title.txt";
     std::map<std::string, std::shared_ptr<std::vector<std::shared_ptr<gameObject>>>> allVectors;
 
-     std::array<std::shared_ptr<gameObject>, LANE_SIZE>  allyArrayAir;
-     std::array<std::shared_ptr<gameObject>, LANE_SIZE>  enemyArrayAir;
-     std::array<std::shared_ptr<gameObject>, LANE_SIZE>  allyArrayGround;
-     std::array<std::shared_ptr<gameObject>, LANE_SIZE>  enemyArrayGround;
-     std::array<std::shared_ptr<gameObject>, LANE_SIZE>  allyArrayTraps;
-     std::array<std::shared_ptr<gameObject>, LANE_SIZE>  enemyArrayTraps;
+    std::array<std::shared_ptr<unit>, LANE_SIZE>  allyArrayAir;
+    std::array<std::shared_ptr<unit>, LANE_SIZE>  enemyArrayAir;
+    std::array<std::shared_ptr<unit>, LANE_SIZE>  allyArrayGround;
+    std::array<std::shared_ptr<unit>, LANE_SIZE>  enemyArrayGround;
+    std::array<std::shared_ptr<unit>, LANE_SIZE>  allyArrayTraps;
+    std::array<std::shared_ptr<unit>, LANE_SIZE>  enemyArrayTraps;
 
-     std::vector<std::shared_ptr<gameObject>> effectsLane1[LANE_SIZE];
-     std::vector<std::shared_ptr<gameObject>> effectsLane2[LANE_SIZE];
-     std::vector<std::shared_ptr<gameObject>> effectsLane3[LANE_SIZE];
+    std::vector<std::shared_ptr<gameObject>> effectsLane1[LANE_SIZE];
+    std::vector<std::shared_ptr<gameObject>> effectsLane2[LANE_SIZE];
+    std::vector<std::shared_ptr<gameObject>> effectsLane3[LANE_SIZE];
 
     std::vector<int> hand;
     std::vector<int> drawPile;
@@ -58,16 +59,6 @@ public:
     
     std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> & getActive();
     void setActive(std::string newKey);
-//     std::vector<std::shared_ptr<std::vector<int>>> getDeckVector(){
-//         std::vector<std::shared_ptr<std::vector<int>>> deckVector;
-
-//         deckVector.push_back(std::make_shared<std::vector<int>>(hand));
-//         deckVector.push_back(std::make_shared<std::vector<int>>(drawPile));
-//         deckVector.push_back(std::make_shared<std::vector<int>>(discardPile));
-//         deckVector.push_back(std::make_shared<std::vector<int>>(completeDeck));
-
-//         return deckVector;
-//     }
 
     void tmpNewActive();
  };

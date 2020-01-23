@@ -19,10 +19,8 @@ class inputHandler {
   std::array<sf::Keyboard::Key, 2> interactionKeys = {sf::Keyboard::E,
                                                       sf::Keyboard::Up};
 
-  std::array<sf::Mouse::Button, 2> selectKeys = {
-    sf::Mouse::Left,
-    sf::Mouse::Right
-  };
+  std::array<sf::Mouse::Button, 2> selectKeys = {sf::Mouse::Left,
+                                                 sf::Mouse::Right};
 
   std::array<sf::Keyboard::Key, 1> exitKeys = {sf::Keyboard::Key::Escape};
 
@@ -53,10 +51,19 @@ class inputHandler {
 
   std::unique_ptr<command> handleInput() {
     // for dungeonGamestate
-    for (auto movementKey : moveKeys) {
-      if (sf::Keyboard::isKeyPressed(movementKey)) {
-        std::unique_ptr<command>(
-            new moveCommand(movementKey, gameObjectStorage.character1));
+    if (gameObjectStorage.keyActive.at(0) == 'r') {
+      for (auto movementKey : moveKeys) {
+        if (sf::Keyboard::isKeyPressed(movementKey)) {
+          std::unique_ptr<command>(
+              new moveCommand(movementKey, gameObjectStorage.character1));
+        }
+      }
+
+      for (auto i : moveKeys) {
+        if (sf::Keyboard::isKeyPressed(i)) {
+          return std::unique_ptr<command>(
+              new moveCommand(i, gameObjectStorage.character1));
+        }
       }
     }
 
@@ -95,13 +102,6 @@ class inputHandler {
     for (auto exitKey : exitKeys) {
       if (sf::Keyboard::isKeyPressed(exitKey)) {
         return std::unique_ptr<command>(new exitCommand());
-      }
-    }
-
-    for (auto i : moveKeys) {
-      if (sf::Keyboard::isKeyPressed(i)) {
-        return std::unique_ptr<command>(
-            new moveCommand(i, gameObjectStorage.character1));
       }
     }
 
