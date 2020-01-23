@@ -13,14 +13,11 @@
 
 class inputHandler {
  private:
-  std::array<sf::Keyboard::Key, 2> moveKeys = {sf::Keyboard::Left,
-                                               sf::Keyboard::Right};
+  std::array<sf::Keyboard::Key, 2> moveKeys = {sf::Keyboard::Left, sf::Keyboard::Right};
 
-  std::array<sf::Keyboard::Key, 2> interactionKeys = {sf::Keyboard::E,
-                                                      sf::Keyboard::Up};
+  std::array<sf::Keyboard::Key, 2> interactionKeys = {sf::Keyboard::E, sf::Keyboard::Up};
 
-  std::array<sf::Mouse::Button, 2> selectKeys = {sf::Mouse::Left,
-                                                 sf::Mouse::Right};
+  std::array<sf::Mouse::Button, 2> selectKeys = {sf::Mouse::Left, sf::Mouse::Right};
 
   std::array<sf::Keyboard::Key, 1> exitKeys = {sf::Keyboard::Key::Escape};
 
@@ -40,8 +37,7 @@ class inputHandler {
     mainCharPosition += mainCharCompensationVector;
     objectPosition += objectCompensationVector;
 
-    return sqrt(pow(objectPosition.x - mainCharPosition.x, 2) +
-                pow(objectPosition.y - mainCharPosition.y, 2));
+    return sqrt(pow(objectPosition.x - mainCharPosition.x, 2) +  pow(objectPosition.y - mainCharPosition.y, 2));
   }
 
   bool inRange(std::shared_ptr<gameObject> objectPointer) {
