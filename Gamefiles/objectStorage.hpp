@@ -22,12 +22,12 @@ public:
     std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> title;
     std::map<std::string, std::shared_ptr<std::vector<std::shared_ptr<gameObject>>>> allVectors;
 
-    std::shared_ptr<gameObject> allyArrayAir[LANE_SIZE];
-    std::shared_ptr<gameObject> EnemyArrayAir[LANE_SIZE];
-    std::shared_ptr<gameObject> allyArrayGround[LANE_SIZE];
-    std::shared_ptr<gameObject> EnemyArrayGround[LANE_SIZE];
-    std::shared_ptr<gameObject> allyArrayTraps[LANE_SIZE];
-    std::shared_ptr<gameObject> EnemyArrayTraps[LANE_SIZE];
+    std::array<std::shared_ptr<gameObject>, LANE_SIZE>  allyArrayAir;
+    std::array<std::shared_ptr<gameObject>, LANE_SIZE>  enemyArrayAir;
+    std::array<std::shared_ptr<gameObject>, LANE_SIZE>  allyArrayGround;
+    std::array<std::shared_ptr<gameObject>, LANE_SIZE>  enemyArrayGround;
+    std::array<std::shared_ptr<gameObject>, LANE_SIZE>  allyArrayTraps;
+    std::array<std::shared_ptr<gameObject>, LANE_SIZE>  enemyArrayTraps;
 
     std::vector<std::shared_ptr<gameObject>> effectsLane1[LANE_SIZE];
     std::vector<std::shared_ptr<gameObject>> effectsLane2[LANE_SIZE];
