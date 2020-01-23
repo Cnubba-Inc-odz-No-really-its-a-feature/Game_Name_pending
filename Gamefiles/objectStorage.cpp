@@ -12,24 +12,30 @@ std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> & objectStorage::getAc
 void objectStorage::setActive(std::string newKey) {
   swappedActive = true;
   tmpActive = newKey;
-  keyActive = newKey;
-  if (allVectors.count(newKey) == 0) {
-      allVectors[newKey] = std::shared_ptr<std::vector<std::shared_ptr<gameObject>>>(new std::vector<std::shared_ptr<gameObject>>);
-      factorNewGameState(newKey);
+}
+
+void objectStorage::tmpNewActive(){
+  keyActive = tmpActive;
+  if (allVectors.count(tmpActive) == 0) {
+    std::cout << "Test11" << std::endl;
+      allVectors[tmpActive] = std::shared_ptr<std::vector<std::shared_ptr<gameObject>>>(new std::vector<std::shared_ptr<gameObject>>);
+      std::cout << "Test12" << std::endl;
+      factorNewGameState(tmpActive);
   }
 }
 
 objectStorage::objectStorage(sf::RenderWindow& window) : window(window),
     storageDeck(hand, drawPile, discardPile, completeDeck){
   std::cout << "Test1" << std::endl;
-    setActive("title.txt");
+    tmpActive = "title.txt";
+    tmpNewActive();
     std::cout << "Test2" << std::endl;
     factorMainCharacter();
     std::cout << "Test3" << std::endl;
 }
 
 std::shared_ptr<gameObject> objectStorage::factorObject(
-    std::ifstream& inputFile) {
+  std::ifstream& inputFile) {
   objectTypes_E objectType;
   sf::Vector2f pos;
   sf::Vector2f scale;
