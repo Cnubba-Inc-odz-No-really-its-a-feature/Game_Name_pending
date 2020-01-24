@@ -30,12 +30,16 @@ public:
 
 
         //VOOR KAART TESTS
-        for(auto &i : renderObjectStorage.cardsInHand){
-            i->draw(gameWindow);
+        //for(auto &i : renderObjectStorage.cardsInHand){
+        //    i->draw(gameWindow);
+        //}
+        if(renderObjectStorage.storageDeck.fightActive){
+            gameWindow.draw(renderObjectStorage.storageDeck.deckStats_drawPile);
+            gameWindow.draw(renderObjectStorage.storageDeck.deckStats_discardPile);
+            renderObjectStorage.storageDeck.DrawHand(gameWindow);
+
+
         }
-        gameWindow.draw(renderObjectStorage.storageDeck.deckStats_drawPile);
-        gameWindow.draw(renderObjectStorage.storageDeck.deckStats_discardPile);
-        
 
 
 
