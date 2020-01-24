@@ -121,12 +121,8 @@ std::shared_ptr<gameObject> objectStorage::factorObject(
 
 void objectStorage::factorNewGameState(std::string stateFileName) {
   std::ifstream inputFile;
-  std::cout << "factor new gamestate voor file" << std::endl;
-  std::cout << stateFileName << std::endl;
   inputFile.open(stateFileName);
-  std::cout << "factor new gamestate na file" << std::endl;
   std::string storageType;
-  std::cout << "Factor net gamestate voor try" << std::endl;
   try {
     while (true) {
       if (inputFile.peek() == EOF) {
