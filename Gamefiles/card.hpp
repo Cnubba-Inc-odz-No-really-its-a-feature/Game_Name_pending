@@ -2,15 +2,11 @@
 #define _CARD_HPP
 #include "gameObject.hpp"
 #include "exeptions.hpp"
-#include <vector>
+#include "enums.hpp"
 
+#include <vector>
 #include <fstream>
 #include <algorithm>
-
-enum E_lane{
-  skyLane, groundLane, trapLane  
-};
-
 
 
 

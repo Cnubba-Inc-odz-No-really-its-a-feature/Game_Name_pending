@@ -78,7 +78,7 @@
         }
 
         // set drawingPosition for the units
-        sf::Vector2f laneStartPosition = lanePositionMap[laneID];
+        sf::Vector2f laneStartPosition = lanePositionMap1[laneID];
 
         sf::Vector2f drawPosition = laneStartPosition;
         for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
@@ -205,7 +205,7 @@
         }
 
         // set positions of the unit sprites
-        sf::Vector2f laneStartPosition = lanePositionMap[laneID];
+        sf::Vector2f laneStartPosition = lanePositionMap1[laneID];
 
         sf::Vector2f drawPosition = laneStartPosition;
         for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
@@ -277,7 +277,7 @@
     }
 
     void lane::draw(sf::RenderWindow& window){
-        sf::Vector2f laneStartPosition = lanePositionMap[laneID];
+        sf::Vector2f laneStartPosition = lanePositionMap1[laneID];
 
         sf::Vector2f drawPosition = laneStartPosition;
         for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
