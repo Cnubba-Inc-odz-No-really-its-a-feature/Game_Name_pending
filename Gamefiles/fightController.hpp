@@ -17,24 +17,25 @@ private:
     std::shared_ptr<objectStorage> storage;
     board gameBoard;
 
-    int playerHP = 15;
-    int enemyHP = 15;
+
+    int_fast8_t playerHP = 15;
+    int_fast8_t enemyHP = 15;
+    std::shared_ptr<int_fast8_t> playerHPPointer = std::make_shared<int_fast8_t>(playerHP);
+    std::shared_ptr<int_fast8_t> enemyHPPointer = std::make_shared<int_fast8_t>(enemyHP);
     E_fightState fightState;
 
     E_fightState updateFightState(){
-        switch(playerHP, enemyHP){
-            if(playerHP >=0 && enemyHP <=0){
-                fightState = E_fightState::win;
-            }
-            else if(playerHP <=0 && enemyHP >= 0){
-                fightState = E_fightState::loss;
-            }
-            else if(playerHP <=0 && enemyHP <= 0){
-                fightState = E_fightState::draw;
-            }
-            else{
-                fightState = E_fightState::inCombat;
-            }
+        if(playerHP >= 0 && enemyHP <= 0){
+            fightState = E_fightState::win;
+        }
+        else if(playerHP <= 0 && enemyHP >= 0){
+            fightState = E_fightState::loss;
+        }
+        else if(playerHP <= 0 && enemyHP <= 0){
+            fightState = E_fightState::draw;
+        }
+        else{
+            fightState = E_fightState::inCombat;
         }
         return fightState;
     }
@@ -42,7 +43,7 @@ private:
 public:
     fightController(objectStorage& storage, boardLaneArraysContainer boardContainer):
         storage{std::make_shared<objectStorage>(storage)},
-        gameBoard{boardContainer, std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP)}
+        gameBoard{boardContainer, playerHPPointer, enemyHPPointer}
     {}
 
     void initFight(){}
@@ -51,6 +52,7 @@ public:
         gameBoard.update();
         updateFightState();
 
+        // add menu stuff
         if(fightState != E_fightState::inCombat){
             switch(fightState){
                 case E_fightState::win:

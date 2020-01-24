@@ -2,7 +2,7 @@
 
     lane::lane(){}
     
-    lane::lane(E_lane laneID, std::shared_ptr<int> playerHP,std::shared_ptr<int> enemyHP, laneArrayContainer& laneArrays):
+    lane::lane(E_lane laneID, std::shared_ptr<int_fast8_t> playerHP,std::shared_ptr<int_fast8_t> enemyHP, laneArrayContainer& laneArrays):
         laneID{laneID},   
         allyArray{laneArrays.allyArray},
         enemyArray{laneArrays.enemyArray},

@@ -8,11 +8,11 @@ private:
     lane lanes[3];
     E_lane priorityLane;
 
-    std::shared_ptr<int> playerHP;
-    std::shared_ptr<int> enemyHP;
+    std::shared_ptr<int_fast8_t> playerHP;
+    std::shared_ptr<int_fast8_t> enemyHP;
 public:
     // constructors
-    board(boardLaneArraysContainer& boardContainer, std::shared_ptr<int> playerHP, std::shared_ptr<int> enemyHP);
+    board(boardLaneArraysContainer& boardContainer, std::shared_ptr<int_fast8_t> playerHP, std::shared_ptr<int_fast8_t> enemyHP);
 
     // update functions
     void update();
@@ -23,7 +23,7 @@ public:
     void updateEffectsOnLane(const int E_lane);
 
     // placements
-    bool placeUnit(std::shared_ptr<unit> unitPOinter);
+    bool placeUnit(std::shared_ptr<unit> unitPointer);
     void placeUnit(const int E_lane, const int index, std::shared_ptr<unit> unitPointer);
     void placeTrapcard(const int index, std::shared_ptr<unit> trapcardPointer);
     void placeEffect(const int E_lane, const int index, std::shared_ptr<gameObject> effectPointer);
