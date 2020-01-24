@@ -24,8 +24,6 @@ public:
 
     // placements
     bool placeUnit(std::shared_ptr<unit> unitPointer);
-    void placeUnit(const int E_lane, const int index, std::shared_ptr<unit> unitPointer);
-    void placeTrapcard(const int index, std::shared_ptr<unit> trapcardPointer);
     void placeEffect(const int E_lane, const int index, std::shared_ptr<gameObject> effectPointer);
 
     //  spells

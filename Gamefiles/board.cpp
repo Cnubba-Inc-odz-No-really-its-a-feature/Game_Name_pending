@@ -51,25 +51,7 @@ board::board(boardLaneArraysContainer& boardContainer, std::shared_ptr<int_fast8
         }
         return false;
     }
-
-    void board::placeUnit(const int E_lane, const int index, std::shared_ptr<unit> unitPointer){
-        if(index >=0 && index < LANE_SIZE){
-            lanes[E_lane].placeUnit(index, unitPointer);
-        }
-        else{
-            std::cout << "index out of range" << std::endl;
-        }
-    }
     
-    void board::placeTrapcard(const int index, std::shared_ptr<unit> trapcardPointer){
-        if(index >=0 && index < LANE_SIZE){
-            lanes[E_lane::trapLane].placeUnit(index, trapcardPointer);
-        }
-        else{
-            std::cout << "index out of range" << std::endl;
-        }
-    }
-
     void board::placeEffect(const int E_lane, const int index, std::shared_ptr<gameObject> effectPointer){
         if(index >=0 && index < LANE_SIZE){
             lanes[E_lane].placeEffect(index, effectPointer);
