@@ -14,7 +14,6 @@ enum class E_fightState{
 
 class fightController{
 private:
-    std::shared_ptr<objectStorage> storage;
     board gameBoard;
 
 
@@ -41,10 +40,11 @@ private:
     }
 
 public:
-    fightController(objectStorage& storage, boardLaneArraysContainer boardContainer):
-        storage{std::make_shared<objectStorage>(storage)},
+    fightController(const boardLaneArraysContainer& boardContainer):
         gameBoard{boardContainer, playerHPPointer, enemyHPPointer}
-    {}
+    {
+        std::cout << "fightController made" << std::endl;
+    }
 
     void initFight(){}
 

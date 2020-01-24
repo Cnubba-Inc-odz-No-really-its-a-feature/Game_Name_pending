@@ -12,7 +12,8 @@ private:
     std::shared_ptr<int_fast8_t> enemyHP;
 public:
     // constructors
-    board(boardLaneArraysContainer& boardContainer, std::shared_ptr<int_fast8_t> playerHP, std::shared_ptr<int_fast8_t> enemyHP);
+    board();
+    board(const boardLaneArraysContainer& boardContainer, std::shared_ptr<int_fast8_t> playerHP, std::shared_ptr<int_fast8_t> enemyHP);
 
     // update functions
     void update();

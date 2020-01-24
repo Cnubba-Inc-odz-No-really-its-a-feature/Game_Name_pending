@@ -1,13 +1,20 @@
 #include "board.hpp"
 
-board::board(boardLaneArraysContainer& boardContainer, std::shared_ptr<int_fast8_t> playerHP, std::shared_ptr<int_fast8_t> enemyHP):
-        priorityLane{E_lane::skyLane},
+board::board(){}
+
+board::board(const boardLaneArraysContainer& boardContainer, std::shared_ptr<int_fast8_t> playerHP, std::shared_ptr<int_fast8_t> enemyHP):
+        lanes({lane(), lane(), lane()}),
+        priorityLane{E_lane::groundLane},
         playerHP{playerHP},
         enemyHP{enemyHP}
     {
+        std::cout << "starting creation of board" << std::endl; 
+
         lanes[E_lane::skyLane] = lane(E_lane::skyLane, playerHP, enemyHP, boardContainer.skyLane);
         lanes[E_lane::groundLane] = lane(E_lane::groundLane, playerHP, enemyHP, boardContainer.groundLane);
         lanes[E_lane::trapLane] = lane(E_lane::trapLane, playerHP, enemyHP, boardContainer.trapLane);
+
+        std::cout << "board made" << std::endl; 
     }
 
     void board::update(){

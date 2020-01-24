@@ -10,6 +10,7 @@
 #include "moveCommand.hpp"
 #include "objectStorage.hpp"
 #include "selectedCommand.hpp"
+#include "endTurnCommand.hpp"
 #include "cardSelectCommand.hpp"
 #include "fightController.hpp"
 
@@ -121,7 +122,9 @@ class inputHandler {
     for (auto i : selectKeys) {
       if (sf::Mouse::isButtonPressed(i)) {
           std::shared_ptr<unit> cardUnit = gameObjectStorage.storageDeck.checkForCardPlay(sf::Mouse::getPosition());
-          return std::shared_ptr<command>(new cardSelectCommand(fightControlPointer, cardUnit));
+          if(cardUnit != nullptr){
+            return std::shared_ptr<command>(new cardSelectCommand(fightControlPointer, cardUnit));
+          }
       }
 
       // for clicking on menu buttons
@@ -134,13 +137,20 @@ class inputHandler {
     }
 
 
-    if(gameObjectStorage.storageDeck.fightActive){
-      if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-        auto x = gameObjectStorage.storageDeck.checkForCardPlay(sf::Mouse::getPosition());
-        std::cout<<"found click" << std::endl;
-      }
-    }
+    // if(gameObjectStorage.storageDeck.fightActive){
+    //   if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+    //     auto x = gameObjectStorage.storageDeck.checkForCardPlay(sf::Mouse::getPosition());
+    //     std::cout<<"found click" << std::endl;
+    //   }
+    // }
 
+    return NULL;
+  }
+
+  std::shared_ptr<command> handleEndTurnButton(){
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)){
+      return std::shared_ptr<command>(new endTurnCommand(fightControlPointer));
+    }
     return NULL;
   }
 
@@ -185,17 +195,19 @@ class inputHandler {
         if(isCommandValid(obtainedCommand)){
           return obtainedCommand;
         }
-
-
-
-
+        obtainedCommand = handleEndTurnButton();
+        if(isCommandValid(obtainedCommand)){
+          return obtainedCommand;
+        }
         return NULL;
   }
   
 
  public:
-  inputHandler(objectStorage &gameObjectStorage)
-      : gameObjectStorage{gameObjectStorage} {}
+  inputHandler(objectStorage &gameObjectStorage, std::shared_ptr<fightController> fightControlPointer)
+      : gameObjectStorage{gameObjectStorage},
+        fightControlPointer{fightControlPointer}
+       {}
 
   std::shared_ptr<command> handleInput() {
     switch(gameObjectStorage.keyActive.at(0)){

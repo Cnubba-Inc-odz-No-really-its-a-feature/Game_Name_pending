@@ -63,11 +63,20 @@ public:
 
     void tmpNewActive();
 
-    // std::vector<std::shared_ptr<gameObject>> getCombatVector(){
-    //     std::vector<std::shared_ptr<gameObject>> combatVector;
-
-    //     for(uint_fast8_t i = 0; i < LANE_SIZE; i++)
-    // }
+    boardLaneArraysContainer getBoardContainer(){
+        std::cout << "returning boardContainer" << std::endl;
+        return boardLaneArraysContainer(
+                                        laneArrayContainer( std::make_shared<std::array<std::shared_ptr<unit>, LANE_SIZE>>(allyArrayAir),
+                                                            std::make_shared<std::array<std::shared_ptr<unit>, LANE_SIZE>>(allyArrayAir)
+                                                        ),
+                                        laneArrayContainer( std::make_shared<std::array<std::shared_ptr<unit>, LANE_SIZE>>(allyArrayGround),
+                                                            std::make_shared<std::array<std::shared_ptr<unit>, LANE_SIZE>>(enemyArrayGround)
+                                                        ),
+                                        laneArrayContainer( std::make_shared<std::array<std::shared_ptr<unit>, LANE_SIZE>>(allyArrayTraps),
+                                                            std::make_shared<std::array<std::shared_ptr<unit>, LANE_SIZE>>(enemyArrayTraps)
+                                                        )
+                                        );
+    }
  };
 
 #endif // _OBJECTSTORAGE_HPP_

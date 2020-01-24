@@ -15,7 +15,7 @@ private:
 public:
     // constructors
     lane();
-    lane(E_lane laneID, std::shared_ptr<int_fast8_t> playerHP,std::shared_ptr<int_fast8_t> enemyHP, laneArrayContainer& laneArrays);
+    lane(E_lane laneID, std::shared_ptr<int_fast8_t> playerHP,std::shared_ptr<int_fast8_t> enemyHP, const laneArrayContainer& laneArrays);
 
     // checks
     bool isIndexEmpty(const int index);

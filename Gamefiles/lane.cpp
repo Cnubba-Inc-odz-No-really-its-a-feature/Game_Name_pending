@@ -1,14 +1,18 @@
 #include "lane.hpp"
 
-    lane::lane(){}
+    lane::lane(){
+        std::cout << "fake lane" << std::endl;
+    }
     
-    lane::lane(E_lane laneID, std::shared_ptr<int_fast8_t> playerHP,std::shared_ptr<int_fast8_t> enemyHP, laneArrayContainer& laneArrays):
+    lane::lane(E_lane laneID, std::shared_ptr<int_fast8_t> playerHP,std::shared_ptr<int_fast8_t> enemyHP, const laneArrayContainer& laneArrays):
         laneID{laneID},   
         allyArray{laneArrays.allyArray},
         enemyArray{laneArrays.enemyArray},
         playerHP{playerHP},
         enemyHP{enemyHP}
-    {}
+    {
+        std::cout << "lane made" << std::endl;
+    }
 
     bool lane::isIndexEmpty(const int index){
         return allyArray->at(index) == nullptr && enemyArray->at(index) == nullptr;
