@@ -29,15 +29,16 @@ public:
     }
 
     void interact() override{
-        if(!interacted){
+        if(!open){
             sound.play();
+            open = true;
         }
         interacted = true;
     }
 
     void interact(objectStorage& gameStorage, const float& mainCharacterPosition){
 
-    }
+    }       
 
     void draw(sf::RenderWindow& gameWindow) override{
         if(interacted) setFrame(3, 0);

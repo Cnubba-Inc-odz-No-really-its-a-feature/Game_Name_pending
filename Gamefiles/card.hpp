@@ -347,10 +347,10 @@ public:
             deckStats_drawPile.setFont(deckStatsFont);
             deckStats_drawPile.setString("DrawPile size: " + std::to_string(drawPile.size()));
             deckStats_discardPile.setFont(deckStatsFont);
-            deckStats_discardPile.setString("DrawPile size: " + std::to_string(discardPile.size()));
+            deckStats_discardPile.setString("Discard size: " + std::to_string(discardPile.size()));
             
             deckStats_drawPile.setPosition(sf::Vector2f(20, 900));
-            deckStats_drawPile.setPosition(sf::Vector2f(20, 1000));
+            deckStats_discardPile.setPosition(sf::Vector2f(20, 1000));
             }
 
     void newFight(){
