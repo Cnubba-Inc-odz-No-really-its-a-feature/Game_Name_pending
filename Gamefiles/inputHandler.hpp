@@ -133,6 +133,13 @@ class inputHandler {
       }
     }
 
+
+    if(gameObjectStorage.storageDeck.fightActive){
+      if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+        auto x = gameObjectStorage.storageDeck.checkForCardPlay(sf::Mouse::getPosition());
+      }
+    }
+
     return NULL;
   }
 
