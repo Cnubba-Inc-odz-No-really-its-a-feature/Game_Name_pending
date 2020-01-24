@@ -11,21 +11,21 @@
     {}
 
     bool lane::isIndexEmpty(const int index){
-        return allyArray.get()->at(index) == nullptr && enemyArray.get()->at(index) == nullptr;
+        return allyArray->at(index) == nullptr && enemyArray->at(index) == nullptr;
     }
 
     std::shared_ptr<unit> lane::getUnitPointerAtIndex(const int index){
-        if(allyArray.get()->at(index) == nullptr){
-            return enemyArray.get()->at(index);
+        if(allyArray->at(index) == nullptr){
+            return enemyArray->at(index);
         }
         else{
-            return allyArray.get()->at(index);
+            return allyArray->at(index);
         }
     }
 
     void lane::placeUnit(std::shared_ptr<unit> unitPointer){
         if(unitPointer->isAlly()){
-            allyArray.get()->at(0) = unitPointer;
+            allyArray->at(0) = unitPointer;
         }
     }
 
@@ -38,33 +38,33 @@
         
         // update allies
         for(uint_fast8_t i = LANE_SIZE -1; i >= 0; i--){
-            updateResults.push_back(updateUnit(i, allyArray.get()->at(i)));
+            updateResults.push_back(updateUnit(i, allyArray->at(i)));
         }
 
         // filter result of fights and act on it
         filterOutInValidResults(updateResults);
         for(auto& result : updateResults){
             if(result.openentKilled){
-                enemyArray.get()->at(result.opponentPosition) = nullptr;
+                enemyArray->at(result.opponentPosition) = nullptr;
             }
             if(result.selfKilled){
-                allyArray.get()->at(result.selfPosition) = nullptr;
+                allyArray->at(result.selfPosition) = nullptr;
             }
         }
 
         // update enemies
         for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
-            updateResults.push_back(updateUnit(i, enemyArray.get()->at(i)));
+            updateResults.push_back(updateUnit(i, enemyArray->at(i)));
         }
 
         // filter result of fights and act on it
         filterOutInValidResults(updateResults);
         for(auto& result : updateResults){
             if(result.openentKilled){
-                allyArray.get()->at(result.opponentPosition) = nullptr;
+                allyArray->at(result.opponentPosition) = nullptr;
             }
             if(result.selfKilled){
-                enemyArray.get()->at(result.selfPosition) = nullptr;
+                enemyArray->at(result.selfPosition) = nullptr;
             }
         }
 
@@ -107,18 +107,18 @@
     unitUpdateResult lane::updateUnit(const int index, std::shared_ptr<unit> unit){
         if(unit->isAlly()){
             if(index + 1 < LANE_SIZE && isIndexEmpty(index + 1)){
-                allyArray.get()->at(index + 1) = unit;
-                allyArray.get()->at(index) = nullptr;
+                allyArray->at(index + 1) = unit;
+                allyArray->at(index) = nullptr;
             }
             else if(index == LANE_SIZE - 1){
                 *enemyHP.get() -= unit->getDamage();
             }
             else if(index + 1 < LANE_SIZE){
-                unitUpdateResult result = fight(unit, enemyArray.get()->at(index + 1), index);
+                unitUpdateResult result = fight(unit, enemyArray->at(index + 1), index);
 
                 if(result.openentKilled && !result.selfKilled){
-                    allyArray.get()->at(index + 1) = unit;
-                    allyArray.get()->at(index) = nullptr;
+                    allyArray->at(index + 1) = unit;
+                    allyArray->at(index) = nullptr;
                 }
 
                 return result;
@@ -128,18 +128,18 @@
         }
         else{
             if(index - 1 > 0 && isIndexEmpty(index - 1)){
-                enemyArray.get()->at(index - 1) = unit;
-                enemyArray.get()->at(index) = nullptr;
+                enemyArray->at(index - 1) = unit;
+                enemyArray->at(index) = nullptr;
             }
             else if(index == 0){
                 *playerHP.get() -= unit->getDamage();
             }
             else if(index > 0){
-                unitUpdateResult result = fight(unit, allyArray.get()->at(index - 1), index);
+                unitUpdateResult result = fight(unit, allyArray->at(index - 1), index);
 
                 if(result.openentKilled && !result.selfKilled){
-                    enemyArray.get()->at(index - 1) = unit;
-                    enemyArray.get()->at(index) = nullptr;
+                    enemyArray->at(index - 1) = unit;
+                    enemyArray->at(index) = nullptr;
                 }
 
                 return result;
@@ -174,33 +174,33 @@
         
         // update allies
         for(uint_fast8_t i = LANE_SIZE -1; i >= 0; i--){
-            updateResults.push_back(updateUnit(i, allyArray.get()->at(i)));
+            updateResults.push_back(updateUnit(i, allyArray->at(i)));
         }
 
         // filter result of fights and act on it
         filterOutInValidResults(updateResults);
         for(auto& result : updateResults){
             if(result.openentKilled){
-                enemyArray.get()->at(result.opponentPosition) = nullptr;
+                enemyArray->at(result.opponentPosition) = nullptr;
             }
             if(result.selfKilled){
-                allyArray.get()->at(result.selfPosition) = nullptr;
+                allyArray->at(result.selfPosition) = nullptr;
             }
         }
 
         // update enemies
         for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
-            updateResults.push_back(updateUnit(i, enemyArray.get()->at(i)));
+            updateResults.push_back(updateUnit(i, enemyArray->at(i)));
         }
 
         // filter result of fights and act on it
         filterOutInValidResults(updateResults);
         for(auto& result : updateResults){
             if(result.openentKilled){
-                allyArray.get()->at(result.opponentPosition) = nullptr;
+                allyArray->at(result.opponentPosition) = nullptr;
             }
             if(result.selfKilled){
-                enemyArray.get()->at(result.selfPosition) = nullptr;
+                enemyArray->at(result.selfPosition) = nullptr;
             }
         }
 
@@ -231,8 +231,8 @@
     }
 
     void lane::removeAtIndex(const int index){
-        allyArray.get()->at(index) = nullptr;
-        enemyArray.get()->at(index) = nullptr;
+        allyArray->at(index) = nullptr;
+        enemyArray->at(index) = nullptr;
     }
 
     void lane::removeEffectAtIndex(const int positionIndex, const int effectIndex){
@@ -244,12 +244,12 @@
 
     void lane::removeByID(const std::string& id){
         for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
-            if(allyArray.get()->at(i)->getObjectID() == id){
-                allyArray.get()->at(i) = nullptr;
+            if(allyArray->at(i)->getObjectID() == id){
+                allyArray->at(i) = nullptr;
             }
 
-            if(enemyArray.get()->at(i)->getObjectID() == id){
-                enemyArray.get()->at(i) = nullptr;
+            if(enemyArray->at(i)->getObjectID() == id){
+                enemyArray->at(i) = nullptr;
             }
         }
 

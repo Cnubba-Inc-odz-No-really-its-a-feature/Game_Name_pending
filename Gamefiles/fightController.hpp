@@ -36,6 +36,7 @@ private:
                 fightState = E_fightState::inCombat;
             }
         }
+        return fightState;
     }
 
 public:
