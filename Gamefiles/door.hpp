@@ -5,7 +5,7 @@
 #include "memory"
 #include "lootObject.hpp"
 #include "objectStorage.hpp"
-#
+#include <SFML/Audio.hpp>
 #include <iostream>
 
 class door: public gameObject{
@@ -18,14 +18,21 @@ private:
     objectStorage & storage;
     std::string target;
 
+    bool firstrun = true;
+    sf::Sound sound;
+    sf::SoundBuffer buffer;
+
+
 public:
-    door(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, objectStorage &storage, int objectPriority, std::string target):
+    door(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, objectStorage &storage, int objectPriority, std::string target, std::string soundFile):
         gameObject(spritePosition, spriteScale, textureMap, firstKey),
         storage(storage), target(target)
     {
         interactable = true;
         gameObject::objectPriority = objectPriority;
         objectSprite.setTextureRect(sf::IntRect(0, 0, 135, 160));
+        buffer.loadFromFile(soundFile);
+        sound.setBuffer(buffer);
     }
 
     void setFrame(int maxFrame, int textureRow) override{
@@ -36,6 +43,10 @@ public:
     }
 
     void interact() override{
+        if(firstrun){
+            sound.play();
+            firstrun = false;
+        }
         if (textureFrame > 2)storage.setActive(target);
         interacted = true;
     }

@@ -10,7 +10,7 @@ character::character(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std:
 void character::setFrame(int maxFrame, int textureRow){
         if(frameCounter > 10) {frameCounter = 0; textureFrame++;}
 	    if(maxFrame < textureFrame) textureFrame = 0;
-	    objectSprite.setTextureRect(sf::IntRect(231*textureFrame, 190*textureRow, 231, 190));
+	    objectSprite.setTextureRect(sf::IntRect(231*textureFrame + 70, 190*textureRow, 90, 190));
 	    frameCounter++;
     }
 
@@ -29,7 +29,7 @@ void character::move(sf::Vector2f moveDirection){
 }
 
 bool character::collision(){
-    if(objectSprite.getPosition().x <= gameWindow.getPosition().x || objectSprite.getGlobalBounds().width + objectSprite.getPosition().x >= (gameWindow.getPosition().x + gameWindow.getSize().x) ){
+    if(objectSprite.getPosition().x <= 32 || objectSprite.getPosition().x >= 1670 ){
         return true;
     }
     return false;

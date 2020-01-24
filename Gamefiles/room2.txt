@@ -1,5 +1,7 @@
-objectTypes_E::DOOR_E (100, 700) (2,2) 4 menu.txt texture1 gameAssets/door.png ;
-objectTypes_E::CHEST_E (1200, 820) (12,8) 4 texture1 gameAssets/chest2.png ;
+objectTypes_E::DOOR_E (100, 700) (2,2) 4 room1.txt gameAssets/Sounds/door.wav texture1 gameAssets/door.png ;
+objectTypes_E::DOOR_E (1500, 700) (2,2) 4 room3.txt gameAssets/Sounds/door.wav texture1 gameAssets/door.png ;
+objectTypes_E::ENEMY_E (500, 700) (5,5) 4 cardgame.txt texture1 gameAssets/skeleton.png ;
+objectTypes_E::CHEST_E (800, 820) (12,8) 4 gameAssets/Sounds/chest.wav texture1 gameAssets/chest2.png ;
 objectTypes_E::TESTSPRITE_E (1792, 0) (2, 2) 2 texture1 gameAssets/wall_right.png ;
 objectTypes_E::TESTSPRITE_E (1792, 128) (2, 2) 2 texture1 gameAssets/wall_right.png ;
 objectTypes_E::TESTSPRITE_E (1792, 256) (2, 2) 2 texture1 gameAssets/wall_right.png ;

@@ -53,7 +53,11 @@ public:
 
     //objectStorage();
     objectStorage(sf::RenderWindow & window);
-    std::shared_ptr<gameObject> character1;     
+    std::shared_ptr<gameObject> character1;
+
+
+
+    
     std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> & getActive();
     void setActive(std::string newKey);
 

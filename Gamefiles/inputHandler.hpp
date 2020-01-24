@@ -14,15 +14,12 @@
 #include "fightController.hpp"
 
 class inputHandler {
-private:
-  std::array<sf::Keyboard::Key, 2> moveKeys = {sf::Keyboard::Left,
-                                               sf::Keyboard::Right};
+ private:
+  std::array<sf::Keyboard::Key, 2> moveKeys = {sf::Keyboard::Left, sf::Keyboard::Right};
 
-  std::array<sf::Keyboard::Key, 2> interactionKeys = {sf::Keyboard::E,
-                                                      sf::Keyboard::Up};
+  std::array<sf::Keyboard::Key, 2> interactionKeys = {sf::Keyboard::E, sf::Keyboard::Up};
 
-  std::array<sf::Mouse::Button, 2> selectKeys = {sf::Mouse::Left,
-                                                 sf::Mouse::Right};
+  std::array<sf::Mouse::Button, 2> selectKeys = {sf::Mouse::Left, sf::Mouse::Right};
 
   std::array<sf::Keyboard::Key, 1> exitKeys = {sf::Keyboard::Key::Escape};
 
@@ -34,18 +31,20 @@ private:
   }
 
   float currentDistance(std::shared_ptr<gameObject> objectPointer) {
-    sf::Vector2f mainCharPosition =
-        gameObjectStorage.character1->getSprite().getPosition();
-    auto width =
-        gameObjectStorage.character1->getSprite().getGlobalBounds().width;
-    auto height =
-        gameObjectStorage.character1->getSprite().getGlobalBounds().height;
-    sf::Vector2f compensationVector = sf::Vector2f(width * 0.5, height * 0.5);
-    mainCharPosition += compensationVector;
+    sf::Vector2f mainCharPosition = gameObjectStorage.character1->getSprite().getPosition();
+    auto charWidth = gameObjectStorage.character1->getSprite().getGlobalBounds().width;
+    auto charHeight = gameObjectStorage.character1->getSprite().getGlobalBounds().height;
+    sf::Vector2f mainCharCompensationVector = sf::Vector2f(charWidth * 0.5, charHeight * 0.5);
 
     sf::Vector2f objectPosition = objectPointer->getSprite().getPosition();
-    return sqrt(pow(objectPosition.x - mainCharPosition.x, 2) +
-                pow(objectPosition.y - mainCharPosition.y, 2));
+    auto objWidth = objectPointer->getSprite().getGlobalBounds().width;
+    auto objHeight = objectPointer->getSprite().getGlobalBounds().height;
+    sf::Vector2f objectCompensationVector = sf::Vector2f(objWidth * 0.5, objHeight * 0.5);
+
+    mainCharPosition += mainCharCompensationVector;
+    objectPosition += objectCompensationVector;
+
+    return sqrt(pow(objectPosition.x - mainCharPosition.x, 2) +  pow(objectPosition.y - mainCharPosition.y, 2));
   }
 
   bool inRange(std::shared_ptr<gameObject> objectPointer) {
