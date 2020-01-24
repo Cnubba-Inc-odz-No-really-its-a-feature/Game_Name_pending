@@ -34,11 +34,8 @@ public:
         //    i->draw(gameWindow);
         //}
         if(renderObjectStorage.storageDeck.fightActive){
-            gameWindow.draw(renderObjectStorage.storageDeck.deckStats_drawPile);
-            gameWindow.draw(renderObjectStorage.storageDeck.deckStats_discardPile);
+
             renderObjectStorage.storageDeck.DrawHand(gameWindow);
-
-
         }
 
 

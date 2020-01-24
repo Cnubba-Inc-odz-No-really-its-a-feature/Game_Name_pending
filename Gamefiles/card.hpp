@@ -68,9 +68,6 @@ public:
     void move(sf::Vector2f moveDirection)override{}
     void update()override{}
     void setFrame(int maxFrame, int textureRow)override{}
-
-
-
 };
 
 
@@ -104,7 +101,7 @@ public:
     void move(sf::Vector2f moveDirection) override {}
     void update() override {}
     void setFrame(int maxFrame, int textureRow) override {}
-
+    virtual bool checkIfPlayed(sf::Vector2f mousePosition) =0;
     virtual std::shared_ptr<unit> summonUnitFromCard() =0;
 
 };
@@ -159,6 +156,9 @@ public:
         summonCardArtSprite.setScale(sf::Vector2f(0.2, 0.2));        
     }
 
+    
+
+
 
     void draw(sf::RenderWindow& gameWindow){
         summonCardDamage.setFillColor(sf::Color::Red);
@@ -189,6 +189,11 @@ public:
 
     }
 
+    bool checkIfPlayed(sf::Vector2f mousePosition){
+        std::cout<<"entered checkIfPlayed" << std::endl;
+        return (objectSprite.getGlobalBounds().contains(mousePosition));
+    }
+
     std::shared_ptr<unit> summonUnitFromCard(){
         return std::shared_ptr<unit>(new unit(cardUnitHealth, cardUnitDamage, cardUnitLane, textureMap));
     }
@@ -202,6 +207,7 @@ private:
     sf::Texture handTexture;
     sf::Sprite handSprite;
     int cardCount = 0;
+    int lastPlayedCard = 0;
 public:
 
     fightHand(std::vector<int> &discardPile):
@@ -214,6 +220,7 @@ public:
         handPositionMap[5] = sf::Vector2f(1475, 850);
         handPositionMap[6] = sf::Vector2f(1650, 850);
 
+        //std::for_each(cardsInHand.begin(), cardsInHand.end(), [tempMap](auto &i){i.reset(new nullptr);});//( new summonCard(std::string("NULLCARD"), 0, 0, E_lane::groundLane, tempMap, 0)) ;});
         std::for_each(cardsInHand.begin(), cardsInHand.end(), [](auto &i){i = nullptr;});
         handTexture.loadFromFile("gameAssets/cardAssets/handParchment.png");
         handSprite.setTexture(handTexture);
@@ -222,8 +229,12 @@ public:
     }
 
     void drawHand(sf::RenderWindow& gameWindow){
+        //std::cout << "entered draw hand function" << std::endl;
         gameWindow.draw(handSprite);
+        std::for_each(cardsInHand.begin(), cardsInHand.end(), [this, &gameWindow](auto &i){if(i != nullptr){std::cout<<"O";}});
+        std::cout<<"|" << std::endl;
         std::for_each(cardsInHand.begin(), cardsInHand.end(), [this, &gameWindow](auto &i){if(i != nullptr){i->draw(gameWindow);}});
+        //std::cout<<"drew all cards" << std::endl;
     }
 
     int amountOfCardsInHand(){
@@ -232,8 +243,14 @@ public:
 
     void emptyHand(){
         if(cardCount > 0){
-            std::for_each(cardsInHand.begin(), cardsInHand.end(), [this](auto& i){std::cout<<i->getCardID();discardPile.push_back(i->getCardID());});
+            std::cout<<"entered empty hand function" <<std::endl;
+            std::cout<< "current cards in discardPile: " << discardPile.size() << std::endl;
+            std::for_each(cardsInHand.begin(), cardsInHand.end(), [this](auto& i){if(i != nullptr){discardPile.push_back(i->getCardID());}});
+            std::cout<< "cards in discardPile after emptying: " << discardPile.size() << std::endl;
+
+            //std::for_each(cardsInHand.begin(), cardsInHand.end(), [&tempMap](auto &i){i.reset(nullptr);});//(new summonCard(std::string("NULLCARD"),0, 0, E_lane::groundLane, tempMap, 0)) ;});
             std::for_each(cardsInHand.begin(), cardsInHand.end(), [](auto &i){i = nullptr;});
+
         }
         cardCount = 0;
 
@@ -251,6 +268,44 @@ public:
             }
         }
         return false;
+    }
+
+
+
+    int isCardClicked(sf::Vector2f mousePosition){
+       // std::cout<<"entered isCardClicked()" << std::endl;
+        if(cardCount > 0){
+            for(int i = 0; i < 7 ; i++){
+               // std::cout<<"checking card ID's" << std::endl;
+                if(cardsInHand[i] != nullptr){
+                    if(cardsInHand[i]->getCardID() != 0){
+                        std::cout<<"cardID: " << cardsInHand[i]->getCardID() << std::endl;
+                        std::cout<<"found card to check for click in pos: " << i << std::endl;
+                        std::cout<<cardsInHand[i]->checkIfPlayed(mousePosition) << std::endl;
+                        if(cardsInHand[i]->checkIfPlayed(mousePosition)){
+                            std::cout<<"found card clicked on: " << i <<std::endl;
+                            return i;
+                        }
+                        std::cout<<"not clicked"<<std::endl;
+                    }
+                }
+            }
+        }
+
+        std::cout<<"no cards clicked" << std::endl;
+
+        return -1;
+    }
+
+    std::shared_ptr<unit> playUnitCard(int cardPositionInHand){
+        auto unitFromCard = cardsInHand[cardPositionInHand]->summonUnitFromCard();
+        discardPile.push_back(cardsInHand[cardPositionInHand]->getCardID());
+
+        //std::map<std::string, sf::Texture> tempMap;
+        //auto x = std::make_shared<card>(0, 0, E_lane::groundLane, tempMap, 0);
+        //cardsInHand[cardPositionInHand].reset(x.get());
+        cardsInHand[cardPositionInHand] = nullptr;
+        return unitFromCard;
     }
 };
 
@@ -322,12 +377,17 @@ public:
         if(fightActive){
             cardHand.drawHand(gameWindow);
         }
+        deckStats_discardPile.setString("DrawPile size: " + std::to_string(discardPile.size()));
+        deckStats_drawPile.setString("DrawPile size: " + std::to_string(drawPile.size()));
+
+        gameWindow.draw(deckStats_drawPile);
+        gameWindow.draw(deckStats_discardPile);
     }
 
     void newHand(){
         std::random_shuffle(drawPile.begin(), drawPile.end());
         cardHand.emptyHand();
-
+        std::cout<<"emptied hand" << std::endl;
         //std::for_each(hand.begin(), hand.end(), [this](auto &i){discardPile.push_back(i);});
         std::cout<<discardPile.size()<<std::endl;
         //hand.clear();
@@ -364,6 +424,7 @@ public:
         }else{
             std::for_each(drawPile.begin(), drawPile.begin()+7, [this](auto & i){cardHand.addCard(factorCard(i));});
             //std::for_each(drawPile.begin(), drawPile.begin()+7, [this](auto & i){hc.push_back(i);});
+            std::cout<< "added 1 hand" << std::endl;
             drawPile.erase(drawPile.begin(), drawPile.begin()+7);      
         }
         //cardsInHand.clear();
@@ -376,6 +437,32 @@ public:
         deckStats_drawPile.setString("DrawPile size: " + std::to_string(drawPile.size()));
 
     }
+
+
+    std::shared_ptr<unit> checkForCardPlay(sf::Vector2i mousePosI){
+        sf::Vector2f mousePosF = sf::Vector2f(float(mousePosI.x), float(mousePosI.y));
+        std::cout<< "start to check for cards" << std::endl;
+        int clickedCardPos = cardHand.isCardClicked(mousePosF);
+        std::cout<< "Card clicked at: " << clickedCardPos << std::endl;
+        if(clickedCardPos > 0){
+            std::cout<<"unit card found" << std::endl;
+            auto newUnit = cardHand.playUnitCard(clickedCardPos);
+            std::cout<< "unit played" << std::endl;
+            return newUnit;
+        }else{
+            std::cout<<"no cards clicked" << std::endl;
+         }
+
+        return nullptr;
+    }
+
+    // int checkCardInteraction(sf::Vector2f mousePosition){
+    //     return cardHand.isCardClicked(mousePosition);
+    // }
+
+    // std::shared_ptr<unit> playUnitCard(int handPosition){
+    //     cardHand.
+    // }
 
 
 
