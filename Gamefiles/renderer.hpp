@@ -63,6 +63,27 @@ public:
                 }
             }
         }
+
+        if(renderObjectStorage.keyActive.at(0) == 'b'){
+            for(auto& item: renderObjectStorage.allyArrayAir){
+                item->draw(gameWindow);
+            }
+            for(auto& item: renderObjectStorage.enemyArrayAir){
+                item->draw(gameWindow);
+            }
+            for(auto& item: renderObjectStorage.allyArrayAir){
+                item->draw(gameWindow);
+            }
+            for(auto& item: renderObjectStorage.enemyArrayAir){
+                item->draw(gameWindow);
+            }
+            for(auto& item: renderObjectStorage.allyArrayAir){
+                item->draw(gameWindow);
+            }
+            for(auto& item: renderObjectStorage.enemyArrayAir){
+                item->draw(gameWindow);
+            }
+        }
     }
 
     void update(){

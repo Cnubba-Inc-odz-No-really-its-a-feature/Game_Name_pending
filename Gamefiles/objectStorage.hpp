@@ -66,7 +66,7 @@ public:
     // std::vector<std::shared_ptr<gameObject>> getCombatVector(){
     //     std::vector<std::shared_ptr<gameObject>> combatVector;
 
-    //     combatVector.push_back
+    //     for(uint_fast8_t i = 0; i < LANE_SIZE; i++)
     // }
  };
 
