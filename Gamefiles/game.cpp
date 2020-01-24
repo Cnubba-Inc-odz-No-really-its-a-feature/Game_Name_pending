@@ -39,7 +39,7 @@ void game::gameLoop(){
 
 
 
-		std::unique_ptr<command> newCommand;
+		std::shared_ptr<command> newCommand;
 		newCommand  = gameInputHandler.handleInput();
 		if(newCommand != NULL){
 			newCommand->execute();

@@ -10,6 +10,8 @@
 #include "moveCommand.hpp"
 #include "objectStorage.hpp"
 #include "selectedCommand.hpp"
+#include "cardSelectCommand.hpp"
+#include "fightController.hpp"
 
 class inputHandler {
  private:
@@ -22,6 +24,11 @@ class inputHandler {
   std::array<sf::Keyboard::Key, 1> exitKeys = {sf::Keyboard::Key::Escape};
 
   objectStorage &gameObjectStorage;
+  std::shared_ptr<fightController> fightControlPointer;
+
+  bool isCommandValid(std::shared_ptr<command> command){
+    return command != NULL;
+  }
 
   float currentDistance(std::shared_ptr<gameObject> objectPointer) {
     sf::Vector2f mainCharPosition = gameObjectStorage.character1->getSprite().getPosition();
@@ -44,29 +51,16 @@ class inputHandler {
     return currentDistance(objectPointer) <= 200;
   }
 
- public:
-  inputHandler(objectStorage &gameObjectStorage)
-      : gameObjectStorage{gameObjectStorage} {}
-
-  std::unique_ptr<command> handleInput() {
-    // for dungeonGamestate
-    if (gameObjectStorage.keyActive.at(0) == 'r') {
-      for (auto movementKey : moveKeys) {
+  std::shared_ptr<command> handleDungeonMovement(){
+    for (auto movementKey : moveKeys) {
         if (sf::Keyboard::isKeyPressed(movementKey)) {
-          std::unique_ptr<command>(
-              new moveCommand(movementKey, gameObjectStorage.character1));
+          return std::shared_ptr<command>(new moveCommand(movementKey, gameObjectStorage.character1));
         }
-      }
-
-      for (auto i : moveKeys) {
-        if (sf::Keyboard::isKeyPressed(i)) {
-          return std::unique_ptr<command>(
-              new moveCommand(i, gameObjectStorage.character1));
-        }
-      }
     }
+    return NULL;
+  }
 
-    // for dungeonGamestate
+  std::shared_ptr<command> handleButtonInteract(){
     for (auto interactKey : interactionKeys) {
       if (sf::Keyboard::isKeyPressed(interactKey)) {
         std::shared_ptr<gameObject> closestInteractablePointer = nullptr;
@@ -90,20 +84,24 @@ class inputHandler {
         }
 
         if (closestInteractablePointer != nullptr) {
-          return std::unique_ptr<command>(
+          return std::shared_ptr<command>(
               new interactCommand(closestInteractablePointer));
-        } else {
-          return NULL;
         }
       }
     }
+    return NULL;
+  }
 
+  std::shared_ptr<command> handleExit(){
     for (auto exitKey : exitKeys) {
       if (sf::Keyboard::isKeyPressed(exitKey)) {
-        return std::unique_ptr<command>(new exitCommand());
+        return std::shared_ptr<command>(new exitCommand());
       }
     }
-
+    return NULL;
+  }
+  
+  std::shared_ptr<command> handleDungeonClickSelect(){
     for (auto i : selectKeys) {
       if (sf::Mouse::isButtonPressed(i)) {
         sf::Vector2i position = sf::Mouse::getPosition();
@@ -111,8 +109,26 @@ class inputHandler {
           if (j->isInteractable() &&
               j->getSprite().getGlobalBounds().contains(
                   sf::Vector2f(position.x, position.y))) {
-            return std::unique_ptr<command>(new selectedCommand(j));
+            return std::shared_ptr<command>(new selectedCommand(j));
           }
+        }
+      }
+    }
+    return NULL;
+  }
+
+  std::shared_ptr<command> handleCombatClickSelect(){
+    for (auto i : selectKeys) {
+      if (sf::Mouse::isButtonPressed(i)) {
+          // std::shared_ptr<unit> cardUnit = gameObjectStorage.deck.checkForCardPlay(sf::Mouse::getPosition());
+          // return std::shared_ptr<command>(new cardSelectCommand(fightControlPointer, cardUnit));
+      }
+
+      // for clicking on menu buttons
+      sf::Vector2i position = sf::Mouse::getPosition();
+      for (auto j : *gameObjectStorage.getActive()) {
+        if (j->isInteractable() && j->getSprite().getGlobalBounds().contains(sf::Vector2f(position.x, position.y))){
+          return std::shared_ptr<command>(new selectedCommand(j));
         }
       }
     }
@@ -125,6 +141,63 @@ class inputHandler {
     }
 
     return NULL;
+  }
+
+  std::shared_ptr<command> handleDungeonCommands(){
+        std::shared_ptr<command> obtainedCommand;
+
+        obtainedCommand = handleDungeonMovement();
+        if(isCommandValid(obtainedCommand)){
+          return obtainedCommand;
+        }
+        obtainedCommand = handleButtonInteract();
+        if(isCommandValid(obtainedCommand)){
+          return obtainedCommand;
+        }
+        obtainedCommand = handleDungeonClickSelect();
+        if(isCommandValid(obtainedCommand)){
+          return obtainedCommand;
+        }
+        obtainedCommand = handleExit();
+        if(isCommandValid(obtainedCommand)){
+          return obtainedCommand;
+        }
+
+        return NULL;
+  }
+
+  std::shared_ptr<command> handleCombatCommands(){
+        std::shared_ptr<command> obtainedCommand;
+
+        obtainedCommand = handleCombatClickSelect();
+        if(isCommandValid(obtainedCommand)){
+          return obtainedCommand;
+        }
+        obtainedCommand = handleExit();
+        if(isCommandValid(obtainedCommand)){
+          return obtainedCommand;
+        }
+
+        return NULL;
+  }
+  
+
+ public:
+  inputHandler(objectStorage &gameObjectStorage)
+      : gameObjectStorage{gameObjectStorage} {}
+
+  std::shared_ptr<command> handleInput() {
+    switch(gameObjectStorage.keyActive.at(0)){
+      case 'r':
+        return handleDungeonCommands();
+        break;
+      case 'b':
+        return handleCombatCommands();
+        break;
+      default:
+        return handleDungeonCommands();
+        break;
+    } 
   }
 };
 

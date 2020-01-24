@@ -3,6 +3,8 @@
 
 #include "laneStructs.hpp"
 
+extern std::map<E_lane, sf::Vector2f> lanePositionMap;
+
 class lane{
 private:
     E_lane laneID;
