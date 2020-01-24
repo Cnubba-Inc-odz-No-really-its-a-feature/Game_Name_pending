@@ -17,12 +17,9 @@ void objectStorage::setActive(std::string newKey) {
 
 void objectStorage::tmpNewActive(){
   keyActive = tmpActive;
-  allVectors.clear();
   if (allVectors.count(tmpActive) == 0) {
       allVectors[tmpActive] = std::shared_ptr<std::vector<std::shared_ptr<gameObject>>>(new std::vector<std::shared_ptr<gameObject>>);
-      std::cout << "Voor factor new gamestate" << std::endl;
       factorNewGameState(tmpActive);
-      std::cout << "na factor new gamestate" << std::endl;
   }
 }
 
