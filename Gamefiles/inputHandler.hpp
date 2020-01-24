@@ -122,9 +122,17 @@ class inputHandler {
       if (sf::Mouse::isButtonPressed(i)) {
           // std::shared_ptr<unit> cardUnit = gameObjectStorage.deck.checkForCardPlay(sf::Mouse::getPosition());
           // return std::shared_ptr<command>(new cardSelectCommand(fightControlPointer, cardUnit));
-          return NULL;
+      }
+
+      // for clicking on menu buttons
+      sf::Vector2i position = sf::Mouse::getPosition();
+      for (auto j : *gameObjectStorage.getActive()) {
+        if (j->isInteractable() && j->getSprite().getGlobalBounds().contains(sf::Vector2f(position.x, position.y))){
+          return std::shared_ptr<command>(new selectedCommand(j));
+        }
       }
     }
+
     return NULL;
   }
 
