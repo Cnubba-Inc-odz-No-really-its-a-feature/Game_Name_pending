@@ -181,7 +181,7 @@ private:
         return handleCombatCommands();
         break;
       default:
-        return NULL;
+        return handleDungeonCommands();
         break;
     } 
   }

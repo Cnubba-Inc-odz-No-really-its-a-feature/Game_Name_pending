@@ -2,7 +2,7 @@
 #define _CARD_HPP
 #include "gameObject.hpp"
 #include "exeptions.hpp"
-#include "enums.hpp"
+#include "E_lane.hpp"
 
 #include <vector>
 #include <fstream>

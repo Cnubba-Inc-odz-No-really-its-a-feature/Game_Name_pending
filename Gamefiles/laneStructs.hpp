@@ -5,9 +5,9 @@
 #include "gameObject.hpp"
 #include "macrodefinitions.hpp"
 #include "laneArrayContainer.hpp"
-#include "enums.hpp"
+#include "E_lane.hpp"
 
-std::map<E_lane, sf::Vector2f> lanePositionMap{
+static std::map<E_lane, sf::Vector2f> lanePositionMap{
     {E_lane::skyLane, sf::Vector2f(500, 200)},
     {E_lane::groundLane, sf::Vector2f(500, 600)},
     {E_lane::trapLane, sf::Vector2f(500, 900)}

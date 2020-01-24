@@ -1,5 +1,5 @@
-#ifndef _ENUMS_HPP
-#define _ENUMS_HPP
+#ifndef _E_LANE_HPP
+#define _E_LANE_HPP
 
 #include "map"
 #include "SFML/Graphics.hpp"
