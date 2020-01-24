@@ -3,13 +3,11 @@
 
 #include "laneStructs.hpp"
 
-extern std::map<E_lane, sf::Vector2f> lanePositionMap;
-
 class lane{
 private:
     E_lane laneID;
-    std::shared_ptr<int> playerHP;
-    std::shared_ptr<int> enemyHP;
+    std::shared_ptr<int_fast8_t> playerHP;
+    std::shared_ptr<int_fast8_t> enemyHP;
 
     std::shared_ptr<std::array<std::shared_ptr<unit>, LANE_SIZE>> allyArray;
     std::shared_ptr<std::array<std::shared_ptr<unit>, LANE_SIZE>> enemyArray;
@@ -17,7 +15,7 @@ private:
 public:
     // constructors
     lane();
-    lane(E_lane laneID, std::shared_ptr<int> playerHP,std::shared_ptr<int> enemyHP, laneArrayContainer& laneArrays);
+    lane(E_lane laneID, std::shared_ptr<int_fast8_t> playerHP,std::shared_ptr<int_fast8_t> enemyHP, laneArrayContainer& laneArrays);
 
     // checks
     bool isIndexEmpty(const int index);

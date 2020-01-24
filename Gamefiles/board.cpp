@@ -1,13 +1,13 @@
 #include "board.hpp"
 
-board::board(boardLaneArraysContainer& boardContainer, std::shared_ptr<int> playerHP, std::shared_ptr<int> enemyHP):
+board::board(boardLaneArraysContainer& boardContainer, std::shared_ptr<int_fast8_t> playerHP, std::shared_ptr<int_fast8_t> enemyHP):
         priorityLane{E_lane::skyLane},
         playerHP{playerHP},
         enemyHP{enemyHP}
     {
-        lanes[E_lane::skyLane] = lane(E_lane::skyLane, std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.skyLane);
-        lanes[E_lane::groundLane] = lane(E_lane::groundLane, std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.groundLane);
-        lanes[E_lane::trapLane] = lane(E_lane::trapLane, std::make_shared<int>(playerHP), std::make_shared<int>(enemyHP), boardContainer.trapLane);
+        lanes[E_lane::skyLane] = lane(E_lane::skyLane, playerHP, enemyHP, boardContainer.skyLane);
+        lanes[E_lane::groundLane] = lane(E_lane::groundLane, playerHP, enemyHP, boardContainer.groundLane);
+        lanes[E_lane::trapLane] = lane(E_lane::trapLane, playerHP, enemyHP, boardContainer.trapLane);
     }
 
     void board::update(){
@@ -51,25 +51,7 @@ board::board(boardLaneArraysContainer& boardContainer, std::shared_ptr<int> play
         }
         return false;
     }
-
-    void board::placeUnit(const int E_lane, const int index, std::shared_ptr<unit> unitPointer){
-        if(index >=0 && index < LANE_SIZE){
-            lanes[E_lane].placeUnit(index, unitPointer);
-        }
-        else{
-            std::cout << "index out of range" << std::endl;
-        }
-    }
     
-    void board::placeTrapcard(const int index, std::shared_ptr<unit> trapcardPointer){
-        if(index >=0 && index < LANE_SIZE){
-            lanes[E_lane::trapLane].placeUnit(index, trapcardPointer);
-        }
-        else{
-            std::cout << "index out of range" << std::endl;
-        }
-    }
-
     void board::placeEffect(const int E_lane, const int index, std::shared_ptr<gameObject> effectPointer){
         if(index >=0 && index < LANE_SIZE){
             lanes[E_lane].placeEffect(index, effectPointer);

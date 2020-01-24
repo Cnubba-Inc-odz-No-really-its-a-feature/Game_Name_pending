@@ -62,6 +62,12 @@ public:
     void setActive(std::string newKey);
 
     void tmpNewActive();
+
+    // std::vector<std::shared_ptr<gameObject>> getCombatVector(){
+    //     std::vector<std::shared_ptr<gameObject>> combatVector;
+
+    //     combatVector.push_back
+    // }
  };
 
 #endif // _OBJECTSTORAGE_HPP_
