@@ -132,7 +132,15 @@ class inputHandler {
         }
       }
     }
-    
+
+
+    if(gameObjectStorage.storageDeck.fightActive){
+      if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+        auto x = gameObjectStorage.storageDeck.checkForCardPlay(sf::Mouse::getPosition());
+        std::cout<<"found click" << std::endl;
+      }
+    }
+
     return NULL;
   }
 
@@ -156,6 +164,13 @@ class inputHandler {
           return obtainedCommand;
         }
 
+        if(gameObjectStorage.storageDeck.fightActive){
+          if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+          auto x = gameObjectStorage.storageDeck.checkForCardPlay(sf::Mouse::getPosition());
+          std::cout<<"found click" << std::endl;
+        }
+      }
+
         return NULL;
   }
 
@@ -170,6 +185,9 @@ class inputHandler {
         if(isCommandValid(obtainedCommand)){
           return obtainedCommand;
         }
+
+
+
 
         return NULL;
   }

@@ -34,7 +34,6 @@ public:
         //    i->draw(gameWindow);
         //}
         if(renderObjectStorage.storageDeck.fightActive){
-
             renderObjectStorage.storageDeck.DrawHand(gameWindow);
         }
 
