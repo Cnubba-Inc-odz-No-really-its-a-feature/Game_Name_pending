@@ -227,8 +227,8 @@ public:
     void drawHand(sf::RenderWindow& gameWindow){
         //std::cout << "entered draw hand function" << std::endl;
         gameWindow.draw(handSprite);
-        std::for_each(cardsInHand.begin(), cardsInHand.end(), [this, &gameWindow](auto &i){if(i != nullptr){std::cout<<"O";}});
-        std::cout<<"|" << std::endl;
+       // std::for_each(cardsInHand.begin(), cardsInHand.end(), [this, &gameWindow](auto &i){if(i != nullptr){std::cout<<"O";}});
+        //std::cout<<"|" << std::endl;
         std::for_each(cardsInHand.begin(), cardsInHand.end(), [this, &gameWindow](auto &i){if(i != nullptr){i->draw(gameWindow);}});
         //std::cout<<"drew all cards" << std::endl;
     }
@@ -282,13 +282,13 @@ public:
                             std::cout<<"found card clicked on: " << i <<std::endl;
                             return i;
                         }
-                        std::cout<<"not clicked"<<std::endl;
+  //                      std::cout<<"not clicked"<<std::endl;
                     }
                 }
             }
         }
 
-        std::cout<<"no cards clicked" << std::endl;
+  //      std::cout<<"no cards clicked" << std::endl;
 
         return -1;
     }
