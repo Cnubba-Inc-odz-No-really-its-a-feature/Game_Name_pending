@@ -11,7 +11,7 @@
 #include "objectStorage.hpp"
 #include "selectedCommand.hpp"
 #include "cardSelectCommand.hpp"
-#include "fightController.hpp"
+// #include "fightController.hpp"
 
 class inputHandler {
 private:
