@@ -4,7 +4,7 @@
 #include "character.hpp"
 #include "macrodefinitions.hpp"
 #include "laneArrayContainer.hpp"
-// #include "card.hpp"
+#include "card.hpp"
 // #include <iostream>
 // #include "memory"
 // #include "vector"
@@ -54,6 +54,7 @@ public:
     //objectStorage();
     objectStorage(sf::RenderWindow & window);
     std::shared_ptr<gameObject> character1;
+
 
 
     

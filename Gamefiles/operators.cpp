@@ -16,6 +16,8 @@ std::ifstream& operator>>(std::ifstream &input, objectTypes_E &objectType){
     objectType = objectTypes_E::CHEST_E;
   }else if(typeString == "objectTypes_E::DOOR_E"){
     objectType = objectTypes_E::DOOR_E;
+  }else if(typeString == "objectTypes_E::ENEMY_E"){
+    objectType = objectTypes_E::ENEMY_E;
   }else if(typeString == "objectTypes_E::BUTTON_E"){
     objectType = objectTypes_E::BUTTON_E;
   }else if(typeString == "objectTypes_E::TITLECARD_E"){
