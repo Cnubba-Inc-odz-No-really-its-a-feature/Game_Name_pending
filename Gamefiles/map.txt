@@ -1,1 +1,1 @@
-objectTypes_E::TESTSPRITE_E (128, 500) (5, 5) 5 texture1 gameAssets/mini_map.png ;
+objectTypes_E::TESTSPRITE_E (600, 32) (3, 3) 5 texture1 gameAssets/mini_map.png ;
