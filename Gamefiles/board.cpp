@@ -32,8 +32,10 @@ board::board(int_fast8_t & playerHP, int_fast8_t & enemyHP):
     }
 
     bool board::placeUnit(std::shared_ptr<unit> unitPointer){
+        std::cout << "placing unit on board via board" << std::endl;
         if(lanes[unitPointer->getLaneType()].isIndexEmpty(0)){
             lanes[unitPointer->getLaneType()].placeUnit(unitPointer);
+            std::cout << "board::placeUnit() success" << std::endl;
             return true;
         }
         return false;

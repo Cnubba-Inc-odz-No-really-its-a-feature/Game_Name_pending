@@ -128,12 +128,12 @@ class inputHandler {
       }
 
       // for clicking on menu buttons
-      sf::Vector2i position = sf::Mouse::getPosition();
-      for (auto j : *gameObjectStorage.getActive()) {
-        if (j->isInteractable() && j->getSprite().getGlobalBounds().contains(sf::Vector2f(position.x, position.y))){
-          return std::shared_ptr<command>(new selectedCommand(j));
-        }
-      }
+      // sf::Vector2i position = sf::Mouse::getPosition();
+      // for (auto j : *gameObjectStorage.getActive()) {
+      //   if (j->isInteractable() && j->getSprite().getGlobalBounds().contains(sf::Vector2f(position.x, position.y))){
+      //     return std::shared_ptr<command>(new selectedCommand(j));
+      //   }
+      // }
     }
 
 
@@ -174,12 +174,12 @@ class inputHandler {
           return obtainedCommand;
         }
 
-        if(gameObjectStorage.storageDeck.fightActive){
-          if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-          auto x = gameObjectStorage.storageDeck.checkForCardPlay(sf::Mouse::getPosition());
-          std::cout<<"found click" << std::endl;
-        }
-      }
+      //   if(gameObjectStorage.storageDeck.fightActive){
+      //     if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+      //     auto x = gameObjectStorage.storageDeck.checkForCardPlay(sf::Mouse::getPosition());
+      //     std::cout<<"found click" << std::endl;
+      //   }
+      // }
 
         return NULL;
   }
@@ -214,7 +214,7 @@ class inputHandler {
       case 'r':
         return handleDungeonCommands();
         break;
-      case 'b':
+      case 'c':
         return handleCombatCommands();
         break;
       default:

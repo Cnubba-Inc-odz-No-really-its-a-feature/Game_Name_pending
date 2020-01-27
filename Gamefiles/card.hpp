@@ -280,11 +280,13 @@ public:
         std::shared_ptr<unit> unitFromCard = cardsInHand[cardPositionInHand]->summonUnitFromCard();
         discardPile.push_back(cardsInHand[cardPositionInHand]->getCardID());
         cardsInHand[cardPositionInHand] = nullptr;
+
+        std::cout<<"created unit of damage: " << unitFromCard->getDamage() << std::endl;
         return unitFromCard;
     }
 };
 
-enum class deckState_E {IDLE_E, DECKVIEW_E, FIGHT_E}
+enum class deckState_E {IDLE_E, DECKVIEW_E, FIGHT_E};
 
 class deckClass{
 private:
@@ -385,6 +387,7 @@ public:
         int clickedCardPos = cardHand.isCardClicked(mousePosF);
         if(clickedCardPos > -1){
             std::shared_ptr<unit> newUnit = cardHand.playUnitCard(clickedCardPos);
+            std::cout<<"returning unit of damage" << newUnit->getDamage() << std::endl;
             return newUnit;
         }else{
             return nullptr;

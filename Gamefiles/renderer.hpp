@@ -68,10 +68,6 @@ public:
             }
         }
 
-        if(renderObjectStorage.keyActive.at(0) == 'b'){
-            std::cout << "drawing board________________________________________________________________" << std::endl;
-            fightControl.draw(gameWindow);
-        }
     }
 
     void update(){
