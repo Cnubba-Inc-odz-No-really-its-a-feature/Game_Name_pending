@@ -1,12 +1,12 @@
 #include "lane.hpp"
     
-    lane::lane(E_lane laneID, std::shared_ptr<int_fast8_t> playerHP,std::shared_ptr<int_fast8_t> enemyHP, std::array<std::shared_ptr<unit>, LANE_SIZE>& allyArray, std::array<std::shared_ptr<unit>, LANE_SIZE>& enemyArray):
-        laneID{laneID},   
-        allyArray{allyArray},
-        enemyArray{enemyArray},
+    lane::lane(E_lane laneID, int_fast8_t &playerHP, int_fast8_t& enemyHP):
+        laneID{laneID},
         playerHP{playerHP},
         enemyHP{enemyHP}
     {
+        allyArray = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
+        enemyArray = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
         std::cout << "lane made" << std::endl;
     }
 
@@ -64,15 +64,6 @@
             }
         }
 
-        // effects
-        // for every position
-        for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
-            // for every effect on that position
-            for(uint_fast8_t j = 0; j < laneEffects[i].size(); j++){
-                // laneEffects[i][j]->update(i, j, this);
-            }
-        }
-
         // set drawingPosition for the units
         sf::Vector2f laneStartPosition = lanePositionMap[laneID];
 
@@ -107,7 +98,7 @@
                 allyArray.at(index) = nullptr;
             }
             else if(index == LANE_SIZE - 1){
-                *enemyHP.get() -= unit->getDamage();
+                enemyHP -= unit->getDamage();
             }
             else if(index + 1 < LANE_SIZE){
                 unitUpdateResult result = fight(unit, enemyArray.at(index + 1), index);
@@ -128,7 +119,7 @@
                 enemyArray.at(index) = nullptr;
             }
             else if(index == 0){
-                *playerHP.get() -= unit->getDamage();
+                playerHP -= unit->getDamage();
             }
             else if(index > 0){
                 unitUpdateResult result = fight(unit, allyArray.at(index - 1), index);
@@ -229,14 +220,6 @@
 
             if(enemyArray.at(i)->getObjectID() == id){
                 enemyArray.at(i) = nullptr;
-            }
-        }
-
-        for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
-            for(uint_fast8_t j = 0; j < laneEffects[i].size(); j++){
-                if(laneEffects[i][j]->getObjectID() == id){
-                    laneEffects[i][j] = nullptr;
-                }
             }
         }
     }

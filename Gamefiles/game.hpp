@@ -25,7 +25,7 @@ public:
         gameWindow(gameWindow),
         gameObjectStorage(gameWindow),
         gameObjectRenderer(gameWindow, gameObjectStorage),
-        fightControl(gameObjectStorage.getBoardContainer()),
+        fightControl(),
         gameInputHandler(gameObjectStorage, std::make_shared<fightController>(fightControl))
     {}
 

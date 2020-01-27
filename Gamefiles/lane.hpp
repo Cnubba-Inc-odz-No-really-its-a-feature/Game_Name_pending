@@ -6,16 +6,15 @@
 class lane{
 private:
     E_lane laneID;
-    std::shared_ptr<int_fast8_t> playerHP;
-    std::shared_ptr<int_fast8_t> enemyHP;
+    int_fast8_t & playerHP;
+    int_fast8_t & enemyHP;
 
-    std::array<std::shared_ptr<unit>, LANE_SIZE>& allyArray;
-    std::array<std::shared_ptr<unit>, LANE_SIZE>& enemyArray;
-    std::array<std::vector<std::shared_ptr<gameObject>>, 7> laneEffects;
+    std::array<std::shared_ptr<unit>, LANE_SIZE> allyArray;
+    std::array<std::shared_ptr<unit>, LANE_SIZE> enemyArray;
 public:
     // constructors
     lane();
-    lane(E_lane laneID, std::shared_ptr<int_fast8_t> playerHP,std::shared_ptr<int_fast8_t> enemyHP, std::array<std::shared_ptr<unit>, LANE_SIZE>& allyArray, std::array<std::shared_ptr<unit>, LANE_SIZE>& enemyArray);
+    lane(E_lane laneID, int_fast8_t & playerHP, int_fast8_t & enemyHP);
 
     // checks
     bool isIndexEmpty(const int index);

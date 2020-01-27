@@ -14,6 +14,7 @@ struct laneArraysStruct{
     std::array<std::shared_ptr<unit>, LANE_SIZE>  enemyArrayTraps;
 
     laneArraysStruct(){
+        std::cout<<"entered laneArray constructor" << std::endl;
         for(auto& unit : allyArrayAir){
             unit = nullptr;
         }

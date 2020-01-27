@@ -19,8 +19,8 @@ private:
 
     int_fast8_t playerHP = 15;
     int_fast8_t enemyHP = 15;
-    std::shared_ptr<int_fast8_t> playerHPPointer = std::make_shared<int_fast8_t>(playerHP);
-    std::shared_ptr<int_fast8_t> enemyHPPointer = std::make_shared<int_fast8_t>(enemyHP);
+    //std::shared_ptr<int_fast8_t> playerHPPointer = std::make_shared<int_fast8_t>(playerHP);
+    //std::shared_ptr<int_fast8_t> enemyHPPointer = std::make_shared<int_fast8_t>(enemyHP);
     E_fightState fightState;
 
     E_fightState updateFightState(){
@@ -40,8 +40,8 @@ private:
     }
 
 public:
-    fightController(std::shared_ptr<laneArraysStruct> laneArrays):
-        gameBoard{laneArrays, playerHPPointer, enemyHPPointer}
+    fightController():
+        gameBoard{playerHP, enemyHP}
     {
         std::cout << "fightController made" << std::endl;
     }

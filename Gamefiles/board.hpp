@@ -8,12 +8,12 @@ private:
     lane lanes[3];
     E_lane priorityLane;
 
-    std::shared_ptr<int_fast8_t> playerHP;
-    std::shared_ptr<int_fast8_t> enemyHP;
+    int_fast8_t & playerHP;
+    int_fast8_t & enemyHP;
 public:
     // constructors
     // board();
-    board(std::shared_ptr<laneArraysStruct> laneArrays, std::shared_ptr<int_fast8_t> playerHP, std::shared_ptr<int_fast8_t> enemyHP);
+    board(int_fast8_t &playerHP, int_fast8_t & enemyHP);
 
     // update functions
     void update();
