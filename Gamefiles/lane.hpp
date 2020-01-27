@@ -22,8 +22,7 @@ public:
 
     // updates and combat
     void updateLane();
-    void filterOutInValidResults(std::vector<unitUpdateResult>& rawResults);
-    unitUpdateResult updateUnit(const int index, std::shared_ptr<unit> unit);
+    unitUpdateResult updateUnits(const int index, std::shared_ptr<unit> unit);
     unitUpdateResult fight(std::shared_ptr<unit> initiator, std::shared_ptr<unit> assaulted, const int index);
 
 

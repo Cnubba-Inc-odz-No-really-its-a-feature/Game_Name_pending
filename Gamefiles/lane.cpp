@@ -96,18 +96,7 @@
         drawArray(enemyArray, laneStartPosition);
     }
 
-    void lane::filterOutInValidResults(std::vector<unitUpdateResult>& rawResults){
-        std::vector<unitUpdateResult> cleanVector;
-        for(const auto result : rawResults){
-            if(result.valid){
-                cleanVector.push_back(result);
-            }
-        }
-
-        rawResults = cleanVector;
-    }
-
-    unitUpdateResult lane::updateUnit(const int index, std::shared_ptr<unit> unit){
+    unitUpdateResult lane::updateUnits(const int index, std::shared_ptr<unit> unit){
         if(unit == nullptr){
             std::cout << "nullptr found" << std::endl;
             return unitUpdateResult(false);
