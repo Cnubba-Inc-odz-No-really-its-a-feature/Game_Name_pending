@@ -67,7 +67,9 @@ public:
 
     bool placeUnitOnBoard(std::shared_ptr<unit> unitPointer){
         std::cout << "placing on board via fightController" << std::endl;
-        return gameBoard.placeUnit(unitPointer);
+        bool success = gameBoard.placeUnit(unitPointer);
+        std::cout << success << std::endl;
+        return success;
     }
 
     void draw(sf::RenderWindow& window){

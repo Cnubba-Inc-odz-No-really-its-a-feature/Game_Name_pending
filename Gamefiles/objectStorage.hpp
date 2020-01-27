@@ -30,8 +30,8 @@ public:
     bool swappedActive = false;
     std::string tmpActive;
     std::string keyActive = "Title.txt";
-    std::string previousActive;
     std::map<std::string, std::shared_ptr<std::vector<std::shared_ptr<gameObject>>>> allVectors;
+    std::string returnTarget = "room1.txt";
 
     std::vector<int> hand;
     std::vector<int> drawPile;
