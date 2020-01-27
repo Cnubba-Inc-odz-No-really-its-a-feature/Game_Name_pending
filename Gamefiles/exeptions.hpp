@@ -13,7 +13,7 @@ class invalid_UnitLane : public problem{
 private:
   std::string msg;
 public:
-  invalid_UnitLane(const char *c);
+  invalid_UnitLane(std::string c);
   const char *what() const noexcept;
 };
 
