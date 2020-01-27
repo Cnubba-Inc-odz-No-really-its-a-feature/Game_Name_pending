@@ -23,6 +23,11 @@
         }
     }
 
+    void lane::reset(){
+        allyArray = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
+        enemyArray = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
+    }
+
     std::function<void(std::array<std::shared_ptr<unit>, LANE_SIZE>&, const sf::Vector2f&)> drawArray = [](std::array<std::shared_ptr<unit>, LANE_SIZE>& array, const sf::Vector2f& laneStartPosition)->void{
         sf::Vector2f drawPosition = laneStartPosition;
         for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
@@ -70,10 +75,11 @@
         std::cout << "hey" <<std::endl;
         for(int_fast8_t i = maxLaneIndex; i >= 0; i--){
             if(allyArray[i] != nullptr){
-                std::cout << "no nullptr" << std::endl;  
+                std::cout << "no nullptr" << i << std::endl;  
                 updateResults.push_back(updateUnits(i, allyArray.at(i)));
             }
         }
+        std::cout << "pre-removing dead units." << std::endl;
         removeDeadUnitsFromResults(updateResults);
 
         // update enemies

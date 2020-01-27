@@ -42,11 +42,21 @@ private:
 public:
     fightController():
         gameBoard{playerHP, enemyHP}
-    {
-        std::cout << "fightController made" << std::endl;
+    {}
+
+    void initFight(){
+        gameBoard.reset();
+        playerHP = 15;
+        enemyHP = 15;
     }
 
-    void initFight(){}
+    bool getSkyOpen(){
+        return gameBoard.getSkyOpen();
+    }
+
+    bool getGroundOpen(){
+        return gameBoard.getGroundOpen();
+    }
 
     void nextTurn(){
         gameBoard.update();

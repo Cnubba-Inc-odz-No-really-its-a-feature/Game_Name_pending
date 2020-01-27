@@ -13,10 +13,15 @@ private:
 public:
     board(int_fast8_t &playerHP, int_fast8_t & enemyHP);
 
+    bool getSkyOpen();
+    bool getGroundOpen();
+
     void update();
     bool placeUnit(std::shared_ptr<unit> unitPointer);
     bool isPositionEmpty(const int E_lane, const int index);
     void draw(sf::RenderWindow& window);
+
+    void reset();
 };
 
 #endif

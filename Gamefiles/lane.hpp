@@ -19,6 +19,7 @@ public:
     bool isIndexEmpty(const int index);
     void placeUnit(std::shared_ptr<unit> unitPointer);
     void draw(sf::RenderWindow& window);
+    void reset();
 
     // updates and combat
     void updateLane();

@@ -13,6 +13,14 @@ board::board(int_fast8_t & playerHP, int_fast8_t & enemyHP):
         enemyHP{enemyHP}
     {}
 
+    bool board::getSkyOpen(){
+        return lanes[E_lane::skyLane].isIndexEmpty(0);
+    }
+
+    bool board::getGroundOpen(){
+        return lanes[E_lane::groundLane].isIndexEmpty(0);
+    }
+
     void board::update(){
         lanes[priorityLane].updateLane();
         
@@ -40,5 +48,11 @@ board::board(int_fast8_t & playerHP, int_fast8_t & enemyHP):
     void board::draw(sf::RenderWindow& window){
         for(auto& currentLane : lanes){
             currentLane.draw(window);
+        }
+    }
+
+    void board::reset(){
+        for(auto& lane : lanes){
+            lane.reset();
         }
     }
