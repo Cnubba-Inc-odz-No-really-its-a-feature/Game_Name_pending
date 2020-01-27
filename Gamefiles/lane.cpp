@@ -71,7 +71,7 @@
         for(int_fast8_t i = maxLaneIndex; i >= 0; i--){
             if(allyArray[i] != nullptr){
                 std::cout << "no nullptr" << std::endl;  
-                updateResults.push_back(updateUnit(i, allyArray.at(i)));
+                updateResults.push_back(updateUnits(i, allyArray.at(i)));
             }
         }
         removeDeadUnitsFromResults(updateResults);
@@ -80,7 +80,7 @@
         std::cout << "hey2" << std::endl;
         for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
             if(enemyArray[i] != nullptr){
-                updateResults.push_back(updateUnit(i, enemyArray.at(i)));
+                updateResults.push_back(updateUnits(i, enemyArray.at(i)));
             }
         }
         removeDeadUnitsFromResults(updateResults);
