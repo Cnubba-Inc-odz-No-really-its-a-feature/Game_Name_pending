@@ -12,15 +12,15 @@ private:
     std::shared_ptr<int_fast8_t> enemyHP;
 public:
     // constructors
-    board();
-    board(const boardLaneArraysContainer& boardContainer, std::shared_ptr<int_fast8_t> playerHP, std::shared_ptr<int_fast8_t> enemyHP);
+    // board();
+    board(std::shared_ptr<laneArraysStruct> laneArrays, std::shared_ptr<int_fast8_t> playerHP, std::shared_ptr<int_fast8_t> enemyHP);
 
     // update functions
     void update();
 
     // placements
     bool placeUnit(std::shared_ptr<unit> unitPointer);
-    
+
     // removes
     void removeUnit(const int E_lane, const int index);
     void removeByID(const std::string& id);

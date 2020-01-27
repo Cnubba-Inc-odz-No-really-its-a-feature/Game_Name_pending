@@ -19,6 +19,7 @@ public:
     {
         fade.setSize( sf::Vector2f(1920, 1080));
         color = 0;
+        std::cout<<"renderer made" << std::endl;
     }
 
     void draw(){
@@ -64,22 +65,22 @@ public:
         }
 
         if(renderObjectStorage.keyActive.at(0) == 'b'){
-            for(auto& item: renderObjectStorage.allyArrayAir){
+            for(auto& item: renderObjectStorage.laneArrays.allyArrayAir){
                 item->draw(gameWindow);
             }
-            for(auto& item: renderObjectStorage.enemyArrayAir){
+            for(auto& item: renderObjectStorage.laneArrays.enemyArrayAir){
                 item->draw(gameWindow);
             }
-            for(auto& item: renderObjectStorage.allyArrayAir){
+            for(auto& item: renderObjectStorage.laneArrays.allyArrayGround){
                 item->draw(gameWindow);
             }
-            for(auto& item: renderObjectStorage.enemyArrayAir){
+            for(auto& item: renderObjectStorage.laneArrays.enemyArrayGround){
                 item->draw(gameWindow);
             }
-            for(auto& item: renderObjectStorage.allyArrayAir){
+            for(auto& item: renderObjectStorage.laneArrays.allyArrayTraps){
                 item->draw(gameWindow);
             }
-            for(auto& item: renderObjectStorage.enemyArrayAir){
+            for(auto& item: renderObjectStorage.laneArrays.enemyArrayTraps){
                 item->draw(gameWindow);
             }
         }

@@ -13,7 +13,9 @@ struct laneArrayContainer{
     laneArrayContainer(std::shared_ptr<std::array<std::shared_ptr<unit>, LANE_SIZE>>  allyArray, std::shared_ptr<std::array<std::shared_ptr<unit>, LANE_SIZE>> enemyArray):
         allyArray{allyArray},
         enemyArray{enemyArray}
-    {}
+    {
+        std::cout << "laneArrayContainer created" << std::endl;
+    }
 };
 
 struct boardLaneArraysContainer{
@@ -25,7 +27,9 @@ struct boardLaneArraysContainer{
         skyLane{skyLane},
         groundLane{groundLane},
         trapLane{trapLane}
-    {}
+    {
+        std::cout << "boardLaneArraysContainer made" << std::endl;
+    }
 };
 
 #endif

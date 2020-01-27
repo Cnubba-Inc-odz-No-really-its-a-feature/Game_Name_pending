@@ -4,6 +4,7 @@
 #include "character.hpp"
 #include "macrodefinitions.hpp"
 #include "laneArrayContainer.hpp"
+#include "laneArraysStruct.hpp"
 #include "card.hpp"
 // #include <iostream>
 // #include "memory"
@@ -33,16 +34,7 @@ public:
     std::string keyActive = "Title.txt";
     std::map<std::string, std::shared_ptr<std::vector<std::shared_ptr<gameObject>>>> allVectors;
 
-    std::array<std::shared_ptr<unit>, LANE_SIZE>  allyArrayAir;
-    std::array<std::shared_ptr<unit>, LANE_SIZE>  enemyArrayAir;
-    std::array<std::shared_ptr<unit>, LANE_SIZE>  allyArrayGround;
-    std::array<std::shared_ptr<unit>, LANE_SIZE>  enemyArrayGround;
-    std::array<std::shared_ptr<unit>, LANE_SIZE>  allyArrayTraps;
-    std::array<std::shared_ptr<unit>, LANE_SIZE>  enemyArrayTraps;
-
-    std::vector<std::shared_ptr<gameObject>> effectsLane1[LANE_SIZE];
-    std::vector<std::shared_ptr<gameObject>> effectsLane2[LANE_SIZE];
-    std::vector<std::shared_ptr<gameObject>> effectsLane3[LANE_SIZE];
+    laneArraysStruct laneArrays;
 
     std::vector<int> hand;
     std::vector<int> drawPile;
@@ -63,19 +55,9 @@ public:
 
     void tmpNewActive();
 
-    boardLaneArraysContainer getBoardContainer(){
-        std::cout << "returning boardContainer" << std::endl;
-        return boardLaneArraysContainer(
-                                        laneArrayContainer( std::make_shared<std::array<std::shared_ptr<unit>, LANE_SIZE>>(allyArrayAir),
-                                                            std::make_shared<std::array<std::shared_ptr<unit>, LANE_SIZE>>(allyArrayAir)
-                                                        ),
-                                        laneArrayContainer( std::make_shared<std::array<std::shared_ptr<unit>, LANE_SIZE>>(allyArrayGround),
-                                                            std::make_shared<std::array<std::shared_ptr<unit>, LANE_SIZE>>(enemyArrayGround)
-                                                        ),
-                                        laneArrayContainer( std::make_shared<std::array<std::shared_ptr<unit>, LANE_SIZE>>(allyArrayTraps),
-                                                            std::make_shared<std::array<std::shared_ptr<unit>, LANE_SIZE>>(enemyArrayTraps)
-                                                        )
-                                        );
+    std::shared_ptr<laneArraysStruct> getBoardContainer(){
+        std::cout<<"getting board container"<< std::endl;
+        return std::make_shared<laneArraysStruct>(laneArrays);
     }
  };
 

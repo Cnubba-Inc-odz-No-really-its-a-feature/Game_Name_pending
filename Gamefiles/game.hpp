@@ -11,8 +11,8 @@
 class game{
 private:
     sf::RenderWindow& gameWindow;
-    renderer gameObjectRenderer;
     objectStorage gameObjectStorage;
+    renderer gameObjectRenderer;
     fightController fightControl;
     inputHandler gameInputHandler;
 
@@ -23,8 +23,8 @@ public:
 
     game(sf::RenderWindow& gameWindow, char state = 'C'):
         gameWindow(gameWindow),
-        gameObjectRenderer(gameWindow, gameObjectStorage),
         gameObjectStorage(gameWindow),
+        gameObjectRenderer(gameWindow, gameObjectStorage),
         fightControl(gameObjectStorage.getBoardContainer()),
         gameInputHandler(gameObjectStorage, std::make_shared<fightController>(fightControl))
     {}

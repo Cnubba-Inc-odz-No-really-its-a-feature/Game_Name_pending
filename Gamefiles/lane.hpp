@@ -9,13 +9,13 @@ private:
     std::shared_ptr<int_fast8_t> playerHP;
     std::shared_ptr<int_fast8_t> enemyHP;
 
-    std::shared_ptr<std::array<std::shared_ptr<unit>, LANE_SIZE>> allyArray;
-    std::shared_ptr<std::array<std::shared_ptr<unit>, LANE_SIZE>> enemyArray;
+    std::array<std::shared_ptr<unit>, LANE_SIZE>& allyArray;
+    std::array<std::shared_ptr<unit>, LANE_SIZE>& enemyArray;
     std::array<std::vector<std::shared_ptr<gameObject>>, 7> laneEffects;
 public:
     // constructors
     lane();
-    lane(E_lane laneID, std::shared_ptr<int_fast8_t> playerHP,std::shared_ptr<int_fast8_t> enemyHP, const laneArrayContainer& laneArrays);
+    lane(E_lane laneID, std::shared_ptr<int_fast8_t> playerHP,std::shared_ptr<int_fast8_t> enemyHP, std::array<std::shared_ptr<unit>, LANE_SIZE>& allyArray, std::array<std::shared_ptr<unit>, LANE_SIZE>& enemyArray);
 
     // checks
     bool isIndexEmpty(const int index);

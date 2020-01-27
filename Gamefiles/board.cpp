@@ -1,18 +1,22 @@
 #include "board.hpp"
+#include <iostream>
+// board::board(){}
 
-board::board(){}
-
-board::board(const boardLaneArraysContainer& boardContainer, std::shared_ptr<int_fast8_t> playerHP, std::shared_ptr<int_fast8_t> enemyHP):
-        lanes({lane(), lane(), lane()}),
+board::board(std::shared_ptr<laneArraysStruct> laneArrays, std::shared_ptr<int_fast8_t> playerHP, std::shared_ptr<int_fast8_t> enemyHP):
+        lanes({
+            lane(E_lane::skyLane, playerHP, enemyHP, laneArrays->allyArrayAir, laneArrays->enemyArrayAir),
+            lane(E_lane::groundLane, playerHP, enemyHP, laneArrays->allyArrayGround, laneArrays->enemyArrayGround),
+            lane(E_lane::trapLane, playerHP, enemyHP, laneArrays->allyArrayTraps, laneArrays->enemyArrayTraps)
+        }),
         priorityLane{E_lane::groundLane},
         playerHP{playerHP},
         enemyHP{enemyHP}
     {
         std::cout << "starting creation of board" << std::endl; 
 
-        lanes[E_lane::skyLane] = lane(E_lane::skyLane, playerHP, enemyHP, boardContainer.skyLane);
-        lanes[E_lane::groundLane] = lane(E_lane::groundLane, playerHP, enemyHP, boardContainer.groundLane);
-        lanes[E_lane::trapLane] = lane(E_lane::trapLane, playerHP, enemyHP, boardContainer.trapLane);
+        // lanes[E_lane::skyLane] = lane(E_lane::skyLane, playerHP, enemyHP, laneArrays->allyArrayAir, laneArrays->enemyArrayAir);
+        // lanes[E_lane::groundLane] = lane(E_lane::groundLane, playerHP, enemyHP, laneArrays->allyArrayGround, laneArrays->enemyArrayGround);
+        // lanes[E_lane::trapLane] = lane(E_lane::trapLane, playerHP, enemyHP, laneArrays->allyArrayTraps, laneArrays->enemyArrayTraps);
 
         std::cout << "board made" << std::endl; 
     }

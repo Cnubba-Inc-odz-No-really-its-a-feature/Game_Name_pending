@@ -40,8 +40,8 @@ private:
     }
 
 public:
-    fightController(const boardLaneArraysContainer& boardContainer):
-        gameBoard{boardContainer, playerHPPointer, enemyHPPointer}
+    fightController(std::shared_ptr<laneArraysStruct> laneArrays):
+        gameBoard{laneArrays, playerHPPointer, enemyHPPointer}
     {
         std::cout << "fightController made" << std::endl;
     }
