@@ -11,15 +11,7 @@ board::board(int_fast8_t & playerHP, int_fast8_t & enemyHP):
         priorityLane{E_lane::groundLane},
         playerHP{playerHP},
         enemyHP{enemyHP}
-    {
-        std::cout << "starting creation of board" << std::endl; 
-
-        // lanes[E_lane::skyLane] = lane(E_lane::skyLane, playerHP, enemyHP, laneArrays->allyArrayAir, laneArrays->enemyArrayAir);
-        // lanes[E_lane::groundLane] = lane(E_lane::groundLane, playerHP, enemyHP, laneArrays->allyArrayGround, laneArrays->enemyArrayGround);
-        // lanes[E_lane::trapLane] = lane(E_lane::trapLane, playerHP, enemyHP, laneArrays->allyArrayTraps, laneArrays->enemyArrayTraps);
-
-        std::cout << "board made" << std::endl; 
-    }
+    {}
 
     void board::update(){
         lanes[priorityLane].updateLane();
@@ -39,33 +31,6 @@ board::board(int_fast8_t & playerHP, int_fast8_t & enemyHP):
             return true;
         }
         return false;
-    }
-
-    void board::removeUnit(const int E_lane, const int index){
-        lanes[E_lane].removeAtIndex(index);
-    }
-
-    void board::removeByID(const std::string& id){
-        for(lane& currentLane : lanes){
-            currentLane.removeByID(id);
-        }
-    }
-
-    std::shared_ptr<gameObject> board::getUnitPointer(const int E_lane, const int laneIndex){
-        return lanes[E_lane].getUnitPointerAtIndex(laneIndex);
-    }
-
-    std::shared_ptr<gameObject> board::getUnitPointerByID(const std::string& id){
-        std::shared_ptr<gameObject> unitPointer;
-
-        for(auto& currentLane : lanes){
-            unitPointer = currentLane.getUnitPointerByID(id);
-            if(unitPointer != nullptr){
-                return unitPointer;
-            }
-        }
-
-        return nullptr;
     }
 
     bool board::isPositionEmpty(const int E_lane, const int index){

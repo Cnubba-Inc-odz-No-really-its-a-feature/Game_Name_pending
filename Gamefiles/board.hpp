@@ -21,14 +21,6 @@ public:
     // placements
     bool placeUnit(std::shared_ptr<unit> unitPointer);
 
-    // removes
-    void removeUnit(const int E_lane, const int index);
-    void removeByID(const std::string& id);
-
-    // get pointers
-    std::shared_ptr<gameObject> getUnitPointer(const int E_lane, const int laneIndex);
-    std::shared_ptr<gameObject> getUnitPointerByID(const std::string& id);
-
     // checks
     bool isPositionEmpty(const int E_lane, const int index);
     
