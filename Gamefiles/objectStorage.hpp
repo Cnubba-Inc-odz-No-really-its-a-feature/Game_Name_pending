@@ -31,6 +31,7 @@ public:
     bool swappedActive = false;
     std::string tmpActive;
     std::string keyActive = "Title.txt";
+    std::string previousActive;
     std::map<std::string, std::shared_ptr<std::vector<std::shared_ptr<gameObject>>>> allVectors;
 
     std::array<std::shared_ptr<unit>, LANE_SIZE>  allyArrayAir;
