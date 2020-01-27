@@ -301,27 +301,66 @@ enum class deckState_E {IDLE_E, DECKVIEW_E, FIGHT_E};
 
 
 
+struct cardEditorInterface{
+    sf::Texture buttonTextureUP;
+    sf::Texture buttonTextureDOWN;
+    sf::Sprite buttonSpriteUP;
+    sf::Sprite buttonSpriteDOWN;
+    int objectID;
+
+    cardEditorInterface(int objectID, sf::Vector2f position):objectID(objectID){
+        buttonSpriteUP.setPosition(position);
+        buttonSpriteDOWN.setPosition(sf::Vector2f(position.x+10, position.y));
+    }
+
+    sf::Vector2i isButtonPressed(sf::Vector2f mousePos){
+        if(buttonSpriteUP.getGlobalBounds().contains(mousePos)){
+
+            return sf::Vector2i(objectID, 1);
+        }
+        else if(buttonSpriteDOWN.getGlobalBounds().contains(mousePos)){
+            return sf::Vector2i(objectID, -1);
+        }
+        return sf::Vector2i(0, 0);
+    }
+    
+    
+};
+
+
+
+
 class deckViewerClass{
 private:
     sf::Texture deckViewerTexture;
     sf::Sprite deckViewerSprite;
-    std::vector<int> & completeDeck;
+    std::map<int, int> & playerDeck;
+    std::map<int, int> & ownedCards;
+
     std::vector<std::shared_ptr<card>> deckViewerCards;
     std::map<int,sf::Vector2f> cardPositions;
 
+    sf::Texture buttonTextureUP;
+    sf::Texture buttonTextureDOWN;
+    std::map<int, sf::Sprite> UPButtons;
+    std::map<int, sf::Sprite> DOWNButtons;
+
+
 public:
-    deckViewerClass(std::vector<int>& completeDeck):
-    completeDeck(completeDeck){
+    deckViewerClass(std::map<int, int> &playerDeck, std::map<int, int>& ownedCards):
+    playerDeck(playerDeck),
+    ownedCards(ownedCards){
         deckViewerTexture.loadFromFile("gameAssets/cardAssets/book2.png");
         deckViewerSprite.setTexture(deckViewerTexture);
         deckViewerSprite.setPosition(sf::Vector2f(50,50));
         deckViewerSprite.setScale(sf::Vector2f(0.42,0.35));
+        buttonTextureUP.loadFromFile("gameAssets/cardAssets/upArrow.png");
+        buttonTextureDOWN.loadFromFile("gameAssets/cardAssets/downArrow.png");
         cardPositions[1] = sf::Vector2f(200, 100);
         cardPositions[2] = sf::Vector2f(430, 100);
         cardPositions[3] = sf::Vector2f(660, 100);
         cardPositions[4] = sf::Vector2f(200, 600);
         cardPositions[5] = sf::Vector2f(430, 600);
-
         cardPositions[6] = sf::Vector2f(1110, 100);
         cardPositions[7] = sf::Vector2f(1340, 100);
         cardPositions[8] = sf::Vector2f(1570, 100);
@@ -333,7 +372,19 @@ public:
             newViewerCard->scaleObjects(sf::Vector2f(1,1));
             newViewerCard->setPosition(cardPositions[i]);
             deckViewerCards.push_back(newViewerCard);
+
+            sf::Sprite newSpriteUP;
+            sf::Sprite newSpriteDOWN;
+            newSpriteUP.setTexture(buttonTextureUP);
+            newSpriteDOWN.setTexture(buttonTextureDOWN);
+            newSpriteUP.setPosition(sf::Vector2f(cardPositions[i].x+20, cardPositions[i].y + 300));
+            newSpriteDOWN.setPosition(sf::Vector2f(cardPositions[i].x+50, cardPositions[i].y + 300));
+            UPButtons[i] = newSpriteUP;
+            DOWNButtons[i] = newSpriteDOWN;
+
+            
         }
+
     }
 
     void draw(sf::RenderWindow& gameWindow){
@@ -351,6 +402,13 @@ private:
     std::vector<int> &drawPile;
     std::vector<int> &discardPile;
     std::vector<int> &completeDeck;
+    std::vector<int> allOwnedCards;
+
+    std::map<int, int> playerDeck;
+    std::map<int, int> ownedCards;
+
+
+
     std::vector<std::shared_ptr<card>> & cardsInHand;
     std::map<int, sf::Vector2f> handPositionMap;
     sf::Font deckStatsFont;
@@ -371,9 +429,22 @@ public:
         completeDeck(completeDeck),
         cardsInHand(cardsInHand),
         cardHand(discardPile),
-        deckViewer(completeDeck){
+        deckViewer(playerDeck, ownedCards){
 
-            completeDeck = {1,1,1,2,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10};
+            //completeDeck = {1,1,1,2,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10};
+            ownedCards[1] = 4;
+            ownedCards[2] = 3;
+            ownedCards[3] = 2;
+            ownedCards[4] = 2;
+            ownedCards[5] = 2;
+            ownedCards[5] = 0;
+            ownedCards[6] = 2;
+            ownedCards[7] = 0;
+            ownedCards[8] = 2;
+            ownedCards[9] = 0;
+            ownedCards[10] = 0;
+
+            playerDeck = ownedCards;
 
             deckStatsFont.loadFromFile("gameAssets/cardAssets/cardFont.otf");
             deckStats_drawPile.setFont(deckStatsFont);
@@ -389,7 +460,10 @@ public:
         cardHand.emptyHand();
         drawPile.clear();
         discardPile.clear();
-        drawPile = completeDeck;
+        //drawPile = completeDeck;
+
+        std::for_each(playerDeck.begin(), playerDeck.end(), [this](auto & i){for(int j = 0; j <= i.second; j++){drawPile.push_back(i.first);}});
+
         std::random_shuffle(drawPile.begin(), drawPile.end());
         deckStats_discardPile.setString("DrawPile size: " + std::to_string(discardPile.size()));
         deckStats_drawPile.setString("DrawPile size: " + std::to_string(drawPile.size()));
