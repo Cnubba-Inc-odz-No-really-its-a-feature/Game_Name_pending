@@ -23,7 +23,8 @@ public:
     {
         interactable = true;
         gameObject::objectPriority = objectPriority;
-	    objectSprite.setTextureRect(sf::IntRect(0, 0, 16, 30));
+	    //objectSprite.setTextureRect(sf::IntRect(0, 0, 16, 30));
+        objectSprite.setTextureRect(sf::IntRect(0, 0, 47, 35));
         buffer.loadFromFile(soundFile);
         sound.setBuffer(buffer);
     }
@@ -56,7 +57,8 @@ public:
 
     void setFrame(int maxFrame, int textureRow) override{
         if(frameCounter > 10) {frameCounter = 0; textureFrame++;}
-	    objectSprite.setTextureRect(sf::IntRect(16*textureFrame, 0*textureRow, 16, 30));
+	    //objectSprite.setTextureRect(sf::IntRect(16*textureFrame, 0*textureRow, 16, 30));
+	    objectSprite.setTextureRect(sf::IntRect(47*textureFrame, 0*textureRow, 47, 35));
         if(maxFrame <= textureFrame) interacted = false;
 	    else frameCounter++;
     }

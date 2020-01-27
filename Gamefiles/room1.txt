@@ -1,5 +1,5 @@
 objectTypes_E::DOOR_E (100, 700) (2,2) 4 room2.txt gameAssets/Sounds/door.wav texture1 gameAssets/door.png ;
-objectTypes_E::CHEST_E (450, 820) (12,8) 4 gameAssets/Sounds/chest.wav texture1 gameAssets/chest2.png ;
+objectTypes_E::CHEST_E (450, 800) (8,6) 4 gameAssets/Sounds/chest.wav texture1 gameAssets/normal-chest-Sheet.png ;
 objectTypes_E::DOOR_E (1500, 700) (2,2) 4 room3.txt gameAssets/Sounds/door.wav texture1 gameAssets/door.png ;
 objectTypes_E::TESTSPRITE_E (1792, 0) (2, 2) 2 texture1 gameAssets/wall_right.png ;
 objectTypes_E::TESTSPRITE_E (1792, 128) (2, 2) 2 texture1 gameAssets/wall_right.png ;
