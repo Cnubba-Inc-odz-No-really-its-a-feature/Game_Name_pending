@@ -43,6 +43,7 @@ public:
     std::string getObjectID(){ return objectID; }
     virtual void interact() = 0;
     virtual void draw(sf::RenderWindow& gameWindow) =0;
+    virtual void setTarget(std::string newTarget){};
     virtual void move(sf::Vector2f moveDirection) = 0;
     virtual void jumpLocationTo(sf::Vector2f jumpLocation){};
     virtual void update() = 0;
