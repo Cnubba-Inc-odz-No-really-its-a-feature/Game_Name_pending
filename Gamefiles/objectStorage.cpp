@@ -11,7 +11,7 @@ std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> & objectStorage::getAc
 }
 
 void objectStorage::setActive(std::string newKey) {
-  if(newKey == "menu.txt" && keyActive.at(0) == 'r') returnTarget = keyActive;
+  if(keyActive.at(0) == 'r') returnTarget = keyActive;
   if(newKey == "room1.txt" && keyActive == "menu.txt") newKey = returnTarget;
   if(newKey == "exit") exit(0);
   if(newKey != "NONE"){
