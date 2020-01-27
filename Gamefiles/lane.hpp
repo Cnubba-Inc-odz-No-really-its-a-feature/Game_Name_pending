@@ -27,17 +27,6 @@ public:
     void filterOutInValidResults(std::vector<unitUpdateResult>& rawResults);
     unitUpdateResult updateUnit(const int index, std::shared_ptr<unit> unit);
     unitUpdateResult fight(std::shared_ptr<unit> initiator, std::shared_ptr<unit> assaulted, const int index);
-    
-    // updates misc
-    void updateAllUnits();
-
-    // removes
-    void removeAtIndex(const int index);
-    void removeByID(const std::string& id);
-
-    // get pointers
-    std::shared_ptr<unit> getUnitPointerAtIndex(const int index);
-    std::shared_ptr<unit> getUnitPointerByID(const std::string& id);
 
     // draw
     void draw(sf::RenderWindow& window);
