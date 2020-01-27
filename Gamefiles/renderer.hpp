@@ -1,6 +1,7 @@
 #ifndef _RENDERER_HPP
 #define _RENDERER_HPP
 #include "objectStorage.hpp"
+#include "fightController.hpp"
 
 bool objSort(const std::shared_ptr<gameObject> & lhs, const std::shared_ptr<gameObject> & rhs);
 
@@ -8,12 +9,14 @@ class renderer{
 private:
     sf::RenderWindow& gameWindow;
     objectStorage& renderObjectStorage;
+    fightController& fightControl;
     sf::RectangleShape fade;
     uint16_t color;
     bool switchActive = false;
     // std::priority_queue<std::shared_ptr<gameObject>, std::vector<std::shared_ptr<gameObject>>> queue;
 public:
-    renderer(sf::RenderWindow & gameWindow, objectStorage& renderObjectStorage):
+    renderer(sf::RenderWindow & gameWindow, objectStorage& renderObjectStorage, fightController& fightControl):
+    fightControl{fightControl},
     gameWindow(gameWindow),
     renderObjectStorage{renderObjectStorage}
     {
@@ -36,6 +39,7 @@ public:
         //}
         if(renderObjectStorage.storageDeck.fightActive){
             renderObjectStorage.storageDeck.DrawHand(gameWindow);
+            fightControl.draw(gameWindow);
         }
 
 
@@ -65,24 +69,8 @@ public:
         }
 
         if(renderObjectStorage.keyActive.at(0) == 'b'){
-            for(auto& item: renderObjectStorage.laneArrays.allyArrayAir){
-                item->draw(gameWindow);
-            }
-            for(auto& item: renderObjectStorage.laneArrays.enemyArrayAir){
-                item->draw(gameWindow);
-            }
-            for(auto& item: renderObjectStorage.laneArrays.allyArrayGround){
-                item->draw(gameWindow);
-            }
-            for(auto& item: renderObjectStorage.laneArrays.enemyArrayGround){
-                item->draw(gameWindow);
-            }
-            for(auto& item: renderObjectStorage.laneArrays.allyArrayTraps){
-                item->draw(gameWindow);
-            }
-            for(auto& item: renderObjectStorage.laneArrays.enemyArrayTraps){
-                item->draw(gameWindow);
-            }
+            std::cout << "drawing board________________________________________________________________" << std::endl;
+            fightControl.draw(gameWindow);
         }
     }
 

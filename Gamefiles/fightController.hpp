@@ -69,6 +69,10 @@ public:
         return gameBoard.placeUnit(unitPointer);
     }
 
+    void draw(sf::RenderWindow& window){
+        gameBoard.draw(window);
+    }
+
 };
 
 #endif

@@ -12,8 +12,8 @@ class game{
 private:
     sf::RenderWindow& gameWindow;
     objectStorage gameObjectStorage;
-    renderer gameObjectRenderer;
     fightController fightControl;
+    renderer gameObjectRenderer;
     inputHandler gameInputHandler;
 
     uint64_t MS_PER_FRAME = 1000 / 60;
@@ -24,8 +24,8 @@ public:
     game(sf::RenderWindow& gameWindow, char state = 'C'):
         gameWindow(gameWindow),
         gameObjectStorage(gameWindow),
-        gameObjectRenderer(gameWindow, gameObjectStorage),
         fightControl(),
+        gameObjectRenderer(gameWindow, gameObjectStorage, fightControl),
         gameInputHandler(gameObjectStorage, std::make_shared<fightController>(fightControl))
     {}
 
