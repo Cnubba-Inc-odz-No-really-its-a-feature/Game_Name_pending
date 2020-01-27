@@ -3,8 +3,6 @@
 
 #include "character.hpp"
 #include "macrodefinitions.hpp"
-#include "laneArrayContainer.hpp"
-#include "laneArraysStruct.hpp"
 #include "card.hpp"
 // #include <iostream>
 // #include "memory"
@@ -34,8 +32,6 @@ public:
     std::string keyActive = "Title.txt";
     std::map<std::string, std::shared_ptr<std::vector<std::shared_ptr<gameObject>>>> allVectors;
 
-    laneArraysStruct laneArrays;
-
     std::vector<int> hand;
     std::vector<int> drawPile;
     std::vector<int> discardPile;
@@ -54,11 +50,6 @@ public:
     void setActive(std::string newKey);
 
     void tmpNewActive();
-
-    std::shared_ptr<laneArraysStruct> getBoardContainer(){
-        std::cout<<"getting board container"<< std::endl;
-        return std::make_shared<laneArraysStruct>(laneArrays);
-    }
  };
 
 #endif // _OBJECTSTORAGE_HPP_

@@ -11,9 +11,9 @@ private:
 
     std::array<std::shared_ptr<unit>, LANE_SIZE> allyArray;
     std::array<std::shared_ptr<unit>, LANE_SIZE> enemyArray;
+    std::shared_ptr<nullUnit> nullUnitPointer;
 public:
     // constructors
-    lane();
     lane(E_lane laneID, int_fast8_t & playerHP, int_fast8_t & enemyHP);
 
     // checks

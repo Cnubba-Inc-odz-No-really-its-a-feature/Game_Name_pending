@@ -25,6 +25,8 @@ private:
     E_lane unitLane;
     bool ally = true;
 public:
+    unit(){}
+
     unit(int unitMaxHealth, int unitDamage, E_lane unitLane, std::map<std::string, sf::Texture> textureMap):
     gameObject(sf::Vector2f(200, 100), sf::Vector2f(1,1), textureMap, std::string("unitTexture"), 5),
         unitMaxHealth(unitMaxHealth),
@@ -54,7 +56,7 @@ public:
         return unitLane;
     }
     
-    void draw(sf::RenderWindow& gameWindow) override{
+    virtual void draw(sf::RenderWindow& gameWindow) override{
         gameWindow.draw(objectSprite);
     }
     void scaleObjects(sf::Vector2f newScale){}

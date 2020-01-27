@@ -4,8 +4,7 @@
 #include "memory"
 #include "gameObject.hpp"
 #include "macrodefinitions.hpp"
-#include "laneArrayContainer.hpp"
-#include "laneArraysStruct.hpp"
+#include "nullUnit.hpp"
 #include "E_lane.hpp"
 
 static std::map<E_lane, sf::Vector2f> lanePositionMap{
