@@ -282,7 +282,13 @@ public:
     }
 };
 
-enum class deckState_E {IDLE_E, DECKVIEW_E, FIGHT_E}
+enum class deckState_E {IDLE_E, DECKVIEW_E, FIGHT_E};
+
+
+
+
+
+
 
 class deckClass{
 private:
@@ -290,13 +296,17 @@ private:
     std::vector<int> &discardPile;
     std::vector<int> &completeDeck;
     std::vector<std::shared_ptr<card>> & cardsInHand;
+    std::vector<std::shared_ptr<card>> deckViewerCards;
     std::map<int, sf::Vector2f> handPositionMap;
     sf::Font deckStatsFont;
+    fightHand cardHand;
+    deckState_E deckState = deckState_E::IDLE_E;
+
     sf::Texture deckViewerTexture;
     sf::Sprite deckViewerSprite;
-    fightHand cardHand;
+    std::map<int, sf::Vector2f> deckViewerCardPositions;
+    
 
-    deckState_E deckState = deckState_E::IDLE_E;
 
 public:
     sf::Text deckStats_drawPile;
@@ -308,7 +318,8 @@ public:
         discardPile(discardPile),
         completeDeck(completeDeck),
         cardsInHand(cardsInHand),
-        cardHand(discardPile){
+        cardHand(discardPile)
+        {
 
             completeDeck = {1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,3,3,3,3};
 
@@ -321,8 +332,14 @@ public:
             deckStats_drawPile.setPosition(sf::Vector2f(20, 900));
             deckStats_discardPile.setPosition(sf::Vector2f(20, 1000));
 
-            deckViewerTexture.loadFromFile("gameAssets/cardAssets/book1.png");
+
+            deckViewerTexture.loadFromFile("gameAssets/cardAssets/book2.png");
             deckViewerSprite.setTexture(deckViewerTexture);
+            deckViewerSprite.setPosition(sf::Vector2f(100,50));
+            deckViewerSprite.setScale(sf::Vector2f(0.35,0.35));
+            deckViewerCardPositions[1] = sf::Vector2f(200, 100);
+            deckViewerCardPositions[2] = sf::Vector2f(500, 100);
+            deckViewerCardPositions[3] = sf::Vector2f(200, 600);
             }
 
     void newFight(){
@@ -337,17 +354,41 @@ public:
         deckState = deckState_E::FIGHT_E;
     }
 
-    void DrawHand(sf::RenderWindow& gameWindow){
+    void drawDeckViewer(sf::RenderWindow & gameWindow){
+        gameWindow.draw(deckViewerSprite);
+        std::for_each(deckViewerCards.begin(), deckViewerCards.end(), [&gameWindow](auto & i){i->draw(gameWindow);});
+    }
 
-
-        if(fightActive){
-            cardHand.drawHand(gameWindow);
+    void startDeckViewer(){
+        for(int i = 1; i < 4 ; i++ ){
+            auto newViewerCard = factorCard(i);
+            newViewerCard->scaleObjects(sf::Vector2f(1.3,1.3));
+            newViewerCard->setPosition(deckViewerCardPositions[i]);
+            deckViewerCards.push_back(newViewerCard);
         }
-        deckStats_discardPile.setString("DiscardPile size: " + std::to_string(discardPile.size()));
-        deckStats_drawPile.setString("DrawPile size: " + std::to_string(drawPile.size()));
+        changeDeckState(deckState_E::DECKVIEW_E);
+    }
 
-        gameWindow.draw(deckStats_drawPile);
-        gameWindow.draw(deckStats_discardPile);
+    void DrawHand(sf::RenderWindow& gameWindow){
+        switch(deckState){
+            case(deckState_E::IDLE_E):{
+                break;
+            }
+            case(deckState_E::FIGHT_E):{
+                deckStats_discardPile.setString("DiscardPile size: " + std::to_string(discardPile.size()));
+                deckStats_drawPile.setString("DrawPile size: " + std::to_string(drawPile.size()));
+
+                gameWindow.draw(deckStats_drawPile);
+                gameWindow.draw(deckStats_discardPile);
+                cardHand.drawHand(gameWindow);
+                break;
+            }
+
+            case(deckState_E::DECKVIEW_E):{
+                drawDeckViewer(gameWindow);
+                break;
+            }
+        }
     }
 
     void newHand(){
@@ -390,12 +431,17 @@ public:
         }
     }
 
+    void endDeckView(){
+        changeDeckState(deckState_E::IDLE_E);
+    }
 
     void viewDeck(){
+        changeDeckState(deckState_E::DECKVIEW_E);
+    }
 
 
-
-
+    void changeDeckState(deckState_E newDeckState){
+        deckState = newDeckState;
     }
 
 
