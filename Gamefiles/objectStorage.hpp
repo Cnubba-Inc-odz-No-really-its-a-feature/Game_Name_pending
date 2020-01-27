@@ -3,7 +3,6 @@
 
 #include "character.hpp"
 #include "macrodefinitions.hpp"
-#include "laneArrayContainer.hpp"
 #include "card.hpp"
 // #include <iostream>
 // #include "memory"
@@ -34,17 +33,6 @@ public:
     std::map<std::string, std::shared_ptr<std::vector<std::shared_ptr<gameObject>>>> allVectors;
     std::string returnTarget = "room1.txt";
 
-    std::array<std::shared_ptr<unit>, LANE_SIZE>  allyArrayAir;
-    std::array<std::shared_ptr<unit>, LANE_SIZE>  enemyArrayAir;
-    std::array<std::shared_ptr<unit>, LANE_SIZE>  allyArrayGround;
-    std::array<std::shared_ptr<unit>, LANE_SIZE>  enemyArrayGround;
-    std::array<std::shared_ptr<unit>, LANE_SIZE>  allyArrayTraps;
-    std::array<std::shared_ptr<unit>, LANE_SIZE>  enemyArrayTraps;
-
-    std::vector<std::shared_ptr<gameObject>> effectsLane1[LANE_SIZE];
-    std::vector<std::shared_ptr<gameObject>> effectsLane2[LANE_SIZE];
-    std::vector<std::shared_ptr<gameObject>> effectsLane3[LANE_SIZE];
-
     std::vector<int> hand;
     std::vector<int> drawPile;
     std::vector<int> discardPile;
@@ -63,12 +51,6 @@ public:
     void setActive(std::string newKey);
 
     void tmpNewActive();
-
-    // std::vector<std::shared_ptr<gameObject>> getCombatVector(){
-    //     std::vector<std::shared_ptr<gameObject>> combatVector;
-
-    //     combatVector.push_back
-    // }
  };
 
 #endif // _OBJECTSTORAGE_HPP_

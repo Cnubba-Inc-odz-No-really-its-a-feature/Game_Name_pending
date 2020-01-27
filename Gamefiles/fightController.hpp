@@ -14,14 +14,13 @@ enum class E_fightState{
 
 class fightController{
 private:
-    std::shared_ptr<objectStorage> storage;
     board gameBoard;
 
 
     int_fast8_t playerHP = 15;
     int_fast8_t enemyHP = 15;
-    std::shared_ptr<int_fast8_t> playerHPPointer = std::make_shared<int_fast8_t>(playerHP);
-    std::shared_ptr<int_fast8_t> enemyHPPointer = std::make_shared<int_fast8_t>(enemyHP);
+    //std::shared_ptr<int_fast8_t> playerHPPointer = std::make_shared<int_fast8_t>(playerHP);
+    //std::shared_ptr<int_fast8_t> enemyHPPointer = std::make_shared<int_fast8_t>(enemyHP);
     E_fightState fightState;
 
     E_fightState updateFightState(){
@@ -41,10 +40,11 @@ private:
     }
 
 public:
-    fightController(objectStorage& storage, boardLaneArraysContainer boardContainer):
-        storage{std::make_shared<objectStorage>(storage)},
-        gameBoard{boardContainer, playerHPPointer, enemyHPPointer}
-    {}
+    fightController():
+        gameBoard{playerHP, enemyHP}
+    {
+        std::cout << "fightController made" << std::endl;
+    }
 
     void initFight(){}
 
@@ -66,7 +66,12 @@ public:
     }
 
     bool placeUnitOnBoard(std::shared_ptr<unit> unitPointer){
+        std::cout << "placing on board via fightController" << std::endl;
         return gameBoard.placeUnit(unitPointer);
+    }
+
+    void draw(sf::RenderWindow& window){
+        gameBoard.draw(window);
     }
 
 };

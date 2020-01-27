@@ -4,7 +4,7 @@
 #include "memory"
 #include "gameObject.hpp"
 #include "macrodefinitions.hpp"
-#include "laneArrayContainer.hpp"
+#include "nullUnit.hpp"
 #include "E_lane.hpp"
 
 static std::map<E_lane, sf::Vector2f> lanePositionMap{
@@ -17,16 +17,18 @@ struct unitUpdateResult{
     int selfPosition;
     int opponentPosition;
 
+    bool isAlly;
     bool openentKilled;
     bool selfKilled;
     bool valid;
 
-    unitUpdateResult(bool valid, int selfPosition = 1, int opponentPosition = 1, bool oponentKilled = 1, bool selfKilled = 1):
+    unitUpdateResult(bool valid, int selfPosition = 1, int opponentPosition = 1, bool oponentKilled = 1, bool selfKilled = 1, bool isAlly = 1):
         valid{valid},
         selfPosition{selfPosition},
         opponentPosition{opponentPosition},
         openentKilled{oponentKilled},
-        selfKilled{selfKilled}
+        selfKilled{selfKilled},
+        isAlly{isAlly}
     {}
 };
 
