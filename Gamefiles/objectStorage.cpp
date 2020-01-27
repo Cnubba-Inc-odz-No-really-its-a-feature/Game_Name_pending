@@ -11,6 +11,11 @@ std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> & objectStorage::getAc
 }
 
 void objectStorage::setActive(std::string newKey) {
+  std::cout << newKey << std::endl;
+  if(newKey.at(0) == 'm' && keyActive.at(0) == 'r') {
+    allVectors[newKey]->at(0)->setTarget(keyActive);
+  }
+  if(newKey == "exit") exit(0);
   if(newKey != "NONE"){
     swappedActive = true;
     tmpActive = newKey;
@@ -72,7 +77,7 @@ std::shared_ptr<gameObject> objectStorage::factorObject(
           firstrun = false;
         }
         if (!(textureBind == ',')) {
-          throw end_of_textures("end of textures reached");
+          throw end_of_textures("");
         }
       }
     } catch (end_of_textures& e) {
