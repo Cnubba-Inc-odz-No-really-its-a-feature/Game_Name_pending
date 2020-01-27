@@ -13,23 +13,19 @@ private:
     std::array<std::shared_ptr<unit>, LANE_SIZE> enemyArray;
     std::shared_ptr<nullUnit> nullUnitPointer;
 public:
-    // constructors
     lane(E_lane laneID, int_fast8_t & playerHP, int_fast8_t & enemyHP);
 
-    // checks
+    // for board
     bool isIndexEmpty(const int index);
-
-    // placements
     void placeUnit(std::shared_ptr<unit> unitPointer);
+    void draw(sf::RenderWindow& window);
 
-    // updates for fights
+    // updates and combat
     void updateLane();
     void filterOutInValidResults(std::vector<unitUpdateResult>& rawResults);
     unitUpdateResult updateUnit(const int index, std::shared_ptr<unit> unit);
     unitUpdateResult fight(std::shared_ptr<unit> initiator, std::shared_ptr<unit> assaulted, const int index);
 
-    // draw
-    void draw(sf::RenderWindow& window);
 
 };
 
