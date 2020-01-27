@@ -104,6 +104,8 @@ public:
     virtual void setPosition(sf::Vector2f newPosition)=0;
 
     int getCardID(){return cardID;}
+
+    virtual E_lane getUnitLane() =0;
     void interact() override {}
     void move(sf::Vector2f moveDirection) override {}
     void update() override {}
@@ -200,6 +202,10 @@ public:
     std::shared_ptr<unit> summonUnitFromCard(){
         return std::shared_ptr<unit>(new unit(cardUnitHealth, cardUnitDamage, cardUnitLane, textureMap));
     }
+
+    E_lane getUnitLane(){
+        return cardUnitLane;
+    }
 };
 
 class fightHand{
@@ -263,17 +269,19 @@ public:
 
 
 
-    int isCardClicked(sf::Vector2f mousePosition){
+    int isCardClicked(sf::Vector2f mousePosition, bool skyOpen, bool groundOpen){
         if(cardCount > 0){
             for(int i = 0; i < 7 ; i++){
                 if(cardsInHand[i] != nullptr){
                     if(cardsInHand[i]->checkIfPlayed(mousePosition)){
-                        return i;
+                        if((cardsInHand[i]->getUnitLane() == E_lane::skyLane && skyOpen) || (cardsInHand[i] ->getUnitLane() == E_lane::groundLane && groundOpen)){
+                            return i;
                     }
                 }
             }
         }
         return -1;
+        }
     }
 
     std::shared_ptr<unit> playUnitCard(int cardPositionInHand){
@@ -281,7 +289,6 @@ public:
         discardPile.push_back(cardsInHand[cardPositionInHand]->getCardID());
         cardsInHand[cardPositionInHand] = nullptr;
 
-        std::cout<<"created unit of damage: " << unitFromCard->getDamage() << std::endl;
         return unitFromCard;
     }
 };
@@ -382,9 +389,10 @@ public:
     }
 
 
-    std::shared_ptr<unit> checkForCardPlay(sf::Vector2i mousePosI){
+    std::shared_ptr<unit> checkForCardPlay(sf::Vector2i mousePosI, bool skyOpen = true, bool groundOpen = true){
         sf::Vector2f mousePosF = sf::Vector2f(float(mousePosI.x), float(mousePosI.y));
-        int clickedCardPos = cardHand.isCardClicked(mousePosF);
+        int clickedCardPos = cardHand.isCardClicked(mousePosF, skyOpen, groundOpen);
+ 
         if(clickedCardPos > -1){
             std::shared_ptr<unit> newUnit = cardHand.playUnitCard(clickedCardPos);
             std::cout<<"returning unit of damage" << newUnit->getDamage() << std::endl;
