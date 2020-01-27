@@ -1,7 +1,7 @@
 #include "exeptions.hpp"
 
 
-invalid_UnitLane::invalid_UnitLane(const char *c) {msg = c;};
+invalid_UnitLane::invalid_UnitLane(std::string c) {msg = c;};
 
 const char* invalid_UnitLane::what() const noexcept {
   return msg.c_str();

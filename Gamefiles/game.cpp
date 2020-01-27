@@ -30,6 +30,7 @@ void game::gameLoop(){
 			std::cout<<"currentDecksize:" << gameObjectStorage.completeDeck.size()<<std::endl;
 		}
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::B)){
+			std::cout<<"drawing new hand" << std::endl;
 			gameObjectStorage.storageDeck.newHand();
 			std::cout<<"hand created of size: " << gameObjectStorage.cardsInHand.size() << std::endl;
 		}

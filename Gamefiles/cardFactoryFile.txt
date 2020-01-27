@@ -1,3 +1,10 @@
-1 summon { Oculothorax gameAssets/cardAssets/Oculothorax/cardArtOculothorax.png skyLane 2, 4, 3 gameAssets/cardAssets/Oculothorax/unitArtOculothoraxBase.png }
-2 summon { Minotaur gameAssets/cardAssets/Minotaur/cardArtMinotaur.png groundLane 6, 8, 5 gameAssets/cardAssets/Minotaur/unitArtMinotaurBase.png }
-3 summon { Kobold gameAssets/cardAssets/Kobold/cardArtKobold.png groundLane 6, 2, 3 gameAssets/cardAssets/Kobold/unitCartKoboldBase.png }
+1 summon { Goblin gameAssets/cardAssets/Goblin/cardArtGoblin.png groundLane 2, 2, 1 gameAssets/cardAssets/Goblin/unitArtGoblinBase.png }
+2 summon { Kobold gameAssets/cardAssets/Kobold/cardArtKobold.png groundLane 6, 2, 3 gameAssets/cardAssets/Kobold/unitArtKoboldBase.png }
+3 summon { Ogre gameAssets/cardAssets/Ogre/cardArtOgre.png groundLane 6, 6, 4 gameAssets/cardAssets/Ogre/unitArtOgreBase.png }
+4 summon { Minotaur gameAssets/cardAssets/Minotaur/cardArtMinotaur.png groundLane 5, 8, 5 gameAssets/cardAssets/Minotaur/unitArtMinotaurBase.png }
+5 summon { Mimic gameAssets/cardAssets/Mimic/cardArtMimic.png groundLane 2, 6, 3 gameAssets/cardAssets/Mimic/unitArtMimicBase.png }
+6 summon { Oculothorax gameAssets/cardAssets/Oculothorax/cardArtOculothorax.png skyLane 2, 4, 3 gameAssets/cardAssets/Oculothorax/unitArtOculothoraxBase.png }
+7 summon { EarthWisp gameAssets/cardAssets/EarthWisp/cardArtEarthWisp.png skyLane 2, 5, 4 gameAssets/cardAssets/EarthWisp/unitArtEarthWispBase.png }
+8 summon { WaterWisp gameAssets/cardAssets/WaterWisp/cardArtWaterWisp.png skyLane 1, 4, 2 gameAssets/cardAssets/WaterWisp/unitArtWaterWispBase.png }
+9 summon { FireWisp gameAssets/cardAssets/FireWisp/cardArtFireWisp.png skyLane 3, 3, 4 gameAssets/cardAssets/FireWisp/unitArtFireWispBase.png }
+10 summon { WindWisp gameAssets/cardAssets/WindWisp/cardArtWindWisp.png skyLane 2, 2, 4 gameAssets/cardAssets/WindWisp/unitArtWindWispBase.png }
