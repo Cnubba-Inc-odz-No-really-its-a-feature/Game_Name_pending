@@ -1,2 +1,2 @@
-1 summon { CookieMonster gameAssets/cardAssets/testCardResized.png groundLane 8000, 10 gameAssets/cardAssets/testCardImage2.png }
-2 summon { WeirdGuy.exe gameAssets/cardAssets/testCardImage2Resized.png skyLane 2, 50 gameAssets/cardAssets/testCardImage.png }
+1 summon { Oculothorax gameAssets/cardAssets/Oculothorax/cardArtOculothorax.png skyLane 2, 4, 4 gameAssets/cardAssets/testCardImage2.png }
+2 summon { Minotaur gameAssets/cardAssets/Minotaur/cardArtMinotaur.png groundLane 6, 8, 5 gameAssets/cardAssets/testCardImage.png }

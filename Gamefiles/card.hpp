@@ -73,10 +73,11 @@ class card : public gameObject{
 protected:
     sf::Font cardFont;
     sf::Text cardName;
+    sf::Text cardManaCost;
     int cardID;
 public:
 
-    card(std::string cardNameString, std::map<std::string, sf::Texture> textureMap, int cardID):
+    card(std::string cardNameString, std::map<std::string, sf::Texture> textureMap, int cardID, int manaCost):
     gameObject(sf::Vector2f(10, 10), sf::Vector2f(1,1),  textureMap, std::string("basicCardFrame"), 5),
     cardID(cardID){
         cardFont.loadFromFile("gameAssets/cardAssets/cardFont.otf");
@@ -86,6 +87,14 @@ public:
         cardName.setCharacterSize(80);
         cardName.setFillColor(sf::Color::Black);
         cardName.setPosition(sf::Vector2f(objectSprite.getGlobalBounds().left + (0.175 * objectSprite.getGlobalBounds().width) , objectSprite.getGlobalBounds().top + (0.05 * objectSprite.getGlobalBounds().height)));
+   
+        cardManaCost.setFont(cardFont);
+        cardManaCost.setString(std::to_string(manaCost));
+        cardManaCost.setOrigin(cardManaCost.getLocalBounds().left +(cardManaCost.getLocalBounds().width / 2),cardManaCost.getLocalBounds().top + (cardManaCost.getLocalBounds().height / 2));
+        cardManaCost.setCharacterSize(160);
+        cardManaCost.setFillColor(sf::Color::Black);
+        cardManaCost.setPosition(sf::Vector2f(objectSprite.getGlobalBounds().left + (0.85 * objectSprite.getGlobalBounds().width) , objectSprite.getGlobalBounds().top + (0.02 * objectSprite.getGlobalBounds().height)));
+   
     }
 
     void draw(sf::RenderWindow& gameWindow){}
@@ -116,8 +125,8 @@ private:
     E_lane cardUnitLane;
 
 public:
-    summonCard(std::string cardNameString, int cardUnitDamage, int cardUnitHealth, E_lane cardUnitLane, std::map<std::string, sf::Texture> textureMap, int objectID):
-        card(cardNameString, textureMap, objectID),
+    summonCard(std::string cardNameString, int cardUnitDamage, int cardUnitHealth, int manaCost, E_lane cardUnitLane, std::map<std::string, sf::Texture> textureMap, int objectID):
+        card(cardNameString, textureMap, objectID, manaCost),
         cardUnitHealth(cardUnitHealth),
         cardUnitDamage(cardUnitDamage),
         cardUnitLane(cardUnitLane)
@@ -132,7 +141,6 @@ public:
         summonCardDamage.setFillColor(sf::Color::Black);
         summonCardDamage.setPosition(sf::Vector2f(cardPosition.left + (0.26* cardPosition.width) , cardPosition.top + (0.835 * cardPosition.height)));
 
-
         summonCardHealth.setFont(cardFont);
         summonCardHealth.setString(std::to_string(cardUnitHealth));
         summonCardHealth.setOrigin(summonCardHealth.getLocalBounds().left +(summonCardHealth.getLocalBounds().width / 2),summonCardHealth.getLocalBounds().top + (summonCardHealth.getLocalBounds().height / 2));
@@ -140,16 +148,15 @@ public:
         summonCardHealth.setFillColor(sf::Color::Black);
         summonCardHealth.setPosition(sf::Vector2f(cardPosition.left + (0.68* cardPosition.width) , cardPosition.top + (0.835 * cardPosition.height)));
 
-
         summonCardArtSprite.setTexture(gameObject::textureMap["cardArtTexture"]);
         summonCardArtSprite.setPosition(objectSprite.getPosition());
 
-
-        cardName.setScale(sf::Vector2f(0.2, 0.2));
-        objectSprite.setScale(sf::Vector2f(0.2, 0.2));
-        summonCardDamage.setScale(sf::Vector2f(0.2, 0.2));
-        summonCardHealth.setScale(sf::Vector2f(0.2, 0.2));
-        summonCardArtSprite.setScale(sf::Vector2f(0.2, 0.2));        
+        cardName.setScale(sf::Vector2f(0.24, 0.24));
+        cardManaCost.setScale(sf::Vector2f(0.24, 0.24));
+        objectSprite.setScale(sf::Vector2f(0.24, 0.24));
+        summonCardDamage.setScale(sf::Vector2f(0.24, 0.24));
+        summonCardHealth.setScale(sf::Vector2f(0.24, 0.24));
+        summonCardArtSprite.setScale(sf::Vector2f(0.24, 0.24));        
     }
 
     
@@ -157,12 +164,12 @@ public:
 
 
     void draw(sf::RenderWindow& gameWindow){
-        summonCardDamage.setFillColor(sf::Color::Red);
             gameWindow.draw(summonCardArtSprite);
             gameWindow.draw(objectSprite);
             gameWindow.draw(cardName);
             gameWindow.draw(summonCardDamage);
             gameWindow.draw(summonCardHealth);
+            gameWindow.draw(cardManaCost);
     }
 
     void scaleObjects(sf::Vector2f newScale) override{
@@ -172,6 +179,8 @@ public:
         summonCardDamage.setScale(sf::Vector2f(summonCardDamage.getScale().x * newScale.x, summonCardDamage.getScale().y * newScale.y));
         summonCardHealth.setScale(sf::Vector2f((summonCardHealth.getScale().x * newScale.x) , (summonCardHealth.getScale().y * newScale.y)));
         summonCardArtSprite.setScale(sf::Vector2f((summonCardArtSprite.getScale().x * newScale.x) , (summonCardArtSprite.getScale().y * newScale.y)));
+        cardManaCost.setScale(sf::Vector2f((cardManaCost.getScale().x * newScale.x) , (cardManaCost.getScale().y * newScale.y)));
+
     }
 
     void setPosition(sf::Vector2f newPosition)override{
@@ -182,6 +191,7 @@ public:
         summonCardHealth.setPosition(sf::Vector2f(objectSprite.getGlobalBounds().left + (0.68* objectSprite.getGlobalBounds().width) , objectSprite.getGlobalBounds().top + (0.835 * objectSprite.getGlobalBounds().height)));
         summonCardArtSprite.setPosition(objectSprite.getPosition());
         cardName.setPosition(sf::Vector2f(objectSprite.getGlobalBounds().left + (0.175 * objectSprite.getGlobalBounds().width) , objectSprite.getGlobalBounds().top + (0.05 * objectSprite.getGlobalBounds().height)));
+        cardManaCost.setPosition(sf::Vector2f(objectSprite.getGlobalBounds().left + (0.85 * objectSprite.getGlobalBounds().width) , objectSprite.getGlobalBounds().top + (0.02 * objectSprite.getGlobalBounds().height)));
 
     }
 
@@ -208,13 +218,13 @@ public:
 
     fightHand(std::vector<int> &discardPile):
     discardPile(discardPile){
-        handPositionMap[0] = sf::Vector2f(600, 850);            
-        handPositionMap[1] = sf::Vector2f(775, 850);
+        handPositionMap[0] = sf::Vector2f(590, 850);            
+        handPositionMap[1] = sf::Vector2f(770, 850);
         handPositionMap[2] = sf::Vector2f(950, 850);
-        handPositionMap[3] = sf::Vector2f(1125, 850);
-        handPositionMap[4] = sf::Vector2f(1300, 850);
-        handPositionMap[5] = sf::Vector2f(1475, 850);
-        handPositionMap[6] = sf::Vector2f(1650, 850);
+        handPositionMap[3] = sf::Vector2f(1130, 850);
+        handPositionMap[4] = sf::Vector2f(1310, 850);
+        handPositionMap[5] = sf::Vector2f(1490, 850);
+        handPositionMap[6] = sf::Vector2f(1670, 850);
 
         //std::for_each(cardsInHand.begin(), cardsInHand.end(), [tempMap](auto &i){i.reset(new nullptr);});//( new summonCard(std::string("NULLCARD"), 0, 0, E_lane::groundLane, tempMap, 0)) ;});
         std::for_each(cardsInHand.begin(), cardsInHand.end(), [](auto &i){i = nullptr;});
@@ -269,27 +279,17 @@ public:
 
 
     int isCardClicked(sf::Vector2f mousePosition){
-       // std::cout<<"entered isCardClicked()" << std::endl;
         if(cardCount > 0){
             for(int i = 0; i < 7 ; i++){
-               // std::cout<<"checking card ID's" << std::endl;
                 if(cardsInHand[i] != nullptr){
-                    if(cardsInHand[i]->getCardID() != 0){
-                        std::cout<<"cardID: " << cardsInHand[i]->getCardID() << std::endl;
-                        std::cout<<"found card to check for click in pos: " << i << std::endl;
-                        std::cout<<cardsInHand[i]->checkIfPlayed(mousePosition) << std::endl;
+                    //if(cardsInHand[i]->getCardID() != 0){
                         if(cardsInHand[i]->checkIfPlayed(mousePosition)){
-                            std::cout<<"found card clicked on: " << i <<std::endl;
                             return i;
                         }
-  //                      std::cout<<"not clicked"<<std::endl;
-                    }
+                    //}
                 }
             }
         }
-
-  //      std::cout<<"no cards clicked" << std::endl;
-
         return -1;
     }
 
@@ -405,14 +405,6 @@ public:
             int cardsInCurrentHand = cardHand.amountOfCardsInHand();
             std::for_each(drawPile.begin(), drawPile.begin() +(7-cardsInCurrentHand), 
                      [this](auto & i){cardHand.addCard(factorCard(i));});
-            // for(int i = 0; i < (7- cardHand.amountOfCardsInHand()); i++){
-            //     std::cout<<"trying to add card" << std::endl;
-            //     int newCardID = drawPile[i];
-            //     std::cout<< "newCardID: " << newCardID <<std::endl;
-            //     auto newCard = factorCard(newCardID);
-            //     std::cout<<"factoredNewCard"<<std::endl;
-            //     cardHand.addCard(newCard);
-            // }
 
             std::cout<<"hij add de overige kaarten" << std::endl;
             drawPile.erase(drawPile.begin(), drawPile.begin() + (7-cardsInCurrentHand) );
@@ -423,11 +415,6 @@ public:
             std::cout<< "added 1 hand" << std::endl;
             drawPile.erase(drawPile.begin(), drawPile.begin()+7);      
         }
-        //cardsInHand.clear();
-        //std::for_each(hand.begin(), hand.end(), [this](auto & i){cardsInHand.push_back(factorCard(i));});
-        // for(int i = 0; i < 7; i++){
-        //     cardsInHand[i]->setPosition(handPositionMap[i]);
-        // }
 
         deckStats_discardPile.setString("DrawPile size: " + std::to_string(discardPile.size()));
         deckStats_drawPile.setString("DrawPile size: " + std::to_string(drawPile.size()));
@@ -437,31 +424,15 @@ public:
 
     std::shared_ptr<unit> checkForCardPlay(sf::Vector2i mousePosI){
         sf::Vector2f mousePosF = sf::Vector2f(float(mousePosI.x), float(mousePosI.y));
-        std::cout<< "start to check for cards" << std::endl;
         int clickedCardPos = cardHand.isCardClicked(mousePosF);
-        std::cout<< "Card clicked at: " << clickedCardPos << std::endl;
-        if(clickedCardPos > 0){
-            std::cout<<"unit card found" << std::endl;
-            auto newUnit = cardHand.playUnitCard(clickedCardPos);
-            std::cout<< "unit played" << std::endl;
+        if(clickedCardPos > -1){
+            std::shared_ptr<unit> newUnit = cardHand.playUnitCard(clickedCardPos);
             return newUnit;
         }else{
-            std::cout<<"no cards clicked" << std::endl;
          }
 
         return nullptr;
     }
-
-    // int checkCardInteraction(sf::Vector2f mousePosition){
-    //     return cardHand.isCardClicked(mousePosition);
-    // }
-
-    // std::shared_ptr<unit> playUnitCard(int handPosition){
-    //     cardHand.
-    // }
-
-
-
 
 
     std::shared_ptr<card> factorCard(int cardID){
@@ -487,8 +458,9 @@ public:
                         E_lane cardUnitLane;
                         int cardUnitDamage;
                         int cardUnitHealth;
+                        int cardManaCost;
                         std::string unitTextureFileName;
-                        cardFactoryFile >> cardUnitLane >> cardUnitDamage >> fileBind >> cardUnitHealth >> unitTextureFileName;
+                        cardFactoryFile >> cardUnitLane >> cardUnitDamage >> fileBind >> cardUnitHealth >> fileBind >> cardManaCost >> unitTextureFileName;
                         std::map<std::string, sf::Texture> textureMap;
 
             
@@ -514,7 +486,7 @@ public:
                         if(!(fileBind == '}')){
                             throw invalid_Factory_Binds("invalid end factory bind");
                         }
-                        return std::shared_ptr<card>(new summonCard(cardName, cardUnitDamage, cardUnitHealth, cardUnitLane, textureMap, objectID)); 
+                        return std::shared_ptr<card>(new summonCard(cardName, cardUnitDamage, cardUnitHealth, cardManaCost, cardUnitLane, textureMap, objectID)); 
                     }
                 }else{
                     cardFactoryFile.ignore(300, '\n');
