@@ -27,30 +27,6 @@ board::board(const boardLaneArraysContainer& boardContainer, std::shared_ptr<int
         }
     }
 
-    void board::updateUnitsOnAllLanes(const int E_lane){
-        for(lane& currentLane : lanes){
-            currentLane.updateAllUnits();
-        }
-    }
-
-    void board::updateEffectsOnAllLanes(const int E_lane){
-        for(lane& currentLane : lanes){
-            currentLane.updateLane();
-        }
-    }
-
-    void board::updateLane(const int E_lane){
-        lanes[E_lane].updateLane();
-    }
-
-    void board::updateUnitsOnLane(const int E_lane){
-        lanes[E_lane].updateAllUnits();
-    }
-
-    void board::updateEffectsOnLane(const int E_lane){
-        lanes[E_lane].updateEffects();
-    }
-
     bool board::placeUnit(std::shared_ptr<unit> unitPointer){
         if(lanes[unitPointer->getLaneType()].isIndexEmpty(0)){
             lanes[unitPointer->getLaneType()].placeUnit(unitPointer);
@@ -58,26 +34,9 @@ board::board(const boardLaneArraysContainer& boardContainer, std::shared_ptr<int
         }
         return false;
     }
-    
-    void board::placeEffect(const int E_lane, const int index, std::shared_ptr<gameObject> effectPointer){
-        if(index >=0 && index < LANE_SIZE){
-            lanes[E_lane].placeEffect(index, effectPointer);
-        }
-        else{
-            std::cout << "index out of range" << std::endl;
-        }
-    }
-
-    void board::castSpell(const int E_lane, const int index, std::shared_ptr<gameObject> spell){
-        // spell.activate(&lanes, E_lane, index);
-    }
 
     void board::removeUnit(const int E_lane, const int index){
         lanes[E_lane].removeAtIndex(index);
-    }
-
-    void board::removeEffect(const int E_lane, const int index, const int effectIndex){
-        lanes[E_lane].removeEffectAtIndex(index, effectIndex);
     }
 
     void board::removeByID(const std::string& id){
@@ -105,10 +64,6 @@ board::board(const boardLaneArraysContainer& boardContainer, std::shared_ptr<int
 
     bool board::isPositionEmpty(const int E_lane, const int index){
         return lanes[E_lane].isIndexEmpty(index);
-    }
-
-    bool board::isTrapCardOnPosition(const int index){
-        return lanes[E_lane::trapLane].isIndexEmpty(index);
     }
 
     void board::draw(sf::RenderWindow& window){

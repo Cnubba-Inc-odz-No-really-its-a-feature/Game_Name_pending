@@ -33,10 +33,6 @@
         }
     }
 
-    void lane::placeEffect(const int index, std::shared_ptr<gameObject> effectPointer){
-        laneEffects[index].push_back(effectPointer);
-    }
-
     void lane::updateLane(){
         std::vector<unitUpdateResult> updateResults = {};
         
@@ -224,26 +220,9 @@
         }
     }
 
-    void lane::updateEffects(){
-        //for every position
-        for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
-            //for every spell on that position
-            for(uint_fast8_t j = 0; j < laneEffects[i].size(); j++){
-                // laneEffects[i][j]->update(i, j, this);
-            }
-        }
-    }
-
     void lane::removeAtIndex(const int index){
         allyArray->at(index) = nullptr;
         enemyArray->at(index) = nullptr;
-    }
-
-    void lane::removeEffectAtIndex(const int positionIndex, const int effectIndex){
-        auto toRemoveEffect = laneEffects[positionIndex][effectIndex];
-        laneEffects[positionIndex][effectIndex] = laneEffects[positionIndex].back();
-        laneEffects[positionIndex][laneEffects[positionIndex].size() - 1] = toRemoveEffect;
-        laneEffects[positionIndex].pop_back();
     }
 
     void lane::removeByID(const std::string& id){

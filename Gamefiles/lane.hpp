@@ -22,8 +22,6 @@ public:
 
     // placements
     void placeUnit(std::shared_ptr<unit> unitPointer);
-    void placeUnit(const int index, std::shared_ptr<unit> unitPointer);
-    void placeEffect(const int index, std::shared_ptr<gameObject> effectPointer);
 
     // updates for fights
     void updateLane();
@@ -33,11 +31,9 @@ public:
     
     // updates misc
     void updateAllUnits();
-    void updateEffects();
 
     // removes
     void removeAtIndex(const int index);
-    void removeEffectAtIndex(const int positionIndex, const int effectIndex);
     void removeByID(const std::string& id);
 
     // get pointers

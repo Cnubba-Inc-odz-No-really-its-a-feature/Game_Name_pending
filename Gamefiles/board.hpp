@@ -17,22 +17,12 @@ public:
 
     // update functions
     void update();
-    void updateUnitsOnAllLanes(const int E_lane);
-    void updateEffectsOnAllLanes(const int E_lane);
-    void updateLane(const int E_lane);
-    void updateUnitsOnLane(const int E_lane);
-    void updateEffectsOnLane(const int E_lane);
 
     // placements
     bool placeUnit(std::shared_ptr<unit> unitPointer);
-    void placeEffect(const int E_lane, const int index, std::shared_ptr<gameObject> effectPointer);
-
-    //  spells
-    void castSpell(const int E_lane, const int index, std::shared_ptr<gameObject> spell);
-
+    
     // removes
     void removeUnit(const int E_lane, const int index);
-    void removeEffect(const int E_lane, const int index, const int effectIndex);
     void removeByID(const std::string& id);
 
     // get pointers
@@ -41,7 +31,6 @@ public:
 
     // checks
     bool isPositionEmpty(const int E_lane, const int index);
-    bool isTrapCardOnPosition(const int index);
     
     // draw
     void draw(sf::RenderWindow& window);
