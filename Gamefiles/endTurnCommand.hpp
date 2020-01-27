@@ -14,7 +14,6 @@ public:
 
     void execute() override{
         fightControlPointer->nextTurn();
-        std::cout << "ENDTURN++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
     }
 
     void undo() override{}

@@ -19,7 +19,7 @@
     void lane::placeUnit(std::shared_ptr<unit> unitPointer){
         std::cout << "lane::placeUnit()" << std::endl;
         if(unitPointer->isAlly()){
-            allyArray.at(0) = unitPointer;
+            allyArray[0] = unitPointer;
         }
     }
 
@@ -40,6 +40,7 @@
 
     void lane::updateLane(){
         std::cout << "entered updateLane()" << std::endl;
+        std::cout << "enemyHP: " << int(enemyHP) << std::endl;
         std::vector<unitUpdateResult> updateResults = {};
         uint_fast8_t maxLaneIndex = LANE_SIZE - 1;
 
@@ -74,9 +75,10 @@
         // update allies
         std::cout << "hey" <<std::endl;
         for(int_fast8_t i = maxLaneIndex; i >= 0; i--){
+            std::cout << "pre if" << std::endl;
             if(allyArray[i] != nullptr){
-                std::cout << "no nullptr" << i << std::endl;  
-                updateResults.push_back(updateUnits(i, allyArray.at(i)));
+                std::cout << "no nullptr" << int(i) << " " << allyArray[i]->getLaneType() << std::endl;  
+                updateResults.push_back(updateUnit(i, allyArray.at(i)));
             }
         }
         std::cout << "pre-removing dead units." << std::endl;
@@ -86,7 +88,7 @@
         std::cout << "hey2" << std::endl;
         for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
             if(enemyArray[i] != nullptr){
-                updateResults.push_back(updateUnits(i, enemyArray.at(i)));
+                updateResults.push_back(updateUnit(i, enemyArray.at(i)));
             }
         }
         removeDeadUnitsFromResults(updateResults);
@@ -102,25 +104,27 @@
         drawArray(enemyArray, laneStartPosition);
     }
 
-    unitUpdateResult lane::updateUnits(const int index, std::shared_ptr<unit> unit){
-        if(unit == nullptr){
+    unitUpdateResult lane::updateUnit(const int index, std::shared_ptr<unit> toUpdateUnit){
+        std::cout << "updateUnit()" << std::endl;
+        if(toUpdateUnit == nullptr){
             std::cout << "nullptr found" << std::endl;
             return unitUpdateResult(false);
         }
-        
-        std::function<unitUpdateResult(int, int)> updateSequence = [=](int index, int nextIndex)->unitUpdateResult{
+
+        if(toUpdateUnit->isAlly()){
+            int nextIndex = index + 1;
             if(nextIndex < LANE_SIZE && isIndexEmpty(nextIndex)){
-                allyArray.at(nextIndex) = unit;
+                allyArray.at(nextIndex) = toUpdateUnit;
                 allyArray.at(index) = nullptr;
             }
             else if(index == LANE_SIZE - 1){
-                enemyHP -= unit->getDamage();
+                enemyHP -= toUpdateUnit->getDamage();
             }
-            else if(nextIndex < LANE_SIZE){
-                unitUpdateResult result = fight(unit, enemyArray.at(nextIndex), index);
+            else if(nextIndex < LANE_SIZE && enemyArray[nextIndex] != nullptr){
+                unitUpdateResult result = fight(toUpdateUnit, enemyArray.at(nextIndex), index);
 
                 if(result.openentKilled && !result.selfKilled){
-                    allyArray.at(nextIndex) = unit;
+                    allyArray.at(nextIndex) = toUpdateUnit;
                     allyArray.at(index) = nullptr;
                 }
 
@@ -128,13 +132,28 @@
             }
 
                 return unitUpdateResult(false);
-        };
-
-        if(unit->isAlly()){
-            return updateSequence(index, index + 1);
         }
         else{
-            return updateSequence(index, index - 1);
+            int nextIndex = index - 1;
+            if(nextIndex > LANE_SIZE && isIndexEmpty(nextIndex)){
+                enemyArray.at(nextIndex) = toUpdateUnit;
+                enemyArray.at(index) = nullptr;
+            }
+            else if(index == LANE_SIZE - 1){
+                enemyHP -= toUpdateUnit->getDamage();
+            }
+            else if(nextIndex < LANE_SIZE && allyArray[nextIndex] != nullptr){
+                unitUpdateResult result = fight(toUpdateUnit, enemyArray.at(nextIndex), index);
+
+                if(result.openentKilled && !result.selfKilled){
+                    enemyArray.at(nextIndex) = toUpdateUnit;
+                    enemyArray.at(index) = nullptr;
+                }
+
+                return result;
+            }
+
+                return unitUpdateResult(false);
         }
     }
 

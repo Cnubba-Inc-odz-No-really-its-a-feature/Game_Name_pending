@@ -17,32 +17,20 @@ private:
     board gameBoard;
 
 
-    int_fast8_t playerHP = 15;
-    int_fast8_t enemyHP = 15;
+    int_fast8_t playerHP;
+    int_fast8_t enemyHP;
     //std::shared_ptr<int_fast8_t> playerHPPointer = std::make_shared<int_fast8_t>(playerHP);
     //std::shared_ptr<int_fast8_t> enemyHPPointer = std::make_shared<int_fast8_t>(enemyHP);
     E_fightState fightState;
 
-    E_fightState updateFightState(){
-        if(playerHP >= 0 && enemyHP <= 0){
-            fightState = E_fightState::win;
-        }
-        else if(playerHP <= 0 && enemyHP >= 0){
-            fightState = E_fightState::loss;
-        }
-        else if(playerHP <= 0 && enemyHP <= 0){
-            fightState = E_fightState::draw;
-        }
-        else{
-            fightState = E_fightState::inCombat;
-        }
-        return fightState;
-    }
-
 public:
     fightController():
+        playerHP{15},
+        enemyHP{15},
         gameBoard{playerHP, enemyHP}
-    {}
+    {
+        initFight();
+    }
 
     void initFight(){
         gameBoard.reset();
@@ -59,19 +47,14 @@ public:
     }
 
     void nextTurn(){
+        std::cout << "nextTurn()_______________________________________" << std::endl;
         gameBoard.update();
-        updateFightState();
 
+        std::cout << "checking winCondition" << std::endl;
         // add menu stuff
-        if(fightState != E_fightState::inCombat){
-            switch(fightState){
-                case E_fightState::win:
-                    break;
-                case E_fightState::loss:
-                    break;
-                case E_fightState::draw:
-                    break;
-            }
+        int_fast8_t zero = 0;
+        if(playerHP <= zero || enemyHP <= zero){
+            exit(0);
         }
     }
 
