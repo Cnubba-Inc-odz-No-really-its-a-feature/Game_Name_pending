@@ -1,6 +1,7 @@
 #ifndef _EXITCOMMAND_HPP
 #define _EXITCOMMAND_HPP
 
+#include "objectStorage.hpp"
 #include "command.hpp"
 #include <iostream>
 #include <map>
@@ -8,13 +9,15 @@
 
 class exitCommand : public command{
 private:
+    objectStorage & storage;
     
 public:
-    exitCommand()
+    exitCommand(objectStorage &storage):
+    storage(storage)
     {}
 
     void execute() override{
-        exit(0);
+        storage.setActive("menu.txt");
     }
 
     virtual void undo(){}
