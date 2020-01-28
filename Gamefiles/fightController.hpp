@@ -47,11 +47,10 @@ public:
     }
 
     void nextTurn(){
-        std::cout << "nextTurn()_______________________________________" << std::endl;
+        std::cout << "nextTurn()________________________________________________________________________" << std::endl;
         gameBoard.update();
         // add menu stuff
-        int_fast8_t zero = 0;
-        if(playerHP <= zero || enemyHP <= zero){
+        if(playerHP <= 1 || enemyHP < 1){
             exit(0);
         }
     }
