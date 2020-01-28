@@ -3,7 +3,7 @@
 
 #include "character.hpp"
 #include "macrodefinitions.hpp"
-#include "card.hpp"
+//#include "card.hpp"
 // #include <iostream>
 // #include "memory"
 // #include "vector"

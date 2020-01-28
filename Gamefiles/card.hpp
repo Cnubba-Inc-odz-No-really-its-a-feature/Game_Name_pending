@@ -16,7 +16,6 @@ std::ifstream& operator>>(std::ifstream& input, E_lane& unitLane);
 
 
 
-
 class unit : public gameObject{
 private:
     int unitMaxHealth;
@@ -208,6 +207,11 @@ public:
     }
 };
 
+
+std::shared_ptr<card> factorCard(int cardID);
+
+
+
 class fightHand{
 private:
     std::map<int, sf::Vector2f> handPositionMap;
@@ -295,19 +299,130 @@ public:
 
 enum class deckState_E {IDLE_E, DECKVIEW_E, FIGHT_E};
 
+
 class deckViewerClass{
 private:
     sf::Texture deckViewerTexture;
     sf::Sprite deckViewerSprite;
-    std::vector<int> & completeDeck;
+
+    sf::Texture buttonTextureUP;
+    sf::Texture buttonTextureDOWN;
+    sf::Texture cardCounterTexture;
+
+    std::map<int, int> & playerDeck;
+    std::map<int, int> & ownedCards;
+
+    std::vector<std::shared_ptr<card>> deckViewerCards;
+    std::map<int,sf::Vector2f> cardPositions;
+
+    sf::Font numberFont;
+    std::array<sf::Sprite, 10> upButtonArray;
+    std::array<sf::Sprite, 10> downButtonArray;
+    std::array<sf::Sprite, 10> deckCardCounterSpriteArray;
+    std::array<sf::Sprite, 10> ownedCardCounterSpriteArray;
+    std::array<sf::Text, 10> deckCardCounterTextArray;
+    std::array<sf::Text, 10> ownedCardCounterTextArray;
+
+
 public:
-    deckViewerClass(std::vector<int>& completeDeck):
-    completeDeck(completeDeck){
-        deckViewerTexture.loadFromFile("gameAssets/cardAssets/book1.png");
+    deckViewerClass(std::map<int, int> &playerDeck, std::map<int, int>& ownedCards):
+    playerDeck(playerDeck),
+    ownedCards(ownedCards){
+        numberFont.loadFromFile("gameAssets/cardAssets/cardFont.otf");
+        deckViewerTexture.loadFromFile("gameAssets/cardAssets/book2.png");
         deckViewerSprite.setTexture(deckViewerTexture);
+        deckViewerSprite.setPosition(sf::Vector2f(50,50));
+        deckViewerSprite.setScale(sf::Vector2f(0.42,0.35));
+
+        cardPositions[1] = sf::Vector2f(200, 100);
+        cardPositions[2] = sf::Vector2f(430, 100);
+        cardPositions[3] = sf::Vector2f(660, 100);
+        cardPositions[4] = sf::Vector2f(200, 600);
+        cardPositions[5] = sf::Vector2f(430, 600);
+        cardPositions[6] = sf::Vector2f(1110, 100);
+        cardPositions[7] = sf::Vector2f(1340, 100);
+        cardPositions[8] = sf::Vector2f(1570, 100);
+        cardPositions[9] = sf::Vector2f(1110, 600);
+        cardPositions[10] = sf::Vector2f(1340, 600);
+
+
+
+        buttonTextureUP.loadFromFile("gameAssets/cardAssets/upArrow.png");
+        buttonTextureDOWN.loadFromFile("gameAssets/cardAssets/downArrow.png");
+        cardCounterTexture.loadFromFile("gameAssets/cardAssets/cardCountTexture.png");
+
+
+        sf::Sprite upArrowSprite;
+        sf::Sprite downArrowSprite;
+        sf::Sprite deckCardCounterSprite;
+        sf::Sprite ownedCardCounterSprite;
+
+        upArrowSprite.setTexture(buttonTextureUP);
+        downArrowSprite.setTexture(buttonTextureDOWN);
+        deckCardCounterSprite.setTexture(cardCounterTexture);
+        ownedCardCounterSprite.setTexture(cardCounterTexture);
+
+        upArrowSprite.setScale(sf::Vector2f(0.02, 0.02));
+        downArrowSprite.setScale(sf::Vector2f(0.02, 0.02));
+        deckCardCounterSprite.setScale(sf::Vector2f(0.1, 0.1));
+        ownedCardCounterSprite.setScale(sf::Vector2f(0.1, 0.1));
+
+
+        sf::Text cardsInDeckAmountText;
+        sf::Text ownedCardsAmountText;
+
+        cardsInDeckAmountText.setFont(numberFont);
+        ownedCardsAmountText.setFont(numberFont);
+        
+        std::cout<<"entering spriteCreation" << std::endl;
+        int count = 0;
+
+        for(int i = 1; i < 11 ; i++ ){
+            std::cout<<"currently on creation: " << count++ << std::endl;
+            auto newViewerCard = factorCard(i);
+            newViewerCard->scaleObjects(sf::Vector2f(1.2,1.2));
+            newViewerCard->setPosition(cardPositions[i]);
+            deckViewerCards.push_back(newViewerCard);
+
+            upArrowSprite.setPosition(sf::Vector2f(cardPositions[i].x+30, cardPositions[i].y+325));
+            downArrowSprite.setPosition(sf::Vector2f(cardPositions[i].x+75, cardPositions[i].y+325));
+            
+            deckCardCounterSprite.setPosition(sf::Vector2f(cardPositions[i].x+100, cardPositions[i].y+325));
+            ownedCardCounterSprite.setPosition(sf::Vector2f(cardPositions[i].x, cardPositions[i].y+325));
+
+            cardsInDeckAmountText.setString(std::to_string(playerDeck[i]));
+            cardsInDeckAmountText.setPosition((sf::Vector2f(cardPositions[i].x+30, cardPositions[i].y+200)));
+            ownedCardsAmountText.setString(std::to_string(ownedCards[i]));
+            ownedCardsAmountText.setPosition(sf::Vector2f(cardPositions[i].x, cardPositions[i].y+200));
+
+            upButtonArray[i-1] = upArrowSprite;
+            downButtonArray[i-1] = downArrowSprite;
+            deckCardCounterSpriteArray[i-1] = deckCardCounterSprite;
+            ownedCardCounterSpriteArray[i-1] = ownedCardCounterSprite;
+            deckCardCounterTextArray[i-1] = cardsInDeckAmountText;
+            ownedCardCounterTextArray[i-1] = ownedCardsAmountText;
+        }
+
     }
 
+    void draw(sf::RenderWindow& gameWindow){
+        gameWindow.draw(deckViewerSprite);
+        std::cout<<"starting deckDraw"<< std::endl;
+        int count =0;
+        for(int i = 0; i<10; i++){
+            std::cout<<"drawing interface for card #" << count++ <<std::endl;
+            deckViewerCards[i]->draw(gameWindow);
+            gameWindow.draw(upButtonArray[i]);
+            gameWindow.draw(downButtonArray[i]);
+            gameWindow.draw(deckCardCounterSpriteArray[i]);
+            gameWindow.draw(ownedCardCounterSpriteArray[i]);
+            gameWindow.draw(deckCardCounterTextArray[i]);
+            gameWindow.draw(ownedCardCounterTextArray[i]);
+            std::cout<<"drewinterface for card#" << count << std::endl;
+            std::cout<<"drew card#" << count << std::endl;
 
+        }
+    }
 };
 
 
@@ -318,14 +433,32 @@ private:
     std::vector<int> &drawPile;
     std::vector<int> &discardPile;
     std::vector<int> &completeDeck;
+    std::vector<int> allOwnedCards;
+
+    std::map<int, int> playerDeck;
+    std::map<int, int> ownedCards = {
+        {1, 4},
+        {2, 3},
+        {3, 2},
+        {4, 2},
+        {5, 0},
+        {6, 2},
+        {7, 0},
+        {8, 2},
+        {9, 0},
+        {10, 2}
+    };
+
+
+
     std::vector<std::shared_ptr<card>> & cardsInHand;
     std::map<int, sf::Vector2f> handPositionMap;
     sf::Font deckStatsFont;
-    
+
     fightHand cardHand;
+    deckState_E deckState = deckState_E::IDLE_E;
     deckViewerClass deckViewer;
 
-    deckState_E deckState = deckState_E::IDLE_E;
 
 public:
     sf::Text deckStats_drawPile;
@@ -338,9 +471,9 @@ public:
         completeDeck(completeDeck),
         cardsInHand(cardsInHand),
         cardHand(discardPile),
-        deckViewer(completeDeck){
+        deckViewer(playerDeck, ownedCards){
 
-            completeDeck = {1,1,1,2,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10};
+            playerDeck = ownedCards;
 
             deckStatsFont.loadFromFile("gameAssets/cardAssets/cardFont.otf");
             deckStats_drawPile.setFont(deckStatsFont);
@@ -350,15 +483,16 @@ public:
             
             deckStats_drawPile.setPosition(sf::Vector2f(20, 900));
             deckStats_discardPile.setPosition(sf::Vector2f(20, 1000));
-
-            
             }
 
     void newFight(){
         cardHand.emptyHand();
         drawPile.clear();
         discardPile.clear();
-        drawPile = completeDeck;
+        //drawPile = completeDeck;
+
+        std::for_each(playerDeck.begin(), playerDeck.end(), [this](auto & i){for(int j = 0; j <= i.second; j++){drawPile.push_back(i.first);}});
+
         std::random_shuffle(drawPile.begin(), drawPile.end());
         deckStats_discardPile.setString("DrawPile size: " + std::to_string(discardPile.size()));
         deckStats_drawPile.setString("DrawPile size: " + std::to_string(drawPile.size()));
@@ -366,17 +500,31 @@ public:
         deckState = deckState_E::FIGHT_E;
     }
 
+    void startDeckViewer(){
+        
+        changeDeckState(deckState_E::DECKVIEW_E);
+    }
+
     void DrawHand(sf::RenderWindow& gameWindow){
+        switch(deckState){
+            case(deckState_E::IDLE_E):{
+                break;
+            }
+            case(deckState_E::FIGHT_E):{
+                deckStats_discardPile.setString("DiscardPile size: " + std::to_string(discardPile.size()));
+                deckStats_drawPile.setString("DrawPile size: " + std::to_string(drawPile.size()));
 
+                gameWindow.draw(deckStats_drawPile);
+                gameWindow.draw(deckStats_discardPile);
+                cardHand.drawHand(gameWindow);
+                break;
+            }
 
-        if(fightActive){
-            cardHand.drawHand(gameWindow);
+            case(deckState_E::DECKVIEW_E):{
+                deckViewer.draw(gameWindow);
+                break;
+            }
         }
-        deckStats_discardPile.setString("DiscardPile size: " + std::to_string(discardPile.size()));
-        deckStats_drawPile.setString("DrawPile size: " + std::to_string(drawPile.size()));
-
-        gameWindow.draw(deckStats_drawPile);
-        gameWindow.draw(deckStats_discardPile);
     }
 
     void newHand(){
@@ -423,71 +571,22 @@ public:
         }
     }
 
-    std::shared_ptr<card> factorCard(int cardID){
-        std::ifstream cardFactoryFile("cardFactoryFile.txt");
-        int objectID;
-        try{
-            while(true){
-                cardFactoryFile>>objectID;
-                if(objectID != 0){
-                }
-                if(objectID == cardID){
-                    std::string cardType;
-                    char fileBind;
-                    std::string cardName;
-                    std::string cardTextureFileName;
+    void endDeckView(){
+        changeDeckState(deckState_E::IDLE_E);
+    }
 
-                    cardFactoryFile >> cardType >> fileBind;
-                    if(!(fileBind == '{')){throw invalid_Factory_Binds("invalid Factory Bind found: " + fileBind);}
-                    if(!(cardFactoryFile >> cardName)){throw end_of_file("no cardName found!");}
-                    if(!(cardFactoryFile >> cardTextureFileName)){throw end_of_file("invalid textureFilename!");}
-                    
-                    if(cardType == "summon"){
-                        E_lane cardUnitLane;
-                        int cardUnitDamage;
-                        int cardUnitHealth;
-                        int cardManaCost;
-                        std::string unitTextureFileName;
-                        cardFactoryFile >> cardUnitLane >> cardUnitDamage >> fileBind >> cardUnitHealth >> fileBind >> cardManaCost >> unitTextureFileName;
-                        std::map<std::string, sf::Texture> textureMap;
-
-            
-                        sf::Texture unitCardFrame;
-                        if(cardUnitLane == E_lane::groundLane){
-                            unitCardFrame.loadFromFile("gameAssets/cardAssets/summonCardFrame_W.png");
-                        }else{
-                            unitCardFrame.loadFromFile("gameAssets/cardAssets/summonCardFrame_F.png");
-                        }
-
-                        sf::Texture summonCardTexture;
-                        summonCardTexture.loadFromFile(cardTextureFileName); 
-                        
-                        sf::Texture unitTexture;
-                        unitTexture.loadFromFile(unitTextureFileName);
+    void viewDeck(){
+        changeDeckState(deckState_E::DECKVIEW_E);
+    }
 
 
-                        textureMap["basicCardFrame"] = unitCardFrame;
-                        textureMap["cardArtTexture"] = summonCardTexture;
-                        textureMap["unitTexture"] = unitTexture;
-
-                        cardFactoryFile >> fileBind;
-                        if(!(fileBind == '}')){
-                            throw invalid_Factory_Binds("invalid end factory bind");
-                        }
-                        return std::shared_ptr<card>(new summonCard(cardName, cardUnitDamage, cardUnitHealth, cardManaCost, cardUnitLane, textureMap, objectID)); 
-                    }
-                }else{
-                    cardFactoryFile.ignore(300, '\n');
-                }
-            }
-        }catch(problem & e){std::cerr<< e.what() <<std::endl;}
-        
-        
-        return nullptr;
-
+    void changeDeckState(deckState_E newDeckState){
+        deckState = newDeckState;
     }
 
 };
+
+
 
 
 #endif
