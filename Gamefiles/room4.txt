@@ -92,3 +92,6 @@ objectTypes_E::TESTSPRITE_E (1118, 768 ) (2, 2) 2 texture1 gameAssets/pillar.png
 objectTypes_E::TESTSPRITE_E (1502, 256 ) (2, 2) 2 texture1 gameAssets/pillar.png ;
 objectTypes_E::TESTSPRITE_E (1502, 512 ) (2, 2) 2 texture1 gameAssets/pillar.png ;
 objectTypes_E::TESTSPRITE_E (1502, 768 ) (2, 2) 2 texture1 gameAssets/pillar.png ;
+
+
+objectTypes_E::CARD_E (100, 100) (2 ,2) 4 5(cardID) 
