@@ -34,13 +34,35 @@
         enemyArray = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
     }
 
+    void lane::draw(sf::RenderWindow& window){
+        std::function<void(const std::array<std::shared_ptr<unit>, LANE_SIZE>&, const sf::Vector2f&, sf::RenderWindow& window)> drawArray = [&](const std::array<std::shared_ptr<unit>, LANE_SIZE>& array, const sf::Vector2f& laneStartPosition, sf::RenderWindow& window)->void{
+            sf::Vector2f drawPosition = laneStartPosition;
+            for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
+                if(array[i] != nullptr){
+                    // std::cout << "not a nullPointer" << std::endl;
+                    std::cout << "drawing unit on index: " << i << std::endl;
+                    array[i]->jumpLocationTo(drawPosition);
+                    array[i]->draw(window);
+                    drawPosition.x += 350;
+                }
+            }
+        };
+
+        sf::Vector2f laneStartPosition = lanePositionMap[laneID];
+
+        std::cout << "drawLane last index: " << allyArray[6] << std::endl;
+        drawArray(allyArray, laneStartPosition, window);
+        drawArray(enemyArray, laneStartPosition, window);+
+    }
 
     void lane::updateLane(){
         std::cout << "updating lane: " << laneID << "     enemyHP: " << int(enemyHP) << std::endl;
         uint_fast8_t maxLaneIndex = LANE_SIZE - 1;
 
+        std::cout << "updateLane last index: " << allyArray[6] << std::endl;
+
         // update allies
-        for(int_fast8_t i = maxLaneIndex; i >= 0; i--){\
+        for(int_fast8_t i = maxLaneIndex; i >= 0; i--){
             if(allyArray[i] != nullptr){
                 updateUnit(i, allyArray[i]);
             }
@@ -128,50 +150,6 @@
         return unitUpdateResult(true, selfPosition, opponentPosition ,opponentKilled, selfKilled, initiator->isAlly());
     }
 
-    std::function<void(const std::array<std::shared_ptr<unit>, LANE_SIZE>&, const sf::Vector2f&, sf::RenderWindow& window)> drawArray = [&](const std::array<std::shared_ptr<unit>, LANE_SIZE>& array, const sf::Vector2f& laneStartPosition, sf::RenderWindow& window)->void{
-        sf::Vector2f drawPosition = laneStartPosition;
-        for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
-            if(array[i] != nullptr){
-                std::cout << "not a nullPointer" << std::endl;
-                std::cout << "drawing unit on index: " << i << std::endl;
-                array[i]->jumpLocationTo(drawPosition);
-                array[i]->draw(window);
-                drawPosition.x += 350;
-            }
-            else{
-                std::cout << "nullptr" << std::endl;
-            }
-        }
-    };
+    
 
-    void lane::draw(sf::RenderWindow& window){
-        std::cout << "drawing board" << std::endl;
-        sf::Vector2f laneStartPosition = lanePositionMap[laneID];
-
-        // sf::Vector2f drawPosition = laneStartPosition;
-        // std::cout << "drawArray lambda called" << std::endl;
-        // for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
-        //     std::cout << "iterating for-loop" << std::endl;
-        //     std::cout << allyArray[i] << std::endl;
-        //     if(allyArray[i] != nullptr){
-        //         std::cout << "drawing unit on index: " << i << std::endl;
-        //         allyArray[i]->jumpLocationTo(drawPosition);
-        //         allyArray[i]->draw(window);
-        //         drawPosition.x += 350;
-        //     }
-        // }
-
-        // drawPosition = laneStartPosition;
-        // std::cout << "drawArray lambda called" << std::endl;
-        // for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
-        //     if(enemyArray[i] != nullptr){
-        //         std::cout << "drawing unit on index: " << i << std::endl;
-        //         enemyArray[i]->jumpLocationTo(drawPosition);
-        //         enemyArray[i]->draw(window);
-        //         drawPosition.x += 350;
-        //     }
-        // }
-
-        drawArray(allyArray, laneStartPosition, window);
-        drawArray(enemyArray, laneStartPosition, window);
-    }
+    
