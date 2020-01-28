@@ -8,7 +8,6 @@ button::button(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<s
     origPos(spritePosition),
     storage(storage),
     target(target)
-
 {
     interactable = true; objectTypeID = 100;
     buffer.loadFromFile(soundFile);
