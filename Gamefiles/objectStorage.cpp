@@ -5,6 +5,12 @@
 #include "door.hpp"
 #include "enemy.hpp"
 
+bool fileExists(std::string fileName)
+{
+    std::ifstream infile(fileName);
+    return infile.good();
+}
+
 std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> & objectStorage::getActive() {
   if(allVectors[keyActive].get() == nullptr){}
   return allVectors[keyActive];
@@ -12,6 +18,14 @@ std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> & objectStorage::getAc
 
 void objectStorage::setActive(std::string newKey) {
   if(newKey != "NONE"){
+    std::string checkSaveFile = newKey;
+    for( int i = 0; i < 4 ;i++ ){
+      checkSaveFile.pop_back();
+    }
+    checkSaveFile += "Save.txt";
+    if(fileExists(checkSaveFile)){
+      newKey = checkSaveFile;
+    }
     swappedActive = true;
     tmpActive = newKey;
   }
@@ -19,11 +33,62 @@ void objectStorage::setActive(std::string newKey) {
 
 void objectStorage::tmpNewActive(){
   keyActive = tmpActive;
+  mapKeys.push_back(tmpActive);
   if (allVectors.count(tmpActive) == 0) {
       allVectors[tmpActive] = std::shared_ptr<std::vector<std::shared_ptr<gameObject>>>(new std::vector<std::shared_ptr<gameObject>>);
       factorNewGameState(tmpActive);
   }
 }
+
+void objectStorage::saveObjects(){
+  std::ofstream outputFile;
+  for( auto mapKey : mapKeys){
+    auto vector = allVectors[mapKey].get();
+    if( mapKey != "room1Save.txt" && mapKey != "room2Save.txt" && mapKey != "room3Save.txt" ){
+      mapKey.pop_back();
+      mapKey.pop_back();
+      mapKey.pop_back();
+      mapKey.pop_back();
+      mapKey += "Save.txt";
+    }
+    if( mapKey != "menuSave.txt" && mapKey != "titleSave.txt" && mapKey != "cardgameSave.txt" ){
+      outputFile.open(mapKey);
+      for(auto & object : *vector){
+        if(object.get()->getType() == "TESTSPRITE_E" ){
+          outputFile << "objectTypes_E::TESTSPRITE_E ";
+        }else if(object.get()->getType() == "CHEST_E"){
+          outputFile << "objectTypes_E::CHEST_E ";
+        }else if(object.get()->getType() == "DOOR_E"){
+          outputFile << "objectTypes_E::DOOR_E ";
+        }else if(object.get()->getType() == "ENEMY_E"){
+          outputFile << "objectTypes_E::ENEMY_E ";
+        }else if(object.get()->getType() == "BACKGROUND_E"){
+          outputFile << "objectTypes_E::BACKGROUND_E ";
+        }
+        sf::Vector2f position = object.get()->getSprite().getPosition();
+        outputFile << "(" << position.x << ", " << position.y << ") ";
+        sf::Vector2f scale = object.get()->getSprite().getScale();
+        outputFile << "(" << scale.x << ", " << scale.y << ") ";
+        outputFile << object.get()->objectPriority << " ";
+        
+        if(object.get()->getType() == "DOOR_E" || object.get()->getType() == "ENEMY_E"){
+          outputFile << object.get()->target << " ";
+        }
+        if(object.get()->getType() == "CHEST_E" || object.get()->getType() == "DOOR_E"){
+          outputFile << object.get()->soundFile << " ";
+        }
+        if(object.get()->getType() == "CHEST_E" || object.get()->getType() == "DOOR_E" || object.get()->getType() == "ENEMY_E"){
+          outputFile << object.get()->interacted << " ";
+        }
+        outputFile << object.get()->firstkey << " ";
+        outputFile << object.get()->textureFile << " ";
+        outputFile << ";\n";
+      }
+    }
+    outputFile.close();
+  }
+}
+
 
 objectStorage::objectStorage(sf::RenderWindow& window) : window(window),
     storageDeck(hand, drawPile, discardPile, completeDeck, cardsInHand){
@@ -48,18 +113,19 @@ std::shared_ptr<gameObject> objectStorage::factorObject(
   char textureBind;
   int prio;
   std::string firstKey;
-
+  int interacted;
   try {
     inputFile >> objectType >> pos >> scale >> prio;
     try {
       bool firstrun = true;
       if (objectType == DOOR_E || objectType == BUTTON_E || objectType == ENEMY_E) {
         inputFile >> target;
-        if ( objectType == DOOR_E || objectType == BUTTON_E){  
-          inputFile >> soundFile;
-        }
-      }else if(objectType == CHEST_E){
+      }
+      if ( objectType == DOOR_E || objectType == BUTTON_E || objectType == CHEST_E) {  
         inputFile >> soundFile;
+      }
+      if ( objectType == DOOR_E || objectType == ENEMY_E || objectType == CHEST_E) {
+        inputFile >> interacted;
       }
       while (true) {
         inputFile >> textureMapKey;
@@ -77,32 +143,32 @@ std::shared_ptr<gameObject> objectStorage::factorObject(
       }
     } catch (end_of_textures& e) {
       std::cerr << e.what() << std::endl;
-    };
+    }
 
     if (objectType == objectTypes_E::CHARACTER_E) {
       return std::shared_ptr<gameObject>(
           new character(pos, scale, textureMap, window, firstKey, prio));
     } else if (objectType == objectTypes_E::TESTSPRITE_E) {
       return std::shared_ptr<gameObject>(
-          new textureSprite(pos, scale, textureMap, firstKey, prio));
+          new textureSprite(pos, scale, textureMap, firstKey, prio, textureFile));
     } else if (objectType == objectTypes_E::CHEST_E) {
       return std::shared_ptr<gameObject>(
-          new chest(pos, scale, textureMap, firstKey, prio, soundFile));
+          new chest(pos, scale, textureMap, firstKey, prio, soundFile, textureFile, interacted));
     } else if (objectType == objectTypes_E::DOOR_E) {
       return std::shared_ptr<gameObject>(
-          new door(pos, scale, textureMap, firstKey, *this, prio, target, soundFile));
+          new door(pos, scale, textureMap, firstKey, *this, prio, target, soundFile, textureFile, interacted));
     } else if (objectType == objectTypes_E::ENEMY_E) {
       return std::shared_ptr<gameObject>(
-          new enemy(pos, scale, textureMap, firstKey, *this, prio, target));
+          new enemy(pos, scale, textureMap, firstKey, *this, prio, target, textureFile, interacted));
     } else if (objectType == objectTypes_E::BUTTON_E) {
       return std::shared_ptr<gameObject>(
-          new button(pos, scale, textureMap, firstKey, *this, prio, target, soundFile));
+          new button(pos, scale, textureMap, firstKey, *this, prio, target, soundFile, textureFile));
     } else if (objectType == objectTypes_E::BACKGROUND_E) {
       return std::shared_ptr<gameObject>(
-          new background(pos, scale, textureMap, firstKey, prio));
+          new background(pos, scale, textureMap, firstKey, prio, textureFile));
     } else if (objectType == objectTypes_E::TITLECARD_E) {
       return std::shared_ptr<gameObject>(
-          new titlecard(pos, scale, textureMap, *this, firstKey, prio));
+          new titlecard(pos, scale, textureMap, *this, firstKey, prio, textureFile));
     }
 
     throw invalid_type("invalid type found");
@@ -115,12 +181,13 @@ std::shared_ptr<gameObject> objectStorage::factorObject(
     throw unknown_pos('p');
   } catch (end_of_file& e) {
     throw end_of_file("end of file reached");
-  };
+  }
 }
 
 void objectStorage::factorNewGameState(std::string stateFileName) {
   std::ifstream inputFile;
   inputFile.open(stateFileName);
+  std::cout << stateFileName << std::endl;
   std::string storageType;
   try {
     while (true) {

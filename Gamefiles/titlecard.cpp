@@ -1,9 +1,13 @@
 #include "titlecard.hpp"
 
-titlecard::titlecard( sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, objectStorage & titleCardStorage, std::string firstKey, int objectPriority):
+titlecard::titlecard( sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, objectStorage & titleCardStorage, std::string firstKey, int objectPriority, std::string textureFile):
     gameObject(spritePosition, spriteScale, textureMap, firstKey, objectPriority), 
     titleCardStorage(titleCardStorage)
-{}
+{
+    gameObject::textureFile = textureFile;
+    gameObject::objectPriority = objectPriority;
+    gameObject::type = "TITLECARD_E";
+}
 
 void titlecard::draw(sf::RenderWindow& gameWindow){
     gameWindow.draw(objectSprite);

@@ -26,7 +26,7 @@ private:
     void factorNewGameState(std::string stateFileName);
     sf::RenderWindow & window;
     void factorMainCharacter();
-
+    std::vector<std::string> mapKeys;
 public:
     bool swappedActive = false;
     std::string tmpActive;
@@ -55,8 +55,7 @@ public:
     objectStorage(sf::RenderWindow & window);
     std::shared_ptr<gameObject> character1;
 
-
-
+    void saveObjects();
     
     std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> & getActive();
     void setActive(std::string newKey);

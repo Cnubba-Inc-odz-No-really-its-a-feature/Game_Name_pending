@@ -5,6 +5,7 @@ character::character(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std:
     gameWindow(gameWindow)
 {
     gameObject::objectPriority = objectPriority;
+    type = "CHARACTER_E";
 }
 
 void character::setFrame(int maxFrame, int textureRow){

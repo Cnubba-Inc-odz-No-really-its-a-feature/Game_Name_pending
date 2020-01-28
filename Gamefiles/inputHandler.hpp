@@ -95,6 +95,7 @@ class inputHandler {
   std::shared_ptr<command> handleExit(){
     for (auto exitKey : exitKeys) {
       if (sf::Keyboard::isKeyPressed(exitKey)) {
+        gameObjectStorage.saveObjects();
         return std::shared_ptr<command>(new exitCommand());
       }
     }
