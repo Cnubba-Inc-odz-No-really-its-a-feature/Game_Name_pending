@@ -51,6 +51,7 @@ public:
     void setActive(std::string newKey);
 
     void tmpNewActive();
+    std::string getReturnTarget();
  };
 
 #endif // _OBJECTSTORAGE_HPP_
