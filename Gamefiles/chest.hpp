@@ -1,6 +1,7 @@
 #ifndef _CHEST_HPP
 #define _CHEST_HPP
 
+// #include "popup.hpp"
 #include "gameObject.hpp"
 #include "memory"
 #include "lootObject.hpp"
@@ -22,6 +23,7 @@ public:
 
     chest(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, int objectPriority, std::string soundFile, std::string textureFile, bool opened):
         gameObject(spritePosition, spriteScale, textureMap, firstKey)
+        // , itemPopup(spritePosition)
     {
         interactable = true;
         gameObject::objectPriority = objectPriority;
@@ -42,6 +44,7 @@ public:
             sound.play();
             open = true;
             gameObject::interacted = true;
+            // itemPopup.interact();
         }
     }
 
@@ -52,11 +55,16 @@ public:
     void draw(sf::RenderWindow& gameWindow) override{
         if(gameObject::interacted && !animationDone) setFrame(3, 0);
         gameWindow.draw(objectSprite);
+
         if(open){
-            for(auto& loot : lootObjectVector){
-                loot.draw(gameWindow);
-            }
+            // itemPopup.draw(gameWindow);
         }
+
+        // if(open){
+        //     for(auto& loot : lootObjectVector){
+        //         loot.draw(gameWindow);
+        //     }
+        // }
     }
 
     void move(sf::Vector2f moveDirection) override{}

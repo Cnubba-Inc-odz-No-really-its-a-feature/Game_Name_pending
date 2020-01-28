@@ -4,14 +4,16 @@
 #include <SFML/Graphics.hpp>
 #include "renderer.hpp"
 #include "inputHandler.hpp"
+#include "fightController.hpp"
 #include <chrono>
 #include <cstdint>
 
 class game{
 private:
     sf::RenderWindow& gameWindow;
-    renderer gameObjectRenderer;
     objectStorage gameObjectStorage;
+    fightController fightControl;
+    renderer gameObjectRenderer;
     inputHandler gameInputHandler;
 
     uint64_t MS_PER_FRAME = 1000 / 60;
@@ -21,9 +23,10 @@ public:
 
     game(sf::RenderWindow& gameWindow, char state = 'C'):
         gameWindow(gameWindow),
-        gameObjectRenderer(gameWindow, gameObjectStorage),
         gameObjectStorage(gameWindow),
-        gameInputHandler(gameObjectStorage)
+        fightControl(),
+        gameObjectRenderer(gameWindow, gameObjectStorage, fightControl),
+        gameInputHandler(gameObjectStorage, std::make_shared<fightController>(fightControl))
     {}
 
     void gameLoop();

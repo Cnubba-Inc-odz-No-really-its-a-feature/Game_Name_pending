@@ -27,6 +27,8 @@ public:
 
     void setFrame(int maxFrame, int textureRow);
 
+    void setTarget(std::string newTarget) override;
+
     void move(sf::Vector2f moveDirection) override;
     void update() override;
     void interact() override;

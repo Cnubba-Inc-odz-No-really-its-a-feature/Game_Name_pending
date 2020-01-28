@@ -13,20 +13,20 @@ private:
     std::vector<gameObject> lootObjectVector;
     int textureFrame = 0;
     int frameCounter = 0;
+    bool interacted = false;
+    bool alreadyOpen = false;
     objectStorage & storage;
     std::string target;
-
+    std::string returnTarget;
     bool firstrun = true;
     sf::Sound sound;
     sf::SoundBuffer buffer;
     bool animationDone = false;
 
 public:
-    //bool interacted = false;
-
-    door(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, objectStorage &storage, int objectPriority, std::string target, std::string soundFile, std::string textureFile, bool opened):
+    door(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, objectStorage &storage, int objectPriority, std::string target, std::string soundFile, std::string returnTarget, std::string textureFile, bool opened):
         gameObject(spritePosition, spriteScale, textureMap, firstKey),
-        storage(storage), target(target)
+        storage(storage), target(target), returnTarget(returnTarget)
     {
         interactable = true;
         gameObject::target = target;
@@ -63,6 +63,10 @@ public:
 
     void draw(sf::RenderWindow& gameWindow) override{
         if(gameObject::interacted && !animationDone) setFrame(4, 0);
+        if(target == storage.getReturnTarget()){
+            gameObject::interacted = true;
+            textureFrame = 4;
+        } 
         gameWindow.draw(objectSprite);
     }
 

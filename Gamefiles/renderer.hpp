@@ -1,6 +1,7 @@
 #ifndef _RENDERER_HPP
 #define _RENDERER_HPP
 #include "objectStorage.hpp"
+#include "fightController.hpp"
 
 bool objSort(const std::shared_ptr<gameObject> & lhs, const std::shared_ptr<gameObject> & rhs);
 
@@ -8,17 +9,20 @@ class renderer{
 private:
     sf::RenderWindow& gameWindow;
     objectStorage& renderObjectStorage;
+    fightController& fightControl;
     sf::RectangleShape fade;
     uint16_t color;
     bool switchActive = false;
     // std::priority_queue<std::shared_ptr<gameObject>, std::vector<std::shared_ptr<gameObject>>> queue;
 public:
-    renderer(sf::RenderWindow & gameWindow, objectStorage& renderObjectStorage):
+    renderer(sf::RenderWindow & gameWindow, objectStorage& renderObjectStorage, fightController& fightControl):
+    fightControl{fightControl},
     gameWindow(gameWindow),
     renderObjectStorage{renderObjectStorage}
     {
         fade.setSize( sf::Vector2f(1920, 1080));
         color = 0;
+        std::cout<<"renderer made" << std::endl;
     }
 
     void draw(){
@@ -35,6 +39,7 @@ public:
         //}
         if(renderObjectStorage.storageDeck.fightActive){
             renderObjectStorage.storageDeck.DrawHand(gameWindow);
+            fightControl.draw(gameWindow);
         }
 
 
@@ -62,6 +67,7 @@ public:
                 }
             }
         }
+
     }
 
     void update(){

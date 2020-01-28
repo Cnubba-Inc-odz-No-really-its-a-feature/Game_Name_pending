@@ -19,12 +19,18 @@ void titlecard::move(sf::Vector2f Miretion){}
 
 void titlecard::update(){
     frameCounter++;
-    if (frameCounter < 5){
-        return;
-    }
-    if (frameCounter < 100){
-        objectSprite.setPosition(objectSprite.getPosition() + sf::Vector2f(0,-0.2));
-    }
+    // if (frameCounter < 5){
+    //     return;
+    // }
+    // if (frameCounter == 20 || frameCounter == 76 || frameCounter == 124){
+    //     objectSprite.setTexture(textureMap["texture2"]);
+    // }
+    // if (frameCounter == 21 || frameCounter == 77 || frameCounter == 127){
+    //     objectSprite.setTexture(textureMap["texture1"]);
+    // }
+    // if (frameCounter < 100){
+    //     objectSprite.setPosition(objectSprite.getPosition() + sf::Vector2f(0,-0.2));
+    // }
     if (frameCounter < 150){
         return;
     }

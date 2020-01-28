@@ -4,6 +4,7 @@
 #include "chest.hpp"
 #include "door.hpp"
 #include "enemy.hpp"
+#include "newGameButton.hpp"
 
 bool fileExists(std::string fileName)
 {
@@ -17,6 +18,9 @@ std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> & objectStorage::getAc
 }
 
 void objectStorage::setActive(std::string newKey) {
+  if(keyActive.at(0) == 'r') returnTarget = keyActive;
+  if(newKey == "room1.txt" && keyActive == "menu.txt") newKey = returnTarget;
+  if(newKey == "exit") exit(0);
   if(newKey != "NONE"){
     std::string checkSaveFile = newKey;
     for( int i = 0; i < 4 ;i++ ){
@@ -44,14 +48,14 @@ void objectStorage::saveObjects(){
   std::ofstream outputFile;
   for( auto mapKey : mapKeys){
     auto vector = allVectors[mapKey].get();
-    if( mapKey != "room1Save.txt" && mapKey != "room2Save.txt" && mapKey != "room3Save.txt" ){
+    if( mapKey != "room1Save.txt" && mapKey != "room2Save.txt" && mapKey != "room3Save.txt" && mapKey != "room4Save.txt" && mapKey != "room5Save.txt" && mapKey != "room6Save.txt" && mapKey != "room7Save.txt" && mapKey != "room8Save.txt" ){
       mapKey.pop_back();
       mapKey.pop_back();
       mapKey.pop_back();
       mapKey.pop_back();
       mapKey += "Save.txt";
     }
-    if( mapKey != "menuSave.txt" && mapKey != "titleSave.txt" && mapKey != "cardgameSave.txt" ){
+    if( mapKey != "menuSave.txt" && mapKey != "titleSave.txt" && mapKey != "cardgameSave.txt" && mapKey != "mapSave.txt"){
       outputFile.open(mapKey);
       for(auto & object : *vector){
         if(object.get()->getType() == "TESTSPRITE_E" ){
@@ -91,7 +95,7 @@ void objectStorage::saveObjects(){
 
 
 objectStorage::objectStorage(sf::RenderWindow& window) : window(window),
-    storageDeck(hand, drawPile, discardPile, completeDeck, cardsInHand){
+    storageDeck(drawPile, discardPile, completeDeck, cardsInHand){
     tmpActive = "title.txt";
     tmpNewActive();
     factorMainCharacter();
@@ -118,10 +122,10 @@ std::shared_ptr<gameObject> objectStorage::factorObject(
     inputFile >> objectType >> pos >> scale >> prio;
     try {
       bool firstrun = true;
-      if (objectType == DOOR_E || objectType == BUTTON_E || objectType == ENEMY_E) {
+      if (objectType == DOOR_E || objectType == BUTTON_E || objectType == ENEMY_E || objectType == NEWGAMEBUTTON_E) {
         inputFile >> target;
       }
-      if ( objectType == DOOR_E || objectType == BUTTON_E || objectType == CHEST_E) {  
+      if ( objectType == DOOR_E || objectType == BUTTON_E || objectType == CHEST_E || objectType == NEWGAMEBUTTON_E) {  
         inputFile >> soundFile;
       }
       if ( objectType == DOOR_E || objectType == ENEMY_E || objectType == CHEST_E) {
@@ -138,7 +142,7 @@ std::shared_ptr<gameObject> objectStorage::factorObject(
           firstrun = false;
         }
         if (!(textureBind == ',')) {
-          throw end_of_textures("end of textures reached");
+          throw end_of_textures("end of textures");
         }
       }
     } catch (end_of_textures& e) {
@@ -156,7 +160,7 @@ std::shared_ptr<gameObject> objectStorage::factorObject(
           new chest(pos, scale, textureMap, firstKey, prio, soundFile, textureFile, interacted));
     } else if (objectType == objectTypes_E::DOOR_E) {
       return std::shared_ptr<gameObject>(
-          new door(pos, scale, textureMap, firstKey, *this, prio, target, soundFile, textureFile, interacted));
+          new door(pos, scale, textureMap, firstKey, *this, prio, target, soundFile, returnTarget, textureFile, interacted));
     } else if (objectType == objectTypes_E::ENEMY_E) {
       return std::shared_ptr<gameObject>(
           new enemy(pos, scale, textureMap, firstKey, *this, prio, target, textureFile, interacted));
@@ -169,6 +173,9 @@ std::shared_ptr<gameObject> objectStorage::factorObject(
     } else if (objectType == objectTypes_E::TITLECARD_E) {
       return std::shared_ptr<gameObject>(
           new titlecard(pos, scale, textureMap, *this, firstKey, prio, textureFile));
+    } else if (objectType == objectTypes_E::NEWGAMEBUTTON_E) {
+      return std::shared_ptr<gameObject>(
+          new newGameButton(pos, scale, textureMap, firstKey, *this, prio, target, soundFile, textureFile));
     }
 
     throw invalid_type("invalid type found");
@@ -203,6 +210,9 @@ void objectStorage::factorNewGameState(std::string stateFileName) {
   }
 }
 
+std::string objectStorage::getReturnTarget(){
+  return returnTarget;
+}
 
 void objectStorage::factorMainCharacter() {
   try {
