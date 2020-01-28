@@ -49,8 +49,6 @@ public:
     void nextTurn(){
         std::cout << "nextTurn()_______________________________________" << std::endl;
         gameBoard.update();
-
-        std::cout << "checking winCondition" << std::endl;
         // add menu stuff
         int_fast8_t zero = 0;
         if(playerHP <= zero || enemyHP <= zero){
@@ -61,7 +59,7 @@ public:
     bool placeUnitOnBoard(std::shared_ptr<unit> unitPointer){
         std::cout << "placing on board via fightController" << std::endl;
         bool success = gameBoard.placeUnit(unitPointer);
-        std::cout << success << std::endl;
+        std::cout << "unitPlacement: " << success << std::endl;
         return success;
     }
 
