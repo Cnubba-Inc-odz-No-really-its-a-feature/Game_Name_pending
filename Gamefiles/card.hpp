@@ -300,62 +300,40 @@ public:
 enum class deckState_E {IDLE_E, DECKVIEW_E, FIGHT_E};
 
 
-
-struct cardEditorInterface{
-    sf::Texture buttonTextureUP;
-    sf::Texture buttonTextureDOWN;
-    sf::Sprite buttonSpriteUP;
-    sf::Sprite buttonSpriteDOWN;
-    int objectID;
-
-    cardEditorInterface(int objectID, sf::Vector2f position):objectID(objectID){
-        buttonSpriteUP.setPosition(position);
-        buttonSpriteDOWN.setPosition(sf::Vector2f(position.x+10, position.y));
-    }
-
-    sf::Vector2i isButtonPressed(sf::Vector2f mousePos){
-        if(buttonSpriteUP.getGlobalBounds().contains(mousePos)){
-
-            return sf::Vector2i(objectID, 1);
-        }
-        else if(buttonSpriteDOWN.getGlobalBounds().contains(mousePos)){
-            return sf::Vector2i(objectID, -1);
-        }
-        return sf::Vector2i(0, 0);
-    }
-    
-    
-};
-
-
-
-
 class deckViewerClass{
 private:
     sf::Texture deckViewerTexture;
     sf::Sprite deckViewerSprite;
+
+    sf::Texture buttonTextureUP;
+    sf::Texture buttonTextureDOWN;
+    sf::Texture cardCounterTexture;
+
     std::map<int, int> & playerDeck;
     std::map<int, int> & ownedCards;
 
     std::vector<std::shared_ptr<card>> deckViewerCards;
     std::map<int,sf::Vector2f> cardPositions;
 
-    sf::Texture buttonTextureUP;
-    sf::Texture buttonTextureDOWN;
-    std::map<int, sf::Sprite> UPButtons;
-    std::map<int, sf::Sprite> DOWNButtons;
+    sf::Font numberFont;
+    std::array<sf::Sprite, 10> upButtonArray;
+    std::array<sf::Sprite, 10> downButtonArray;
+    std::array<sf::Sprite, 10> deckCardCounterSpriteArray;
+    std::array<sf::Sprite, 10> ownedCardCounterSpriteArray;
+    std::array<sf::Text, 10> deckCardCounterTextArray;
+    std::array<sf::Text, 10> ownedCardCounterTextArray;
 
 
 public:
     deckViewerClass(std::map<int, int> &playerDeck, std::map<int, int>& ownedCards):
     playerDeck(playerDeck),
     ownedCards(ownedCards){
+        numberFont.loadFromFile("gameAssets/cardAssets/cardFont.otf");
         deckViewerTexture.loadFromFile("gameAssets/cardAssets/book2.png");
         deckViewerSprite.setTexture(deckViewerTexture);
         deckViewerSprite.setPosition(sf::Vector2f(50,50));
         deckViewerSprite.setScale(sf::Vector2f(0.42,0.35));
-        buttonTextureUP.loadFromFile("gameAssets/cardAssets/upArrow.png");
-        buttonTextureDOWN.loadFromFile("gameAssets/cardAssets/downArrow.png");
+
         cardPositions[1] = sf::Vector2f(200, 100);
         cardPositions[2] = sf::Vector2f(430, 100);
         cardPositions[3] = sf::Vector2f(660, 100);
@@ -366,32 +344,85 @@ public:
         cardPositions[8] = sf::Vector2f(1570, 100);
         cardPositions[9] = sf::Vector2f(1110, 600);
         cardPositions[10] = sf::Vector2f(1340, 600);
+
+
+
+        buttonTextureUP.loadFromFile("gameAssets/cardAssets/upArrow.png");
+        buttonTextureDOWN.loadFromFile("gameAssets/cardAssets/downArrow.png");
+        cardCounterTexture.loadFromFile("gameAssets/cardAssets/cardCountTexture.png");
+
+
+        sf::Sprite upArrowSprite;
+        sf::Sprite downArrowSprite;
+        sf::Sprite deckCardCounterSprite;
+        sf::Sprite ownedCardCounterSprite;
+
+        upArrowSprite.setTexture(buttonTextureUP);
+        downArrowSprite.setTexture(buttonTextureDOWN);
+        deckCardCounterSprite.setTexture(cardCounterTexture);
+        ownedCardCounterSprite.setTexture(cardCounterTexture);
+
+        upArrowSprite.setScale(sf::Vector2f(0.02, 0.02));
+        downArrowSprite.setScale(sf::Vector2f(0.02, 0.02));
+        deckCardCounterSprite.setScale(sf::Vector2f(0.1, 0.1));
+        ownedCardCounterSprite.setScale(sf::Vector2f(0.1, 0.1));
+
+
+        sf::Text cardsInDeckAmountText;
+        sf::Text ownedCardsAmountText;
+
+        cardsInDeckAmountText.setFont(numberFont);
+        ownedCardsAmountText.setFont(numberFont);
         
+        std::cout<<"entering spriteCreation" << std::endl;
+        int count = 0;
+
         for(int i = 1; i < 11 ; i++ ){
+            std::cout<<"currently on creation: " << count++ << std::endl;
             auto newViewerCard = factorCard(i);
-            newViewerCard->scaleObjects(sf::Vector2f(1,1));
+            newViewerCard->scaleObjects(sf::Vector2f(1.2,1.2));
             newViewerCard->setPosition(cardPositions[i]);
             deckViewerCards.push_back(newViewerCard);
 
-            sf::Sprite newSpriteUP;
-            sf::Sprite newSpriteDOWN;
-            newSpriteUP.setTexture(buttonTextureUP);
-            newSpriteDOWN.setTexture(buttonTextureDOWN);
-            newSpriteUP.setPosition(sf::Vector2f(cardPositions[i].x+20, cardPositions[i].y + 300));
-            newSpriteDOWN.setPosition(sf::Vector2f(cardPositions[i].x+50, cardPositions[i].y + 300));
-            UPButtons[i] = newSpriteUP;
-            DOWNButtons[i] = newSpriteDOWN;
-
+            upArrowSprite.setPosition(sf::Vector2f(cardPositions[i].x+30, cardPositions[i].y+325));
+            downArrowSprite.setPosition(sf::Vector2f(cardPositions[i].x+75, cardPositions[i].y+325));
             
+            deckCardCounterSprite.setPosition(sf::Vector2f(cardPositions[i].x+100, cardPositions[i].y+325));
+            ownedCardCounterSprite.setPosition(sf::Vector2f(cardPositions[i].x, cardPositions[i].y+325));
+
+            cardsInDeckAmountText.setString(std::to_string(playerDeck[i]));
+            cardsInDeckAmountText.setPosition((sf::Vector2f(cardPositions[i].x+30, cardPositions[i].y+200)));
+            ownedCardsAmountText.setString(std::to_string(ownedCards[i]));
+            ownedCardsAmountText.setPosition(sf::Vector2f(cardPositions[i].x, cardPositions[i].y+200));
+
+            upButtonArray[i-1] = upArrowSprite;
+            downButtonArray[i-1] = downArrowSprite;
+            deckCardCounterSpriteArray[i-1] = deckCardCounterSprite;
+            ownedCardCounterSpriteArray[i-1] = ownedCardCounterSprite;
+            deckCardCounterTextArray[i-1] = cardsInDeckAmountText;
+            ownedCardCounterTextArray[i-1] = ownedCardsAmountText;
         }
 
     }
 
     void draw(sf::RenderWindow& gameWindow){
         gameWindow.draw(deckViewerSprite);
-        std::for_each(deckViewerCards.begin(), deckViewerCards.end(), [&gameWindow](auto&i){i->draw(gameWindow);});
-    }
+        std::cout<<"starting deckDraw"<< std::endl;
+        int count =0;
+        for(int i = 0; i<10; i++){
+            std::cout<<"drawing interface for card #" << count++ <<std::endl;
+            deckViewerCards[i]->draw(gameWindow);
+            gameWindow.draw(upButtonArray[i]);
+            gameWindow.draw(downButtonArray[i]);
+            gameWindow.draw(deckCardCounterSpriteArray[i]);
+            gameWindow.draw(ownedCardCounterSpriteArray[i]);
+            gameWindow.draw(deckCardCounterTextArray[i]);
+            gameWindow.draw(ownedCardCounterTextArray[i]);
+            std::cout<<"drewinterface for card#" << count << std::endl;
+            std::cout<<"drew card#" << count << std::endl;
 
+        }
+    }
 };
 
 
@@ -405,7 +436,18 @@ private:
     std::vector<int> allOwnedCards;
 
     std::map<int, int> playerDeck;
-    std::map<int, int> ownedCards;
+    std::map<int, int> ownedCards = {
+        {1, 4},
+        {2, 3},
+        {3, 2},
+        {4, 2},
+        {5, 0},
+        {6, 2},
+        {7, 0},
+        {8, 2},
+        {9, 0},
+        {10, 2}
+    };
 
 
 
@@ -430,19 +472,6 @@ public:
         cardsInHand(cardsInHand),
         cardHand(discardPile),
         deckViewer(playerDeck, ownedCards){
-
-            //completeDeck = {1,1,1,2,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10};
-            ownedCards[1] = 4;
-            ownedCards[2] = 3;
-            ownedCards[3] = 2;
-            ownedCards[4] = 2;
-            ownedCards[5] = 2;
-            ownedCards[5] = 0;
-            ownedCards[6] = 2;
-            ownedCards[7] = 0;
-            ownedCards[8] = 2;
-            ownedCards[9] = 0;
-            ownedCards[10] = 0;
 
             playerDeck = ownedCards;
 
