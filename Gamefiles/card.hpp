@@ -285,8 +285,8 @@ public:
                 }
             }
         }
-        return -1;
         }
+        return -1;
     }
 
     std::shared_ptr<unit> playUnitCard(int cardPositionInHand){
