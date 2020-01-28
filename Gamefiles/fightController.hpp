@@ -50,6 +50,8 @@ public:
         std::cout << "nextTurn()________________________________________________________________________" << std::endl;
         gameBoard.update();
         // add menu stuff
+        playerHP = gameBoard.GetHP("player");
+        enemyHP = gameBoard.GetHP("enemy");
         if(playerHP <= 1 || enemyHP < 1){
             exit(0);
         }

@@ -21,6 +21,15 @@ board::board(int_fast8_t & playerHP, int_fast8_t & enemyHP):
         return lanes[E_lane::groundLane].isIndexEmpty(0);
     }
 
+    int_fast8_t board::GetHP(std::string who){
+        if(who == "player"){
+            return playerHP;
+        }
+        else{
+            return enemyHP;
+        }
+    }
+
     void board::update(){
         lanes[priorityLane].updateLane();
         
