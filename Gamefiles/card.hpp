@@ -57,6 +57,7 @@ public:
     
     virtual void draw(sf::RenderWindow& gameWindow) override{
         gameWindow.draw(objectSprite);
+        std::cout << "unit::draw() called" << std::endl;
     }
     void scaleObjects(sf::Vector2f newScale){}
     void setPosition(sf::Vector2f newPosition){}
@@ -284,8 +285,8 @@ public:
                 }
             }
         }
-        return -1;
         }
+        return -1;
     }
 
     std::shared_ptr<unit> playUnitCard(int cardPositionInHand){

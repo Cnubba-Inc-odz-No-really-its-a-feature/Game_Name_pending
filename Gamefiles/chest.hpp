@@ -1,7 +1,7 @@
 #ifndef _CHEST_HPP
 #define _CHEST_HPP
 
-// #include "popup.hpp"
+#include "popup.hpp"
 #include "gameObject.hpp"
 #include "memory"
 #include "lootObject.hpp"
@@ -15,15 +15,15 @@ private:
     int textureFrame = 0;
     int frameCounter = 0;
     bool animationDone = false;
+    //bool interacted = false;
+    bool avalable = true;
+    popup itemPopup; 
+
     sf::Sound sound;
     sf::SoundBuffer buffer;
 public:
-
-    //bool interacted = false;
-
     chest(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, int objectPriority, std::string soundFile, std::string textureFile, bool opened):
-        gameObject(spritePosition, spriteScale, textureMap, firstKey)
-        // , itemPopup(spritePosition)
+        gameObject(spritePosition, spriteScale, textureMap, firstKey), itemPopup(spritePosition, "gameAssets/popupBackground.png")
     {
         interactable = true;
         gameObject::objectPriority = objectPriority;
@@ -56,8 +56,8 @@ public:
         if(gameObject::interacted && !animationDone) setFrame(3, 0);
         gameWindow.draw(objectSprite);
 
-        if(open){
-            // itemPopup.draw(gameWindow);
+        if(open && avalable){
+            itemPopup.draw(gameWindow);
         }
 
         // if(open){
@@ -69,7 +69,18 @@ public:
 
     void move(sf::Vector2f moveDirection) override{}
 
-    void update(){}
+    void update(){
+        if(avalable){
+            int chosen = itemPopup.update();
+            if (chosen != -1)
+            {
+                avalable = false;
+                //add chosen to current deck
+            }
+        }
+    }
+    
+    
 
     void setFrame(int maxFrame, int textureRow) override{
         if(frameCounter > 10) {frameCounter = 0; textureFrame++;}

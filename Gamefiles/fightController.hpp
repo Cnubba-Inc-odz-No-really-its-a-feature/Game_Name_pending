@@ -17,58 +17,48 @@ private:
     board gameBoard;
 
 
-    int_fast8_t playerHP = 15;
-    int_fast8_t enemyHP = 15;
+    int_fast8_t playerHP;
+    int_fast8_t enemyHP;
     //std::shared_ptr<int_fast8_t> playerHPPointer = std::make_shared<int_fast8_t>(playerHP);
     //std::shared_ptr<int_fast8_t> enemyHPPointer = std::make_shared<int_fast8_t>(enemyHP);
     E_fightState fightState;
 
-    E_fightState updateFightState(){
-        if(playerHP >= 0 && enemyHP <= 0){
-            fightState = E_fightState::win;
-        }
-        else if(playerHP <= 0 && enemyHP >= 0){
-            fightState = E_fightState::loss;
-        }
-        else if(playerHP <= 0 && enemyHP <= 0){
-            fightState = E_fightState::draw;
-        }
-        else{
-            fightState = E_fightState::inCombat;
-        }
-        return fightState;
-    }
-
 public:
     fightController():
+        playerHP{15},
+        enemyHP{15},
         gameBoard{playerHP, enemyHP}
     {
-        std::cout << "fightController made" << std::endl;
+        initFight();
     }
 
-    void initFight(){}
+    void initFight(){
+        gameBoard.reset();
+        playerHP = 15;
+        enemyHP = 15;
+    }
+
+    bool getSkyOpen(){
+        return gameBoard.getSkyOpen();
+    }
+
+    bool getGroundOpen(){
+        return gameBoard.getGroundOpen();
+    }
 
     void nextTurn(){
+        std::cout << "nextTurn()________________________________________________________________________" << std::endl;
         gameBoard.update();
-        updateFightState();
-
         // add menu stuff
-        if(fightState != E_fightState::inCombat){
-            switch(fightState){
-                case E_fightState::win:
-                    break;
-                case E_fightState::loss:
-                    break;
-                case E_fightState::draw:
-                    break;
-            }
+        if(playerHP <= 1 || enemyHP < 1){
+            exit(0);
         }
     }
 
     bool placeUnitOnBoard(std::shared_ptr<unit> unitPointer){
         std::cout << "placing on board via fightController" << std::endl;
         bool success = gameBoard.placeUnit(unitPointer);
-        std::cout << success << std::endl;
+        std::cout << "unitPlacement: " << success << std::endl;
         return success;
     }
 
