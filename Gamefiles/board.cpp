@@ -13,6 +13,14 @@ board::board(int_fast8_t & playerHP, int_fast8_t & enemyHP):
         enemyHP{enemyHP}
     {}
 
+    bool board::getSkyOpen(){
+        return lanes[E_lane::skyLane].isIndexEmpty(0);
+    }
+
+    bool board::getGroundOpen(){
+        return lanes[E_lane::groundLane].isIndexEmpty(0);
+    }
+
     void board::update(){
         lanes[priorityLane].updateLane();
         
@@ -24,7 +32,7 @@ board::board(int_fast8_t & playerHP, int_fast8_t & enemyHP):
     }
 
     bool board::placeUnit(std::shared_ptr<unit> unitPointer){
-        std::cout << "placing unit on board via board" << std::endl;
+        std::cout << "placing unit on board via board on lane: " << int(unitPointer->getLaneType()) << std::endl;
         if(lanes[unitPointer->getLaneType()].isIndexEmpty(0)){
             lanes[unitPointer->getLaneType()].placeUnit(unitPointer);
             std::cout << "board::placeUnit() success" << std::endl;
@@ -40,5 +48,11 @@ board::board(int_fast8_t & playerHP, int_fast8_t & enemyHP):
     void board::draw(sf::RenderWindow& window){
         for(auto& currentLane : lanes){
             currentLane.draw(window);
+        }
+    }
+
+    void board::reset(){
+        for(auto& lane : lanes){
+            lane.reset();
         }
     }

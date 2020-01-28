@@ -76,7 +76,6 @@ std::shared_ptr<card> factorCard(int cardID){
             }
         }catch(problem & e){std::cerr<< e.what() <<std::endl;}
         
-        
         return nullptr;
 
     }

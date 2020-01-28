@@ -1,15 +1,17 @@
-#include "gameObject.hpp"
+#include "random"
+#include "vector"
+#include "card.hpp"
 
-class popup : public gameObject{
+class popup{
 private:
     const sf::Vector2f & anker;
-    //cards?
+    sf::Sprite sprite;
+    sf::Texture texture;
+    std::vector<std::shared_ptr<card>> Options;
 
 public:
-    popup(const sf::Vector2f & anker);
+    popup(const sf::Vector2f & anker, std::string textureString);
+    int update();
     void interact();
     void draw(sf::RenderWindow& gameWindow);
-    void move(sf::Vector2f moveDirection);
-    virtual void setFrame(int maxFrame, int textureRow);
-    void update();
 };

@@ -17,118 +17,116 @@
     }
 
     void lane::placeUnit(std::shared_ptr<unit> unitPointer){
-        std::cout << "lane::placeUnit()" << std::endl;
-        if(unitPointer->isAlly()){
-            allyArray.at(0) = unitPointer;
+        std::cout << "lane::placeUnit(" << unitPointer.get() << ")" << std::endl;
+        if(unitPointer != nullptr){
+            if(unitPointer->isAlly()){
+                allyArray[0] = unitPointer;
+                std::cout << allyArray[0];
+            }
+            else{
+                enemyArray[0] = unitPointer;
+            }
         }
     }
 
-    std::function<void(std::array<std::shared_ptr<unit>, LANE_SIZE>&, const sf::Vector2f&)> drawArray = [](std::array<std::shared_ptr<unit>, LANE_SIZE>& array, const sf::Vector2f& laneStartPosition)->void{
-        sf::Vector2f drawPosition = laneStartPosition;
-        for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
-            if(array[i] != nullptr){
-                array[i]->jumpLocationTo(drawPosition);
-                drawPosition.x += 350;
-            }
-        }
-    };
+    void lane::reset(){
+        allyArray = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
+        enemyArray = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
+    }
 
-    void lane::updateLane(){
-        std::cout << "entered updateLane()" << std::endl;
-        std::vector<unitUpdateResult> updateResults = {};
-        uint_fast8_t maxLaneIndex = LANE_SIZE - 1;
-
-        std::function<void(std::vector<unitUpdateResult>&)> removeDeadUnitsFromResults = [&](std::vector<unitUpdateResult>& results)->void{
-            std::cout << "removing dead units" << std::endl;
-            // filterOutInValidResults(results);
-            for(auto& result : results){
-                if(result.valid == false){
-                    continue;
-                }
-
-                if(result.isAlly){
-                    if(result.openentKilled){
-                        enemyArray[result.opponentPosition] = nullptr;
-                    }
-                    if(result.selfKilled){
-                        allyArray[result.selfPosition] = nullptr;
-                    }
-                }
-                else{
-                    if(result.openentKilled){
-                        allyArray.at(result.opponentPosition) = nullptr;
-                    }
-                    if(result.selfKilled){
-                        enemyArray.at(result.selfPosition) = nullptr;
-                    }
+    void lane::draw(sf::RenderWindow& window){
+        std::function<void(const std::array<std::shared_ptr<unit>, LANE_SIZE>&, const sf::Vector2f&, sf::RenderWindow& window)> drawArray = [&](const std::array<std::shared_ptr<unit>, LANE_SIZE>& array, const sf::Vector2f& laneStartPosition, sf::RenderWindow& window)->void{
+            sf::Vector2f drawPosition = laneStartPosition;
+            for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
+                if(array[i] != nullptr){
+                    // std::cout << "not a nullPointer" << std::endl;
+                    std::cout << "drawing unit on index: " << i << std::endl;
+                    array[i]->jumpLocationTo(drawPosition);
+                    array[i]->draw(window);
+                    drawPosition.x += 350;
                 }
             }
-            results = {};
         };
 
-        // update allies
-        std::cout << "hey" <<std::endl;
-        for(int_fast8_t i = maxLaneIndex; i >= 0; i--){
-            if(allyArray[i] != nullptr){
-                std::cout << "no nullptr" << std::endl;  
-                updateResults.push_back(updateUnits(i, allyArray.at(i)));
-            }
-        }
-        removeDeadUnitsFromResults(updateResults);
-
-        // update enemies
-        std::cout << "hey2" << std::endl;
-        for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
-            if(enemyArray[i] != nullptr){
-                updateResults.push_back(updateUnits(i, enemyArray.at(i)));
-            }
-        }
-        removeDeadUnitsFromResults(updateResults);
-
-        // set drawingPosition for the units
-        std::cout << "getting laneStartPosition" << std::endl;
         sf::Vector2f laneStartPosition = lanePositionMap[laneID];
 
-        std::cout << "drawing allies" << std::endl;
-        drawArray(allyArray, laneStartPosition);
-        
-        std::cout << "drawing enemies" << std::endl;
-        drawArray(enemyArray, laneStartPosition);
+        std::cout << "drawLane last index: " << allyArray[6] << std::endl;
+        drawArray(allyArray, laneStartPosition, window);
+        drawArray(enemyArray, laneStartPosition, window);+
     }
 
-    unitUpdateResult lane::updateUnits(const int index, std::shared_ptr<unit> unit){
-        if(unit == nullptr){
-            std::cout << "nullptr found" << std::endl;
-            return unitUpdateResult(false);
+    void lane::updateLane(){
+        std::cout << "updating lane: " << laneID << "     enemyHP: " << int(enemyHP) << std::endl;
+        uint_fast8_t maxLaneIndex = LANE_SIZE - 1;
+
+        std::cout << "updateLane last index: " << allyArray[6] << std::endl;
+
+        // update allies
+        for(int_fast8_t i = maxLaneIndex; i >= 0; i--){
+            if(allyArray[i] != nullptr){
+                updateUnit(i, allyArray[i]);
+            }
         }
-        
-        std::function<unitUpdateResult(int, int)> updateSequence = [=](int index, int nextIndex)->unitUpdateResult{
-            if(nextIndex < LANE_SIZE && isIndexEmpty(nextIndex)){
-                allyArray.at(nextIndex) = unit;
-                allyArray.at(index) = nullptr;
-            }
-            else if(index == LANE_SIZE - 1){
-                enemyHP -= unit->getDamage();
-            }
-            else if(nextIndex < LANE_SIZE){
-                unitUpdateResult result = fight(unit, enemyArray.at(nextIndex), index);
 
-                if(result.openentKilled && !result.selfKilled){
-                    allyArray.at(nextIndex) = unit;
-                    allyArray.at(index) = nullptr;
-                }
-
-                return result;
+        // update enemies
+        for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
+            if(enemyArray[i] != nullptr){
+                updateUnit(i, enemyArray[i]);
             }
+        }
+    }
 
-                return unitUpdateResult(false);
+    void lane::updateUnit(const int index, std::shared_ptr<unit> toUpdateUnit){
+
+        std::function<void(int, int, std::array<std::shared_ptr<unit>, LANE_SIZE>&)> moveUnit = [](int index, int nextIndex, std::array<std::shared_ptr<unit>, LANE_SIZE>& array)->void{
+            array[nextIndex] = array[index];
+            array[index] = nullptr;
         };
 
-        if(unit->isAlly()){
-            return updateSequence(index, index + 1);
+        std::function<void(std::array<std::shared_ptr<unit>, LANE_SIZE>&, std::array<std::shared_ptr<unit>, LANE_SIZE>&, const unitUpdateResult&)> handleCombatResult = 
+        [&](std::array<std::shared_ptr<unit>, LANE_SIZE>& selfArray, std::array<std::shared_ptr<unit>, LANE_SIZE>& opponentArray, const unitUpdateResult& result)->void{
+            std::cout << "removing dead units" << std::endl;
+
+            if(result.openentKilled){
+                opponentArray[result.opponentPosition] = nullptr;
+            }
+            if(result.selfKilled){
+                selfArray[result.selfPosition] = nullptr;
+            }
+            if(result.openentKilled && !result.selfKilled){
+                selfArray[index + 1] = allyArray[index];
+                selfArray[index] = nullptr;
+            }
+            
+        };
+
+        std::cout << "updateUnit(" << toUpdateUnit << ")" << "at index: " << int(index);
+        if(toUpdateUnit == nullptr){
+            std::cout << "nullptr found" << std::endl;
+        }
+
+        if(toUpdateUnit->isAlly()){
+            int nextIndex = index + 1;
+            if(nextIndex < LANE_SIZE && isIndexEmpty(nextIndex)){
+                    std::cout << "|-------------> move" << std::endl;
+                moveUnit(index, nextIndex, allyArray);
+                return;
+            }
+            else if(index == LANE_SIZE - 1){
+                    std::cout << "|-------------> attack opponent summoner" << std::endl;
+                enemyHP -= toUpdateUnit->getDamage();
+                return;
+            }
+            else if(nextIndex < LANE_SIZE && !isIndexEmpty(nextIndex) && enemyArray[nextIndex] != nullptr){
+                    std::cout << "|-------------> fight" << std::endl;
+                unitUpdateResult result = fight(toUpdateUnit, enemyArray.at(nextIndex), index);
+                handleCombatResult(allyArray, enemyArray, result);
+                return;
+            }
+                    std::cout << "|-------------> do nothing" << std::endl;
         }
         else{
-            return updateSequence(index, index - 1);
+            //temporarilly removed
         }
     }
 
@@ -152,9 +150,6 @@
         return unitUpdateResult(true, selfPosition, opponentPosition ,opponentKilled, selfKilled, initiator->isAlly());
     }
 
-    void lane::draw(sf::RenderWindow& window){
-        std::cout << "drawing board via fightControl" << std::endl;
-        sf::Vector2f laneStartPosition = lanePositionMap[laneID];
-        drawArray(allyArray, laneStartPosition);
-        drawArray(enemyArray, laneStartPosition);
-    }
+    
+
+    

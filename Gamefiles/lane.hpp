@@ -19,10 +19,11 @@ public:
     bool isIndexEmpty(const int index);
     void placeUnit(std::shared_ptr<unit> unitPointer);
     void draw(sf::RenderWindow& window);
+    void reset();
 
     // updates and combat
     void updateLane();
-    unitUpdateResult updateUnits(const int index, std::shared_ptr<unit> unit);
+    void updateUnit(const int index, std::shared_ptr<unit> unit);
     unitUpdateResult fight(std::shared_ptr<unit> initiator, std::shared_ptr<unit> assaulted, const int index);
 
 
