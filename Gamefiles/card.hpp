@@ -295,6 +295,24 @@ public:
 
 enum class deckState_E {IDLE_E, DECKVIEW_E, FIGHT_E};
 
+class deckViewerClass{
+private:
+    sf::Texture deckViewerTexture;
+    sf::Sprite deckViewerSprite;
+    std::vector<int> & completeDeck;
+public:
+    deckViewerClass(std::vector<int>& completeDeck):
+    completeDeck(completeDeck){
+        deckViewerTexture.loadFromFile("gameAssets/cardAssets/book1.png");
+        deckViewerSprite.setTexture(deckViewerTexture);
+    }
+
+
+};
+
+
+
+
 class deckClass{
 private:
     std::vector<int> &drawPile;
@@ -303,9 +321,9 @@ private:
     std::vector<std::shared_ptr<card>> & cardsInHand;
     std::map<int, sf::Vector2f> handPositionMap;
     sf::Font deckStatsFont;
-    sf::Texture deckViewerTexture;
-    sf::Sprite deckViewerSprite;
+    
     fightHand cardHand;
+    deckViewerClass deckViewer;
 
     deckState_E deckState = deckState_E::IDLE_E;
 
@@ -319,9 +337,10 @@ public:
         discardPile(discardPile),
         completeDeck(completeDeck),
         cardsInHand(cardsInHand),
-        cardHand(discardPile){
+        cardHand(discardPile),
+        deckViewer(completeDeck){
 
-            completeDeck = {1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,3,3,3,3};
+            completeDeck = {1,1,1,2,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10};
 
             deckStatsFont.loadFromFile("gameAssets/cardAssets/cardFont.otf");
             deckStats_drawPile.setFont(deckStatsFont);
@@ -332,8 +351,7 @@ public:
             deckStats_drawPile.setPosition(sf::Vector2f(20, 900));
             deckStats_discardPile.setPosition(sf::Vector2f(20, 1000));
 
-            deckViewerTexture.loadFromFile("gameAssets/cardAssets/book1.png");
-            deckViewerSprite.setTexture(deckViewerTexture);
+            
             }
 
     void newFight(){
@@ -362,12 +380,13 @@ public:
     }
 
     void newHand(){
-        
+        std::cout<<"drawing new hand" << std::endl;
         std::random_shuffle(drawPile.begin(), drawPile.end());
         cardHand.emptyHand();
-
+        std::cout<<"testing decksize" << std::endl;
         if(drawPile.size() < 7){
             for(int i=0; i< drawPile.size(); i++){
+                std::cout<<"factoring card of type" << i << std::endl;
                 cardHand.addCard(factorCard(drawPile[i]));
             }
             drawPile.clear();
@@ -376,14 +395,15 @@ public:
             std::random_shuffle(drawPile.begin(), drawPile.end());
             int cardsInCurrentHand = cardHand.currentCardCount();
             std::for_each(drawPile.begin(), drawPile.begin() +(7-cardsInCurrentHand), 
-                     [this](auto & i){cardHand.addCard(factorCard(i));});
+                     [this](auto & i){std::cout<<"factoring card of type" << i << std::endl;cardHand.addCard(factorCard(i));});
             drawPile.erase(drawPile.begin(), drawPile.begin() + (7-cardsInCurrentHand) );
 
         }else{
+            std::cout<< "Drawing normal hand" << std::endl;
             std::for_each(drawPile.begin(), drawPile.begin()+7, [this](auto & i){cardHand.addCard(factorCard(i));});
             drawPile.erase(drawPile.begin(), drawPile.begin()+7);      
         }
-
+        std::cout<<"drew hand" << std::endl;
         deckStats_discardPile.setString("DiscardPile size: " + std::to_string(discardPile.size()));
         deckStats_drawPile.setString("DrawPile size: " + std::to_string(drawPile.size()));
     }
@@ -402,15 +422,6 @@ public:
          
         }
     }
-
-
-    void viewDeck(){
-
-
-
-
-    }
-
 
     std::shared_ptr<card> factorCard(int cardID){
         std::ifstream cardFactoryFile("cardFactoryFile.txt");

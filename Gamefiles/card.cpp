@@ -13,7 +13,7 @@ std::ifstream& operator>>(std::ifstream& input, E_lane& unitLane){
             unitLane = E_lane::trapLane;
             return input;
         }else{
-            throw invalid_UnitLane("invalid UnitLane");
+            throw invalid_UnitLane(std::string("invalid UnitLane at") + laneString);
         }
 }
     
