@@ -93,7 +93,7 @@ std::shared_ptr<gameObject> objectStorage::factorObject(
           new chest(pos, scale, textureMap, firstKey, prio, soundFile));
     } else if (objectType == objectTypes_E::DOOR_E) {
       return std::shared_ptr<gameObject>(
-          new door(pos, scale, textureMap, firstKey, *this, prio, target, soundFile));
+          new door(pos, scale, textureMap, firstKey, *this, prio, target, soundFile, returnTarget));
     } else if (objectType == objectTypes_E::ENEMY_E) {
       return std::shared_ptr<gameObject>(
           new enemy(pos, scale, textureMap, firstKey, *this, prio, target));
@@ -139,6 +139,9 @@ void objectStorage::factorNewGameState(std::string stateFileName) {
   }
 }
 
+std::string objectStorage::getReturnTarget(){
+  return returnTarget;
+}
 
 void objectStorage::factorMainCharacter() {
   try {

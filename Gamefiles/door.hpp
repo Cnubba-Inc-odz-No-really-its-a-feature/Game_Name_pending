@@ -15,18 +15,19 @@ private:
     int textureFrame = 0;
     int frameCounter = 0;
     bool interacted = false;
+    bool alreadyOpen = false;
     objectStorage & storage;
     std::string target;
-
+    std::string returnTarget;
     bool firstrun = true;
     sf::Sound sound;
     sf::SoundBuffer buffer;
 
 
 public:
-    door(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, objectStorage &storage, int objectPriority, std::string target, std::string soundFile):
+    door(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, objectStorage &storage, int objectPriority, std::string target, std::string soundFile, std::string returnTarget):
         gameObject(spritePosition, spriteScale, textureMap, firstKey),
-        storage(storage), target(target)
+        storage(storage), target(target), returnTarget(returnTarget)
     {
         interactable = true;
         gameObject::objectPriority = objectPriority;
@@ -56,6 +57,10 @@ public:
     }
 
     void draw(sf::RenderWindow& gameWindow) override{
+        if(target == storage.getReturnTarget()){
+            interacted = true;
+            textureFrame = 4;
+        } 
         if(interacted) setFrame(4, 0);
         gameWindow.draw(objectSprite);
         if(open){

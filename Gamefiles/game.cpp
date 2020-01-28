@@ -34,6 +34,9 @@ void game::gameLoop(){
 			gameObjectStorage.storageDeck.newHand();
 			std::cout<<"hand created of size: " << gameObjectStorage.cardsInHand.size() << std::endl;
 		}
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
+			gameObjectStorage.storageDeck.startDeckViewer();
+		}
 
 
 

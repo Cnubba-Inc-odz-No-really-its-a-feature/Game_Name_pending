@@ -3,7 +3,7 @@
 
 #include "character.hpp"
 #include "macrodefinitions.hpp"
-#include "card.hpp"
+//#include "card.hpp"
 // #include <iostream>
 // #include "memory"
 // #include "vector"
@@ -51,6 +51,7 @@ public:
     void setActive(std::string newKey);
 
     void tmpNewActive();
+    std::string getReturnTarget();
  };
 
 #endif // _OBJECTSTORAGE_HPP_

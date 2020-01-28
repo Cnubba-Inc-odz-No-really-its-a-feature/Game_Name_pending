@@ -1,7 +1,7 @@
 #ifndef _FIGHT_CONTROLLER_HPP
 #define _FIGHT_CONTROLLER_HPP
 
-#include "card.hpp"
+//#include "card.hpp"
 #include "board.hpp"
 #include "objectStorage.hpp"
 
