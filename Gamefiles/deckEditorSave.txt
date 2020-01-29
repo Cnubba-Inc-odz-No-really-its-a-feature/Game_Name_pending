@@ -1,4 +1,0 @@
-objectTypes_E::BACKGROUND_E (0, 0) (1, 1) 1 texture1 gameAssets/Background.png ;
-objectTypes_E::BACKGROUND_E (1100, 0) (0.45, 0.45) 2 texture1 gameAssets/Titlecard_edited2.png ;
-objectTypes_E::TESTSPRITE_E (50, 50) (0.42, 0.35) 3 texture1 gameAssets/cardAssets/book2.png ;
-(750, 800) (0.15, 0.15) 4 texture1 gameAssets/cardAssets/backButton2.png ;
