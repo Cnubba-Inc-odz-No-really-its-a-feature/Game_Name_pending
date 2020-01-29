@@ -49,6 +49,7 @@ public:
         // enemyHP = gameBoard.GetHP("enemy");
         if(playerHP <= 1 || enemyHP < 1){
             exit(0);
+            //storage.setActive(storage.getReturnTarget());
         } 
     }
 
