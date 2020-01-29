@@ -14,6 +14,7 @@
 #include "endTurnCommand.hpp"
 #include "cardSelectCommand.hpp"
 #include "fightController.hpp"
+#include "deckEditorButtonCommand.hpp"
 
 class inputHandler {
  private:
@@ -127,10 +128,28 @@ class inputHandler {
     return NULL;
   }
 
+  std::shared_ptr<command> handleDeckEditorClickSelect(){
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+      std::cout<<"mouse click noticed" << std::endl;
+        sf::Vector2i position = sf::Mouse::getPosition();
+        for(int i = 0; i < 10 ; i++){
+          if(gameObjectStorage.editorUPButtonArray[i].getGlobalBounds().contains(
+            sf::Vector2f(position.x, position.y))){
+              std::cout<<"up button command found" << std::endl;
+              return std::shared_ptr<command>(new deckEditorButtonCommand(gameObjectStorage, i, 1));
+          }else if(gameObjectStorage.editorDOWNButtonArray[i].getGlobalBounds().contains(
+            sf::Vector2f(position.x, position.y))){
+              return std::shared_ptr<command>(new deckEditorButtonCommand(gameObjectStorage, i, -1));
+            }
+        }
+      }
+      return NULL;
+    }
+
   std::shared_ptr<command> handleCombatClickSelect(){
     for (auto i : selectKeys) {
       if (sf::Mouse::isButtonPressed(i)) {
-          std::shared_ptr<unit> cardUnit = gameObjectStorage.storageDeck.checkForCardPlay(sf::Mouse::getPosition(), fightControlPointer.getSkyOpen(), fightControlPointer.getGroundOpen());
+          std::shared_ptr<unit> cardUnit = gameObjectStorage.cardHand.checkForCardPlay(sf::Mouse::getPosition(), fightControlPointer.getSkyOpen(), fightControlPointer.getGroundOpen());
           if(cardUnit != nullptr){
             return std::shared_ptr<command>(new cardSelectCommand(fightControlPointer, cardUnit));
           }
@@ -198,6 +217,20 @@ class inputHandler {
           return obtainedCommand;
         }
         return NULL;
+  }
+
+  std::shared_ptr<command> handleDeckEditorCommands(){
+      std::shared_ptr<command> obtainedCommand;
+      obtainedCommand = handleDeckEditorClickSelect();
+      if(isCommandValid(obtainedCommand)){
+          return obtainedCommand;
+      }
+
+      obtainedCommand = handleDungeonClickSelect();
+        if(isCommandValid(obtainedCommand)){
+          return obtainedCommand;
+      }
+      return NULL;
   }
   
 

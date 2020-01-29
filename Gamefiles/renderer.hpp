@@ -37,12 +37,14 @@ public:
         //for(auto &i : renderObjectStorage.cardsInHand){
         //    i->draw(gameWindow);
         //}
-        if(renderObjectStorage.storageDeck.fightActive){
-            renderObjectStorage.storageDeck.DrawHand(gameWindow);
-            fightControl.draw(gameWindow);
+        if(renderObjectStorage.keyActive.at(0) == 'd'){
+            renderObjectStorage.deckEditor.draw(gameWindow);
         }
 
-
+        if(renderObjectStorage.keyActive.at(0) == 'c'){
+            renderObjectStorage.cardHand.draw(gameWindow);
+            fightControl.draw(gameWindow);
+        }
 
         if(renderObjectStorage.keyActive.at(0) == 'r'){
             renderObjectStorage.character1->draw(gameWindow);

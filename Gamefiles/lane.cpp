@@ -38,10 +38,10 @@
         sf::Vector2u windowSize = window.getSize();
         switch(laneID){
             case E_lane::skyLane:
-                return sf::Vector2f(ITERATION_DISTANCE_X *2, ITERATION_DISTANCE_Y * 2);
+                return sf::Vector2f(ITERATION_DISTANCE_X *1.3, ITERATION_DISTANCE_Y * 3);
                 break;
             case E_lane::groundLane:
-                return sf::Vector2f(ITERATION_DISTANCE_X *2, ITERATION_DISTANCE_Y * 3);
+                return sf::Vector2f(ITERATION_DISTANCE_X *1.3, ITERATION_DISTANCE_Y * 6.7);
                 break;
             case E_lane::trapLane:
                 return sf::Vector2f(ITERATION_DISTANCE_X *2, ITERATION_DISTANCE_Y * 4);
