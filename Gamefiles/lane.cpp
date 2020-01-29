@@ -28,7 +28,7 @@
                 std::cout << allyArray[0];
             }
             else{
-                enemyArray[0] = unitPointer;
+                enemyArray[LANE_SIZE - 1] = unitPointer;
             }
         }
     }
@@ -76,7 +76,6 @@
         };
 
         sf::Vector2f laneStartPosition = getLaneStartPosition(laneID, window);
-        std::cout << laneStartPosition.x << " " << laneStartPosition.y << std::endl;
         float positionIterationDistanceX = getIterationDistanceX(window);
         drawArray(allyArray, laneStartPosition, positionIterationDistanceX, window);
         drawArray(enemyArray, laneStartPosition, positionIterationDistanceX, window);

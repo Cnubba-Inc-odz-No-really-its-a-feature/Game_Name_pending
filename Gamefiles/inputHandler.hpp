@@ -30,7 +30,11 @@ class inputHandler {
   fightController& fightControlPointer;
   uint64_t lastInput;
 
-  bool isCommandValid(std::shared_ptr<command> command, uint64_t& lastInput){
+  bool isCommandValid(std::shared_ptr<command> command){
+    return command != NULL;
+  }
+
+  bool isCombatCommandValid(std::shared_ptr<command> command, uint64_t& lastInput){
     if(lastInput + 80 < std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() && command != NULL){
       lastInput = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
       return true;
@@ -180,19 +184,19 @@ class inputHandler {
         std::shared_ptr<command> obtainedCommand;
 
         obtainedCommand = handleDungeonMovement();
-        if(isCommandValid(obtainedCommand, lastInput)){
+        if(isCommandValid(obtainedCommand)){
           return obtainedCommand;
         }
         obtainedCommand = handleButtonInteract();
-        if(isCommandValid(obtainedCommand, lastInput)){
+        if(isCommandValid(obtainedCommand)){
           return obtainedCommand;
         }
         obtainedCommand = handleDungeonClickSelect();
-        if(isCommandValid(obtainedCommand, lastInput)){
+        if(isCommandValid(obtainedCommand)){
           return obtainedCommand;
         }
         obtainedCommand = handleExit();
-        if(isCommandValid(obtainedCommand, lastInput)){
+        if(isCommandValid(obtainedCommand)){
           return obtainedCommand;
         }
 
@@ -204,15 +208,15 @@ class inputHandler {
         std::shared_ptr<command> obtainedCommand;
 
         obtainedCommand = handleCombatClickSelect();
-        if(isCommandValid(obtainedCommand, lastInput)){
+        if(isCombatCommandValid(obtainedCommand, lastInput)){
           return obtainedCommand;
         }
         obtainedCommand = handleExit();
-        if(isCommandValid(obtainedCommand, lastInput)){
+        if(isCombatCommandValid(obtainedCommand, lastInput)){
           return obtainedCommand;
         }
         obtainedCommand = handleEndTurnButton();
-        if(isCommandValid(obtainedCommand, lastInput)){
+        if(isCombatCommandValid(obtainedCommand, lastInput)){
           return obtainedCommand;
         }
         return NULL;
@@ -221,12 +225,12 @@ class inputHandler {
   std::shared_ptr<command> handleDeckEditorCommands(){
       std::shared_ptr<command> obtainedCommand;
       obtainedCommand = handleDeckEditorClickSelect();
-      if(isCommandValid(obtainedCommand, lastInput)){
+      if(isCommandValid(obtainedCommand)){
           return obtainedCommand;
       }
 
       obtainedCommand = handleDungeonClickSelect();
-        if(isCommandValid(obtainedCommand, lastInput)){
+        if(isCommandValid(obtainedCommand)){
           return obtainedCommand;
       }
       return NULL;
