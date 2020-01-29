@@ -24,6 +24,10 @@ private:
     int unitDamage;
     E_lane unitLane;
     bool ally = true;
+
+    int textureFrame = 0;
+    int frameCounter = 0;
+
 public:
     unit(){}
 
@@ -70,7 +74,12 @@ public:
     void interact()override{}
     void move(sf::Vector2f moveDirection)override{}
     void update()override{}
-    void setFrame(int maxFrame, int textureRow)override{}
+    void setFrame(int maxFrame, int textureRow)override{
+        if(frameCounter > 10) {frameCounter = 0; textureFrame++;}
+	    if(maxFrame < textureFrame) textureFrame = 0;
+	    objectSprite.setTextureRect(sf::IntRect(231*textureFrame + 70, 190*textureRow, 90, 190));
+	    frameCounter++;
+    }
 };
 
 
