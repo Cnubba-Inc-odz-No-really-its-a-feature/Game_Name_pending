@@ -15,12 +15,8 @@ enum class E_fightState{
 class fightController{
 private:
     board gameBoard;
-
-
     int_fast8_t playerHP;
     int_fast8_t enemyHP;
-    //std::shared_ptr<int_fast8_t> playerHPPointer = std::make_shared<int_fast8_t>(playerHP);
-    //std::shared_ptr<int_fast8_t> enemyHPPointer = std::make_shared<int_fast8_t>(enemyHP);
     E_fightState fightState;
 
 public:

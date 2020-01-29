@@ -7,12 +7,6 @@
 #include "nullUnit.hpp"
 #include "E_lane.hpp"
 
-static std::map<E_lane, sf::Vector2f> lanePositionMap{
-    {E_lane::skyLane, sf::Vector2f(500, 200)},
-    {E_lane::groundLane, sf::Vector2f(500, 600)},
-    {E_lane::trapLane, sf::Vector2f(500, 900)}
-};
-
 struct unitUpdateResult{
     int selfPosition;
     int opponentPosition;

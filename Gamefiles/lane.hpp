@@ -18,13 +18,17 @@ public:
     // for board
     bool isIndexEmpty(const int index);
     void placeUnit(std::shared_ptr<unit> unitPointer);
-    void draw(sf::RenderWindow& window);
     void reset();
 
     // updates and combat
     void updateLane();
     void updateUnit(const int index, std::shared_ptr<unit> unit);
     unitUpdateResult fight(std::shared_ptr<unit> initiator, std::shared_ptr<unit> assaulted, const int index);
+
+    // draw functions
+    sf::Vector2f getLaneStartPosition(E_lane laneID, sf::RenderWindow& window);
+    float getIterationDistanceX(sf::RenderWindow& window);
+    void draw(sf::RenderWindow& window);
 
 
 };
