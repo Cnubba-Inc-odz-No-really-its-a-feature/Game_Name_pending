@@ -63,7 +63,7 @@
             for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
                 if(array[i] != nullptr){
                     // std::cout << "not a nullPointer" << std::endl;
-                    std::cout << "drawing unit on index: " << i << std::endl;
+                    // std::cout << "drawing unit on index: " << i << std::endl;
                     array[i]->jumpLocationTo(drawPosition);
                     array[i]->draw(window);
                     drawPosition.x += positionIterationDistanceX;
@@ -80,10 +80,10 @@
     }
 
     void lane::updateLane(){
-        std::cout << "updating lane: " << laneID << "     enemyHP: " << int(enemyHP) << std::endl;
+        // std::cout << "updating lane: " << laneID << "     enemyHP: " << int(enemyHP) << std::endl;
         uint_fast8_t maxLaneIndex = LANE_SIZE - 1;
 
-        std::cout << "updateLane last index: " << allyArray[6] << std::endl;
+        // std::cout << "updateLane last index: " << allyArray[6] << std::endl;
 
         // update allies
         for(int_fast8_t i = maxLaneIndex; i >= 0; i--){
@@ -102,7 +102,7 @@
 
     void lane::updateUnit(const int index, std::shared_ptr<unit> toUpdateUnit){
 
-        std::function<void(int, int, std::array<std::shared_ptr<unit>, LANE_SIZE>&)> moveUnit = [](int index, int nextIndex, std::array<std::shared_ptr<unit>, LANE_SIZE>& array)->void{
+        std::function<void(int, int, std::array<std::shared_ptr<unit>, LANE_SIZE>&)> moveUnit = [&](int index, int nextIndex, std::array<std::shared_ptr<unit>, LANE_SIZE>& array)->void{
             array[nextIndex] = array[index];
             array[index] = nullptr;
         };
