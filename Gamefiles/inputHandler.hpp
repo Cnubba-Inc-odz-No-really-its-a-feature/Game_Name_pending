@@ -172,10 +172,8 @@ class inputHandler {
   }
 
   std::shared_ptr<command> handleEndTurnButton(){
-    if(sf::Event::KeyPressed){
-      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)){
-        return std::shared_ptr<command>(new endTurnCommand(fightControlPointer));
-      }
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)){
+      return std::shared_ptr<command>(new endTurnCommand(fightControlPointer));
     }
 
     return NULL;
@@ -245,7 +243,7 @@ class inputHandler {
       : gameObjectStorage{gameObjectStorage},
         fightControlPointer{fightControlPointer}
        {
-         std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+         lastInput = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
        }
 
   std::shared_ptr<command> handleInput() {

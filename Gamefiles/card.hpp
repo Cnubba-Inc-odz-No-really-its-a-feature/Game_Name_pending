@@ -31,9 +31,11 @@ private:
     sf::Vector2f textureFrameBounds;
 
 public:
+    int mana;
+
     unit(){}
 
-    unit(int unitMaxHealth, int unitDamage, E_lane unitLane, std::map<std::string, sf::Texture> textureMap, sf::Vector2f textureSheetDimensions):
+    unit(int unitMaxHealth, int unitDamage, E_lane unitLane, std::map<std::string, sf::Texture> textureMap, sf::Vector2f textureSheetDimensions, int manaCost):
     gameObject(sf::Vector2f(200, 100), sf::Vector2f(4,4), textureMap, std::string("unitTexture"), 5),
         unitMaxHealth(unitMaxHealth),
         unitCurrentHealth(unitMaxHealth),
@@ -44,7 +46,8 @@ public:
             objectSprite.setOrigin(objectSprite.getLocalBounds().width/2, objectSprite.getLocalBounds().height);
             textureFrameBounds = sf::Vector2f(objectSprite.getLocalBounds().width / textureSheetDimensions.x, objectSprite.getLocalBounds().height / textureSheetDimensions.y) ;
        	    objectSprite.setTextureRect(sf::IntRect(textureFrameBounds.x*0, textureFrameBounds.y*0, textureFrameBounds.x, textureFrameBounds.y));
-
+            mana = manaCost;
+            std::cout << "mana in unit is: " << mana << std::endl;
         }
     
     ~unit(){}
@@ -99,6 +102,7 @@ protected:
     sf::Text cardName;
     sf::Text cardManaCost;
     int cardID;
+    int mana;
 public:
 
     card(std::string cardNameString, std::map<std::string, sf::Texture> textureMap, int cardID, int manaCost):
@@ -118,7 +122,7 @@ public:
         cardManaCost.setCharacterSize(160);
         cardManaCost.setFillColor(sf::Color::Black);
         cardManaCost.setPosition(sf::Vector2f(objectSprite.getGlobalBounds().left + (0.85 * objectSprite.getGlobalBounds().width) , objectSprite.getGlobalBounds().top + (0.02 * objectSprite.getGlobalBounds().height)));
-   
+        mana = manaCost;
     }
 
     void draw(sf::RenderWindow& gameWindow){}
@@ -224,7 +228,8 @@ public:
     }
 
     std::shared_ptr<unit> summonUnitFromCard(){
-        return std::shared_ptr<unit>(new unit(cardUnitHealth, cardUnitDamage, cardUnitLane, textureMap, textureSheetDimensions));
+        std::cout << "card mana cost gegeven aan unit: " << mana << std::endl;
+        return std::shared_ptr<unit>(new unit(cardUnitHealth, cardUnitDamage, cardUnitLane, textureMap, textureSheetDimensions, mana));
     }
 
     E_lane getUnitLane(){
