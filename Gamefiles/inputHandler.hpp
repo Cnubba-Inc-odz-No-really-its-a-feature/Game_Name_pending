@@ -27,10 +27,16 @@ class inputHandler {
 
   objectStorage &gameObjectStorage;
   fightController& fightControlPointer;
-  uint64_t lastInput = 0;
+  uint64_t lastInput;
 
-  bool isCommandValid(std::shared_ptr<command> command){
-    return command != NULL;
+  bool isCommandValid(std::shared_ptr<command> command, uint64_t& lastInput){
+    std::cout << "lastInput: " << lastInput << "         currentTime: " << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() << std::endl;
+    if(lastInput + 50 < std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() && command != NULL){
+      lastInput = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+      return true;
+    }
+    
+    return false;
   }
 
   float currentDistance(std::shared_ptr<gameObject> objectPointer) {
@@ -139,60 +145,56 @@ class inputHandler {
       // }
     }
 
-
-    // if(gameObjectStorage.storageDeck.fightActive){
-    //   if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-    //     auto x = gameObjectStorage.storageDeck.checkForCardPlay(sf::Mouse::getPosition());
-    //     std::cout<<"found click" << std::endl;
-    //   }
-    // }
-
     return NULL;
   }
 
   std::shared_ptr<command> handleEndTurnButton(){
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)){
-      return std::shared_ptr<command>(new endTurnCommand(fightControlPointer));
+    if(sf::Event::KeyPressed){
+      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)){
+        return std::shared_ptr<command>(new endTurnCommand(fightControlPointer));
+      }
     }
+
     return NULL;
   }
 
-  std::shared_ptr<command> handleDungeonCommands(){
+  std::shared_ptr<command> handleDungeonCommands(uint64_t& lastInput){
         std::shared_ptr<command> obtainedCommand;
 
         obtainedCommand = handleDungeonMovement();
-        if(isCommandValid(obtainedCommand)){
+        if(isCommandValid(obtainedCommand, lastInput)){
           return obtainedCommand;
         }
         obtainedCommand = handleButtonInteract();
-        if(isCommandValid(obtainedCommand)){
+        if(isCommandValid(obtainedCommand, lastInput)){
           return obtainedCommand;
         }
         obtainedCommand = handleDungeonClickSelect();
-        if(isCommandValid(obtainedCommand)){
+        if(isCommandValid(obtainedCommand, lastInput)){
           return obtainedCommand;
         }
         obtainedCommand = handleExit();
-        if(isCommandValid(obtainedCommand)){
+        if(isCommandValid(obtainedCommand, lastInput)){
           return obtainedCommand;
         }
 
         return NULL;
   }
 
-  std::shared_ptr<command> handleCombatCommands(){
+  std::shared_ptr<command> handleCombatCommands(uint64_t& lastInput){
+        
         std::shared_ptr<command> obtainedCommand;
 
         obtainedCommand = handleCombatClickSelect();
-        if(isCommandValid(obtainedCommand)){
+        if(isCommandValid(obtainedCommand, lastInput)){
           return obtainedCommand;
         }
         obtainedCommand = handleExit();
-        if(isCommandValid(obtainedCommand)){
+        if(isCommandValid(obtainedCommand, lastInput)){
           return obtainedCommand;
         }
         obtainedCommand = handleEndTurnButton();
-        if(isCommandValid(obtainedCommand)){
+        if(isCommandValid(obtainedCommand, lastInput)){
           return obtainedCommand;
         }
         return NULL;
@@ -203,25 +205,25 @@ class inputHandler {
   inputHandler(objectStorage &gameObjectStorage, fightController& fightControlPointer)
       : gameObjectStorage{gameObjectStorage},
         fightControlPointer{fightControlPointer}
-       {}
+       {
+         std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+       }
 
   std::shared_ptr<command> handleInput() {
-    if( lastInput + 50 < std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count()){
-      lastInput = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-      
       switch(gameObjectStorage.keyActive.at(0)){
         case 'r':
-          return handleDungeonCommands();
+          return handleDungeonCommands(lastInput);
           break;
         case 'c':
-          return handleCombatCommands();
+          return handleCombatCommands(lastInput);
           break;
         default:
-          return handleDungeonCommands();
+          return handleDungeonCommands(lastInput);
           break;
-      } 
-    }
+      }
   }
+
+
 };
 
 #endif
