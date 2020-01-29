@@ -27,9 +27,8 @@ void objectStorage::setActive(std::string newKey) {
       checkSaveFile.pop_back();
     }
     checkSaveFile += "Save.txt";
-    if(fileExists(checkSaveFile)){
-      newKey = checkSaveFile;
-    }
+    //if(fileExists(checkSaveFile))newKey = checkSaveFile;
+    
     swappedActive = true;
     tmpActive = newKey;
   }
