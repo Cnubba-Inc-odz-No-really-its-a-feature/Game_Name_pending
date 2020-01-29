@@ -25,7 +25,7 @@ objectTypes_E::TESTSPRITE_E (0, 928) (4, 4) 1 texture1 gameAssets/background_til
 objectTypes_E::TESTSPRITE_E (384, 928) (4, 4) 1 texture1 gameAssets/background_tiles.png ;
 objectTypes_E::TESTSPRITE_E (0, 384) (2, 2) 2 texture1 gameAssets/wall_left.png ;
 objectTypes_E::TESTSPRITE_E (0, 256) (2, 2) 2 texture1 gameAssets/wall_left.png ;
-objectTypes_E::TESTSPRITE_E (0, 128) (2, 2) 2 texture1 gameAssets/wall_left.png ;
+objectTypes_E::TESTSPRITE_E (993, 64) (2, 2) 2 texture1 gameAssets/tower_top.png ;
 objectTypes_E::TESTSPRITE_E (1088, 0) (2, 2) 2 texture1 gameAssets/roof.png ;
 objectTypes_E::TESTSPRITE_E (1792, 128) (2, 2) 2 texture1 gameAssets/wall_right.png ;
 objectTypes_E::TESTSPRITE_E (1792, 896) (2, 2) 2 texture1 gameAssets/wall_right.png ;
