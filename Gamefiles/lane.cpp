@@ -134,7 +134,7 @@
 
         if(toUpdateUnit->isAlly()){
             int nextIndex = index + 1;
-            if(nextIndex < LANE_SIZE && isIndexEmpty(nextIndex)){
+            if(nextIndex < LANE_SIZE - 1 && isIndexEmpty(nextIndex)){
                     std::cout << "|-------------> move" << std::endl;
                 moveUnit(index, nextIndex, allyArray);
                 return;
