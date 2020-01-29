@@ -37,6 +37,7 @@ void objectStorage::setActive(std::string newKey) {
 }
 
 void objectStorage::tmpNewActive(){
+  keyActive = tmpActive;
   mapKeys.push_back(tmpActive);
   if(keyActive == "d"){}
   else if (allVectors.count(tmpActive) == 0) {

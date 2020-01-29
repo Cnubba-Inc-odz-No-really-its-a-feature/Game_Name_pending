@@ -7,6 +7,7 @@
 #include <vector>
 #include <fstream>
 #include <algorithm>
+#include <chrono>
 
 
 
@@ -373,18 +374,23 @@ enum class deckState_E {IDLE_E, DECKVIEW_E, FIGHT_E};
 
 class deckEditorClass{
 private:
-    sf::Texture deckEditorTexture;
-    sf::Sprite deckEditorSprite;
-
     sf::Texture UPButtonTexture;
     sf::Texture DOWNButtonTexture;
     sf::Texture cardCounterTexture;
-
     std::map<int, int> & playerDeck;
     std::map<int, int> & ownedCards;
 
+    std::chrono::time_point<std::chrono::system_clock> lastChange;
+
+
+
     std::vector<std::shared_ptr<card>> deckEditorCards;
-    std::map<int,sf::Vector2f> cardPositions;
+    std::map<int,sf::Vector2f> cardPositions = {
+        {0, sf::Vector2f(200, 100)}, {1, sf::Vector2f(430, 100)}, {2, sf::Vector2f(660, 100)},
+        {3, sf::Vector2f(200, 600)}, {4, sf::Vector2f(430, 600)}, {5, sf::Vector2f(1110, 100)},
+        {6, sf::Vector2f(1340, 100)},{7, sf::Vector2f(1570, 100)},{8, sf::Vector2f(1110, 600)},
+        {9, sf::Vector2f(1340, 600)}
+    };
 
     sf::Font deckFont;
     sf::Text deckStatsText;
@@ -397,7 +403,7 @@ private:
     std::array<sf::Text, 10> ownedCardCounterTextArray;
     std::array<sf::Text, 10> owned_deckTextArray;
 
-    int DECK_MAX = 25;
+    int DECK_MAX = 22;
 
 
 public:
@@ -407,22 +413,6 @@ public:
     UPButtonArray(UPButtonArray),
     DOWNButtonArray(DOWNButtonArray){
         deckFont.loadFromFile("gameAssets/cardAssets/cardFont.otf");
-        deckEditorTexture.loadFromFile("gameAssets/cardAssets/book2.png");
-        deckEditorSprite.setTexture(deckEditorTexture);
-        deckEditorSprite.setPosition(sf::Vector2f(50,50));
-        deckEditorSprite.setScale(sf::Vector2f(0.42,0.35));
-
-        cardPositions[0] = sf::Vector2f(200, 100);
-        cardPositions[1] = sf::Vector2f(430, 100);
-        cardPositions[2] = sf::Vector2f(660, 100);
-        cardPositions[3] = sf::Vector2f(200, 600);
-        cardPositions[4] = sf::Vector2f(430, 600);
-        cardPositions[5] = sf::Vector2f(1110, 100);
-        cardPositions[6] = sf::Vector2f(1340, 100);
-        cardPositions[7] = sf::Vector2f(1570, 100);
-        cardPositions[8] = sf::Vector2f(1110, 600);
-        cardPositions[9] = sf::Vector2f(1340, 600);
-
         UPButtonTexture.loadFromFile("gameAssets/cardAssets/upArrow.png");
         DOWNButtonTexture.loadFromFile("gameAssets/cardAssets/downArrow.png");
         cardCounterTexture.loadFromFile("gameAssets/cardAssets/cardCountTexture.png");
@@ -461,8 +451,8 @@ public:
         deckStatsText.setFont(deckFont);
         deckStatsText.setFillColor(sf::Color::Black);
         deckStatsText.setCharacterSize(60);
-        deckStatsText.setString("DeckSize: " + std::to_string(getDeckSize()) + " - 22");
-        deckStatsText.setPosition(sf::Vector2f(deckEditorSprite.getGlobalBounds().left + (deckEditorSprite.getGlobalBounds().width *0.35), deckEditorSprite.getGlobalBounds().top + (deckEditorSprite.getGlobalBounds().height *0.45)));
+        deckStatsText.setString("DeckSize: " + std::to_string(getDeckSize()) + "- 22");
+        deckStatsText.setPosition(sf::Vector2f(700, 550));
 
         for(int i = 0; i < 10 ; i++ ){
 
@@ -499,7 +489,6 @@ public:
     }
 
     void draw(sf::RenderWindow& gameWindow){
-        gameWindow.draw(deckEditorSprite);
         gameWindow.draw(deckStatsText);
         int count =0;
         for(int i = 0; i<10; i++){
@@ -521,7 +510,10 @@ public:
     }
 
     void changeCardCountInDeck(int cardID, int change){
-        if(ownedCards[cardID] > playerDeck[cardID] && playerDeck[cardID] > 0){
+        if(getDeckSize() <= 22 && (playerDeck[cardID] + change) <= ownedCards[cardID] 
+        && (playerDeck[cardID] + change) >= 0 
+        && std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - lastChange).count() > 100){
+            lastChange = std::chrono::system_clock::now();
             playerDeck[cardID] += change;
             deckCardCounterTextArray[cardID].setString(std::to_string(playerDeck[cardID]));
             deckStatsText.setString("DeckSize: " + std::to_string(getDeckSize()) + " - 22");
@@ -534,94 +526,9 @@ public:
         deckStatsText.setString("DeckSize: " + std::to_string(getDeckSize()) + " - 22");
 
         if(ownedCards[newCard] == 1){
-
+            deckEditorCards[newCard] = factorCard(newCard);
         }
-
-
     }
-
 };
-
-
-
-
-// class deckClass{
-// private:
-//     std::vector<int> &drawPile;
-//     std::vector<int> &discardPile;
-//     std::map<int, int> ownedCards = {
-//         {0, 7}, {1, 4}, {2, 3}, {3, 2}, {4, 0},
-//         {5, 2}, {6, 2}, {7, 2}, {8, 0}, {9, 0}
-//     };
-//     std::map<int, int> playerDeck = ownedCards;
-
-//     std::vector<std::shared_ptr<card>> & cardsInHand;
-    
-
-//     deckState_E deckState = deckState_E::IDLE_E;
-
-
-// public:
-//     fightHand cardHand;
-//     deckEditorClass deckEditor;
-    
-//     bool fightActive = false;
-
-//     deckClass(std::vector<int>& drawPile, std::vector<int>&discardPile, std::vector<std::shared_ptr<card>> & cardsInHand):
-//         drawPile(drawPile),
-//         discardPile(discardPile),
-//         cardsInHand(cardsInHand),
-//         cardHand(discardPile, drawPile),
-//         deckEditor(playerDeck, ownedCards){
-
-            
-//             }
-
-    
-
-//     void startDeckEditor(){
-        
-//         changeDeckState(deckState_E::DECKVIEW_E);
-//     }
-
-//     void draw(sf::RenderWindow& gameWindow){
-//         switch(deckState){
-//             case(deckState_E::IDLE_E):{
-//                 break;
-//             }
-//             case(deckState_E::FIGHT_E):{
-                
-
-                
-//                 cardHand.draw(gameWindow);
-//                 break;
-//             }
-
-//             case(deckState_E::DECKVIEW_E):{
-//                 deckEditor.draw(gameWindow);
-//                 break;
-//             }
-//         }
-//     }
-
-    
-
-
-//     std::shared_ptr<unit> checkForCardPlay(sf::Vector2i mousePosI, bool skyOpen = true, bool groundOpen = true){
-//         sf::Vector2f mousePosF = sf::Vector2f(float(mousePosI.x), float(mousePosI.y));
-//         int clickedCardPos = cardHand.isCardClicked(mousePosF, skyOpen, groundOpen);
- 
-//         if(clickedCardPos > -1){
-//             std::shared_ptr<unit> newUnit = cardHand.playUnitCard(clickedCardPos);
-//             return newUnit;
-//         }else{
-//             return nullptr;
-         
-//         }
-//     }
-// };
-
-
-
 
 #endif
