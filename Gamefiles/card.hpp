@@ -31,9 +31,11 @@ private:
     sf::Vector2f textureFrameBounds;
 
 public:
+    int mana;
+
     unit(){}
 
-    unit(int unitMaxHealth, int unitDamage, E_lane unitLane, std::map<std::string, sf::Texture> textureMap, sf::Vector2f textureSheetDimensions):
+    unit(int unitMaxHealth, int unitDamage, E_lane unitLane, std::map<std::string, sf::Texture> textureMap, sf::Vector2f textureSheetDimensions, int manaCost):
     gameObject(sf::Vector2f(200, 100), sf::Vector2f(4,4), textureMap, std::string("unitTexture"), 5),
         unitMaxHealth(unitMaxHealth),
         unitCurrentHealth(unitMaxHealth),
@@ -47,6 +49,8 @@ public:
                 objectSprite.setScale(-4, 4.);
             }
 
+            mana = manaCost;
+            std::cout << "mana in unit is: " << mana << std::endl;
         }
     
     ~unit(){}
@@ -101,6 +105,7 @@ protected:
     sf::Text cardName;
     sf::Text cardManaCost;
     int cardID;
+    int mana;
 public:
 
     card(std::string cardNameString, std::map<std::string, sf::Texture> textureMap, int cardID, int manaCost):
@@ -120,7 +125,7 @@ public:
         cardManaCost.setCharacterSize(160);
         cardManaCost.setFillColor(sf::Color::Black);
         cardManaCost.setPosition(sf::Vector2f(objectSprite.getGlobalBounds().left + (0.85 * objectSprite.getGlobalBounds().width) , objectSprite.getGlobalBounds().top + (0.02 * objectSprite.getGlobalBounds().height)));
-   
+        mana = manaCost;
     }
 
     void draw(sf::RenderWindow& gameWindow){}
@@ -136,6 +141,10 @@ public:
     void setFrame(int maxFrame, int textureRow) override {}
     virtual bool checkIfPlayed(sf::Vector2f mousePosition) =0;
     virtual std::shared_ptr<unit> summonUnitFromCard() =0;
+
+     int getManaCost(){
+        return mana;
+    }
 
 };
 
@@ -226,12 +235,14 @@ public:
     }
 
     std::shared_ptr<unit> summonUnitFromCard(){
-        return std::shared_ptr<unit>(new unit(cardUnitHealth, cardUnitDamage, cardUnitLane, textureMap, textureSheetDimensions));
+        std::cout << "card mana cost gegeven aan unit: " << mana << std::endl;
+        return std::shared_ptr<unit>(new unit(cardUnitHealth, cardUnitDamage, cardUnitLane, textureMap, textureSheetDimensions, mana));
     }
 
     E_lane getUnitLane(){
         return cardUnitLane;
     }
+
 };
 
 
@@ -285,6 +296,8 @@ public:
         deckStats_discardPile.setPosition(sf::Vector2f(20, 1000));
     }
 
+   
+
     void draw(sf::RenderWindow& gameWindow){
         gameWindow.draw(handSprite);
         std::for_each(cardsInHand.begin(), cardsInHand.end(), [this, &gameWindow](auto &i){if(i != nullptr){i->draw(gameWindow);}});
@@ -319,12 +332,12 @@ public:
     }
 
 
-    int isCardClicked(sf::Vector2f mousePosition, bool skyOpen, bool groundOpen){
+    int isCardClicked(sf::Vector2f mousePosition, bool skyOpen, bool groundOpen, int playerMana){
         if(cardCount > 0){
             for(int i = 0; i < 7 ; i++){
                 if(cardsInHand[i] != nullptr){
                     if(cardsInHand[i]->checkIfPlayed(mousePosition)){
-                        if((cardsInHand[i]->getUnitLane() == E_lane::skyLane && skyOpen) || (cardsInHand[i] ->getUnitLane() == E_lane::groundLane && groundOpen)){
+                        if((cardsInHand[i]->getUnitLane() == E_lane::skyLane && skyOpen) || (cardsInHand[i] ->getUnitLane() == E_lane::groundLane && groundOpen && (cardsInHand[i]->getManaCost() <= playerMana))){
                             return i;
                     }
                 }
@@ -343,9 +356,9 @@ public:
     }
 
 
-    std::shared_ptr<unit> checkForCardPlay(sf::Vector2i mousePosI, bool skyOpen = true, bool groundOpen = true){
+    std::shared_ptr<unit> checkForCardPlay(sf::Vector2i mousePosI, bool skyOpen = true, bool groundOpen = true, int playerMana = 10){
         sf::Vector2f mousePosF = sf::Vector2f(float(mousePosI.x), float(mousePosI.y));
-        int clickedCardPos = isCardClicked(mousePosF, skyOpen, groundOpen);
+        int clickedCardPos = isCardClicked(mousePosF, skyOpen, groundOpen, playerMana);
  
         if(clickedCardPos > -1){
             std::shared_ptr<unit> newUnit = playUnitCard(clickedCardPos);

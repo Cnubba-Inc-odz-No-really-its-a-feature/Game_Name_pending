@@ -173,10 +173,8 @@ class inputHandler {
   }
 
   std::shared_ptr<command> handleEndTurnButton(){
-    if(sf::Event::KeyPressed){
-      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)){
-        return std::shared_ptr<command>(new endTurnCommand(fightControlPointer));
-      }
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)){
+      return std::shared_ptr<command>(new endTurnCommand(fightControlPointer));
     }
 
     return NULL;

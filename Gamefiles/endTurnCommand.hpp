@@ -1,22 +1,26 @@
-#ifndef _END_TURN_COMMAND_HPP
-#define _END_TURN_COMMAND_HPP
+#ifndef _ENDTURNCOMMAND_HPP
+#define _ENDTURNCOMMAND_HPP
 
-#include "command.hpp"
 #include "fightController.hpp"
+#include "command.hpp"
+#include <iostream>
+#include <map>
+#include "memory"
 
 class endTurnCommand : public command{
 private:
-    fightController& fightControlPointer;
+    fightController & fightControlPointer;
+
 public:
-    endTurnCommand(fightController& fightControlPointer):
-        fightControlPointer{fightControlPointer}
+    endTurnCommand(fightController &fightControlPointer):
+        fightControlPointer(fightControlPointer)
     {}
 
     void execute() override{
         fightControlPointer.nextTurn();
     }
 
-    void undo() override{}
+    virtual void undo(){}
 };
 
 #endif

@@ -10,10 +10,10 @@
 class exitCommand : public command{
 private:
     objectStorage & storage;
-    
+
 public:
     exitCommand(objectStorage &storage):
-    storage(storage)
+        storage(storage)
     {}
 
     void execute() override{

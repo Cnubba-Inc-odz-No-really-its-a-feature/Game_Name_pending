@@ -18,12 +18,15 @@ private:
     int_fast8_t playerHP;
     int_fast8_t enemyHP;
     E_fightState fightState;
-
+    int playerMana; 
+    int enemyMana;
 public:
     fightController():
         playerHP{15},
         enemyHP{15},
-        gameBoard(playerHP, enemyHP)
+        playerMana{1},
+        enemyMana{1},
+        gameBoard(playerHP, enemyHP, playerMana, enemyMana)
     {
         initFight();
     }
@@ -32,6 +35,8 @@ public:
         gameBoard.reset();
         playerHP = 15;
         enemyHP = 15;
+        playerMana = 1;
+        enemyMana = 1;
     }
 
     bool getSkyOpen(){
@@ -51,6 +56,9 @@ public:
             exit(0);
             //storage.setActive(storage.getReturnTarget());
         } 
+        playerMana++;
+        enemyMana++;
+        std::cout << "playerMana: " << playerMana << std::endl;
     }
 
     bool placeUnitOnBoard(std::shared_ptr<unit> unitPointer){
