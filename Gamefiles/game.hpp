@@ -26,7 +26,7 @@ public:
         gameObjectStorage(gameWindow),
         fightControl(),
         gameObjectRenderer(gameWindow, gameObjectStorage, fightControl),
-        gameInputHandler(gameObjectStorage, std::make_shared<fightController>(fightControl))
+        gameInputHandler(gameObjectStorage, fightControl)
     {}
 
     void gameLoop();

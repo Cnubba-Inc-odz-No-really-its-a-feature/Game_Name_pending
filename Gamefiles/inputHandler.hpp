@@ -7,6 +7,7 @@
 #include "exitCommand.hpp"
 #include "interactCommand.hpp"
 #include "math.h"
+#include "chrono"
 #include "moveCommand.hpp"
 #include "objectStorage.hpp"
 #include "selectedCommand.hpp"
@@ -26,7 +27,8 @@ class inputHandler {
   std::array<sf::Keyboard::Key, 1> exitKeys = {sf::Keyboard::Key::Escape};
 
   objectStorage &gameObjectStorage;
-  std::shared_ptr<fightController> fightControlPointer;
+  fightController& fightControlPointer;
+  uint64_t lastInput = 0;
 
   bool isCommandValid(std::shared_ptr<command> command){
     return command != NULL;
@@ -141,7 +143,7 @@ class inputHandler {
   std::shared_ptr<command> handleCombatClickSelect(){
     for (auto i : selectKeys) {
       if (sf::Mouse::isButtonPressed(i)) {
-          std::shared_ptr<unit> cardUnit = gameObjectStorage.cardHand.checkForCardPlay(sf::Mouse::getPosition(), fightControlPointer->getSkyOpen(), fightControlPointer->getGroundOpen());
+          std::shared_ptr<unit> cardUnit = gameObjectStorage.cardHand.checkForCardPlay(sf::Mouse::getPosition(), fightControlPointer.getSkyOpen(), fightControlPointer.getGroundOpen());
           if(cardUnit != nullptr){
             return std::shared_ptr<command>(new cardSelectCommand(fightControlPointer, cardUnit));
           }
@@ -231,7 +233,7 @@ class inputHandler {
   
 
  public:
-  inputHandler(objectStorage &gameObjectStorage, std::shared_ptr<fightController> fightControlPointer)
+  inputHandler(objectStorage &gameObjectStorage, fightController& fightControlPointer)
       : gameObjectStorage{gameObjectStorage},
         fightControlPointer{fightControlPointer}
        {}

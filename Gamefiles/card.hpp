@@ -58,10 +58,11 @@ public:
     
     virtual void draw(sf::RenderWindow& gameWindow) override{
         gameWindow.draw(objectSprite);
-        std::cout << "unit::draw() called" << std::endl;
     }
     void scaleObjects(sf::Vector2f newScale){}
-    void setPosition(sf::Vector2f newPosition){}
+    void setPosition(sf::Vector2f newPosition){
+        objectSprite.setPosition(newPosition);
+    }
 
     void interact()override{}
     void move(sf::Vector2f moveDirection)override{}
@@ -278,10 +279,6 @@ public:
             std::for_each(cardsInHand.begin(), cardsInHand.end(), [](std::shared_ptr<card> &i){i = nullptr;});
         }
         cardCount = 0;
-
-        deckStats_discardPile.setString("DrawPile size: " + std::to_string(discardPile.size()));
-        deckStats_drawPile.setString("DrawPile size: " + std::to_string(drawPile.size()));
-
     }
 
     bool addCard(std::shared_ptr<card> newCard){
@@ -452,7 +449,7 @@ public:
         deckStatsText.setFillColor(sf::Color::Black);
         deckStatsText.setCharacterSize(60);
         deckStatsText.setString("DeckSize: " + std::to_string(getDeckSize()) + "- 22");
-        deckStatsText.setPosition(sf::Vector2f(700, 550));
+        deckStatsText.setPosition(sf::Vector2f(700, 525));
 
         for(int i = 0; i < 10 ; i++ ){
 
