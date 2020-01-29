@@ -40,7 +40,7 @@ public:
 
     gameObject(){}
 
-    virtual ~gameObject(){}
+    ~gameObject(){}
 
     std::string soundFile;
     std::string textureFile;
@@ -53,14 +53,18 @@ public:
     sf::Sprite getSprite(){ return objectSprite; }
     std::string getObjectID(){ return objectID; }
     std::string getType(){ return type; }
-    virtual void interact() = 0;
-    virtual void draw(sf::RenderWindow& gameWindow) =0;
-    virtual void setTarget(std::string newTarget){};
-    virtual void move(sf::Vector2f moveDirection) = 0;
-    virtual void jumpLocationTo(sf::Vector2f jumpLocation){};
-    virtual void update() = 0;
+    virtual void interact(){};
+    
+    virtual void draw(sf::RenderWindow& gameWindow){
+        gameWindow.draw(objectSprite);
+    }
 
-    virtual void setFrame(int maxFrame, int textureRow) =0;
+    virtual void setTarget(std::string newTarget){};
+    virtual void move(sf::Vector2f moveDirection){};
+    virtual void jumpLocationTo(sf::Vector2f jumpLocation){};
+    virtual void update(){};
+
+    virtual void setFrame(int maxFrame, int textureRow){};
 };
 
 #endif
