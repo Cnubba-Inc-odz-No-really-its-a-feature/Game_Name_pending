@@ -16,6 +16,8 @@ void game::gameLoop(){
 	bool menuPlay = true;
 	bool battlePlay = true;
 
+	std::cout<<"entering gameLoop" << std::endl;
+
     while (gameWindow.isOpen()) {
 		loopTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count() - clockPrevious;
 
@@ -24,22 +26,9 @@ void game::gameLoop(){
 		}
 		clockPrevious = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 
-
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
-			gameObjectStorage.storageDeck.newFight();
-			std::cout<<"currentDecksize:" << gameObjectStorage.completeDeck.size()<<std::endl;
-		}
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::B)){
-			std::cout<<"drawing new hand" << std::endl;
-			gameObjectStorage.storageDeck.newHand();
-			std::cout<<"hand created of size: " << gameObjectStorage.cardsInHand.size() << std::endl;
+			gameObjectStorage.cardHand.newHand();
 		}
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
-			gameObjectStorage.storageDeck.startDeckViewer();
-		}
-
-
-
 
 
 
@@ -49,7 +38,9 @@ void game::gameLoop(){
 			newCommand->execute();
 		}
 
+
 		gameObjectRenderer.update();
+
 		
 		framecounter++;
 		if(framecounter == 60){
