@@ -28,11 +28,14 @@ public:
     unit(){}
 
     unit(int unitMaxHealth, int unitDamage, E_lane unitLane, std::map<std::string, sf::Texture> textureMap):
-    gameObject(sf::Vector2f(200, 100), sf::Vector2f(1,1), textureMap, std::string("unitTexture"), 5),
+    gameObject(sf::Vector2f(200, 100), sf::Vector2f(4,4), textureMap, std::string("unitTexture"), 5),
         unitMaxHealth(unitMaxHealth),
         unitCurrentHealth(unitMaxHealth),
         unitDamage(unitDamage),
-        unitLane(unitLane){}
+        unitLane(unitLane){
+            std::cout << "bottem size " << objectSprite.getGlobalBounds().width/2 << " top size " << objectSprite.getGlobalBounds().height << std::endl;
+            objectSprite.setOrigin(objectSprite.getLocalBounds().width/2, objectSprite.getLocalBounds().height);
+        }
     
     ~unit(){}
 

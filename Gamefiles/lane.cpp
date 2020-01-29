@@ -13,6 +13,10 @@
     }
 
     bool lane::isIndexEmpty(const int index){
+        if (index < 0)
+        {
+            return false;
+        }
         return allyArray.at(index) == nullptr && enemyArray.at(index) == nullptr;
     }
 
@@ -38,10 +42,10 @@
         sf::Vector2u windowSize = window.getSize();
         switch(laneID){
             case E_lane::skyLane:
-                return sf::Vector2f(ITERATION_DISTANCE_X *2, ITERATION_DISTANCE_Y * 2);
+                return sf::Vector2f(ITERATION_DISTANCE_X *1.3, ITERATION_DISTANCE_Y * 3);
                 break;
             case E_lane::groundLane:
-                return sf::Vector2f(ITERATION_DISTANCE_X *2, ITERATION_DISTANCE_Y * 3);
+                return sf::Vector2f(ITERATION_DISTANCE_X *1.3, ITERATION_DISTANCE_Y * 6.7);
                 break;
             case E_lane::trapLane:
                 return sf::Vector2f(ITERATION_DISTANCE_X *2, ITERATION_DISTANCE_Y * 4);
@@ -135,7 +139,7 @@
                 moveUnit(index, nextIndex, allyArray);
                 return;
             }
-            else if(index == LANE_SIZE - 1){
+            else if(index == 0){
                     std::cout << "|-------------> attack opponent summoner" << std::endl;
                 enemyHP -= toUpdateUnit->getDamage();
                 return;
@@ -148,10 +152,29 @@
             }
                     std::cout << "|-------------> do nothing" << std::endl;
         }
-        else{
-            //temporarilly removed
+        else
+            {
+            int nextIndex = index - 1;
+            if(nextIndex < LANE_SIZE && isIndexEmpty(nextIndex)){
+                    std::cout << "|-------------> move" << std::endl;
+                moveUnit(index, nextIndex, enemyArray);
+                return;
+            }
+            else if(index == LANE_SIZE - 1){
+                    std::cout << "|-------------> attack opponent summoner" << std::endl;
+                playerHP -= toUpdateUnit->getDamage();
+                return;
+            }
+            else if(nextIndex < LANE_SIZE && !isIndexEmpty(nextIndex) && enemyArray[nextIndex] != nullptr){
+                    std::cout << "|-------------> fight" << std::endl;
+                unitUpdateResult result = fight(toUpdateUnit, allyArray.at(nextIndex), index);
+                handleCombatResult(enemyArray, allyArray, result);
+                return;
+            }
+                    std::cout << "|-------------> do nothing" << std::endl;
         }
     }
+    
 
     unitUpdateResult lane::fight(std::shared_ptr<unit> initiator, std::shared_ptr<unit> assaulted, const int index){
         assaulted->takeDamage(initiator->getDamage());
