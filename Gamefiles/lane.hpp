@@ -30,6 +30,7 @@ public:
     float getIterationDistanceX(sf::RenderWindow& window);
     void draw(sf::RenderWindow& window);
 
+    void print_array();
 
 };
 

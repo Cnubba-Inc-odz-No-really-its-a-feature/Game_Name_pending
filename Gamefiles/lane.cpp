@@ -42,7 +42,7 @@
         sf::Vector2u windowSize = window.getSize();
         switch(laneID){
             case E_lane::skyLane:
-                return sf::Vector2f(ITERATION_DISTANCE_X *1.3, ITERATION_DISTANCE_Y * 3);
+                return sf::Vector2f(ITERATION_DISTANCE_X *1.3, ITERATION_DISTANCE_Y * 4);
                 break;
             case E_lane::groundLane:
                 return sf::Vector2f(ITERATION_DISTANCE_X *1.3, ITERATION_DISTANCE_Y * 6.7);
@@ -66,18 +66,18 @@
             sf::Vector2f drawPosition = laneStartPosition;
             for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
                 if(array[i] != nullptr){
+                    drawPosition.x = positionIterationDistanceX * i + laneStartPosition.x;
                     // std::cout << "drawPosition: " << drawPosition.x << "," << drawPosition.y << std::endl;
                     array[i]->setPosition(drawPosition);
                     // std::cout << "unitPosition: " << array[i]->getSprite().getPosition().x << "," << array[i]->getSprite().getPosition().x << std::endl;
                     array[i]->draw(window);
-                    drawPosition.x = laneStartPosition.x + positionIterationDistanceX * i;
                 }
             }
         };
 
         sf::Vector2f laneStartPosition = getLaneStartPosition(laneID, window);
+        std::cout << laneStartPosition.x << " " << laneStartPosition.y << std::endl;
         float positionIterationDistanceX = getIterationDistanceX(window);
-
         drawArray(allyArray, laneStartPosition, positionIterationDistanceX, window);
         drawArray(enemyArray, laneStartPosition, positionIterationDistanceX, window);
     }
@@ -196,4 +196,8 @@
         return unitUpdateResult(true, selfPosition, opponentPosition ,opponentKilled, selfKilled, initiator->isAlly());
     }
 
-    
+    void lane::print_array(){
+        for(int x = 0; x < 4; x++){
+            std::cout << "on poss: " << x << " is unti: " << allyArray[x] << " located" << std::endl;
+        }
+    }
