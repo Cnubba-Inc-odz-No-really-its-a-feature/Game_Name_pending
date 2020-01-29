@@ -23,7 +23,7 @@ public:
     fightController():
         playerHP{15},
         enemyHP{15},
-        gameBoard{playerHP, enemyHP}
+        gameBoard(playerHP, enemyHP)
     {
         initFight();
     }
