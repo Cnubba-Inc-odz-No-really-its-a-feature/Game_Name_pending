@@ -14,31 +14,38 @@ private:
     bool open = false;
     int textureFrame = 0;
     int frameCounter = 0;
-    bool interacted = false;
+    bool animationDone = false;
+    //bool interacted = false;
     bool avalable = true;
     popup itemPopup; 
 
     sf::Sound sound;
     sf::SoundBuffer buffer;
 public:
-    chest(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, int objectPriority, std::string soundFile):
+    chest(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, int objectPriority, std::string soundFile, std::string textureFile, bool opened):
         gameObject(spritePosition, spriteScale, textureMap, firstKey), itemPopup(spritePosition, "gameAssets/popupBackground.png")
     {
         interactable = true;
         gameObject::objectPriority = objectPriority;
+        gameObject::soundFile = soundFile;
+        gameObject::textureFile = textureFile;
 	    //objectSprite.setTextureRect(sf::IntRect(0, 0, 16, 30));
         objectSprite.setTextureRect(sf::IntRect(0, 0, 47, 35));
         buffer.loadFromFile(soundFile);
         sound.setBuffer(buffer);
+        type = "CHEST_E";
+        gameObject::interacted = opened;
+        open = opened;
+        //if(gameObject::interacted) interact();
     }
 
     void interact() override{
         if(!open){
             sound.play();
             open = true;
+            gameObject::interacted = true;
             // itemPopup.interact();
         }
-        interacted = true;
     }
 
     void interact(objectStorage& gameStorage, const float& mainCharacterPosition){
@@ -46,7 +53,7 @@ public:
     }       
 
     void draw(sf::RenderWindow& gameWindow) override{
-        if(interacted) setFrame(3, 0);
+        if(gameObject::interacted && !animationDone) setFrame(3, 0);
         gameWindow.draw(objectSprite);
 
         if(open && avalable){
@@ -79,7 +86,7 @@ public:
         if(frameCounter > 10) {frameCounter = 0; textureFrame++;}
 	    //objectSprite.setTextureRect(sf::IntRect(16*textureFrame, 0*textureRow, 16, 30));
 	    objectSprite.setTextureRect(sf::IntRect(47*textureFrame, 0*textureRow, 47, 35));
-        if(maxFrame <= textureFrame) interacted = false;
+        if(maxFrame <= textureFrame) animationDone = true;
 	    else frameCounter++;
     }
 

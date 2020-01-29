@@ -56,7 +56,7 @@ void game::gameLoop(){
 			gamePlay = false;
 			battlePlay = true;
 			menuPlay = true;
-		}else if(gameObjectStorage.keyActive.at(0) == 'b' && battlePlay){
+		}else if(gameObjectStorage.keyActive.at(0) == 'c' && battlePlay){
 			buffer.loadFromFile("gameAssets/Sounds/battle.wav");
 			sound.setBuffer(buffer);
 			sound.setLoop(true);

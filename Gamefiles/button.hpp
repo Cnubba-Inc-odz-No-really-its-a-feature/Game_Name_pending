@@ -19,7 +19,9 @@ private:
     sf::SoundBuffer buffer;
 
 public:
-    button( sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, objectStorage & storage, int objectPriority, std::string target, std::string soundFile);
+
+
+    button( sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, objectStorage & storage, int objectPriority, std::string target, std::string soundFile, std::string textureFile);
 
     void draw(sf::RenderWindow& gameWindow) override;
 

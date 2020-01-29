@@ -14,6 +14,7 @@ private:
     bool moved = false;
     sf::Vector2f direction = sf::Vector2f(0,0);
 public:
+
     character(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, sf::RenderWindow & gameWindow, std::string firstKey, int objectPriority);
 
     void draw(sf::RenderWindow& gameWindow) override;

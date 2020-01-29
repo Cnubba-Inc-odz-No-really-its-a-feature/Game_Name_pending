@@ -9,22 +9,26 @@
 
 class enemy: public gameObject{
 private:
-    std::vector<gameObject> lootObjectVector;
-    bool open = false;
     int textureFrame = 0;
     int frameCounter = 0;
-    bool interacted = false;
     objectStorage & storage;
     std::string target;
 
 public:
-    enemy(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, objectStorage &storage, int objectPriority, std::string target):
+
+    //bool interacted = false;
+
+    enemy(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, objectStorage &storage, int objectPriority, std::string target, std::string textureFile, bool interact):
         gameObject(spritePosition, spriteScale, textureMap, firstKey),
         storage(storage), target(target)
     {
         interactable = true;
+        gameObject::target = target;
+        gameObject::textureFile = textureFile;
         gameObject::objectPriority = objectPriority;
         objectSprite.setTextureRect(sf::IntRect(0, 0, 64, 64));
+        type = "ENEMY_E";
+        gameObject::interacted = interact;
     }
 
     void setFrame(int maxFrame, int textureRow) override{
@@ -35,7 +39,10 @@ public:
     }
 
     void interact() override{
-        storage.setActive(target);
+        if(!gameObject::interacted){
+            storage.setActive(target);
+            gameObject::interacted = true;
+        }
     }
 
     void interact(objectStorage& gameStorage, const float& mainCharacterPosition){
@@ -45,11 +52,6 @@ public:
     void draw(sf::RenderWindow& gameWindow) override{
         setFrame(2,2);
         gameWindow.draw(objectSprite);
-        if(open){
-            for(auto& loot : lootObjectVector){
-                loot.draw(gameWindow);
-            }
-        }
     }
 
     void move(sf::Vector2f moveDirection) override{}

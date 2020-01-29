@@ -470,7 +470,7 @@ public:
             std::shared_ptr<card> newViewerCard;
 
             if(i == 4 || i == 8 || i == 9){
-
+                newViewerCard = factorCard(10);
             }else{
                 newViewerCard = factorCard(i);
             }
@@ -530,7 +530,7 @@ public:
 
     void newOwnCard(int newCard){
         ownedCards[newCard] += 1;
-        deckCardCounterTextArray[newCard].setString(std::to_string(playerDeck[cardID]));
+        deckCardCounterTextArray[newCard].setString(std::to_string(playerDeck[newCard]));
         deckStatsText.setString("DeckSize: " + std::to_string(getDeckSize()) + " - 22");
 
         if(ownedCards[newCard] == 1){
