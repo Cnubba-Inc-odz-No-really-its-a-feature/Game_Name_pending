@@ -62,8 +62,7 @@
             sf::Vector2f drawPosition = laneStartPosition;
             for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
                 if(array[i] != nullptr){
-                    // std::cout << "not a nullPointer" << std::endl;
-                    // std::cout << "drawing unit on index: " << i << std::endl;
+                    std::cout << "drawPosition" << drawPosition.x << "," << drawPosition.y << std::endl;
                     array[i]->jumpLocationTo(drawPosition);
                     array[i]->draw(window);
                     drawPosition.x += positionIterationDistanceX;
