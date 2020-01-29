@@ -43,6 +43,7 @@ public:
 
         if(renderObjectStorage.keyActive.at(0) == 'c'){
             renderObjectStorage.cardHand.draw(gameWindow);
+            fightControl.draw(gameWindow);
         }
 
         if(renderObjectStorage.keyActive.at(0) == 'r'){
