@@ -15,6 +15,8 @@ public:
     {}
 
     void execute() override{
+                    std::cout<<"button Interacted command created" << std::endl;
+
         object->interact();
     }
 
