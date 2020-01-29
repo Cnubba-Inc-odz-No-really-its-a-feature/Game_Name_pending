@@ -18,7 +18,6 @@ private:
     int_fast8_t playerHP;
     int_fast8_t enemyHP;
     E_fightState fightState;
-    int playerMana; 
     int enemyMana;
 public:
     fightController():
@@ -30,6 +29,8 @@ public:
     {
         initFight();
     }
+
+    int playerMana; 
 
     void initFight(){
         gameBoard.reset();
