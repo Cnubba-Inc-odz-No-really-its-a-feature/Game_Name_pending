@@ -13,7 +13,7 @@
     }
 
     bool lane::isIndexEmpty(const int index){
-        if (index < 0)
+        if (index < 0 || index >= LANE_SIZE)
         {
             return false;
         }
@@ -70,7 +70,7 @@
                     array[i]->setPosition(drawPosition);
                     // std::cout << "unitPosition: " << array[i]->getSprite().getPosition().x << "," << array[i]->getSprite().getPosition().x << std::endl;
                     array[i]->draw(window);
-                    drawPosition.x += positionIterationDistanceX * i;
+                    drawPosition.x = laneStartPosition.x + positionIterationDistanceX * i;
                 }
             }
         };
@@ -134,7 +134,7 @@
 
         if(toUpdateUnit->isAlly()){
             int nextIndex = index + 1;
-            if(nextIndex < LANE_SIZE - 1 && isIndexEmpty(nextIndex)){
+            if(nextIndex < LANE_SIZE && isIndexEmpty(nextIndex)){
                     std::cout << "|-------------> move" << std::endl;
                 moveUnit(index, nextIndex, allyArray);
                 return;
