@@ -7,6 +7,7 @@
 #include "exitCommand.hpp"
 #include "interactCommand.hpp"
 #include "math.h"
+#include "chrono"
 #include "moveCommand.hpp"
 #include "objectStorage.hpp"
 #include "selectedCommand.hpp"
@@ -26,6 +27,7 @@ class inputHandler {
 
   objectStorage &gameObjectStorage;
   fightController& fightControlPointer;
+  uint64_t lastInput = 0;
 
   bool isCommandValid(std::shared_ptr<command> command){
     return command != NULL;
@@ -204,17 +206,21 @@ class inputHandler {
        {}
 
   std::shared_ptr<command> handleInput() {
-    switch(gameObjectStorage.keyActive.at(0)){
-      case 'r':
-        return handleDungeonCommands();
-        break;
-      case 'c':
-        return handleCombatCommands();
-        break;
-      default:
-        return handleDungeonCommands();
-        break;
-    } 
+    if( lastInput + 50 < std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count()){
+      lastInput = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+      
+      switch(gameObjectStorage.keyActive.at(0)){
+        case 'r':
+          return handleDungeonCommands();
+          break;
+        case 'c':
+          return handleCombatCommands();
+          break;
+        default:
+          return handleDungeonCommands();
+          break;
+      } 
+    }
   }
 };
 

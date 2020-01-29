@@ -38,13 +38,13 @@
         sf::Vector2u windowSize = window.getSize();
         switch(laneID){
             case E_lane::skyLane:
-                return sf::Vector2f((ITERATION_DISTANCE_X/ 7) *2, ITERATION_DISTANCE_Y * 2);
+                return sf::Vector2f(ITERATION_DISTANCE_X *2, ITERATION_DISTANCE_Y * 2);
                 break;
             case E_lane::groundLane:
-                return sf::Vector2f((ITERATION_DISTANCE_X / 7) *2, ITERATION_DISTANCE_Y * 3);
+                return sf::Vector2f(ITERATION_DISTANCE_X *2, ITERATION_DISTANCE_Y * 3);
                 break;
             case E_lane::trapLane:
-                return sf::Vector2f((ITERATION_DISTANCE_X / 7) *2, ITERATION_DISTANCE_Y * 4);
+                return sf::Vector2f(ITERATION_DISTANCE_X *2, ITERATION_DISTANCE_Y * 4);
                 break;
             default:
                 return sf::Vector2f(0,0);
@@ -62,8 +62,9 @@
             sf::Vector2f drawPosition = laneStartPosition;
             for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
                 if(array[i] != nullptr){
-                    std::cout << "drawPosition" << drawPosition.x << "," << drawPosition.y << std::endl;
-                    array[i]->jumpLocationTo(drawPosition);
+                    // std::cout << "drawPosition: " << drawPosition.x << "," << drawPosition.y << std::endl;
+                    array[i]->setPosition(drawPosition);
+                    // std::cout << "unitPosition: " << array[i]->getSprite().getPosition().x << "," << array[i]->getSprite().getPosition().x << std::endl;
                     array[i]->draw(window);
                     drawPosition.x += positionIterationDistanceX;
                 }
@@ -73,7 +74,6 @@
         sf::Vector2f laneStartPosition = getLaneStartPosition(laneID, window);
         float positionIterationDistanceX = getIterationDistanceX(window);
 
-        std::cout << "drawLane last index: " << allyArray[6] << std::endl;
         drawArray(allyArray, laneStartPosition, positionIterationDistanceX, window);
         drawArray(enemyArray, laneStartPosition, positionIterationDistanceX, window);
     }
@@ -108,7 +108,7 @@
 
         std::function<void(std::array<std::shared_ptr<unit>, LANE_SIZE>&, std::array<std::shared_ptr<unit>, LANE_SIZE>&, const unitUpdateResult&)> handleCombatResult = 
         [&](std::array<std::shared_ptr<unit>, LANE_SIZE>& selfArray, std::array<std::shared_ptr<unit>, LANE_SIZE>& opponentArray, const unitUpdateResult& result)->void{
-            std::cout << "removing dead units" << std::endl;
+            // std::cout << "removing dead units" << std::endl;
 
             if(result.openentKilled){
                 opponentArray[result.opponentPosition] = nullptr;

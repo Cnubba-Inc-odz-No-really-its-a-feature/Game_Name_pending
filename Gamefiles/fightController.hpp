@@ -45,12 +45,13 @@ public:
     void nextTurn(){
         std::cout << "nextTurn()________________________________________________________________________" << std::endl;
         gameBoard.update();
+
         // add menu stuff
-        playerHP = gameBoard.GetHP("player");
-        enemyHP = gameBoard.GetHP("enemy");
-        if(playerHP <= 1 || enemyHP < 1){
-            exit(0);
-        }
+        // playerHP = gameBoard.GetHP("player");
+        // enemyHP = gameBoard.GetHP("enemy");
+        // if(playerHP <= 1 || enemyHP < 1){
+        //     exit(0);
+        // }
     }
 
     bool placeUnitOnBoard(std::shared_ptr<unit> unitPointer){
