@@ -3,9 +3,9 @@
 popup::popup(const sf::Vector2f & anker, std::string textureString):anker(anker)
 {//select some random cards
     std::vector<int> tmp = {0,1,2,3,5,6,7};
-    std::random_device rd;
-    std::mt19937 g(rd());
-    std::shuffle(tmp.begin(), tmp.end(), g);
+    // std::random_device rd;
+    // std::mt19937 g(rd());
+    // std::shuffle(tmp.begin(), tmp.end(), g);
     
     Options.push_back(factorCard(tmp[0])); 
     Options.push_back(factorCard(tmp[1])); 
@@ -40,7 +40,7 @@ int popup::update(){
 void popup::interact(){};
 
 void popup::draw(sf::RenderWindow& gameWindow){
-    gameWindow.draw(sprite);
+    // gameWindow.draw(sprite);
     for(auto i : Options){
         i->draw(gameWindow);
     }
