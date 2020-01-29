@@ -245,7 +245,7 @@ std::shared_ptr<card> factorCard(int cardID);
 class fightHand{
 private:
     std::map<int, sf::Vector2f> handPositionMap;
-    std::array<std::shared_ptr<card>, 7> cardsInHand;
+    std::array<std::shared_ptr<card>, 7> &cardsInHand;
     std::vector<int> &discardPile;
     std::vector<int> &drawPile;
     sf::Font deckStatsFont;
@@ -258,10 +258,11 @@ private:
     std::map<int, int> &playerDeck;
 public:
 
-    fightHand(std::vector<int> &discardPile, std::vector<int> & drawPile, std::map<int, int> &playerDeck):
+    fightHand(std::vector<int> &discardPile, std::vector<int> & drawPile, std::map<int, int> &playerDeck, std::array<std::shared_ptr<card>, 7> &cardsInHand):
     discardPile(discardPile),
     drawPile(drawPile),
-    playerDeck(playerDeck){
+    playerDeck(playerDeck),
+    cardsInHand(cardsInHand){
         handPositionMap[0] = sf::Vector2f(630, 825);            
         handPositionMap[1] = sf::Vector2f(810, 825);
         handPositionMap[2] = sf::Vector2f(990, 825);
@@ -319,7 +320,6 @@ public:
         }
         return false;
     }
-
 
 
     int isCardClicked(sf::Vector2f mousePosition, bool skyOpen, bool groundOpen){
@@ -387,7 +387,7 @@ public:
         drawPile.clear();
         discardPile.clear();
 
-        std::for_each(playerDeck.begin(), playerDeck.end(), [this](auto & i){for(int j = 0; j <= i.second; j++){drawPile.push_back(i.first);}});
+        std::for_each(playerDeck.begin(), playerDeck.end(), [this](auto & i){for(int j = 0; j < i.second; j++){drawPile.push_back(i.first);}});
 
         std::random_shuffle(drawPile.begin(), drawPile.end());
     }

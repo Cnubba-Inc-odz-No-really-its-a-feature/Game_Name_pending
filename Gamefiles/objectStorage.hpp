@@ -38,12 +38,15 @@ public:
     std::vector<int> discardPile;
     std::array<sf::Sprite, 10> editorUPButtonArray;
     std::array<sf::Sprite, 10> editorDOWNButtonArray;
-    std::vector<std::shared_ptr<card>> cardsInHand;
+     std::array<std::shared_ptr<card>, 7> cardsInHand;
     std::map<int, int> ownedCards= {
         {0, 7}, {1, 4}, {2, 3}, {3, 2}, {4, 0},
         {5, 2}, {6, 2}, {7, 2}, {8, 0}, {9, 0}
-    };;
-    std::map<int, int> playerDeck = ownedCards;
+    };
+    std::map<int, int> playerDeck = {
+        {0, 7}, {1, 4}, {2, 3}, {3, 2}, {4, 0},
+        {5, 2}, {6, 2}, {7, 2}, {8, 0}, {9, 0}
+    };
     fightHand cardHand;
     deckEditorClass deckEditor;
 
