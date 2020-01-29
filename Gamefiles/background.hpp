@@ -8,7 +8,8 @@
 class background : public gameObject {
 
 public:
-    background( sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, int objectPriority );
+
+    background( sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, int objectPriority, std::string textureFile );
 
     void draw(sf::RenderWindow& gameWindow) override;
     void setFrame(int maxFrame, int textureRow);

@@ -1,7 +1,7 @@
 objectTypes_E::BUTTON_E (200,200) (0.7,0.7) 2 room1.txt gameAssets/Sounds/button.wav texture1 gameAssets/Start1.png , texture2 gameAssets/Start2.png ;
-objectTypes_E::BUTTON_E (200,350) (0.7,0.7) 2 highscore.txt gameAssets/Sounds/button.wav texture1 gameAssets/Highscore1.png , texture2 gameAssets/Highscore2.png ;
 objectTypes_E::BUTTON_E (200,500) (0.7,0.7) 2 map.txt gameAssets/Sounds/button.wav texture1 gameAssets/Map1.png , texture2 gameAssets/Map2.png ;
 objectTypes_E::BUTTON_E (200,650) (0.7,0.7) 2 card.txt gameAssets/Sounds/button.wav texture1 gameAssets/Cards1.png , texture2 gameAssets/Cards2.png ;
 objectTypes_E::BUTTON_E (200,800) (0.7,0.7) 2 exit gameAssets/Sounds/button.wav texture1 gameAssets/Exit1.png , texture2 gameAssets/Exit2.png ;
 objectTypes_E::BACKGROUND_E (0,0) (1,1) 1 texture1 gameAssets/Background.png ;
 objectTypes_E::BACKGROUND_E (1100,0) (0.45,0.45) 2 texture1 gameAssets/Titlecard_edited2.png ;
+objectTypes_E::NEWGAMEBUTTON_E (200,350) (0.7,0.7) 2 room1.txt gameAssets/Sounds/button.wav texture1 gameAssets/Highscore1.png , texture2 gameAssets/Highscore2.png ;

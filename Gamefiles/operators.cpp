@@ -24,6 +24,8 @@ std::ifstream& operator>>(std::ifstream &input, objectTypes_E &objectType){
     objectType = objectTypes_E::TITLECARD_E;
   }else if(typeString == "objectTypes_E::BACKGROUND_E"){
     objectType = objectTypes_E::BACKGROUND_E;
+  }else if(typeString == "objectTypes_E::NEWGAMEBUTTON_E"){
+    objectType = objectTypes_E::NEWGAMEBUTTON_E;
   }else{
     throw invalid_type("invalid Type string Found");
   }

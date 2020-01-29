@@ -7,10 +7,14 @@ class textureSprite : public gameObject{
 
 
 public:
-    textureSprite(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, int objectPriority):
+
+
+    textureSprite(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, int objectPriority, std::string textureFile):
     gameObject(spritePosition, spriteScale, textureMap, firstKey)
     {
+        gameObject::textureFile = textureFile;
         gameObject::objectPriority = objectPriority;
+        type = "TESTSPRITE_E";  
     }
 
     void draw(sf::RenderWindow& window){

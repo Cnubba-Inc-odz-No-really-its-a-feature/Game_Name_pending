@@ -1,5 +1,5 @@
-#ifndef _BUTTON_HPP
-#define _BUTTON_HPP
+#ifndef _NEWGAMEBUTTON_HPP
+#define _NEWGAMEBUTTON_HPP
 
 #include "gameObject.hpp"
 #include "objectStorage.hpp"
@@ -7,7 +7,7 @@
 #include <string>
 #include <SFML/Audio.hpp>
 
-class button : public gameObject {
+class newGameButton : public gameObject {
 private:
     sf::Vector2f origScale;
     sf::Vector2f origPos;
@@ -21,7 +21,9 @@ private:
 public:
 
 
-    button( sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, objectStorage & storage, int objectPriority, std::string target, std::string soundFile, std::string textureFile);
+    newGameButton( sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, objectStorage & storage, int objectPriority, std::string target, std::string soundFile, std::string textureFile);
+
+    void deleteSaves();
 
     void draw(sf::RenderWindow& gameWindow) override;
 
@@ -36,4 +38,4 @@ public:
 };
 
 
-#endif //_CHARACTER_HPP
+#endif //_NEWGAMEBUTTON_HPP
