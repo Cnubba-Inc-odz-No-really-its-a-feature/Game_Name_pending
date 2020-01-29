@@ -40,10 +40,12 @@ public:
         unitDamage(unitDamage),
         unitLane(unitLane),
         textureSheetDimensions(textureSheetDimensions){
-            std::cout << "bottem size " << objectSprite.getGlobalBounds().width/2 << " top size " << objectSprite.getGlobalBounds().height << std::endl;
-            objectSprite.setOrigin(objectSprite.getLocalBounds().width/2, objectSprite.getLocalBounds().height);
             textureFrameBounds = sf::Vector2f(objectSprite.getLocalBounds().width / textureSheetDimensions.x, objectSprite.getLocalBounds().height / textureSheetDimensions.y) ;
        	    objectSprite.setTextureRect(sf::IntRect(textureFrameBounds.x*0, textureFrameBounds.y*0, textureFrameBounds.x, textureFrameBounds.y));
+            objectSprite.setOrigin(objectSprite.getLocalBounds().left + (objectSprite.getLocalBounds().width/2), objectSprite.getLocalBounds().top + (objectSprite.getLocalBounds().height));
+            if(ally){
+                objectSprite.setScale(-4, 4.);
+            }
 
         }
     
@@ -80,7 +82,7 @@ public:
     void interact()override{}
     void move(sf::Vector2f moveDirection)override{}
     void update()override{
-        setFrame(4, 0);
+        setFrame(3, 0);
     }
     void setFrame(int maxFrame, int textureRow)override{
         if(frameCounter > 10) {frameCounter = 0; textureFrame++;}

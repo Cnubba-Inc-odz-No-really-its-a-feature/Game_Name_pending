@@ -5,7 +5,10 @@
 
 class animatedObject : public gameObject{
 private:
-    
+    sf::Vector2f textureSheetDimensions;
+    sf::Vector2f textureFrameBounds;
+    int textureFrame = 0;
+    int frameCounter = 0;
 
 public:
 
@@ -15,7 +18,10 @@ public:
     {
         gameObject::textureFile = textureFile;
         gameObject::objectPriority = objectPriority;
-        type = "TESTSPRITE_E";  
+
+        objectSprite.setTextureRect(sf::IntRect(textureFrameBounds.x*0, textureFrameBounds.y*0, textureFrameBounds.x, textureFrameBounds.y));
+        objectSprite.setOrigin(objectSprite.getLocalBounds().left + (objectSprite.getLocalBounds().width/2), objectSprite.getLocalBounds().top + (objectSprite.getLocalBounds().height));
+
     }
 
     void draw(sf::RenderWindow& window){

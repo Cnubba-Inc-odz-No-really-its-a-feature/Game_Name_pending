@@ -36,6 +36,7 @@ class inputHandler {
 
   bool isCombatCommandValid(std::shared_ptr<command> command, uint64_t& lastInput){
     if(lastInput + 80 < std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() && command != NULL){
+
       lastInput = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
       std::cout << "valid command" << std::endl;
       return true;
@@ -245,7 +246,7 @@ class inputHandler {
       : gameObjectStorage{gameObjectStorage},
         fightControlPointer{fightControlPointer}
        {
-         std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+         lastInput = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
        }
 
   std::shared_ptr<command> handleInput() {
