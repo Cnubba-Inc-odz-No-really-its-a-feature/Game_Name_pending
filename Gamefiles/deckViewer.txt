@@ -1,0 +1,2 @@
+objectTypes_E::BACKGROUND_E (0,0) (1,1) 1 texture1 gameAssets/Background.png ;
+objectTypes_E::BACKGROUND_E (1100,0) (0.45,0.45) 2 texture1 gameAssets/Titlecard_edited2.png ;

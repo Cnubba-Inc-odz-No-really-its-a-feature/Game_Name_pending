@@ -8,3 +8,4 @@
 7 summon { WindWisp gameAssets/cardAssets/WindWisp/cardArtWindWisp.png skyLane 3, 3, 3 gameAssets/cardAssets/WindWisp/unitArtWindWispBase.png }
 8 summon { Oculothorax gameAssets/cardAssets/Oculothorax/cardArtOculothorax.png skyLane 8, 1, 4 gameAssets/cardAssets/Oculothorax/unitArtOculothoraxBase.png }
 9 summon { EarthWisp gameAssets/cardAssets/EarthWisp/cardArtEarthWisp.png skyLane 1, 8, 4 gameAssets/cardAssets/EarthWisp/unitArtEarthWispBase.png }
+10 summon { ??? gameAssets/cardAssets/EarthWisp/cardArtEarthWisp.png skyLane 1, 8, 4 gameAssets/cardAssets/EarthWisp/unitArtEarthWispBase.png }

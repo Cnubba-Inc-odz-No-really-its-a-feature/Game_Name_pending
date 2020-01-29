@@ -52,7 +52,7 @@
 
         std::cout << "drawLane last index: " << allyArray[6] << std::endl;
         drawArray(allyArray, laneStartPosition, window);
-        drawArray(enemyArray, laneStartPosition, window);+
+        drawArray(enemyArray, laneStartPosition, window);
     }
 
     void lane::updateLane(){

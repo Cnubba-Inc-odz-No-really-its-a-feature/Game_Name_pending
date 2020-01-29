@@ -121,7 +121,7 @@ class inputHandler {
   std::shared_ptr<command> handleCombatClickSelect(){
     for (auto i : selectKeys) {
       if (sf::Mouse::isButtonPressed(i)) {
-          std::shared_ptr<unit> cardUnit = gameObjectStorage.storageDeck.checkForCardPlay(sf::Mouse::getPosition(), fightControlPointer->getSkyOpen(), fightControlPointer->getGroundOpen());
+          std::shared_ptr<unit> cardUnit = gameObjectStorage.cardHand.checkForCardPlay(sf::Mouse::getPosition(), fightControlPointer->getSkyOpen(), fightControlPointer->getGroundOpen());
           if(cardUnit != nullptr){
             return std::shared_ptr<command>(new cardSelectCommand(fightControlPointer, cardUnit));
           }

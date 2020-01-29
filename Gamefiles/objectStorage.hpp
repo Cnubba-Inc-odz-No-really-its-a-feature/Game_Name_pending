@@ -33,12 +33,19 @@ public:
     std::map<std::string, std::shared_ptr<std::vector<std::shared_ptr<gameObject>>>> allVectors;
     std::string returnTarget = "room1.txt";
 
-    std::vector<int> hand;
+   
     std::vector<int> drawPile;
     std::vector<int> discardPile;
-    std::vector<int> completeDeck;
+    std::array<sf::Sprite, 10> editorUPButtonArray;
+    std::array<sf::Sprite, 10> editorDOWNButtonArray;
     std::vector<std::shared_ptr<card>> cardsInHand;
-    deckClass storageDeck;
+    std::map<int, int> ownedCards= {
+        {0, 7}, {1, 4}, {2, 3}, {3, 2}, {4, 0},
+        {5, 2}, {6, 2}, {7, 2}, {8, 0}, {9, 0}
+    };;
+    std::map<int, int> playerDeck = ownedCards;
+    fightHand cardHand;
+    deckEditorClass deckEditor;
 
     //objectStorage();
     objectStorage(sf::RenderWindow & window);

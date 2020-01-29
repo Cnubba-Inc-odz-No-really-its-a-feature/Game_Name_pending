@@ -14,6 +14,7 @@ void objectStorage::setActive(std::string newKey) {
   if(keyActive.at(0) == 'r') returnTarget = keyActive;
   if(newKey == "room1.txt" && keyActive == "menu.txt") newKey = returnTarget;
   if(newKey == "exit") exit(0);
+  if(newKey == "cardgame.txt") cardHand.newFight();
   if(newKey != "NONE"){
     swappedActive = true;
     tmpActive = newKey;
@@ -22,14 +23,16 @@ void objectStorage::setActive(std::string newKey) {
 
 void objectStorage::tmpNewActive(){
   keyActive = tmpActive;
-  if (allVectors.count(tmpActive) == 0) {
+  if(keyActive == "d"){}
+  else if (allVectors.count(tmpActive) == 0) {
       allVectors[tmpActive] = std::shared_ptr<std::vector<std::shared_ptr<gameObject>>>(new std::vector<std::shared_ptr<gameObject>>);
       factorNewGameState(tmpActive);
   }
 }
 
 objectStorage::objectStorage(sf::RenderWindow& window) : window(window),
-    storageDeck(drawPile, discardPile, completeDeck, cardsInHand){
+    cardHand(drawPile, discardPile,playerDeck),
+    deckEditor(playerDeck, ownedCards, editorUPButtonArray, editorDOWNButtonArray){
     tmpActive = "title.txt";
     tmpNewActive();
     factorMainCharacter();

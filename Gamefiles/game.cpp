@@ -24,21 +24,11 @@ void game::gameLoop(){
 		}
 		clockPrevious = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 
-
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
-			gameObjectStorage.storageDeck.newFight();
-			std::cout<<"currentDecksize:" << gameObjectStorage.completeDeck.size()<<std::endl;
-		}
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::B)){
 			std::cout<<"drawing new hand" << std::endl;
-			gameObjectStorage.storageDeck.newHand();
+			gameObjectStorage.cardHand.newHand();
 			std::cout<<"hand created of size: " << gameObjectStorage.cardsInHand.size() << std::endl;
 		}
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
-			gameObjectStorage.storageDeck.startDeckEditor();
-		}
-
-
 
 
 
