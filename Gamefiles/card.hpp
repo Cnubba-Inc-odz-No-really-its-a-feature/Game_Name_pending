@@ -43,6 +43,8 @@ public:
             std::cout << "bottem size " << objectSprite.getGlobalBounds().width/2 << " top size " << objectSprite.getGlobalBounds().height << std::endl;
             objectSprite.setOrigin(objectSprite.getLocalBounds().width/2, objectSprite.getLocalBounds().height);
             textureFrameBounds = sf::Vector2f(objectSprite.getLocalBounds().width / textureSheetDimensions.x, objectSprite.getLocalBounds().height / textureSheetDimensions.y) ;
+       	    objectSprite.setTextureRect(sf::IntRect(textureFrameBounds.x*0, textureFrameBounds.y*0, textureFrameBounds.x, textureFrameBounds.y));
+
         }
     
     ~unit(){}

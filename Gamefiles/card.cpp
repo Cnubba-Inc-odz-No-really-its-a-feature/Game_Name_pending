@@ -23,8 +23,7 @@ std::shared_ptr<card> factorCard(int cardID){
         try{
             while(true){
                 cardFactoryFile>>objectID;
-                if(objectID != 0){
-                }
+
                 if(objectID == cardID){
                     std::string cardType;
                     char fileBind;
