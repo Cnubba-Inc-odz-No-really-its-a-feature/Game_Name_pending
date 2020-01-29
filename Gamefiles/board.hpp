@@ -5,7 +5,11 @@
 
 class board {
 private:
+    /// \brief
+    /// All lanes, currently is the third lane, the trap lane, not implemented.
     lane lanes[3];
+    /// \brief
+    /// Not used. Nessesry for future buff systems
     E_lane priorityLane;
 
     int_fast8_t & playerHP;
