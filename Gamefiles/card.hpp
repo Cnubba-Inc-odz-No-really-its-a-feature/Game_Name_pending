@@ -27,18 +27,22 @@ private:
 
     int textureFrame = 0;
     int frameCounter = 0;
+    sf::Vector2f textureSheetDimensions;
+    sf::Vector2f textureFrameBounds;
 
 public:
     unit(){}
 
-    unit(int unitMaxHealth, int unitDamage, E_lane unitLane, std::map<std::string, sf::Texture> textureMap):
+    unit(int unitMaxHealth, int unitDamage, E_lane unitLane, std::map<std::string, sf::Texture> textureMap, sf::Vector2f textureSheetDimensions):
     gameObject(sf::Vector2f(200, 100), sf::Vector2f(4,4), textureMap, std::string("unitTexture"), 5),
         unitMaxHealth(unitMaxHealth),
         unitCurrentHealth(unitMaxHealth),
         unitDamage(unitDamage),
-        unitLane(unitLane){
+        unitLane(unitLane),
+        textureSheetDimensions(textureSheetDimensions){
             std::cout << "bottem size " << objectSprite.getGlobalBounds().width/2 << " top size " << objectSprite.getGlobalBounds().height << std::endl;
             objectSprite.setOrigin(objectSprite.getLocalBounds().width/2, objectSprite.getLocalBounds().height);
+            textureFrameBounds = sf::Vector2f(objectSprite.getLocalBounds().width / textureSheetDimensions.x, objectSprite.getLocalBounds().height / textureSheetDimensions.y) ;
         }
     
     ~unit(){}
@@ -73,11 +77,13 @@ public:
 
     void interact()override{}
     void move(sf::Vector2f moveDirection)override{}
-    void update()override{}
+    void update()override{
+        setFrame(4, 0);
+    }
     void setFrame(int maxFrame, int textureRow)override{
         if(frameCounter > 10) {frameCounter = 0; textureFrame++;}
 	    if(maxFrame < textureFrame) textureFrame = 0;
-	    objectSprite.setTextureRect(sf::IntRect(231*textureFrame + 70, 190*textureRow, 90, 190));
+	    objectSprite.setTextureRect(sf::IntRect(textureFrameBounds.x*textureFrame, textureFrameBounds.y*textureRow, textureFrameBounds.x, textureFrameBounds.y));
 	    frameCounter++;
     }
 };
@@ -141,13 +147,15 @@ private:
     sf::Text summonCardHealth;
     sf::Sprite summonCardArtSprite;
     E_lane cardUnitLane;
+    sf::Vector2f textureSheetDimensions;
 
 public:
-    summonCard(std::string cardNameString, int cardUnitDamage, int cardUnitHealth, int manaCost, E_lane cardUnitLane, std::map<std::string, sf::Texture> textureMap, int objectID):
+    summonCard(std::string cardNameString, int cardUnitDamage, int cardUnitHealth, int manaCost, E_lane cardUnitLane, std::map<std::string, sf::Texture> textureMap, int objectID, sf::Vector2f textureSheetDimensions):
         card(cardNameString, textureMap, objectID, manaCost),
         cardUnitHealth(cardUnitHealth),
         cardUnitDamage(cardUnitDamage),
-        cardUnitLane(cardUnitLane)
+        cardUnitLane(cardUnitLane),
+        textureSheetDimensions(textureSheetDimensions)
     {
 
         auto cardPosition = objectSprite.getGlobalBounds();
@@ -214,7 +222,7 @@ public:
     }
 
     std::shared_ptr<unit> summonUnitFromCard(){
-        return std::shared_ptr<unit>(new unit(cardUnitHealth, cardUnitDamage, cardUnitLane, textureMap));
+        return std::shared_ptr<unit>(new unit(cardUnitHealth, cardUnitDamage, cardUnitLane, textureMap, textureSheetDimensions));
     }
 
     E_lane getUnitLane(){
