@@ -29,6 +29,8 @@ private:
     int frameCounter = 0;
     sf::Vector2f textureSheetDimensions;
     sf::Vector2f textureFrameBounds;
+    sf::Font unitFont;
+    sf::Text unitStatsText;
 
 public:
     int mana;
@@ -51,6 +53,15 @@ public:
 
             mana = manaCost;
             std::cout << "mana in unit is: " << mana << std::endl;
+
+            unitFont.loadFromFile("gameAssets/cardAssets/cardFont.otf");
+            unitStatsText.setFont(unitFont);
+
+            unitStatsText.setString(std::to_string(unitDamage) + "       " + std::to_string(unitCurrentHealth));
+            unitStatsText.setPosition(sf::Vector2f( 
+                        objectSprite.getGlobalBounds().left,
+                        objectSprite.getGlobalBounds().top + objectSprite.getGlobalBounds().height));
+
         }
     
     ~unit(){}
@@ -69,6 +80,7 @@ public:
 
     void takeDamage(int damage){
         unitCurrentHealth -= damage;
+        unitStatsText.setString(std::to_string(unitDamage) + "       " + std::to_string(unitCurrentHealth));
     }
 
     E_lane getLaneType(){
@@ -77,10 +89,15 @@ public:
     
     virtual void draw(sf::RenderWindow& gameWindow) override{
         gameWindow.draw(objectSprite);
+        gameWindow.draw(unitStatsText);
     }
     void scaleObjects(sf::Vector2f newScale){}
     void setPosition(sf::Vector2f newPosition){
         objectSprite.setPosition(newPosition);
+        unitStatsText.setPosition(sf::Vector2f( 
+                        objectSprite.getGlobalBounds().left,
+                        objectSprite.getGlobalBounds().top + objectSprite.getGlobalBounds().height));
+
     }
 
     void interact()override{}
@@ -337,7 +354,7 @@ public:
             for(int i = 0; i < 7 ; i++){
                 if(cardsInHand[i] != nullptr){
                     if(cardsInHand[i]->checkIfPlayed(mousePosition)){
-                        if((cardsInHand[i]->getUnitLane() == E_lane::skyLane && skyOpen) || (cardsInHand[i] ->getUnitLane() == E_lane::groundLane && groundOpen && (cardsInHand[i]->getManaCost() <= playerMana))){
+                        if(((cardsInHand[i]->getUnitLane() == E_lane::skyLane && skyOpen) || (cardsInHand[i] ->getUnitLane() == E_lane::groundLane && groundOpen) && (cardsInHand[i]->getManaCost() <= playerMana))){
                             return i;
                     }
                 }
