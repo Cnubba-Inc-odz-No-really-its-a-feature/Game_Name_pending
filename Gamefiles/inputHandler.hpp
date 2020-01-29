@@ -25,7 +25,7 @@ class inputHandler {
   std::array<sf::Keyboard::Key, 1> exitKeys = {sf::Keyboard::Key::Escape};
 
   objectStorage &gameObjectStorage;
-  std::shared_ptr<fightController> fightControlPointer;
+  fightController& fightControlPointer;
 
   bool isCommandValid(std::shared_ptr<command> command){
     return command != NULL;
@@ -122,7 +122,7 @@ class inputHandler {
   std::shared_ptr<command> handleCombatClickSelect(){
     for (auto i : selectKeys) {
       if (sf::Mouse::isButtonPressed(i)) {
-          std::shared_ptr<unit> cardUnit = gameObjectStorage.storageDeck.checkForCardPlay(sf::Mouse::getPosition(), fightControlPointer->getSkyOpen(), fightControlPointer->getGroundOpen());
+          std::shared_ptr<unit> cardUnit = gameObjectStorage.storageDeck.checkForCardPlay(sf::Mouse::getPosition(), fightControlPointer.getSkyOpen(), fightControlPointer.getGroundOpen());
           if(cardUnit != nullptr){
             return std::shared_ptr<command>(new cardSelectCommand(fightControlPointer, cardUnit));
           }
@@ -198,7 +198,7 @@ class inputHandler {
   
 
  public:
-  inputHandler(objectStorage &gameObjectStorage, std::shared_ptr<fightController> fightControlPointer)
+  inputHandler(objectStorage &gameObjectStorage, fightController& fightControlPointer)
       : gameObjectStorage{gameObjectStorage},
         fightControlPointer{fightControlPointer}
        {}

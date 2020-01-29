@@ -6,14 +6,14 @@
 
 class endTurnCommand : public command{
 private:
-    std::shared_ptr<fightController> fightControlPointer;
+    fightController& fightControlPointer;
 public:
-    endTurnCommand(std::shared_ptr<fightController> fightControlPointer):
+    endTurnCommand(fightController& fightControlPointer):
         fightControlPointer{fightControlPointer}
     {}
 
     void execute() override{
-        fightControlPointer->nextTurn();
+        fightControlPointer.nextTurn();
     }
 
     void undo() override{}
