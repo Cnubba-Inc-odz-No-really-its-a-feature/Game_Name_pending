@@ -13,7 +13,7 @@
     }
 
     bool lane::isIndexEmpty(const int index){
-        if (index < 0)
+        if (index < 0 || index >= LANE_SIZE)
         {
             return false;
         }
@@ -42,7 +42,7 @@
         sf::Vector2u windowSize = window.getSize();
         switch(laneID){
             case E_lane::skyLane:
-                return sf::Vector2f(ITERATION_DISTANCE_X *1.3, ITERATION_DISTANCE_Y * 3);
+                return sf::Vector2f(ITERATION_DISTANCE_X *1.3, ITERATION_DISTANCE_Y * 4);
                 break;
             case E_lane::groundLane:
                 return sf::Vector2f(ITERATION_DISTANCE_X *1.3, ITERATION_DISTANCE_Y * 6.7);
@@ -66,7 +66,7 @@
             sf::Vector2f drawPosition = laneStartPosition;
             for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
                 if(array[i] != nullptr){
-                    drawPosition.x = positionIterationDistanceX * i;
+                    drawPosition.x = positionIterationDistanceX * i + laneStartPosition.x;
                     // std::cout << "drawPosition: " << drawPosition.x << "," << drawPosition.y << std::endl;
                     array[i]->setPosition(drawPosition);
                     // std::cout << "unitPosition: " << array[i]->getSprite().getPosition().x << "," << array[i]->getSprite().getPosition().x << std::endl;
@@ -134,7 +134,7 @@
 
         if(toUpdateUnit->isAlly()){
             int nextIndex = index + 1;
-            if(nextIndex < LANE_SIZE - 1 && isIndexEmpty(nextIndex)){
+            if(nextIndex < LANE_SIZE && isIndexEmpty(nextIndex)){
                     std::cout << "|-------------> move" << std::endl;
                 moveUnit(index, nextIndex, allyArray);
                 return;
