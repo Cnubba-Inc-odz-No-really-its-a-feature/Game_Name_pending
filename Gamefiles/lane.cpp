@@ -7,8 +7,8 @@
         enemyHP{enemyHP}
     {
         nullUnitPointer = std::make_shared<nullUnit>();
-        allyArray = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
-        enemyArray = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
+        allyArray = {nullptr, nullptr, nullptr, nullptr, nullptr};
+        enemyArray = {nullptr, nullptr, nullptr, nullptr, nullptr};
         std::cout << "lane made" << std::endl;
     }
 
@@ -30,8 +30,8 @@
     }
 
     void lane::reset(){
-        allyArray = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
-        enemyArray = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
+        allyArray = {nullptr, nullptr, nullptr, nullptr, nullptr};
+        enemyArray = {nullptr, nullptr, nullptr, nullptr, nullptr};
     }
 
     sf::Vector2f lane::getLaneStartPosition(E_lane laneID, sf::RenderWindow& window){
@@ -66,7 +66,7 @@
                     array[i]->setPosition(drawPosition);
                     // std::cout << "unitPosition: " << array[i]->getSprite().getPosition().x << "," << array[i]->getSprite().getPosition().x << std::endl;
                     array[i]->draw(window);
-                    drawPosition.x += positionIterationDistanceX;
+                    drawPosition.x = positionIterationDistanceX *   i;
                 }
             }
         };
