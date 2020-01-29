@@ -2,7 +2,7 @@ objectTypes_E::DOOR_E (100, 700) (2,2) 4 room5.txt gameAssets/Sounds/door.wav 0 
 objectTypes_E::DOOR_E (830, 700) (2,2) 4 room1.txt gameAssets/Sounds/door.wav 0 texture1 gameAssets/door.png ;
 objectTypes_E::DOOR_E (1550, 700) (2,2) 4 room3.txt gameAssets/Sounds/door.wav 0 texture1 gameAssets/door.png ;
 objectTypes_E::ENEMY_E (400, 700) (5,5) 4 cardgame.txt 0 texture1 gameAssets/skeleton.png ;
-objectTypes_E::CHEST_E (1150, 800) (8,6) 4 gameAssets/Sounds/chest.wav 0 texture1 gameAssets/normal-chest-Sheet.png ;
+objectTypes_E::CHEST_E (1150, 800) (8,6) 5 gameAssets/Sounds/chest.wav 0 texture1 gameAssets/normal-chest-Sheet.png ;
 objectTypes_E::TESTSPRITE_E (227, 360) (1, 1) 6 texture1 gameAssets/heart.png ;
 objectTypes_E::TESTSPRITE_E (128, 128) (1, 1) 5 texture1 gameAssets/mini_map.png ;
 objectTypes_E::TESTSPRITE_E (1792, 0) (2, 2) 2 texture1 gameAssets/wall_right.png ;

@@ -25,14 +25,13 @@ private:
     void factorNewGameState(std::string stateFileName);
     sf::RenderWindow & window;
     void factorMainCharacter();
-    std::vector<std::string> mapKeys;
 public:
     bool swappedActive = false;
     std::string tmpActive;
     std::string keyActive = "Title.txt";
     std::map<std::string, std::shared_ptr<std::vector<std::shared_ptr<gameObject>>>> allVectors;
     std::string returnTarget = "room1.txt";
-
+    std::vector<std::string> mapKeys;
     std::vector<int> hand;
     std::vector<int> drawPile;
     std::vector<int> discardPile;
@@ -44,6 +43,7 @@ public:
     objectStorage(sf::RenderWindow & window);
     std::shared_ptr<gameObject> character1;
 
+    void clearVector();
     void saveObjects();
     
     std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> & getActive();

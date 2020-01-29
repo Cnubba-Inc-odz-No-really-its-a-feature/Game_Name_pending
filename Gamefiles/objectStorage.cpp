@@ -17,10 +17,25 @@ std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> & objectStorage::getAc
   return allVectors[keyActive];
 }
 
+void objectStorage::clearVector(){
+  for( auto i : mapKeys){
+    if( i != "menu.txt"){
+      allVectors.erase(i);
+    }
+  }
+  std::cout << "clearVector keyActive: " << keyActive << std::endl;
+  mapKeys.clear();
+  returnTarget = "room1.txt";
+}
+
 void objectStorage::setActive(std::string newKey) {
+  std::cout << "voor setActive " << newKey << std::endl;
   if(keyActive.at(0) == 'r') returnTarget = keyActive;
   if(newKey == "room1.txt" && keyActive == "menu.txt") newKey = returnTarget;
-  if(newKey == "exit") exit(0);
+  if(newKey == "exit"){
+    saveObjects();
+    exit(0);
+  }
   if(newKey != "NONE"){
     std::string checkSaveFile = newKey;
     for( int i = 0; i < 4 ;i++ ){
@@ -32,15 +47,21 @@ void objectStorage::setActive(std::string newKey) {
     }
     swappedActive = true;
     tmpActive = newKey;
+    std::cout << "return target: " << returnTarget << std::endl;
   }
+  std::cout << "na setActive " << newKey << std::endl;
 }
 
 void objectStorage::tmpNewActive(){
+  std::cout << "tmpNewActive: " << tmpActive << std::endl;
   keyActive = tmpActive;
   mapKeys.push_back(tmpActive);
+  std::cout << "keyActive: " << keyActive << std::endl;
   if (allVectors.count(tmpActive) == 0) {
-      allVectors[tmpActive] = std::shared_ptr<std::vector<std::shared_ptr<gameObject>>>(new std::vector<std::shared_ptr<gameObject>>);
-      factorNewGameState(tmpActive);
+    std::cout << "laad vector in" << std::endl;
+    allVectors[tmpActive] = std::shared_ptr<std::vector<std::shared_ptr<gameObject>>>(new std::vector<std::shared_ptr<gameObject>>);
+    factorNewGameState(tmpActive);
+    std::cout << "nieuwe gamestate gefactored" << std::endl;
   }
 }
 
@@ -55,7 +76,7 @@ void objectStorage::saveObjects(){
       mapKey.pop_back();
       mapKey += "Save.txt";
     }
-    if( mapKey != "menuSave.txt" && mapKey != "titleSave.txt" && mapKey != "cardgameSave.txt" && mapKey != "mapSave.txt"){
+    if( mapKey != "menuSave.txt" && mapKey != "titleSave.txt" && mapKey != "cardgameSave.txt" && mapKey != "mapSave.txt" && mapKey != "cardSave.txt"){
       outputFile.open(mapKey);
       for(auto & object : *vector){
         if(object.get()->getType() == "TESTSPRITE_E" ){
@@ -150,30 +171,39 @@ std::shared_ptr<gameObject> objectStorage::factorObject(
     }
 
     if (objectType == objectTypes_E::CHARACTER_E) {
+      std::cout << "Returned character" << std::endl;
       return std::shared_ptr<gameObject>(
           new character(pos, scale, textureMap, window, firstKey, prio));
     } else if (objectType == objectTypes_E::TESTSPRITE_E) {
+      std::cout << "Returned testsprite" << std::endl;
       return std::shared_ptr<gameObject>(
           new textureSprite(pos, scale, textureMap, firstKey, prio, textureFile));
     } else if (objectType == objectTypes_E::CHEST_E) {
+      std::cout << "Returned chest" << std::endl;
       return std::shared_ptr<gameObject>(
           new chest(pos, scale, textureMap, firstKey, prio, soundFile, textureFile, interacted));
     } else if (objectType == objectTypes_E::DOOR_E) {
+      std::cout << "Returned door" << std::endl;
       return std::shared_ptr<gameObject>(
           new door(pos, scale, textureMap, firstKey, *this, prio, target, soundFile, returnTarget, textureFile, interacted));
     } else if (objectType == objectTypes_E::ENEMY_E) {
+      std::cout << "Returned enemy" << std::endl;
       return std::shared_ptr<gameObject>(
           new enemy(pos, scale, textureMap, firstKey, *this, prio, target, textureFile, interacted));
     } else if (objectType == objectTypes_E::BUTTON_E) {
+      std::cout << "Returned button" << std::endl;
       return std::shared_ptr<gameObject>(
           new button(pos, scale, textureMap, firstKey, *this, prio, target, soundFile, textureFile));
     } else if (objectType == objectTypes_E::BACKGROUND_E) {
+      std::cout << "Returned background" << std::endl;
       return std::shared_ptr<gameObject>(
           new background(pos, scale, textureMap, firstKey, prio, textureFile));
     } else if (objectType == objectTypes_E::TITLECARD_E) {
+      std::cout << "Returned titlecard" << std::endl;
       return std::shared_ptr<gameObject>(
           new titlecard(pos, scale, textureMap, *this, firstKey, prio, textureFile));
     } else if (objectType == objectTypes_E::NEWGAMEBUTTON_E) {
+      std::cout << "Returned newgamebutton" << std::endl;
       return std::shared_ptr<gameObject>(
           new newGameButton(pos, scale, textureMap, firstKey, *this, prio, target, soundFile, textureFile));
     }
@@ -208,6 +238,7 @@ void objectStorage::factorNewGameState(std::string stateFileName) {
   } catch (problem& e) {
     std::cerr << e.what() << std::endl;
   }
+  std::cout << "einde van factor new game state" << std::endl;
 }
 
 std::string objectStorage::getReturnTarget(){

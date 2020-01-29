@@ -56,8 +56,11 @@ void newGameButton::deleteSaves(){
 }
 
 void newGameButton::interact(){
-    deleteSaves();
-    storage.setActive(target);
+        std::cout << "newgameinteract" << std::endl;
+        deleteSaves();
+        storage.clearVector();
+        storage.setActive(target);
+        std::cout << "vector cleared" << std::endl;
     if(firstrun){
         sound.play();
         firstrun = false;
