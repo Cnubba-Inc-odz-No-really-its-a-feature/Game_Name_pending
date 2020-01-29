@@ -222,12 +222,12 @@ class inputHandler {
   std::shared_ptr<command> handleDeckEditorCommands(){
       std::shared_ptr<command> obtainedCommand;
       obtainedCommand = handleDeckEditorClickSelect();
-      if(isCommandValid(obtainedCommand)){
+      if(isCommandValid(obtainedCommand, lastInput)){
           return obtainedCommand;
       }
 
       obtainedCommand = handleDungeonClickSelect();
-        if(isCommandValid(obtainedCommand)){
+        if(isCommandValid(obtainedCommand, lastInput)){
           return obtainedCommand;
       }
       return NULL;
