@@ -31,7 +31,7 @@ class inputHandler {
 
   bool isCommandValid(std::shared_ptr<command> command, uint64_t& lastInput){
     std::cout << "lastInput: " << lastInput << "         currentTime: " << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() << std::endl;
-    if(lastInput + 50 < std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() && command != NULL){
+    if(lastInput + 80 < std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() && command != NULL){
       lastInput = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
       return true;
     }
