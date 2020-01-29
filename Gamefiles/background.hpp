@@ -5,19 +5,19 @@
 #include <iostream>
 #include <string>
 
+/// \brief
+/// A generic implementation of gameObject
+/// \details
+/// This class is a basic implementation, without any special features, of gameObject. For ease of understanding is the name background kept, as this is its main purpose. 
+
 class background : public gameObject {
 
 public:
-
+    /// \brief
+    /// Background contructor
+    /// \details
+    /// Initializes the inherented gameobject with propper texture, scale, priority, etc.
     background( sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, int objectPriority, std::string textureFile );
-
-    void draw(sf::RenderWindow& gameWindow) override;
-    void setFrame(int maxFrame, int textureRow);
-
-    void move(sf::Vector2f moveDirection) override;
-    void update() override;
-    void interact() override;
-
 };
 
 #endif //_BACKGROUND_HPP
