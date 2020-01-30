@@ -26,11 +26,6 @@ void game::gameLoop(){
 		}
 		clockPrevious = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::B)){
-			gameObjectStorage.cardHand.newHand();
-		}
-
-
 
 		std::shared_ptr<command> newCommand;
 		newCommand  = gameInputHandler.handleInput();

@@ -24,16 +24,18 @@ private:
     sf::Texture endTurnButtonTexture;
     sf::Sprite endTurnButton;
     combatEnemy fightEnemy;
+    sf::RenderWindow& gameWindow;
     
 public:
-    fightController(fightHand& cardHand):
+    fightController(fightHand& cardHand, sf::RenderWindow& gameWindow):
         playerHP{15},
         enemyHP{15},
         MAX_MANA{1},
         enemyMana{1},
         gameBoard(playerHP, enemyHP, playerMana, enemyMana),
         cardHand(cardHand),
-        fightEnemy(std::string("gameAssets/skeleton.png"))
+        fightEnemy(std::string("gameAssets/skeleton.png")),
+        gameWindow(gameWindow)
     {
         endTurnButtonTexture.loadFromFile("gameAssets/doneButton.png");
         endTurnButton.setTexture(endTurnButtonTexture);
@@ -74,6 +76,7 @@ public:
         gameBoard.updateAlly();
         std::vector<std::shared_ptr<unit>> newEnemyUnits = fightEnemy.generateEnemyUnits();
         std::for_each(newEnemyUnits.begin(), newEnemyUnits.end(), [this](auto&i){placeUnitOnBoard(i);});
+        std::cout << "drawing" << std::endl;
         gameBoard.updateEnemy();
         if(playerHP <= 1 || enemyHP < 1){
             exit(0);
