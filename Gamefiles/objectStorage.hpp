@@ -22,11 +22,12 @@
 class objectStorage {
 private:
     std::shared_ptr<gameObject> factorObject(std::ifstream & inputFile);
-    void factorNewGameState(std::string stateFileName);
     sf::RenderWindow & window;
     void factorMainCharacter();
     std::vector<std::string> mapKeys;
 public:
+
+    void factorNewGameState(std::string stateFileName);
     bool swappedActive = false;
     std::string tmpActive;
     std::string keyActive = "Title.txt";
