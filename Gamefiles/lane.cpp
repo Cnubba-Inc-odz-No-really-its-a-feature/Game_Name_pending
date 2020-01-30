@@ -156,14 +156,6 @@
                 if(fightResult.selfKilled){
                     allyArray[fightResult.selfPosition] = nullptr;
                 }
-                if(fightResult.selfKilled && !fightResult.opponentKilled){
-                    enemyArray[fightResult.selfPosition] = enemyArray[fightResult.opponentPosition];
-                    enemyArray[fightResult.opponentPosition] = nullptr;
-                }
-                if(fightResult.opponentKilled && !fightResult.selfKilled){
-                    allyArray[fightResult.opponentPosition] = allyArray[fightResult.selfPosition];
-                    allyArray[fightResult.selfPosition] = nullptr;
-                }
             }
         }
     }
