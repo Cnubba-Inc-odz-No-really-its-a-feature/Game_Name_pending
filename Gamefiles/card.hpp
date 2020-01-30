@@ -572,15 +572,18 @@ public:
         }
     }
 
-    void newOwnCard(int newCard){
-        std::cout << "ownedCards count: " << ownedCards[newCard] << std::endl;
-        ownedCards[newCard] += 1;
-        deckCardCounterTextArray[newCard].setString(std::to_string(playerDeck[newCard]));
+    void newOwnCard(int newCardID){
+        std::cout << "ownedCards count: " << ownedCards[newCardID] << std::endl;
+        ownedCards[newCardID] += 1;
 
-        if(ownedCards[newCard] == 1){
-            deckEditorCards[newCard] = factorCard(newCard);
+        if(ownedCards[newCardID] == 1){
+            std::shared_ptr<card> newOwnedCard = factorCard(newCardID);
+            newOwnedCard->scaleObjects(sf::Vector2f(1.2,1.2));
+            newOwnedCard->setPosition(cardPositions[newCardID]);
+
+            deckEditorCards[newCardID] = newOwnedCard;
         }
-        ownedCardCounterTextArray[newCard].setString(std::to_string(ownedCards[newCard]));
+        ownedCardCounterTextArray[newCardID].setString(std::to_string(ownedCards[newCardID]));
         
 
     }

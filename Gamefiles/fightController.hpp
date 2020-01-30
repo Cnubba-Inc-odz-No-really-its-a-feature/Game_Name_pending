@@ -9,10 +9,10 @@
 class fightController{
 private:
     board gameBoard;
-    int_fast8_t playerHP;
-    int_fast8_t enemyHP;
+    int playerHP;
+    int enemyHP;
     int enemyMana;
-    int MAX_MANA;
+    int currentPlayerMana;
     fightHand& cardHand;
     sf::Texture endTurnButtonTexture;
     sf::Sprite endTurnButton;
@@ -25,10 +25,10 @@ private:
     int lastPhase;
     std::shared_ptr<bool> allowedToEnd;
 public:
-    fightController(fightHand& cardHand, objectStorage & storage, sf::RenderWindow& gameWindow): 
-        playerHP{15},
-        enemyHP{15},
-        MAX_MANA{1},
+    fightController(fightHand& cardHand, objectStorage & storage): 
+        playerHP{MAX_HP},
+        enemyHP{MAX_HP},
+        currentPlayerMana{1},
         enemyMana{1},
         gameBoard(playerHP, enemyHP, playerMana, enemyMana),
         cardHand(cardHand),
@@ -49,12 +49,13 @@ public:
 
     void initFight(){
         std::cout<<"initiating fight"<<std::endl;
-        playerHP = 15;
-        enemyHP = 15;
-        playerMana =  MAX_MANA;
-        enemyMana = MAX_MANA;
+        playerHP = MAX_HP;
+        enemyHP = MAX_HP;
+        playerMana =  currentPlayerMana;
+        enemyMana = currentPlayerMana;
         gameBoard.reset();
         cardHand.newFight();
+        fightEnemy.getNewSprite(storage.enemyTex, storage.enemyTexTextureSheetTiles);
        // cardHand.newHand();
         std::cout<<"fight initiated"<<std::endl;
 
@@ -97,11 +98,11 @@ public:
                 lastInput = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
                 lastPhase = currentPhase;
                 active = true;
-                if(MAX_MANA <= 10){
-                    MAX_MANA++;
+                if(currentPlayerMana < 10){
+                    currentPlayerMana++;
                 }
-                playerMana = MAX_MANA;
-                enemyMana = MAX_MANA;
+                playerMana = currentPlayerMana;
+                enemyMana = currentPlayerMana;
 
                 if(enemyHP <= 0){
                     storage.factorNewGameState("rewardroom.txt");
@@ -169,7 +170,7 @@ public:
     void draw(sf::RenderWindow& window){
         gameBoard.draw(window);
         window.draw(endTurnButton);
-        //fightEnemy.draw(window);
+        fightEnemy.draw(window);
         
     }
 

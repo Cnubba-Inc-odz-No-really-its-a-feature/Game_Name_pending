@@ -6,12 +6,16 @@ class combatEnemy{
 private:
     sf::Texture combatEnemyTexture;
     sf::Sprite combatEnemySprite;
+    int textureFrame = 0;
+    int frameCounter = 0;
+    int combatTextureSheetTiles = 0;
+    sf::Vector2f textureFrameBounds;
 
 public:
     combatEnemy(std::string textureFileName){
         combatEnemyTexture.loadFromFile(textureFileName);
         combatEnemySprite.setTexture(combatEnemyTexture);
-        combatEnemySprite.setPosition(sf::Vector2f(200, 200));
+        combatEnemySprite.setPosition(sf::Vector2f(800, 500));
         srand(time(0));
     } 
 
@@ -47,7 +51,24 @@ public:
         return newEnemyUnits;
     }
 
+    void getNewSprite(std::string newTextureFileName, int textureSheetTiles){
+        combatEnemyTexture.loadFromFile(newTextureFileName);
+        combatEnemySprite.setTexture(combatEnemyTexture);
+        combatTextureSheetTiles = textureSheetTiles;
+        textureFrameBounds = sf::Vector2f(combatEnemySprite.getLocalBounds().width / textureSheetTiles, combatEnemySprite.getLocalBounds().height) ;
+        combatEnemySprite.setPosition(sf::Vector2f(800, 100));
+    }
+
+    void setFrame(int maxFrame, int textureRow){
+        if(frameCounter > 10) {frameCounter = 0; textureFrame++;}
+	    if(maxFrame < textureFrame) textureFrame = 0;
+	    combatEnemySprite.setTextureRect(sf::IntRect((textureFrameBounds.x*textureFrame)+47, (textureFrameBounds.y*textureRow)-10, textureFrameBounds.x - 97, textureFrameBounds.y));
+	    combatEnemySprite.setOrigin(sf::Vector2f(combatEnemySprite.getLocalBounds().width/2, 0));
+        frameCounter++;
+    }
+
     void draw(sf::RenderWindow& gameWindow){
+        setFrame(combatTextureSheetTiles-1, 0);
         gameWindow.draw(combatEnemySprite);
     }
 

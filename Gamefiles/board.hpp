@@ -2,6 +2,7 @@
 #define _BOARD_HPP
 
 #include "lane.hpp"
+#include "UI.hpp"
 
 class board {
 private:
@@ -15,27 +16,17 @@ private:
 
     /// \brief
     /// Tracks players hp so the lanes can update the current hp
-    int_fast8_t & playerHP;
+    int & playerHP;
 
     /// \brief
     /// Tracks enemy hp so the lanes can update the current hp
-    int_fast8_t & enemyHP;
+    int & enemyHP;
 
     int & playerMana;
 
     int & enemyMana;
 
-    sf::Font mana_healthFont;
-    sf::Text playerManaText;
-    sf::Text playerHealthText;
-    sf::Texture manaBarTexture;
-    sf::Texture healthBarTexture;
-    sf::Texture statsUITexture;
-    sf::Texture enemyHPTexture;
-    sf::Sprite manaBarSprite;
-    sf::Sprite healthBarSprite;
-    sf::Sprite statsUISprite;
-    sf::Sprite enemyHPSprite;
+    UI combatUI;
 
 
 public:
@@ -44,7 +35,7 @@ public:
     /// The board constructor.
     /// \details
     /// The constructor needs playerHP and enemyHP, both by reference. 
-    board(int_fast8_t & playerHP, int_fast8_t & enemyHP, int & playerMana, int & enemyMana);
+    board(int & playerHP, int & enemyHP, int & playerMana, int & enemyMana);
 
     /// \brief
     /// Returns true if the first place in the sky lane is open to place a card on.

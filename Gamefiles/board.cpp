@@ -2,43 +2,19 @@
 #include <iostream>
 // board::board(){}
 
-board::board(int_fast8_t & playerHP, int_fast8_t & enemyHP, int & playerMana, int & enemyMana ):
+board::board(int & playerHP, int & enemyHP, int & playerMana, int & enemyMana ):
         lanes({
             lane(E_lane::skyLane, playerHP, enemyHP),
             lane(E_lane::groundLane, playerHP, enemyHP),
             lane(E_lane::trapLane, playerHP, enemyHP)
         }),
         priorityLane{E_lane::groundLane},
-        playerHP{playerHP},
-        enemyHP{enemyHP},
+        playerHP(playerHP),
+        enemyHP(enemyHP),
         playerMana{playerMana},
-        enemyMana{enemyMana}
-    {
-
-        mana_healthFont.loadFromFile("gameAssets/cardAssets/cardFont.otf");
-        playerManaText.setFont(mana_healthFont);
-        playerHealthText.setFont(mana_healthFont);
-        playerManaText.setPosition(30, 600);
-        playerHealthText.setPosition(30, 700);
-        playerManaText.setString("ManaPool: " + std::to_string(playerMana));
-        playerHealthText.setString("HP: " + std::to_string(playerHP));
-        playerManaText.setFillColor(sf::Color::Blue);
-        playerHealthText.setFillColor(sf::Color::Red);
-
-        manaBarTexture.loadFromFile("gameAssets/manaBar.png");
-        healthBarTexture.loadFromFile("gameAssets/hpBar.png");
-        statsUITexture.loadFromFile("gameAssets/statsUI.png");
-        enemyHPTexture.loadFromFile("gameAssets/enemyHP.png");
-
-        manaBarSprite.setTexture(manaBarTexture);
-        healthBarSprite.setTexture(healthBarTexture);
-        statsUISprite.setTexture(statsUITexture);
-       // enemyHPSprite.setTexture()
-
-
-
-    
-    }
+        enemyMana{enemyMana},
+        combatUI(playerHP, enemyHP, playerMana)
+    {}
 
     bool board::getSkyOpen(){
         return lanes[E_lane::skyLane].isIndexEmpty(0);
@@ -63,6 +39,8 @@ board::board(int_fast8_t & playerHP, int_fast8_t & enemyHP, int & playerMana, in
                 lanes[i].updateEnemyLane();
             }
         }
+        combatUI.updateUI();
+
     }
     
     void board::updateAlly(){
@@ -73,20 +51,20 @@ board::board(int_fast8_t & playerHP, int_fast8_t & enemyHP, int & playerMana, in
                 lanes[i].updateAllyLane();
             }
         }
+
+        combatUI.updateUI();
+
     }
 
-    void updateStatsUI(){
-
-    }
 
 
     bool board::placeUnit(std::shared_ptr<unit> unitPointer){
         std::cout << "placing unit on board via board on lane: " << int(unitPointer->getLaneType()) << std::endl;
         std::cout << "unit cost: " << unitPointer->mana << std::endl;
         if(lanes[unitPointer->getLaneType()].isIndexEmpty(0)){
-            playerManaText.setString("ManaPool: " + std::to_string(playerMana));
             lanes[unitPointer->getLaneType()].placeUnit(unitPointer);
             std::cout << "board::placeUnit() success" << std::endl;
+            combatUI.updateUI();
             return true;
         }
         return false;
@@ -100,16 +78,13 @@ board::board(int_fast8_t & playerHP, int_fast8_t & enemyHP, int & playerMana, in
         for(auto& currentLane : lanes){
             currentLane.draw(window);
         }
-
-        window.draw(playerManaText);
-        window.draw(playerHealthText);
+        combatUI.draw(window);
     }
 
     void board::reset(){
         for(auto& lane : lanes){
             lane.reset();
         }
-        playerManaText.setString("ManaPool: " + std::to_string(playerMana));
-        playerHealthText.setString("HP: " + std::to_string(playerHP));
+        combatUI.updateUI();
     }
 

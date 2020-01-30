@@ -1,7 +1,7 @@
 #include "lane.hpp"
 #include "functional"
     
-    lane::lane(E_lane laneID, int_fast8_t &playerHP, int_fast8_t& enemyHP):
+    lane::lane(E_lane laneID, int &playerHP, int& enemyHP):
         laneID{laneID},
         playerHP{playerHP},
         enemyHP{enemyHP}

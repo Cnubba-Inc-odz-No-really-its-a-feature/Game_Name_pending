@@ -6,14 +6,14 @@
 class lane{
 private:
     E_lane laneID;
-    int_fast8_t & playerHP;
-    int_fast8_t & enemyHP;
+    int& playerHP;
+    int& enemyHP;
 
     std::array<std::shared_ptr<unit>, LANE_SIZE> allyArray;
     std::array<std::shared_ptr<unit>, LANE_SIZE> enemyArray;
     std::shared_ptr<nullUnit> nullUnitPointer;
 public:
-    lane(E_lane laneID, int_fast8_t & playerHP, int_fast8_t & enemyHP);
+    lane(E_lane laneID, int& playerHP, int& enemyHP);
 
     // for board
     bool isIndexEmpty(const int index);
