@@ -55,6 +55,7 @@ public:
         enemyMana = currentPlayerMana;
         gameBoard.reset();
         cardHand.newFight();
+        fightEnemy.getNewSprite(storage.enemyTex, storage.enemyTexTextureSheetTiles);
        // cardHand.newHand();
         std::cout<<"fight initiated"<<std::endl;
 
@@ -97,7 +98,7 @@ public:
                 lastInput = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
                 lastPhase = currentPhase;
                 active = true;
-                if(currentPlayerMana <= 10){
+                if(currentPlayerMana < 10){
                     currentPlayerMana++;
                 }
                 playerMana = currentPlayerMana;
@@ -168,7 +169,7 @@ public:
     void draw(sf::RenderWindow& window){
         gameBoard.draw(window);
         window.draw(endTurnButton);
-        //fightEnemy.draw(window);
+        fightEnemy.draw(window);
         
     }
 

@@ -32,13 +32,13 @@ public:
         type = "ENEMY_E";
         gameObject::interacted = interact;
         textureFrameBounds = sf::Vector2f(objectSprite.getLocalBounds().width / textureSheetTiles, objectSprite.getLocalBounds().height) ;
-        setFrame(2,0);
+        setFrame(textureSheetTiles-1,0);
     }
 
     void setFrame(int maxFrame, int textureRow) override{
         if(frameCounter > 10) {frameCounter = 0; textureFrame++;}
 	    if(maxFrame < textureFrame) textureFrame = 0;
-	    objectSprite.setTextureRect(sf::IntRect((textureFrameBounds.x*textureFrame)+47, (textureFrameBounds.y*textureRow)+20, textureFrameBounds.x - 115, textureFrameBounds.y));
+	    objectSprite.setTextureRect(sf::IntRect((textureFrameBounds.x*textureFrame)+47, (textureFrameBounds.y*textureRow)-10, textureFrameBounds.x - 97, textureFrameBounds.y));
 	    objectSprite.setOrigin(sf::Vector2f(objectSprite.getLocalBounds().width/2, 0));
         frameCounter++;
         std::cout<<textureSheetTiles <<std::endl;
@@ -52,7 +52,7 @@ public:
     }
 
     void draw(sf::RenderWindow& gameWindow) override{
-        setFrame(2,0);
+        setFrame(textureSheetTiles-1,0);
         gameWindow.draw(objectSprite);
 
     }
@@ -61,6 +61,9 @@ public:
         if(storage.character1->getSprite().getGlobalBounds().intersects(objectSprite.getGlobalBounds()) && not gameObject::interacted){
             storage.setActive("cardgame.txt", gameObject::textureFile);
             gameObject::interacted = true;
+            storage.enemyTex = gameObject::textureFile;
+            std::cout<<gameObject::textureFile<<std::endl;
+            storage.enemyTexTextureSheetTiles = textureSheetTiles;
         }
     }
 
