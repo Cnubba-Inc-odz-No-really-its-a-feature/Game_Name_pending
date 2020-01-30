@@ -32,7 +32,7 @@
 
     void lane::reset(){
         allyArray.fill(nullptr);
-        allyArray.fill(nullptr);
+        enemyArray.fill(nullptr);
         std::cout << "lane reset done" << std::endl;
     }
 
