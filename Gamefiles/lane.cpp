@@ -67,9 +67,7 @@
             for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
                 if(array[i] != nullptr){
                     drawPosition.x = positionIterationDistanceX * i + laneStartPosition.x;
-                    // std::cout << "drawPosition: " << drawPosition.x << "," << drawPosition.y << std::endl;
                     array[i]->setPosition(drawPosition);
-                    // std::cout << "unitPosition: " << array[i]->getSprite().getPosition().x << "," << array[i]->getSprite().getPosition().x << std::endl;
                     array[i]->update();
                     array[i]->draw(window);
                 }
@@ -82,20 +80,17 @@
         drawArray(enemyArray, laneStartPosition, positionIterationDistanceX, window);
     }
 
-    void lane::updateLane(){
-        // std::cout << "updating lane: " << laneID << "     enemyHP: " << int(enemyHP) << std::endl;
+    void lane::updateAllyLane(){
         uint_fast8_t maxLaneIndex = LANE_SIZE - 1;
-
-        // std::cout << "updateLane last index: " << allyArray[6] << std::endl;
-
-        // update allies
         for(int_fast8_t i = maxLaneIndex; i >= 0; i--){
             if(allyArray[i] != nullptr){
                 updateUnit(i, allyArray[i]);
             }
         }
+    }
 
-        // update enemies
+    void lane::updateEnemyLane(){
+        uint_fast8_t maxLaneIndex = LANE_SIZE - 1;
         for(uint_fast8_t i = 0; i < LANE_SIZE; i++){
             if(enemyArray[i] != nullptr){
                 updateUnit(i, enemyArray[i]);
@@ -134,19 +129,18 @@
 
         if(toUpdateUnit->isAlly()){
             int nextIndex = index + 1;
-            if(nextIndex < LANE_SIZE && isIndexEmpty(nextIndex)){
+            if(nextIndex <= LANE_SIZE && isIndexEmpty(nextIndex)){
                     std::cout << "|-------------> move" << std::endl;
                 moveUnit(index, nextIndex, allyArray);
-                return;
-            }
-            else if(index == LANE_SIZE - 1){
-                    std::cout << "|-------------> attack opponent summoner" << std::endl;
-                enemyHP -= toUpdateUnit->getDamage();
+                if(nextIndex == 4){
+                    enemyHP -= toUpdateUnit->getDamage();
+                    allyArray[4] = nullptr;
+                }
                 return;
             }
             else if(nextIndex < LANE_SIZE - 1 && !isIndexEmpty(nextIndex) && enemyArray[nextIndex] != nullptr){
                     std::cout << "|-------------> fight" << std::endl;
-                unitUpdateResult result = fight(toUpdateUnit, enemyArray.at(nextIndex), index);
+                unitUpdateResult result = (toUpdateUnit, enemyArray.at(nextIndex), index);
                 handleCombatResult(allyArray, enemyArray, result);
                 return;
             }
@@ -155,15 +149,13 @@
         else
             {
             int nextIndex = index - 1;
-            if(nextIndex > 0 && isIndexEmpty(nextIndex)){
+            if(nextIndex >= 0 && isIndexEmpty(nextIndex)){
                     std::cout << "|-------------> move" << std::endl;
                 moveUnit(index, nextIndex, enemyArray);
-                return;
-            }
-            else if(index == 0){
-                    std::cout << "|-------------> attack opponent summoner" << std::endl;
-                playerHP -= toUpdateUnit->getDamage();
-                return;
+                if(nextIndex == 0){
+                    playerHP -= toUpdateUnit->getDamage();
+                    enemyArray[0] = nullptr;
+                }
             }
             else if(nextIndex > 0 && !isIndexEmpty(nextIndex) && allyArray[nextIndex] != nullptr){
                     std::cout << "|-------------> fight" << std::endl;
