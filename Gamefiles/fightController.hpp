@@ -96,7 +96,7 @@ public:
     void draw(sf::RenderWindow& window){
         gameBoard.draw(window);
         window.draw(endTurnButton);
-        fightEnemy.draw(window);
+        //fightEnemy.draw(window);
         
     }
 

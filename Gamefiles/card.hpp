@@ -47,9 +47,8 @@ public:
             textureFrameBounds = sf::Vector2f(objectSprite.getLocalBounds().width / textureSheetDimensions.x, objectSprite.getLocalBounds().height / textureSheetDimensions.y) ;
        	    objectSprite.setTextureRect(sf::IntRect(textureFrameBounds.x*0, textureFrameBounds.y*0, textureFrameBounds.x, textureFrameBounds.y));
             objectSprite.setOrigin(objectSprite.getLocalBounds().left + (objectSprite.getLocalBounds().width/2), objectSprite.getLocalBounds().top + (objectSprite.getLocalBounds().height));
-            if(ally){
-                objectSprite.setScale(-4, 4.);
-            }
+            
+            objectSprite.setScale(-4, 4);
 
             mana = manaCost;
             std::cout << "mana in unit is: " << mana << std::endl;
@@ -72,6 +71,7 @@ public:
 
     void makeEnemy(){
         ally = false;
+        objectSprite.setScale(4, 4);
     }
 
     bool checkIsDead(){
