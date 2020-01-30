@@ -71,13 +71,14 @@ public:
         if(MAX_MANA <= 10) MAX_MANA++;
         playerMana = MAX_MANA;
         enemyMana = MAX_MANA;
-        gameBoard.update();
+        gameBoard.updateAlly();
+        std::vector<std::shared_ptr<unit>> newEnemyUnits = fightEnemy.generateEnemyUnits();
+        std::for_each(newEnemyUnits.begin(), newEnemyUnits.end(), [this](auto&i){placeUnitOnBoard(i);});
+        gameBoard.updateEnemy();
         if(playerHP <= 1 || enemyHP < 1){
             exit(0);
         } 
         cardHand.newHand();
-        std::vector<std::shared_ptr<unit>> newEnemyUnits = fightEnemy.generateEnemyUnits();
-        std::for_each(newEnemyUnits.begin(), newEnemyUnits.end(), [this](auto&i){placeUnitOnBoard(i);});
         std::cout << "playerMana: " << playerMana << std::endl;
     }
 
