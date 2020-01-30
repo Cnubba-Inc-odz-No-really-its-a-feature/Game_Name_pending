@@ -24,7 +24,7 @@ public:
     game(sf::RenderWindow& gameWindow, char state = 'C'):
         gameWindow(gameWindow),
         gameObjectStorage(gameWindow),
-        fightControl(),
+        fightControl(gameObjectStorage.cardHand),
         gameObjectRenderer(gameWindow, gameObjectStorage, fightControl),
         gameInputHandler(gameObjectStorage, fightControl)
     {}

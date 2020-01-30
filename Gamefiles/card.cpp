@@ -23,8 +23,7 @@ std::shared_ptr<card> factorCard(int cardID){
         try{
             while(true){
                 cardFactoryFile>>objectID;
-                if(objectID != 0){
-                }
+
                 if(objectID == cardID){
                     std::string cardType;
                     char fileBind;
@@ -64,11 +63,16 @@ std::shared_ptr<card> factorCard(int cardID){
                         textureMap["cardArtTexture"] = summonCardTexture;
                         textureMap["unitTexture"] = unitTexture;
 
+
+                        sf::Vector2f textureSheetdimensions;
+                        cardFactoryFile >> textureSheetdimensions.x >> fileBind >> textureSheetdimensions.y; 
+
+
                         cardFactoryFile >> fileBind;
                         if(!(fileBind == '}')){
                             throw invalid_Factory_Binds("invalid end factory bind");
                         }
-                        return std::shared_ptr<card>(new summonCard(cardName, cardUnitDamage, cardUnitHealth, cardManaCost, cardUnitLane, textureMap, objectID)); 
+                        return std::shared_ptr<card>(new summonCard(cardName, cardUnitDamage, cardUnitHealth, cardManaCost, cardUnitLane, textureMap, objectID, textureSheetdimensions)); 
                     }
                 }else{
                     cardFactoryFile.ignore(300, '\n');

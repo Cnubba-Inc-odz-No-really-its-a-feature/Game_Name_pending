@@ -36,6 +36,6 @@
 *.md
 *.native
 
-*Makefile*
-
 Doxygen/**/*
+
+*Save.txt

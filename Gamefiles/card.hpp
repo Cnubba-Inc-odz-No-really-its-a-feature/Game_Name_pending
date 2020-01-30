@@ -24,23 +24,54 @@ private:
     int unitDamage;
     E_lane unitLane;
     bool ally = true;
+
+    int textureFrame = 0;
+    int frameCounter = 0;
+    sf::Vector2f textureSheetDimensions;
+    sf::Vector2f textureFrameBounds;
+    sf::Font unitFont;
+    sf::Text unitStatsText;
+
 public:
+    int mana;
+
     unit(){}
 
-    unit(int unitMaxHealth, int unitDamage, E_lane unitLane, std::map<std::string, sf::Texture> textureMap):
+    unit(int unitMaxHealth, int unitDamage, E_lane unitLane, std::map<std::string, sf::Texture> textureMap, sf::Vector2f textureSheetDimensions, int manaCost):
     gameObject(sf::Vector2f(200, 100), sf::Vector2f(4,4), textureMap, std::string("unitTexture"), 5),
         unitMaxHealth(unitMaxHealth),
         unitCurrentHealth(unitMaxHealth),
         unitDamage(unitDamage),
-        unitLane(unitLane){
-            std::cout << "bottem size " << objectSprite.getGlobalBounds().width/2 << " top size " << objectSprite.getGlobalBounds().height << std::endl;
-            objectSprite.setOrigin(objectSprite.getLocalBounds().width/2, objectSprite.getLocalBounds().height);
+        unitLane(unitLane),
+        textureSheetDimensions(textureSheetDimensions){
+            textureFrameBounds = sf::Vector2f(objectSprite.getLocalBounds().width / textureSheetDimensions.x, objectSprite.getLocalBounds().height / textureSheetDimensions.y) ;
+       	    objectSprite.setTextureRect(sf::IntRect(textureFrameBounds.x*0, textureFrameBounds.y*0, textureFrameBounds.x, textureFrameBounds.y));
+            objectSprite.setOrigin(objectSprite.getLocalBounds().left + (objectSprite.getLocalBounds().width/2), objectSprite.getLocalBounds().top + (objectSprite.getLocalBounds().height));
+            
+            objectSprite.setScale(-4, 4);
+
+            mana = manaCost;
+            std::cout << "mana in unit is: " << mana << std::endl;
+
+            unitFont.loadFromFile("gameAssets/cardAssets/cardFont.otf");
+            unitStatsText.setFont(unitFont);
+
+            unitStatsText.setString(std::to_string(unitDamage) + "       " + std::to_string(unitCurrentHealth));
+            unitStatsText.setPosition(sf::Vector2f( 
+                        objectSprite.getGlobalBounds().left,
+                        objectSprite.getGlobalBounds().top + objectSprite.getGlobalBounds().height));
+
         }
     
     ~unit(){}
 
     bool isAlly(){
         return ally;
+    }
+
+    void makeEnemy(){
+        ally = false;
+        objectSprite.setScale(4, 4);
     }
 
     bool checkIsDead(){
@@ -53,6 +84,7 @@ public:
 
     void takeDamage(int damage){
         unitCurrentHealth -= damage;
+        unitStatsText.setString(std::to_string(unitDamage) + "       " + std::to_string(unitCurrentHealth));
     }
 
     E_lane getLaneType(){
@@ -61,16 +93,28 @@ public:
     
     virtual void draw(sf::RenderWindow& gameWindow) override{
         gameWindow.draw(objectSprite);
+        gameWindow.draw(unitStatsText);
     }
     void scaleObjects(sf::Vector2f newScale){}
     void setPosition(sf::Vector2f newPosition){
         objectSprite.setPosition(newPosition);
+        unitStatsText.setPosition(sf::Vector2f( 
+                        objectSprite.getGlobalBounds().left,
+                        objectSprite.getGlobalBounds().top + objectSprite.getGlobalBounds().height));
+
     }
 
     void interact()override{}
     void move(sf::Vector2f moveDirection)override{}
-    void update()override{}
-    void setFrame(int maxFrame, int textureRow)override{}
+    void update()override{
+        setFrame(3, 0);
+    }
+    void setFrame(int maxFrame, int textureRow)override{
+        if(frameCounter > 10) {frameCounter = 0; textureFrame++;}
+	    if(maxFrame < textureFrame) textureFrame = 0;
+	    objectSprite.setTextureRect(sf::IntRect(textureFrameBounds.x*textureFrame, textureFrameBounds.y*textureRow, textureFrameBounds.x, textureFrameBounds.y));
+	    frameCounter++;
+    }
 };
 
 
@@ -82,6 +126,7 @@ protected:
     sf::Text cardName;
     sf::Text cardManaCost;
     int cardID;
+    int mana;
 public:
 
     card(std::string cardNameString, std::map<std::string, sf::Texture> textureMap, int cardID, int manaCost):
@@ -101,7 +146,7 @@ public:
         cardManaCost.setCharacterSize(160);
         cardManaCost.setFillColor(sf::Color::Black);
         cardManaCost.setPosition(sf::Vector2f(objectSprite.getGlobalBounds().left + (0.85 * objectSprite.getGlobalBounds().width) , objectSprite.getGlobalBounds().top + (0.02 * objectSprite.getGlobalBounds().height)));
-   
+        mana = manaCost;
     }
 
     void draw(sf::RenderWindow& gameWindow){}
@@ -118,6 +163,10 @@ public:
     virtual bool checkIfPlayed(sf::Vector2f mousePosition) =0;
     virtual std::shared_ptr<unit> summonUnitFromCard() =0;
 
+     int getManaCost(){
+        return mana;
+    }
+
 };
 
 
@@ -132,13 +181,15 @@ private:
     sf::Text summonCardHealth;
     sf::Sprite summonCardArtSprite;
     E_lane cardUnitLane;
+    sf::Vector2f textureSheetDimensions;
 
 public:
-    summonCard(std::string cardNameString, int cardUnitDamage, int cardUnitHealth, int manaCost, E_lane cardUnitLane, std::map<std::string, sf::Texture> textureMap, int objectID):
+    summonCard(std::string cardNameString, int cardUnitDamage, int cardUnitHealth, int manaCost, E_lane cardUnitLane, std::map<std::string, sf::Texture> textureMap, int objectID, sf::Vector2f textureSheetDimensions):
         card(cardNameString, textureMap, objectID, manaCost),
         cardUnitHealth(cardUnitHealth),
         cardUnitDamage(cardUnitDamage),
-        cardUnitLane(cardUnitLane)
+        cardUnitLane(cardUnitLane),
+        textureSheetDimensions(textureSheetDimensions)
     {
 
         auto cardPosition = objectSprite.getGlobalBounds();
@@ -205,12 +256,14 @@ public:
     }
 
     std::shared_ptr<unit> summonUnitFromCard(){
-        return std::shared_ptr<unit>(new unit(cardUnitHealth, cardUnitDamage, cardUnitLane, textureMap));
+        std::cout << "card mana cost gegeven aan unit: " << mana << std::endl;
+        return std::shared_ptr<unit>(new unit(cardUnitHealth, cardUnitDamage, cardUnitLane, textureMap, textureSheetDimensions, mana));
     }
 
     E_lane getUnitLane(){
         return cardUnitLane;
     }
+
 };
 
 
@@ -221,7 +274,7 @@ std::shared_ptr<card> factorCard(int cardID);
 class fightHand{
 private:
     std::map<int, sf::Vector2f> handPositionMap;
-    std::array<std::shared_ptr<card>, 7> cardsInHand;
+    std::array<std::shared_ptr<card>, 7> &cardsInHand;
     std::vector<int> &discardPile;
     std::vector<int> &drawPile;
     sf::Font deckStatsFont;
@@ -234,10 +287,11 @@ private:
     std::map<int, int> &playerDeck;
 public:
 
-    fightHand(std::vector<int> &discardPile, std::vector<int> & drawPile, std::map<int, int> &playerDeck):
+    fightHand(std::vector<int> &discardPile, std::vector<int> & drawPile, std::map<int, int> &playerDeck, std::array<std::shared_ptr<card>, 7> &cardsInHand):
     discardPile(discardPile),
     drawPile(drawPile),
-    playerDeck(playerDeck){
+    playerDeck(playerDeck),
+    cardsInHand(cardsInHand){
         handPositionMap[0] = sf::Vector2f(630, 825);            
         handPositionMap[1] = sf::Vector2f(810, 825);
         handPositionMap[2] = sf::Vector2f(990, 825);
@@ -259,9 +313,11 @@ public:
         deckStats_discardPile.setFont(deckStatsFont);
         deckStats_discardPile.setString("DiscardPile size: " + std::to_string(discardPile.size()));
             
-        deckStats_drawPile.setPosition(sf::Vector2f(20, 900));
+        deckStats_drawPile.setPosition(sf::Vector2f(20, 950));
         deckStats_discardPile.setPosition(sf::Vector2f(20, 1000));
     }
+
+   
 
     void draw(sf::RenderWindow& gameWindow){
         gameWindow.draw(handSprite);
@@ -297,18 +353,20 @@ public:
     }
 
 
-
-    int isCardClicked(sf::Vector2f mousePosition, bool skyOpen, bool groundOpen){
+    int isCardClicked(sf::Vector2f mousePosition, int & playerMana, bool skyOpen, bool groundOpen){
         if(cardCount > 0){
             for(int i = 0; i < 7 ; i++){
                 if(cardsInHand[i] != nullptr){
                     if(cardsInHand[i]->checkIfPlayed(mousePosition)){
-                        if((cardsInHand[i]->getUnitLane() == E_lane::skyLane && skyOpen) || (cardsInHand[i] ->getUnitLane() == E_lane::groundLane && groundOpen)){
+                        if(((cardsInHand[i]->getUnitLane() == E_lane::skyLane && skyOpen) || (cardsInHand[i]->getUnitLane() == E_lane::groundLane && groundOpen)) && (cardsInHand[i]->getManaCost() <= playerMana)){
+                            std::cout << "manaCost kaart in isCardClicked: " << cardsInHand[i]->getManaCost() << std::endl;
+                            std::cout << "playerMana in isCardClicked: " << playerMana << std::endl;
+                            playerMana -= cardsInHand[i]->getManaCost();
                             return i;
+                        }
                     }
                 }
             }
-        }
         }
         return -1;
     }
@@ -322,9 +380,9 @@ public:
     }
 
 
-    std::shared_ptr<unit> checkForCardPlay(sf::Vector2i mousePosI, bool skyOpen = true, bool groundOpen = true){
+    std::shared_ptr<unit> checkForCardPlay(sf::Vector2i mousePosI, int &playerMana, bool skyOpen = true, bool groundOpen = true){
         sf::Vector2f mousePosF = sf::Vector2f(float(mousePosI.x), float(mousePosI.y));
-        int clickedCardPos = isCardClicked(mousePosF, skyOpen, groundOpen);
+        int clickedCardPos = isCardClicked(mousePosF, playerMana, skyOpen, groundOpen);
  
         if(clickedCardPos > -1){
             std::shared_ptr<unit> newUnit = playUnitCard(clickedCardPos);
@@ -363,9 +421,10 @@ public:
         drawPile.clear();
         discardPile.clear();
 
-        std::for_each(playerDeck.begin(), playerDeck.end(), [this](auto & i){for(int j = 0; j <= i.second; j++){drawPile.push_back(i.first);}});
+        std::for_each(playerDeck.begin(), playerDeck.end(), [this](auto & i){for(int j = 0; j < i.second; j++){drawPile.push_back(i.first);}});
 
         std::random_shuffle(drawPile.begin(), drawPile.end());
+        newHand();
     }
 };
 
@@ -417,7 +476,6 @@ public:
         DOWNButtonTexture.loadFromFile("gameAssets/cardAssets/downArrow.png");
         cardCounterTexture.loadFromFile("gameAssets/cardAssets/cardCountTexture.png");
 
-
         sf::Sprite UPButtonSprite;
         sf::Sprite DOWNButtonSprite;
         sf::Sprite deckCardCounterSprite;
@@ -451,7 +509,7 @@ public:
         deckStatsText.setFont(deckFont);
         deckStatsText.setFillColor(sf::Color::Black);
         deckStatsText.setCharacterSize(60);
-        deckStatsText.setString("DeckSize: " + std::to_string(getDeckSize()) + "- 22");
+        deckStatsText.setString("DeckSize: " + std::to_string(getDeckSize()) + "/ 22");
         deckStatsText.setPosition(sf::Vector2f(700, 525));
 
         for(int i = 0; i < 10 ; i++ ){
@@ -510,7 +568,7 @@ public:
     }
 
     void changeCardCountInDeck(int cardID, int change){
-        if(getDeckSize() <= 22 && (playerDeck[cardID] + change) <= ownedCards[cardID] 
+        if((getDeckSize()+ change) <= 22 && (playerDeck[cardID] + change) <= ownedCards[cardID] 
         && (playerDeck[cardID] + change) >= 0 
         && std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - lastChange).count() > 100){
             lastChange = std::chrono::system_clock::now();
@@ -521,13 +579,16 @@ public:
     }
 
     void newOwnCard(int newCard){
+        std::cout << "ownedCards count: " << ownedCards[newCard] << std::endl;
         ownedCards[newCard] += 1;
         deckCardCounterTextArray[newCard].setString(std::to_string(playerDeck[newCard]));
-        deckStatsText.setString("DeckSize: " + std::to_string(getDeckSize()) + " - 22");
 
         if(ownedCards[newCard] == 1){
             deckEditorCards[newCard] = factorCard(newCard);
         }
+        ownedCardCounterTextArray[newCard].setString(std::to_string(ownedCards[newCard]));
+        
+
     }
 };
 

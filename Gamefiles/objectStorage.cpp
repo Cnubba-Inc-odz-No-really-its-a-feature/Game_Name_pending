@@ -97,7 +97,7 @@ void objectStorage::saveObjects(){
 
 
 objectStorage::objectStorage(sf::RenderWindow& window) : window(window),
-    cardHand(drawPile, discardPile,playerDeck),
+    cardHand(drawPile, discardPile,playerDeck, cardsInHand),
     deckEditor(playerDeck, ownedCards, editorUPButtonArray, editorDOWNButtonArray){
     tmpActive = "title.txt";
     tmpNewActive();
@@ -157,10 +157,10 @@ std::shared_ptr<gameObject> objectStorage::factorObject(
           new character(pos, scale, textureMap, window, firstKey, prio));
     } else if (objectType == objectTypes_E::TESTSPRITE_E) {
       return std::shared_ptr<gameObject>(
-          new textureSprite(pos, scale, textureMap, firstKey, prio, textureFile));
+          new textureSprite(pos, scale, textureMap, firstKey,prio, textureFile));
     } else if (objectType == objectTypes_E::CHEST_E) {
       return std::shared_ptr<gameObject>(
-          new chest(pos, scale, textureMap, firstKey, prio, soundFile, textureFile, interacted));
+          new chest(pos, scale, textureMap, firstKey, prio, *this ,soundFile, textureFile, interacted));
     } else if (objectType == objectTypes_E::DOOR_E) {
       return std::shared_ptr<gameObject>(
           new door(pos, scale, textureMap, firstKey, *this, prio, target, soundFile, returnTarget, textureFile, interacted));

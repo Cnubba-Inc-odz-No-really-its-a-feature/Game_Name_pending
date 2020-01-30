@@ -1,3 +1,4 @@
+objectTypes_E::CHARACTER_E (100,450) (2,2) 5 texture1 gameAssets/mainCharacter/main_char.png ;
 objectTypes_E::TESTSPRITE_E (1792, 0) (2, 2) 2 texture1 gameAssets/wall_right.png ;
 objectTypes_E::TESTSPRITE_E (1792, 128) (2, 2) 2 texture1 gameAssets/wall_right.png ;
 objectTypes_E::TESTSPRITE_E (1792, 256) (2, 2) 2 texture1 gameAssets/wall_right.png ;
