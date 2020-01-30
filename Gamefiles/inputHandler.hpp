@@ -36,6 +36,7 @@ class inputHandler {
 
   bool isCombatCommandValid(std::shared_ptr<command> command, uint64_t& lastInput){
     if(lastInput + 80 < std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() && command != NULL){
+
       lastInput = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
       std::cout << "valid command" << std::endl;
       return true;
@@ -153,7 +154,7 @@ class inputHandler {
   std::shared_ptr<command> handleCombatClickSelect(){
     for (auto i : selectKeys) {
       if (sf::Mouse::isButtonPressed(i)) {
-          std::shared_ptr<unit> cardUnit = gameObjectStorage.cardHand.checkForCardPlay(sf::Mouse::getPosition(), fightControlPointer.getSkyOpen(), fightControlPointer.getGroundOpen());
+          std::shared_ptr<unit> cardUnit = gameObjectStorage.cardHand.checkForCardPlay(sf::Mouse::getPosition(), fightControlPointer.getSkyOpen(), fightControlPointer.getGroundOpen(), fightControlPointer.playerMana);
           if(cardUnit != nullptr){
             return std::shared_ptr<command>(new cardSelectCommand(fightControlPointer, cardUnit));
           }
@@ -172,10 +173,8 @@ class inputHandler {
   }
 
   std::shared_ptr<command> handleEndTurnButton(){
-    if(sf::Event::KeyPressed){
-      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)){
-        return std::shared_ptr<command>(new endTurnCommand(fightControlPointer));
-      }
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)){
+      return std::shared_ptr<command>(new endTurnCommand(fightControlPointer));
     }
 
     return NULL;
@@ -245,7 +244,7 @@ class inputHandler {
       : gameObjectStorage{gameObjectStorage},
         fightControlPointer{fightControlPointer}
        {
-         std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+         lastInput = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
        }
 
   std::shared_ptr<command> handleInput() {

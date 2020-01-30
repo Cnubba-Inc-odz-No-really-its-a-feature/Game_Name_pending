@@ -70,6 +70,7 @@
                     // std::cout << "drawPosition: " << drawPosition.x << "," << drawPosition.y << std::endl;
                     array[i]->setPosition(drawPosition);
                     // std::cout << "unitPosition: " << array[i]->getSprite().getPosition().x << "," << array[i]->getSprite().getPosition().x << std::endl;
+                    array[i]->update();
                     array[i]->draw(window);
                 }
             }

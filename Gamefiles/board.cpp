@@ -2,7 +2,7 @@
 #include <iostream>
 // board::board(){}
 
-board::board(int_fast8_t & playerHP, int_fast8_t & enemyHP):
+board::board(int_fast8_t & playerHP, int_fast8_t & enemyHP, int & playerMana, int & enemyMana ):
         lanes({
             lane(E_lane::skyLane, playerHP, enemyHP),
             lane(E_lane::groundLane, playerHP, enemyHP),
@@ -10,7 +10,9 @@ board::board(int_fast8_t & playerHP, int_fast8_t & enemyHP):
         }),
         priorityLane{E_lane::groundLane},
         playerHP{playerHP},
-        enemyHP{enemyHP}
+        enemyHP{enemyHP},
+        playerMana{playerMana},
+        enemyMana{enemyMana}
     {}
 
     bool board::getSkyOpen(){
@@ -42,7 +44,9 @@ board::board(int_fast8_t & playerHP, int_fast8_t & enemyHP):
 
     bool board::placeUnit(std::shared_ptr<unit> unitPointer){
         std::cout << "placing unit on board via board on lane: " << int(unitPointer->getLaneType()) << std::endl;
-        if(lanes[unitPointer->getLaneType()].isIndexEmpty(0)){
+        std::cout << "unit cost: " << unitPointer->mana << std::endl;
+        if(lanes[unitPointer->getLaneType()].isIndexEmpty(0) && unitPointer->mana <= playerMana ){
+            playerMana -= unitPointer->mana;
             lanes[unitPointer->getLaneType()].placeUnit(unitPointer);
             std::cout << "board::placeUnit() success" << std::endl;
             return true;
