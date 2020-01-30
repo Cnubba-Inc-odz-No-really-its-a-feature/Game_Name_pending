@@ -56,7 +56,7 @@ public:
         combatEnemySprite.setTexture(combatEnemyTexture);
         combatTextureSheetTiles = textureSheetTiles;
         textureFrameBounds = sf::Vector2f(combatEnemySprite.getLocalBounds().width / textureSheetTiles, combatEnemySprite.getLocalBounds().height) ;
-        combatEnemySprite.setPosition(sf::Vector2f(800, 100));
+        combatEnemySprite.setPosition(sf::Vector2f(400, 400));
     }
 
     void setFrame(int maxFrame, int textureRow){
@@ -68,7 +68,7 @@ public:
     }
 
     void draw(sf::RenderWindow& gameWindow){
-        setFrame(combatTextureSheetTiles-1, 0);
+        //setFrame(combatTextureSheetTiles-1, 0);
         gameWindow.draw(combatEnemySprite);
     }
 
