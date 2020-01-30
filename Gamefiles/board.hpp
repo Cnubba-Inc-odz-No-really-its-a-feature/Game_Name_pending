@@ -47,7 +47,11 @@ public:
 
     /// \brief
     /// Updates the board to resolve fights and move cards forward one tick. Called once every turn.
-    void update();
+    void update(bool player);
+
+    void updateEnemy();
+
+    void updateAlly();
 
     /// \brief
     /// places a unit on the field and returns whether operation was succesfull.
