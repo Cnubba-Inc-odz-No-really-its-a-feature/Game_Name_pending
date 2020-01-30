@@ -50,9 +50,11 @@ public:
     bool isPositionEmpty(const int E_lane, const int index);
 
     /// \brief
-    /// Gets called 
+    /// Gets called every frame to draw all the board.
     void draw(sf::RenderWindow& window);
 
+    /// \brief
+    /// gets called at the start of the cardgame, to ensure a clean en ready board.
     void reset();
 };
 
