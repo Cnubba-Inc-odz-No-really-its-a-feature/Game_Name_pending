@@ -57,7 +57,16 @@ board::board(int_fast8_t & playerHP, int_fast8_t & enemyHP, int & playerMana, in
             }
         }
     }
-
+    
+    void board::updateAlly(){
+        lanes[priorityLane].updateAllyLane();
+        
+        for(uint_fast8_t i = 0; i < 3; i++){
+            if(i != priorityLane){
+                lanes[i].updateAllyLane();
+            }
+        }
+    }
 
     void updateStatsUI(){
 

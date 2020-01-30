@@ -9,13 +9,7 @@
 #include <algorithm>
 #include <chrono>
 
-
-
-
-
 std::ifstream& operator>>(std::ifstream& input, E_lane& unitLane);
-
-
 
 class unit : public gameObject{
 private:

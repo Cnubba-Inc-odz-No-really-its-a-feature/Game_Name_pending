@@ -1,5 +1,6 @@
 #include "game.hpp"
 #include <SFML/Audio.hpp>
+#include "E_turnPhase.hpp"
 
 void game::gameLoop(){
 	using namespace std::chrono;
@@ -43,7 +44,10 @@ void game::gameLoop(){
 			secondsPassed++;
 		}
 
-        if(gameObjectStorage.keyActive.at(0) == 'r' && gamePlay){
+		if(fightControl.getActive()){
+			fightControl.nextTurn(E_turnPhase::enemySummoning);
+		}
+        else if(gameObjectStorage.keyActive.at(0) == 'r' && gamePlay){
 			buffer.loadFromFile("gameAssets/Sounds/game.wav");
 			sound.setBuffer(buffer);
 			sound.setLoop(true);
@@ -75,8 +79,6 @@ void game::gameLoop(){
 
         gameWindow.clear();
         gameObjectRenderer.draw();
-
-
 		gameWindow.display();
 
 

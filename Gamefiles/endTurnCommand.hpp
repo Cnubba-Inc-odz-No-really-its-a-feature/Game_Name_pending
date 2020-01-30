@@ -6,6 +6,7 @@
 #include <iostream>
 #include <map>
 #include "memory"
+#include "E_turnPhase.hpp"
 
 class endTurnCommand : public command{
 private:
@@ -17,7 +18,7 @@ public:
     {}
 
     void execute() override{
-        fightControlPointer.nextTurn();
+        fightControlPointer.nextTurn(E_turnPhase::playerMoveAndChecks);
     }
 
     virtual void undo(){}
