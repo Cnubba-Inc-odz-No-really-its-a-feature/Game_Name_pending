@@ -28,6 +28,15 @@ private:
     sf::Font mana_healthFont;
     sf::Text playerManaText;
     sf::Text playerHealthText;
+    sf::Texture manaBarTexture;
+    sf::Texture healthBarTexture;
+    sf::Texture statsUITexture;
+    sf::Texture enemyHPTexture;
+    sf::Sprite manaBarSprite;
+    sf::Sprite healthBarSprite;
+    sf::Sprite statsUISprite;
+    sf::Sprite enemyHPSprite;
+
 
 public:
 
@@ -52,6 +61,8 @@ public:
     void updateEnemy();
 
     void updateAlly();
+
+    void updateStatsUI();
 
     /// \brief
     /// places a unit on the field and returns whether operation was succesfull.

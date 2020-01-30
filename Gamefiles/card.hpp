@@ -476,7 +476,6 @@ public:
         DOWNButtonTexture.loadFromFile("gameAssets/cardAssets/downArrow.png");
         cardCounterTexture.loadFromFile("gameAssets/cardAssets/cardCountTexture.png");
 
-
         sf::Sprite UPButtonSprite;
         sf::Sprite DOWNButtonSprite;
         sf::Sprite deckCardCounterSprite;
@@ -510,7 +509,7 @@ public:
         deckStatsText.setFont(deckFont);
         deckStatsText.setFillColor(sf::Color::Black);
         deckStatsText.setCharacterSize(60);
-        deckStatsText.setString("DeckSize: " + std::to_string(getDeckSize()) + "- 22");
+        deckStatsText.setString("DeckSize: " + std::to_string(getDeckSize()) + "/ 22");
         deckStatsText.setPosition(sf::Vector2f(700, 525));
 
         for(int i = 0; i < 10 ; i++ ){
@@ -569,7 +568,7 @@ public:
     }
 
     void changeCardCountInDeck(int cardID, int change){
-        if(getDeckSize() <= 22 && (playerDeck[cardID] + change) <= ownedCards[cardID] 
+        if((getDeckSize()+ change) <= 22 && (playerDeck[cardID] + change) <= ownedCards[cardID] 
         && (playerDeck[cardID] + change) >= 0 
         && std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - lastChange).count() > 100){
             lastChange = std::chrono::system_clock::now();
@@ -580,13 +579,16 @@ public:
     }
 
     void newOwnCard(int newCard){
+        std::cout << "ownedCards count: " << ownedCards[newCard] << std::endl;
         ownedCards[newCard] += 1;
         deckCardCounterTextArray[newCard].setString(std::to_string(playerDeck[newCard]));
-        deckStatsText.setString("DeckSize: " + std::to_string(getDeckSize()) + " - 22");
 
         if(ownedCards[newCard] == 1){
             deckEditorCards[newCard] = factorCard(newCard);
         }
+        ownedCardCounterTextArray[newCard].setString(std::to_string(ownedCards[newCard]));
+        
+
     }
 };
 

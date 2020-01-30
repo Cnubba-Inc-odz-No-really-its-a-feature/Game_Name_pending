@@ -5,3 +5,4 @@ objectTypes_E::BUTTON_E (200,800) (0.7,0.7) 2 exit gameAssets/Sounds/button.wav 
 objectTypes_E::BACKGROUND_E (0,0) (1,1) 1 texture1 gameAssets/Background.png ;
 objectTypes_E::BACKGROUND_E (1100,0) (0.45,0.45) 2 texture1 gameAssets/Titlecard_edited2.png ;
 objectTypes_E::NEWGAMEBUTTON_E (200,350) (0.7,0.7) 2 room1.txt gameAssets/Sounds/button.wav texture1 gameAssets/Highscore1.png , texture2 gameAssets/Highscore2.png ;
+objectTypes_E::CHARACTER_E (1250,0) (7,7) 1 texture1 gameAssets/mainCharacter/main_char.png ;
