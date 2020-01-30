@@ -12,6 +12,7 @@ button::button(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<s
     interactable = true; objectTypeID = 100;
     buffer.loadFromFile(soundFile);
     sound.setBuffer(buffer);
+    sound.setLoop(false);
     type = "BUTTON_E";
     gameObject::textureFile = textureFile;
     gameObject::secondkey = "texture2";
@@ -46,8 +47,9 @@ void button::update(){
 
 void button::interact(){
     storage.setActive(target);
-    if(firstrun){
+    if (sound.getStatus() != sf::Sound::Status::Playing)
+    { 
         sound.play();
-        firstrun = false;
     }
+    
 }

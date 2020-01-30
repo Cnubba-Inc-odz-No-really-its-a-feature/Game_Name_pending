@@ -29,6 +29,7 @@ public:
         objectSprite.setTextureRect(sf::IntRect(0, 0, 64, 64));
         type = "ENEMY_E";
         gameObject::interacted = interact;
+        setFrame(2,2);
     }
 
     void setFrame(int maxFrame, int textureRow) override{
@@ -45,18 +46,16 @@ public:
         }
     }
 
-    void interact(objectStorage& gameStorage, const float& mainCharacterPosition){
-
-    }
-
     void draw(sf::RenderWindow& gameWindow) override{
-        setFrame(2,2);
         gameWindow.draw(objectSprite);
     }
 
-    void move(sf::Vector2f moveDirection) override{}
-
-    void update(){}
+    void update(){
+        if(storage.character1->getSprite().getGlobalBounds().intersects(objectSprite.getGlobalBounds()) && not gameObject::interacted){
+            storage.setActive("cardgame.txt");
+            gameObject::interacted = true;
+        }
+    }
 
 };
 

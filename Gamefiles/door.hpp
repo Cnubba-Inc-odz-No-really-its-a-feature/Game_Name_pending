@@ -56,11 +56,7 @@ public:
         }
         if (textureFrame > 2)storage.setActive(target);
     }
-
-    void interact(objectStorage& gameStorage, const float& mainCharacterPosition){
-
-    }
-
+    
     void draw(sf::RenderWindow& gameWindow) override{
         if(gameObject::interacted && !animationDone) setFrame(4, 0);
         if(target == storage.getReturnTarget()){
@@ -71,8 +67,6 @@ public:
     }
 
     void move(sf::Vector2f moveDirection) override{}
-
-    void update(){}
 
 };
 
