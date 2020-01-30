@@ -5,7 +5,7 @@ popup::popup(const sf::Vector2f & anker, std::string textureString, int prio):an
    std::vector<int> tmp = {4,8,9};
     if (prio == 4)
     {
-        std::vector<int> tmp = {0,1,2,3,5,6,7};
+        tmp = {0,1,2,3,5,6,7};
     }
     
     
