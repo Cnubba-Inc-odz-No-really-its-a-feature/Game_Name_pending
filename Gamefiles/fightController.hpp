@@ -24,16 +24,18 @@ private:
     sf::Texture endTurnButtonTexture;
     sf::Sprite endTurnButton;
     combatEnemy fightEnemy;
+    objectStorage & storage;
     
 public:
-    fightController(fightHand& cardHand):
+    fightController(fightHand& cardHand, objectStorage & storage): 
         playerHP{15},
         enemyHP{15},
         MAX_MANA{1},
         enemyMana{1},
         gameBoard(playerHP, enemyHP, playerMana, enemyMana),
         cardHand(cardHand),
-        fightEnemy(std::string("gameAssets/skeleton.png"))
+        fightEnemy(std::string("gameAssets/skeleton.png")),
+        storage(storage)
     {
         endTurnButtonTexture.loadFromFile("gameAssets/doneButton.png");
         endTurnButton.setTexture(endTurnButtonTexture);
@@ -46,7 +48,15 @@ public:
     int playerMana; 
 
     void initFight(){
-        std::cout<<"initiating fight"<<std::endl;
+        std::cout<<"initiat
+                if(fightResult.selfKilled && !fightResult.opponentKilled){
+                    enemyArray[fightResult.selfPosition] = enemyArray[fightResult.opponentPosition];
+                    enemyArray[fightResult.opponentPosition] = nullptr;
+                }
+                if(fightResult.opponentKilled && !fightResult.selfKilled){
+                    allyArray[fightResult.opponentPosition] = allyArray[fightResult.selfPosition];
+                    allyArray[fightResult.selfPosition] = nullptr;
+                }ing fight"<<std::endl;
         playerHP = 15;
         enemyHP = 15;
         playerMana =  MAX_MANA;
@@ -71,6 +81,15 @@ public:
         if(MAX_MANA <= 10) MAX_MANA++;
         playerMana = MAX_MANA;
         enemyMana = MAX_MANA;
+        if(enemyHP <= 0){
+            storage.factorNewGameState("rewardroom.txt");
+            storage.setActive("rewardroom.txt");
+            return;
+        } 
+        if(playerHP <= 0){
+            storage.setActive(storage.getReturnTarget());
+            return;
+        }
         gameBoard.updateAlly();
         std::vector<std::shared_ptr<unit>> newEnemyUnits = fightEnemy.generateEnemyUnits();
         std::for_each(newEnemyUnits.begin(), newEnemyUnits.end(), [this](auto&i){placeUnitOnBoard(i);});
@@ -78,8 +97,8 @@ public:
 
         gameBoard.fightPhase();
 
-        if(playerHP <= 1 || enemyHP < 1){
-            exit(0);
+        if(playerHP < 1 || enemyHP < 1){
+            // exit(0);
         } 
         cardHand.newHand();
         std::cout << "playerMana: " << playerMana << std::endl;

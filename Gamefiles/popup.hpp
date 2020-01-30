@@ -10,7 +10,7 @@ private:
     std::vector<std::shared_ptr<card>> Options;
 
 public:
-    popup(const sf::Vector2f & anker, std::string textureString);
+    popup(const sf::Vector2f & anker, std::string textureString, int prio);
     int update();
     void interact();
     void draw(sf::RenderWindow& gameWindow);
