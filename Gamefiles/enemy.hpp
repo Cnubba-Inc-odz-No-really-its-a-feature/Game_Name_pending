@@ -36,12 +36,11 @@ public:
     }
 
     void setFrame(int maxFrame, int textureRow) override{
-        if(frameCounter > 10) {frameCounter = 0; textureFrame++;}
+        if(frameCounter > 5) {frameCounter = 0; textureFrame++;}
 	    if(maxFrame < textureFrame) textureFrame = 0;
 	    objectSprite.setTextureRect(sf::IntRect((textureFrameBounds.x*textureFrame)+47, (textureFrameBounds.y*textureRow)-10, textureFrameBounds.x - 97, textureFrameBounds.y));
 	    objectSprite.setOrigin(sf::Vector2f(objectSprite.getLocalBounds().width/2, 0));
         frameCounter++;
-        std::cout<<textureSheetTiles <<std::endl;
     }
 
     void interact() override{
@@ -62,7 +61,6 @@ public:
             storage.setActive("cardgame.txt", gameObject::textureFile);
             gameObject::interacted = true;
             storage.enemyTex = gameObject::textureFile;
-            std::cout<<gameObject::textureFile<<std::endl;
             storage.enemyTexTextureSheetTiles = textureSheetTiles;
         }
     }

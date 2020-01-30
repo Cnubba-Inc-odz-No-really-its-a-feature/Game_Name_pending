@@ -22,7 +22,6 @@ public:
     {
         fade.setSize( sf::Vector2f(1920, 1080));
         color = 0;
-        std::cout<<"renderer made" << std::endl;
     }
 
     void draw(){

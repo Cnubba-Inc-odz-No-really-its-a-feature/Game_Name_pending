@@ -24,7 +24,6 @@ board::board(int & playerHP, int & enemyHP, int & playerMana, int & enemyMana ):
         for(auto& lane : lanes){
             lane.fightPhase();
         }
-        playerHealthText.setString(std::to_string(playerHP));
     }
 
     bool board::getGroundOpen(){
@@ -59,11 +58,8 @@ board::board(int & playerHP, int & enemyHP, int & playerMana, int & enemyMana ):
 
 
     bool board::placeUnit(std::shared_ptr<unit> unitPointer){
-        std::cout << "placing unit on board via board on lane: " << int(unitPointer->getLaneType()) << std::endl;
-        std::cout << "unit cost: " << unitPointer->mana << std::endl;
         if(lanes[unitPointer->getLaneType()].isIndexEmpty(0)){
             lanes[unitPointer->getLaneType()].placeUnit(unitPointer);
-            std::cout << "board::placeUnit() success" << std::endl;
             combatUI.updateUI();
             return true;
         }
@@ -83,6 +79,7 @@ board::board(int & playerHP, int & enemyHP, int & playerMana, int & enemyMana ):
 
     void board::reset(){
         for(auto& lane : lanes){
+            std::cout << "reset lane \n";
             lane.reset();
         }
         combatUI.updateUI();

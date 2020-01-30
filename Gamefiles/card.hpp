@@ -45,7 +45,6 @@ public:
             objectSprite.setScale(-4, 4);
 
             mana = manaCost;
-            std::cout << "mana in unit is: " << mana << std::endl;
 
             unitFont.loadFromFile("gameAssets/cardAssets/cardFont.otf");
             unitStatsText.setFont(unitFont);
@@ -250,7 +249,6 @@ public:
     }
 
     std::shared_ptr<unit> summonUnitFromCard(){
-        std::cout << "card mana cost gegeven aan unit: " << mana << std::endl;
         return std::shared_ptr<unit>(new unit(cardUnitHealth, cardUnitDamage, cardUnitLane, textureMap, textureSheetDimensions, mana));
     }
 
@@ -353,8 +351,6 @@ public:
                 if(cardsInHand[i] != nullptr){
                     if(cardsInHand[i]->checkIfPlayed(mousePosition)){
                         if(((cardsInHand[i]->getUnitLane() == E_lane::skyLane && skyOpen) || (cardsInHand[i]->getUnitLane() == E_lane::groundLane && groundOpen)) && (cardsInHand[i]->getManaCost() <= playerMana)){
-                            std::cout << "manaCost kaart in isCardClicked: " << cardsInHand[i]->getManaCost() << std::endl;
-                            std::cout << "playerMana in isCardClicked: " << playerMana << std::endl;
                             playerMana -= cardsInHand[i]->getManaCost();
                             return i;
                         }
@@ -573,7 +569,6 @@ public:
     }
 
     void newOwnCard(int newCardID){
-        std::cout << "ownedCards count: " << ownedCards[newCardID] << std::endl;
         ownedCards[newCardID] += 1;
 
         if(ownedCards[newCardID] == 1){

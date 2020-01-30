@@ -83,8 +83,6 @@ public:
                     storage.setActive(storage.getReturnTarget());
                 }
                 
-                // std::cout << "Chosen card: " << chosen << std::endl;
-                //add chosen to current deck
             }
             
         }
@@ -94,7 +92,6 @@ public:
 
     void setFrame(int maxFrame, int textureRow) override{
         if(frameCounter > 10) {frameCounter = 0; textureFrame++;}
-	    //objectSprite.setTextureRect(sf::IntRect(16*textureFrame, 0*textureRow, 16, 30));
 	    objectSprite.setTextureRect(sf::IntRect(47*textureFrame, 0*textureRow, 47, 35));
         if(maxFrame <= textureFrame) animationDone = true;
 	    else frameCounter++;
