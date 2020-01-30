@@ -18,12 +18,13 @@ private:
     //bool interacted = false;
     bool avalable = true;
     popup itemPopup; 
-
+    objectStorage & storage;
     sf::Sound sound;
     sf::SoundBuffer buffer;
+
 public:
-    chest(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, int objectPriority, std::string soundFile, std::string textureFile, bool opened):
-        gameObject(spritePosition, spriteScale, textureMap, firstKey), itemPopup(spritePosition, "gameAssets/popupBackground.png")
+    chest(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, int objectPriority, objectStorage & storage, std::string soundFile, std::string textureFile, bool opened):
+        gameObject(spritePosition, spriteScale, textureMap, firstKey), itemPopup(spritePosition, "gameAssets/popupBackground.png"), storage(storage)
     {
         interactable = true;
         gameObject::objectPriority = objectPriority;
@@ -75,8 +76,11 @@ public:
             if (chosen != -1)
             {
                 avalable = false;
+                storage.deckEditor.newOwnCard(chosen);
+                // std::cout << "Chosen card: " << chosen << std::endl;
                 //add chosen to current deck
             }
+            
         }
     }
     
