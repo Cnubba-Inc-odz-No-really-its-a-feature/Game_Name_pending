@@ -76,8 +76,8 @@ public:
         std::for_each(newEnemyUnits.begin(), newEnemyUnits.end(), [this](auto&i){placeUnitOnBoard(i);});
         gameBoard.updateEnemy();
 
+        gameBoard.fightPhase();
 
-        
         if(playerHP <= 1 || enemyHP < 1){
             exit(0);
         } 

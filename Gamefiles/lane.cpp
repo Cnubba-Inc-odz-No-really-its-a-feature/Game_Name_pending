@@ -144,16 +144,24 @@
 
     void lane::fightPhase(){
 
-        for(uint_fast8_t allyIndex = 0; allyIndex < LANE_SIZE - 2; allyIndex++){
+        for(uint_fast8_t allyIndex = 0; allyIndex < LANE_SIZE - 1; allyIndex++){
 
-            if(enemyArray[allyIndex + 1] != nullptr){
+            if(allyArray[allyIndex] != nullptr && enemyArray[allyIndex + 1] != nullptr){
                     std::cout << "|-------------> fight" << std::endl;
                 combatResult fightResult = fight(allyArray[allyIndex], enemyArray[allyIndex + 1], allyIndex);
 
-                if(fightResult.openentKilled){
-                enemyArray[fightResult.opponentPosition] = nullptr;
+                if(fightResult.opponentKilled){
+                    enemyArray[fightResult.opponentPosition] = nullptr;
                 }
                 if(fightResult.selfKilled){
+                    allyArray[fightResult.selfPosition] = nullptr;
+                }
+                if(fightResult.selfKilled && !fightResult.opponentKilled){
+                    enemyArray[fightResult.selfPosition] = enemyArray[fightResult.opponentPosition];
+                    enemyArray[fightResult.opponentPosition] = nullptr;
+                }
+                if(fightResult.opponentKilled && !fightResult.selfKilled){
+                    allyArray[fightResult.opponentPosition] = allyArray[fightResult.selfPosition];
                     allyArray[fightResult.selfPosition] = nullptr;
                 }
             }
@@ -165,14 +173,7 @@
         initiator->takeDamage(assaulted->getDamage());
 
         int selfPosition = index;
-        int opponentPosition;
-
-        if(initiator->isAlly()){
-            opponentPosition = index + 1;
-        }
-        else{
-            opponentPosition = index - 1;
-        }
+        int opponentPosition = index + 1;
 
         bool selfKilled = initiator->checkIsDead();
         bool opponentKilled = assaulted->checkIsDead();

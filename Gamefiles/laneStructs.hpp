@@ -12,15 +12,15 @@ struct combatResult{
     int opponentPosition;
 
     bool isAlly;
-    bool openentKilled;
+    bool opponentKilled;
     bool selfKilled;
     bool valid;
 
-    combatResult(bool valid, int selfPosition = 1, int opponentPosition = 1, bool oponentKilled = 1, bool selfKilled = 1):
+    combatResult(bool valid, int selfPosition = 1, int opponentPosition = 1, bool opponentKilled = 1, bool selfKilled = 1):
         valid{valid},
         selfPosition{selfPosition},
         opponentPosition{opponentPosition},
-        openentKilled{oponentKilled},
+        opponentKilled{opponentKilled},
         selfKilled{selfKilled}
     {}
 };
