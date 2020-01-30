@@ -579,6 +579,7 @@ public:
     }
 
     void newOwnCard(int newCard){
+        std::cout << "ownedCards count: " << ownedCards[newCard] << std::endl;
         ownedCards[newCard] += 1;
         deckCardCounterTextArray[newCard].setString(std::to_string(playerDeck[newCard]));
         deckStatsText.setString("DeckSize: " + std::to_string(getDeckSize()) + " - 22");
