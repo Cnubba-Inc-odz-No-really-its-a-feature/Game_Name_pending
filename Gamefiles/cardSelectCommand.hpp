@@ -13,7 +13,6 @@ public:
         controlPointer{controlPointer},
         unitPointer{unitPointer}
     {
-        std::cout<<"CardSelectcommand created for damage: " << unitPointer->getDamage()<< std::endl;
     }
 
     void execute() override{

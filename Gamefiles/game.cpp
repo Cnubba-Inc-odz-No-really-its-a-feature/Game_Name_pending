@@ -17,7 +17,6 @@ void game::gameLoop(){
 	bool menuPlay = true;
 	bool battlePlay = true;
 
-	std::cout<<"entering gameLoop" << std::endl;
 
     while (gameWindow.isOpen()) {
 		loopTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count() - clockPrevious;
@@ -66,7 +65,6 @@ void game::gameLoop(){
 			battlePlay = false;
 			menuPlay = true;
 		}else if(gameObjectStorage.keyActive.at(0) == 'm' && menuPlay){
-			std::cout << "speelt menu.wav" << std::endl;
 			buffer.loadFromFile("gameAssets/Sounds/menu.wav");
 			sound.setBuffer(buffer);
 			sound.setLoop(true);

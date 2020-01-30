@@ -16,7 +16,6 @@ void character::setFrame(int maxFrame, int textureRow){
     }
 
 void character::draw(sf::RenderWindow& gameWindow){
-    objectSprite.setColor(sf::Color::Blue);
 
     gameWindow.draw(objectSprite);
 }

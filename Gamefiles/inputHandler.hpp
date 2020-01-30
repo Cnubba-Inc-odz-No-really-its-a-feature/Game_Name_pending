@@ -43,7 +43,6 @@ class inputHandler {
     if(lastInput + 100 < std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() && command != NULL){
 
       lastInput = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-      std::cout << "valid command" << std::endl;
       return true;
     }
     return false;
@@ -130,7 +129,6 @@ class inputHandler {
           if (j->isInteractable() &&
               j->getSprite().getGlobalBounds().contains(
                   sf::Vector2f(position.x, position.y))) {
-                        std::cout<<"button Interacted" << std::endl;
 
             return std::shared_ptr<command>(new selectedCommand(j));
           }
@@ -171,7 +169,6 @@ class inputHandler {
   }
 
   std::shared_ptr<command> handleEndTurnButton(){
-    std::cout << "hi" << *allowEndTurn.get() << std::endl;
     if(*allowEndTurn.get()){
 
       lastEndTurn =  std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
@@ -199,7 +196,6 @@ class inputHandler {
         }
         obtainedCommand = handleDungeonClickSelect();
         if(isCommandValid(obtainedCommand)){
-          std::cout<<"valid command found" << std::endl;
 
           return obtainedCommand;
         }

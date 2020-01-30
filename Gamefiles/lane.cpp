@@ -9,7 +9,6 @@
         nullUnitPointer = std::make_shared<nullUnit>();
         allyArray.fill(nullptr);
         enemyArray.fill(nullptr);
-        std::cout << "lane made" << std::endl;
     }
 
     bool lane::isIndexEmpty(const int index){
@@ -21,7 +20,6 @@
     }
 
     void lane::placeUnit(std::shared_ptr<unit> unitPointer){
-        std::cout << "lane::placeUnit(" << unitPointer.get() << ")" << std::endl;
         if(unitPointer != nullptr){
             if(unitPointer->isAlly()){
                 allyArray[0] = unitPointer; 
@@ -35,6 +33,7 @@
     void lane::reset(){
         allyArray.fill(nullptr);
         allyArray.fill(nullptr);
+        std::cout << "lane reset done" << std::endl;
     }
 
     sf::Vector2f lane::getLaneStartPosition(E_lane laneID, sf::RenderWindow& window){
@@ -104,39 +103,30 @@
             array[nextIndex] = array[index];
             array[index] = nullptr;
         };
-
-        std::cout << "updateUnit(" << toUpdateUnit << ")" << "at index: " << int(index) << "       one lane: " << int(laneID) << std::endl;
         if(toUpdateUnit == nullptr){
-            std::cout << "nullptr found" << std::endl;
         }
 
         if(toUpdateUnit->isAlly()){
             int nextIndex = index + 1;
             if(isIndexEmpty(nextIndex)){
-                    std::cout << "|-------------> move" << std::endl;
                 moveUnit(index, nextIndex, allyArray);
                 if(nextIndex == LANE_SIZE - 1){
-                    std::cout << "|-------------> attack opponent summoner" << std::endl;
                     enemyHP -= toUpdateUnit->getDamage();
                     allyArray[LANE_SIZE - 1] = nullptr;
                 }
                 return;
             }
-                    std::cout << "|-------------> do nothing" << std::endl;
         }
         else
             {
             int nextIndex = index - 1;
             if(isIndexEmpty(nextIndex)){
-                    std::cout << "|-------------> move" << std::endl;
                 moveUnit(index, nextIndex, enemyArray);
                 if(nextIndex == 0){
-                    std::cout << "|-------------> attack opponent summoner" << std::endl;
                     playerHP -= toUpdateUnit->getDamage();
                     enemyArray[0] = nullptr;
                 }
             }
-                    std::cout << "|-------------> do nothing" << std::endl;
         }
     }
     
@@ -146,7 +136,6 @@
         for(uint_fast8_t allyIndex = 0; allyIndex < LANE_SIZE - 1; allyIndex++){
 
             if(allyArray[allyIndex] != nullptr && enemyArray[allyIndex + 1] != nullptr){
-                    std::cout << "|-------------> fight" << std::endl;
                 combatResult fightResult = fight(allyArray[allyIndex], enemyArray[allyIndex + 1], allyIndex);
 
                 if(fightResult.opponentKilled){
@@ -174,6 +163,5 @@
 
     void lane::print_array(){
         for(int x = 0; x < 4; x++){
-            std::cout << "on poss: " << x << " is unti: " << allyArray[x] << " located" << std::endl;
         }
     }

@@ -28,15 +28,12 @@ int popup::update(){
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
     {
         if(Options[0]->getSprite().getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition()))){
-            // std::cout << "Pressed" << std::endl;
             return Options[0]->getCardID();
         }
         if(Options[1]->getSprite().getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition()))){
-            // std::cout << "Pressed" << std::endl;
             return Options[1]->getCardID();
         }
         if(Options[2]->getSprite().getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition()))){
-            // std::cout << "Pressed" << std::endl;
             return Options[2]->getCardID();
         }
     }

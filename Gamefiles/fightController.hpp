@@ -32,7 +32,7 @@ public:
         enemyMana{1},
         gameBoard(playerHP, enemyHP, playerMana, enemyMana),
         cardHand(cardHand),
-        fightEnemy(storage.enemyTex),
+        fightEnemy(std::string("gameAssets/skeleton.png")),
         gameWindow(gameWindow),
         storage(storage),
         allowedToEnd(nullptr)
@@ -48,16 +48,16 @@ public:
     int playerMana; 
 
     void initFight(){
-        std::cout<<"initiating fight"<<std::endl;
         playerHP = MAX_HP;
         enemyHP = MAX_HP;
-        playerMana =  currentPlayerMana;
-        enemyMana = currentPlayerMana;
+
+        playerMana =  1;
+        enemyMana = 1;
+        currentPlayerMana = 0;
         gameBoard.reset();
         cardHand.newFight();
         fightEnemy.getNewSprite(storage.enemyTex, storage.enemyTexTextureSheetTiles);
        // cardHand.newHand();
-        std::cout<<"fight initiated"<<std::endl;
 
     }
 
@@ -94,7 +94,7 @@ public:
 
         switch(currentPhase){
             case 1:
-			std::cout << "case: 1" << std::endl;
+            
                 lastInput = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
                 lastPhase = currentPhase;
                 active = true;
@@ -103,21 +103,10 @@ public:
                 }
                 playerMana = currentPlayerMana;
                 enemyMana = currentPlayerMana;
-
-                if(enemyHP <= 0){
-                    storage.factorNewGameState("rewardroom.txt");
-                    storage.setActive("rewardroom.txt");
-                    return;
-                } 
-                if(playerHP <= 0){
-                    storage.setActive(storage.getReturnTarget());
-                    return;
-                }
                 gameBoard.updateAlly();
                 break;
 
             case 2:
-			std::cout << "case: 2" << std::endl;
                 lastInput = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
                 lastPhase = currentPhase;
                 newEnemyUnits = fightEnemy.generateEnemyUnits();
@@ -125,25 +114,36 @@ public:
                 break;
 
             case 3:
-			std::cout << "case: 3" << std::endl;
                 lastInput = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
                 lastPhase = currentPhase;
                 gameBoard.updateEnemy();
                 break;
 
             case 4:
-			std::cout << "case: 4" << std::endl;
                 lastInput = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
                 lastPhase = currentPhase;
                 gameBoard.fightPhase();
                 break;
 
             case 5:
-			std::cout << "case: 5" << std::endl;
                 lastInput = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
                 lastPhase = 0;
                 cardHand.newHand();
-                std::cout << "playerMana: " << playerMana << std::endl;
+
+                if(enemyHP <= 0){
+                    storage.factorNewGameState("rewardroom.txt");
+                    storage.setActive("rewardroom.txt");
+                    std::cout << "reset" << std::endl;
+                    initFight();
+                    return;
+                } 
+                if(playerHP <= 0){
+                    storage.setActive(storage.getReturnTarget());
+
+                    std::cout << playerMana << " " << enemyMana << std::endl; 
+                    initFight();
+                    return;
+                }
                 active = false;
                 *allowedToEnd.get() = true;
                 break;
@@ -155,9 +155,7 @@ public:
     }
 
     bool placeUnitOnBoard(std::shared_ptr<unit> unitPointer){
-        std::cout << "placing on board via fightController" << std::endl;
         bool success = gameBoard.placeUnit(unitPointer);
-        std::cout << "unitPlacement: " << success << std::endl;
         return success;
     }
 

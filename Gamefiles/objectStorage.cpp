@@ -102,7 +102,6 @@ objectStorage::objectStorage(sf::RenderWindow& window) : window(window),
     tmpActive = "title.txt";
     tmpNewActive();
     factorMainCharacter();
-    std::cout << "Consturctor objectStorage" << std::endl;
 }
 
 std::shared_ptr<gameObject> objectStorage::factorObject(
@@ -150,7 +149,7 @@ std::shared_ptr<gameObject> objectStorage::factorObject(
           firstrun = false;
         }
         if (!(textureBind == ',')) {
-          throw end_of_textures("end of textures");
+          throw end_of_textures("");
         }
       }
     } catch (end_of_textures& e) {
@@ -186,7 +185,7 @@ std::shared_ptr<gameObject> objectStorage::factorObject(
           new newGameButton(pos, scale, textureMap, firstKey, *this, prio, target, soundFile, textureFile));
     }
 
-    throw invalid_type("invalid type found");
+    throw invalid_type("");
 
   } catch (invalid_type& e) {
     std::cerr << e.what() << std::endl;
@@ -195,14 +194,13 @@ std::shared_ptr<gameObject> objectStorage::factorObject(
     std::cerr << e.what() << std::endl;
     throw unknown_pos('p');
   } catch (end_of_file& e) {
-    throw end_of_file("end of file reached");
+    throw end_of_file("");
   }
 }
 
 void objectStorage::factorNewGameState(std::string stateFileName) {
   std::ifstream inputFile;
   inputFile.open(stateFileName);
-  std::cout << stateFileName << std::endl;
   std::string storageType;
   allVectors[stateFileName] = std::shared_ptr<std::vector<std::shared_ptr<gameObject>>>( new std::vector<std::shared_ptr<gameObject>>);
   try {
