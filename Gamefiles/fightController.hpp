@@ -24,16 +24,18 @@ private:
     sf::Texture endTurnButtonTexture;
     sf::Sprite endTurnButton;
     combatEnemy fightEnemy;
+    objectStorage & storage;
     
 public:
-    fightController(fightHand& cardHand):
+    fightController(fightHand& cardHand, objectStorage & storage): 
         playerHP{15},
         enemyHP{15},
         MAX_MANA{1},
         enemyMana{1},
         gameBoard(playerHP, enemyHP, playerMana, enemyMana),
         cardHand(cardHand),
-        fightEnemy(std::string("gameAssets/skeleton.png"))
+        fightEnemy(std::string("gameAssets/skeleton.png")),
+        storage(storage)
     {
         endTurnButtonTexture.loadFromFile("gameAssets/doneButton.png");
         endTurnButton.setTexture(endTurnButtonTexture);
@@ -72,8 +74,14 @@ public:
         playerMana = MAX_MANA;
         enemyMana = MAX_MANA;
         gameBoard.update();
-        if(playerHP <= 1 || enemyHP < 1){
-            exit(0);
+        if(enemyHP <= 0){
+            // storage.allVectors.erase("rewardroom.txt");
+            storage.setActive("rewardroom.txt");
+            return;
+        } 
+        if(playerHP <= 0){
+            storage.setActive(storage.getReturnTarget());
+            return;
         } 
         cardHand.newHand();
         std::vector<std::shared_ptr<unit>> newEnemyUnits = fightEnemy.generateEnemyUnits();

@@ -21,10 +21,11 @@ private:
     objectStorage & storage;
     sf::Sound sound;
     sf::SoundBuffer buffer;
+     int objectPriority;
 
 public:
     chest(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, int objectPriority, objectStorage & storage, std::string soundFile, std::string textureFile, bool opened):
-        gameObject(spritePosition, spriteScale, textureMap, firstKey), itemPopup(spritePosition, "gameAssets/popupBackground.png"), storage(storage)
+        gameObject(spritePosition, spriteScale, textureMap, firstKey), itemPopup(spritePosition, "gameAssets/popupBackground.png", objectPriority), storage(storage), objectPriority(objectPriority)
     {
         interactable = true;
         gameObject::objectPriority = objectPriority;
@@ -77,6 +78,11 @@ public:
             {
                 avalable = false;
                 storage.deckEditor.newOwnCard(chosen);
+                if (objectPriority == 5)
+                {
+                    storage.setActive(storage.getReturnTarget());
+                }
+                
                 // std::cout << "Chosen card: " << chosen << std::endl;
                 //add chosen to current deck
             }

@@ -1,8 +1,14 @@
 #include "popup.hpp"
 
-popup::popup(const sf::Vector2f & anker, std::string textureString):anker(anker)
+popup::popup(const sf::Vector2f & anker, std::string textureString, int prio):anker(anker)
 {//select some random cards
-    std::vector<int> tmp = {0,1,2,3,5,6,7};
+   std::vector<int> tmp = {4,8,9};
+    if (prio == 4)
+    {
+        std::vector<int> tmp = {0,1,2,3,5,6,7};
+    }
+    
+    
     std::random_device rd;
     std::mt19937 g(rd());
     std::shuffle(tmp.begin(), tmp.end(), g);
