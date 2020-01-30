@@ -2,6 +2,7 @@
 #define _BOARD_HPP
 
 #include "lane.hpp"
+#include "UI.hpp"
 
 class board {
 private:
@@ -25,17 +26,7 @@ private:
 
     int & enemyMana;
 
-    sf::Font mana_healthFont;
-    sf::Text playerManaText;
-    sf::Text playerHealthText;
-    sf::Texture manaBarTexture;
-    sf::Texture healthBarTexture;
-    sf::Texture statsUITexture;
-    sf::Texture enemyHPTexture;
-    sf::Sprite manaBarSprite;
-    sf::Sprite healthBarSprite;
-    sf::Sprite statsUISprite;
-    sf::Sprite enemyHPSprite;
+    UI combatUI;
 
 
 public:
