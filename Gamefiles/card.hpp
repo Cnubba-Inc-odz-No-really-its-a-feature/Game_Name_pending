@@ -353,7 +353,7 @@ public:
     }
 
 
-    int isCardClicked(sf::Vector2f mousePosition, bool skyOpen, bool groundOpen, int playerMana){
+    int isCardClicked(sf::Vector2f mousePosition, int & playerMana, bool skyOpen, bool groundOpen){
         if(cardCount > 0){
             for(int i = 0; i < 7 ; i++){
                 if(cardsInHand[i] != nullptr){
@@ -361,6 +361,7 @@ public:
                         if(((cardsInHand[i]->getUnitLane() == E_lane::skyLane && skyOpen) || (cardsInHand[i]->getUnitLane() == E_lane::groundLane && groundOpen)) && (cardsInHand[i]->getManaCost() <= playerMana)){
                             std::cout << "manaCost kaart in isCardClicked: " << cardsInHand[i]->getManaCost() << std::endl;
                             std::cout << "playerMana in isCardClicked: " << playerMana << std::endl;
+                            playerMana -= cardsInHand[i]->getManaCost();
                             return i;
                         }
                     }
@@ -379,9 +380,9 @@ public:
     }
 
 
-    std::shared_ptr<unit> checkForCardPlay(sf::Vector2i mousePosI, bool skyOpen = true, bool groundOpen = true, int playerMana = 10){
+    std::shared_ptr<unit> checkForCardPlay(sf::Vector2i mousePosI, int &playerMana, bool skyOpen = true, bool groundOpen = true){
         sf::Vector2f mousePosF = sf::Vector2f(float(mousePosI.x), float(mousePosI.y));
-        int clickedCardPos = isCardClicked(mousePosF, skyOpen, groundOpen, playerMana);
+        int clickedCardPos = isCardClicked(mousePosF, playerMana, skyOpen, groundOpen);
  
         if(clickedCardPos > -1){
             std::shared_ptr<unit> newUnit = playUnitCard(clickedCardPos);

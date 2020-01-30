@@ -16,7 +16,7 @@ public:
     } 
 
     std::shared_ptr<unit> getRandomSkyUnit(){
-            int randomSkyUnit = rand() % 9 + 5;
+            int randomSkyUnit = rand() % 4 + 5;
             std::cout<<"creating sky unit of type: "<< randomSkyUnit<<std::endl;
             std::shared_ptr<unit> newSkyUnit = (factorCard(randomSkyUnit))->summonUnitFromCard();
             newSkyUnit->makeEnemy();
@@ -24,7 +24,7 @@ public:
     }
 
     std::shared_ptr<unit> getRandomGroundUnit(){
-            int randomGroundUnit = (rand() % 5 + 1) -1;
+            int randomGroundUnit = (rand() % 3) ;
             std::cout<<"creating ground unit of type: "<<randomGroundUnit<<std::endl;
             std::shared_ptr<unit> newGroundUnit = (factorCard(randomGroundUnit))->summonUnitFromCard();
             newGroundUnit->makeEnemy();
@@ -32,7 +32,7 @@ public:
     }
 
     std::vector<std::shared_ptr<unit>> generateEnemyUnits(int mana = 10){
-        int unitGenerationIndex =  rand() % 1 + 3;
+        int unitGenerationIndex =  rand() % 4;
         
         std::vector<std::shared_ptr<unit>> newEnemyUnits;
 
