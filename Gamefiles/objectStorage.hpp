@@ -59,7 +59,7 @@ public:
     void saveObjects();
     
     std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> & getActive();
-    void setActive(std::string newKey, std::string);
+    void setActive(std::string newKey, std::string spriteName = "");
 
     void tmpNewActive();
     std::string getReturnTarget();
