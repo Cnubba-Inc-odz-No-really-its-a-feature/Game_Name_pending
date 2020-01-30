@@ -117,6 +117,8 @@ std::shared_ptr<gameObject> objectStorage::factorObject(
   std::string target;
   std::string soundFile;
   sf::Texture objectTexture;
+  int textureSheetTiles;
+
   char textureBind;
   int prio;
   std::string firstKey;
@@ -133,6 +135,9 @@ std::shared_ptr<gameObject> objectStorage::factorObject(
       }
       if ( objectType == DOOR_E || objectType == ENEMY_E || objectType == CHEST_E) {
         inputFile >> interacted;
+      }
+      if ( objectType == ENEMY_E){
+        inputFile >> textureSheetTiles;
       }
       while (true) {
         inputFile >> textureMapKey;
@@ -166,7 +171,7 @@ std::shared_ptr<gameObject> objectStorage::factorObject(
           new door(pos, scale, textureMap, firstKey, *this, prio, target, soundFile, returnTarget, textureFile, interacted));
     } else if (objectType == objectTypes_E::ENEMY_E) {
       return std::shared_ptr<gameObject>(
-          new enemy(pos, scale, textureMap, firstKey, *this, prio, target, textureFile, interacted));
+          new enemy(pos, scale, textureMap, firstKey, *this, prio, target, textureFile, interacted, textureSheetTiles));
     } else if (objectType == objectTypes_E::BUTTON_E) {
       return std::shared_ptr<gameObject>(
           new button(pos, scale, textureMap, firstKey, *this, prio, target, soundFile, textureFile));
