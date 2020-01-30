@@ -199,6 +199,7 @@ void objectStorage::factorNewGameState(std::string stateFileName) {
   inputFile.open(stateFileName);
   std::cout << stateFileName << std::endl;
   std::string storageType;
+  allVectors[stateFileName] = std::shared_ptr<std::vector<std::shared_ptr<gameObject>>>( new std::vector<std::shared_ptr<gameObject>>);
   try {
     while (true) {
       if (inputFile.peek() == EOF) {
