@@ -35,7 +35,7 @@ class inputHandler {
   }
 
   bool isCombatCommandValid(std::shared_ptr<command> command, uint64_t& lastInput){
-    if(lastInput + 80 < std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() && command != NULL){
+    if(lastInput + 100 < std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() && command != NULL){
 
       lastInput = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
       std::cout << "valid command" << std::endl;
@@ -172,10 +172,11 @@ class inputHandler {
   }
 
   std::shared_ptr<command> handleEndTurnButton(){
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)){
-      return std::shared_ptr<command>(new endTurnCommand(fightControlPointer));
+    if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+      if(fightControlPointer.isDoneButtonPressed(sf::Mouse::getPosition())){
+        return std::shared_ptr<command>(new endTurnCommand(fightControlPointer));
+      }
     }
-
     return NULL;
   }
 

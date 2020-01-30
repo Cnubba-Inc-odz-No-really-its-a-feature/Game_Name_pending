@@ -70,6 +70,10 @@ public:
         return ally;
     }
 
+    void makeEnemy(){
+        ally = false;
+    }
+
     bool checkIsDead(){
         return unitCurrentHealth <= 0;
     }
@@ -309,7 +313,7 @@ public:
         deckStats_discardPile.setFont(deckStatsFont);
         deckStats_discardPile.setString("DiscardPile size: " + std::to_string(discardPile.size()));
             
-        deckStats_drawPile.setPosition(sf::Vector2f(20, 900));
+        deckStats_drawPile.setPosition(sf::Vector2f(20, 950));
         deckStats_discardPile.setPosition(sf::Vector2f(20, 1000));
     }
 
@@ -419,6 +423,7 @@ public:
         std::for_each(playerDeck.begin(), playerDeck.end(), [this](auto & i){for(int j = 0; j < i.second; j++){drawPile.push_back(i.first);}});
 
         std::random_shuffle(drawPile.begin(), drawPile.end());
+        newHand();
     }
 };
 

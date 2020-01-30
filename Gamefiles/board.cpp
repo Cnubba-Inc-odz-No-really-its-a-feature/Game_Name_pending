@@ -13,7 +13,19 @@ board::board(int_fast8_t & playerHP, int_fast8_t & enemyHP, int & playerMana, in
         enemyHP{enemyHP},
         playerMana{playerMana},
         enemyMana{enemyMana}
-    {}
+    {
+
+        mana_healthFont.loadFromFile("gameAssets/cardAssets/cardFont.otf");
+        playerManaText.setFont(mana_healthFont);
+        playerHealthText.setFont(mana_healthFont);
+        playerManaText.setPosition(30, 600);
+        playerHealthText.setPosition(30, 700);
+        playerManaText.setString("ManaPool: " + std::to_string(playerMana));
+        playerHealthText.setString("HP: " + std::to_string(playerHP));
+        playerManaText.setFillColor(sf::Color::Blue);
+        playerHealthText.setFillColor(sf::Color::Red);
+    
+    }
 
     bool board::getSkyOpen(){
         return lanes[E_lane::skyLane].isIndexEmpty(0);
@@ -40,6 +52,9 @@ board::board(int_fast8_t & playerHP, int_fast8_t & enemyHP, int & playerMana, in
                 lanes[i].updateLane();
             }
         }
+        playerManaText.setString("ManaPool: " + std::to_string(playerMana));
+        playerHealthText.setString("HP: " + std::to_string(playerHP));
+
     }
 
     bool board::placeUnit(std::shared_ptr<unit> unitPointer){
@@ -47,6 +62,7 @@ board::board(int_fast8_t & playerHP, int_fast8_t & enemyHP, int & playerMana, in
         std::cout << "unit cost: " << unitPointer->mana << std::endl;
         if(lanes[unitPointer->getLaneType()].isIndexEmpty(0) && unitPointer->mana <= playerMana ){
             playerMana -= unitPointer->mana;
+            playerManaText.setString("ManaPool: " + std::to_string(playerMana));
             lanes[unitPointer->getLaneType()].placeUnit(unitPointer);
             std::cout << "board::placeUnit() success" << std::endl;
             return true;
@@ -62,10 +78,16 @@ board::board(int_fast8_t & playerHP, int_fast8_t & enemyHP, int & playerMana, in
         for(auto& currentLane : lanes){
             currentLane.draw(window);
         }
+
+        window.draw(playerManaText);
+        window.draw(playerHealthText);
     }
 
     void board::reset(){
         for(auto& lane : lanes){
             lane.reset();
         }
+        playerManaText.setString("ManaPool: " + std::to_string(playerMana));
+        playerHealthText.setString("HP: " + std::to_string(playerHP));
     }
+

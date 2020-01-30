@@ -25,6 +25,10 @@ private:
 
     int & enemyMana;
 
+    sf::Font mana_healthFont;
+    sf::Text playerManaText;
+    sf::Text playerHealthText;
+
 public:
 
     /// \brief
