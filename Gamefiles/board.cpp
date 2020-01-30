@@ -48,6 +48,7 @@ board::board(int_fast8_t & playerHP, int_fast8_t & enemyHP, int & playerMana, in
         for(auto& lane : lanes){
             lane.fightPhase();
         }
+        playerHealthText.setString(std::to_string(playerHP));
     }
 
     bool board::getGroundOpen(){

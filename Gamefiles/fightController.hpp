@@ -32,7 +32,7 @@ public:
         enemyMana{1},
         gameBoard(playerHP, enemyHP, playerMana, enemyMana),
         cardHand(cardHand),
-        fightEnemy(storage.enemyTex),
+        fightEnemy(std::string("gameAssets/skeleton.png")),
         gameWindow(gameWindow),
         storage(storage),
         allowedToEnd(nullptr)
@@ -142,6 +142,7 @@ public:
                 lastInput = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
                 lastPhase = 0;
                 cardHand.newHand();
+                
                 std::cout << "playerMana: " << playerMana << std::endl;
                 active = false;
                 *allowedToEnd.get() = true;
