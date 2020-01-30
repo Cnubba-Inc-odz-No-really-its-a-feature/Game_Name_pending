@@ -24,7 +24,8 @@ public:
     void updateAllyLane();
     void updateEnemyLane();
     void updateUnit(const int index, std::shared_ptr<unit> unit);
-    unitUpdateResult fight(std::shared_ptr<unit> initiator, std::shared_ptr<unit> assaulted, const int index);
+    void fightPhase();
+    combatResult fight(std::shared_ptr<unit> initiator, std::shared_ptr<unit> assaulted, const int index);
 
     // draw functions
     sf::Vector2f getLaneStartPosition(E_lane laneID, sf::RenderWindow& window);

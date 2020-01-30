@@ -1,5 +1,6 @@
 #include "game.hpp"
 #include <SFML/Audio.hpp>
+#include "E_turnPhase.hpp"
 
 void game::gameLoop(){
 	using namespace std::chrono;
@@ -26,11 +27,6 @@ void game::gameLoop(){
 		}
 		clockPrevious = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::B)){
-			gameObjectStorage.cardHand.newHand();
-		}
-
-
 
 		std::shared_ptr<command> newCommand;
 		newCommand  = gameInputHandler.handleInput();
@@ -48,7 +44,10 @@ void game::gameLoop(){
 			secondsPassed++;
 		}
 
-        if(gameObjectStorage.keyActive.at(0) == 'r' && gamePlay){
+		if(fightControl.getActive()){
+			fightControl.nextTurn(0);
+		}
+        else if(gameObjectStorage.keyActive.at(0) == 'r' && gamePlay){
 			buffer.loadFromFile("gameAssets/Sounds/game.wav");
 			sound.setBuffer(buffer);
 			sound.setLoop(true);
@@ -80,8 +79,6 @@ void game::gameLoop(){
 
         gameWindow.clear();
         gameObjectRenderer.draw();
-
-
 		gameWindow.display();
 
 

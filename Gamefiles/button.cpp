@@ -27,10 +27,7 @@ void button::setFrame(int maxFrame, int textureRow  ){}
 void button::move(sf::Vector2f moveDirection){}
 
 void button::setTarget(std::string newTarget){
-    std::cout << "target" << std::endl;
-    std::cout << target << std::endl;
     target = newTarget;
-    std::cout << target << std::endl;
 }
 
 void button::update(){
