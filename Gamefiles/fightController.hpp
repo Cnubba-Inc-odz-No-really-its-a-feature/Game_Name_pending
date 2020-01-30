@@ -62,11 +62,19 @@ public:
         return gameBoard.getGroundOpen();
     }
 
-    void nextTurn(E_turnPhase& phase){
+    void nextTurn(E_turnPhase phase){
         std::cout << "nextTurn()________________________________________________________________________" << std::endl;
         std::vector<std::shared_ptr<unit>> newEnemyUnits;
-        E_turnPhase::playerMoveAndChecks;
-        switch(phase){
+        E_turnPhase currentPhase;
+
+        if(phase == E_turnPhase::wait){
+            //update and track time, and update currentphase accordingly
+        }
+        else{
+            currentPhase = phase;
+        }
+
+        switch(currentPhase){
             case E_turnPhase::playerMoveAndChecks: 
                 if(MAX_MANA <= 10){
                     MAX_MANA++;
