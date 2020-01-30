@@ -25,9 +25,10 @@ private:
     sf::Sprite endTurnButton;
     combatEnemy fightEnemy;
     sf::RenderWindow& gameWindow;
+    objectStorage & storage;
     
 public:
-    fightController(fightHand& cardHand, sf::RenderWindow& gameWindow):
+    fightController(fightHand& cardHand, objectStorage & storage, sf::RenderWindow& gameWindow): 
         playerHP{15},
         enemyHP{15},
         MAX_MANA{1},
@@ -35,7 +36,8 @@ public:
         gameBoard(playerHP, enemyHP, playerMana, enemyMana),
         cardHand(cardHand),
         fightEnemy(std::string("gameAssets/skeleton.png")),
-        gameWindow(gameWindow)
+        gameWindow(gameWindow),
+        storage(storage)
     {
         endTurnButtonTexture.loadFromFile("gameAssets/doneButton.png");
         endTurnButton.setTexture(endTurnButtonTexture);
@@ -48,7 +50,6 @@ public:
     int playerMana; 
 
     void initFight(){
-        std::cout<<"initiating fight"<<std::endl;
         playerHP = 15;
         enemyHP = 15;
         playerMana =  MAX_MANA;
@@ -73,6 +74,15 @@ public:
         if(MAX_MANA <= 10) MAX_MANA++;
         playerMana = MAX_MANA;
         enemyMana = MAX_MANA;
+        if(enemyHP <= 0){
+            //storage.factorNewGameState("rewardroom.txt");
+            storage.setActive("rewardroom.txt");
+            return;
+        } 
+        if(playerHP <= 0){
+            storage.setActive(storage.getReturnTarget());
+            return;
+        }
         gameBoard.updateAlly();
         std::vector<std::shared_ptr<unit>> newEnemyUnits = fightEnemy.generateEnemyUnits();
         std::for_each(newEnemyUnits.begin(), newEnemyUnits.end(), [this](auto&i){placeUnitOnBoard(i);});
@@ -81,8 +91,8 @@ public:
 
         gameBoard.fightPhase();
 
-        if(playerHP <= 1 || enemyHP < 1){
-            exit(0);
+        if(playerHP < 1 || enemyHP < 1){
+            // exit(0);
         } 
         cardHand.newHand();
         std::cout << "playerMana: " << playerMana << std::endl;
