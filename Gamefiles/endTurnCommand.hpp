@@ -11,14 +11,17 @@
 class endTurnCommand : public command{
 private:
     fightController & fightControlPointer;
+    std::shared_ptr<bool> allowedEndTurn;
 
 public:
-    endTurnCommand(fightController &fightControlPointer):
-        fightControlPointer(fightControlPointer)
+    endTurnCommand(fightController &fightControlPointer, std::shared_ptr<bool> allowedEndTurn):
+        fightControlPointer(fightControlPointer),
+        allowedEndTurn{allowedEndTurn}
     {}
 
     void execute() override{
-        fightControlPointer.nextTurn(E_turnPhase::playerMoveAndChecks);
+        fightControlPointer.setAllowedToEnd(allowedEndTurn);
+        fightControlPointer.nextTurn(1);
     }
 
     virtual void undo(){}

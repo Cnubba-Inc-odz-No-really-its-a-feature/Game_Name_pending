@@ -21,7 +21,9 @@ private:
     objectStorage & storage;
     uint64_t lastTurnEndTime;
     bool active = false; 
-    
+    uint64_t lastInput;
+    int lastPhase;
+    std::shared_ptr<bool> allowedToEnd;
 public:
     fightController(fightHand& cardHand, objectStorage & storage, sf::RenderWindow& gameWindow): 
         playerHP{15},
@@ -32,7 +34,8 @@ public:
         cardHand(cardHand),
         fightEnemy(std::string("gameAssets/skeleton.png")),
         gameWindow(gameWindow),
-        storage(storage)
+        storage(storage),
+        allowedToEnd(nullptr)
     {
         endTurnButtonTexture.loadFromFile("gameAssets/doneButton.png");
         endTurnButton.setTexture(endTurnButtonTexture);
@@ -69,12 +72,19 @@ public:
         return gameBoard.getGroundOpen();
     }
 
-    void nextTurn(E_turnPhase phase){
-        std::cout << "nextTurn()________________________________________________________________________" << std::endl;
-        std::vector<std::shared_ptr<unit>> newEnemyUnits;
-        E_turnPhase currentPhase;
+    void setAllowedToEnd(std::shared_ptr<bool> NewAllowedToEnd){
+        allowedToEnd = NewAllowedToEnd;
+    }
 
-        if(phase == E_turnPhase::wait){
+    void nextTurn(int phase){
+        std::vector<std::shared_ptr<unit>> newEnemyUnits;
+        int currentPhase;
+
+        if(phase == 0){
+            uint_fast64_t currentTime =  std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+            if(currentTime > lastInput + BATTLE_PHASE_DELAY){
+                currentPhase = lastPhase + 1;
+            }
             //update and track time, and update currentphase accordingly
         }
         else{
@@ -82,7 +92,10 @@ public:
         }
 
         switch(currentPhase){
-            case E_turnPhase::playerMoveAndChecks: 
+            case 1:
+			std::cout << "case: 1" << std::endl;
+                lastInput = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+                lastPhase = currentPhase;
                 active = true;
                 if(MAX_MANA <= 10){
                     MAX_MANA++;
@@ -102,22 +115,36 @@ public:
                 gameBoard.updateAlly();
                 break;
 
-            case E_turnPhase::enemySummoning:
+            case 2:
+			std::cout << "case: 2" << std::endl;
+                lastInput = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+                lastPhase = currentPhase;
                 newEnemyUnits = fightEnemy.generateEnemyUnits();
                 std::for_each(newEnemyUnits.begin(), newEnemyUnits.end(), [this](auto&i){placeUnitOnBoard(i);});
                 break;
 
-            case E_turnPhase::enemyMove:
+            case 3:
+			std::cout << "case: 3" << std::endl;
+                lastInput = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+                lastPhase = currentPhase;
                 gameBoard.updateEnemy();
                 break;
 
-            case E_turnPhase::fight:
+            case 4:
+			std::cout << "case: 4" << std::endl;
+                lastInput = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+                lastPhase = currentPhase;
                 gameBoard.fightPhase();
                 break;
 
-            case E_turnPhase::drawHand:
+            case 5:
+			std::cout << "case: 5" << std::endl;
+                lastInput = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+                lastPhase = 0;
                 cardHand.newHand();
                 std::cout << "playerMana: " << playerMana << std::endl;
+                active = false;
+                *allowedToEnd.get() = true;
                 break;
 
             default:

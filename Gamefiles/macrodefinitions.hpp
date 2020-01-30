@@ -4,9 +4,6 @@
 #define LANE_SIZE 5
 #define ITERATION_DISTANCE_X windowSize.x/7
 #define ITERATION_DISTANCE_Y windowSize.y/10
-#define BATTLE_PHASE_DELAY 400
+#define TURN_PHASE_LENGTH  5000
+#define BATTLE_PHASE_DELAY TURN_PHASE_LENGTH/6
 #endif
-
-
-// 1080 / 20 = 54
-// 1920 / 20 = 96

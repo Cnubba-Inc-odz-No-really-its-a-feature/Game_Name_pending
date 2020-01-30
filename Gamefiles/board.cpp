@@ -44,6 +44,12 @@ board::board(int_fast8_t & playerHP, int_fast8_t & enemyHP, int & playerMana, in
         return lanes[E_lane::skyLane].isIndexEmpty(0);
     }
 
+    void board::fightPhase(){
+        for(auto& lane : lanes){
+            lane.fightPhase();
+        }
+    }
+
     bool board::getGroundOpen(){
         return lanes[E_lane::groundLane].isIndexEmpty(0);
     }

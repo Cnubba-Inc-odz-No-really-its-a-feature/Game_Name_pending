@@ -15,6 +15,7 @@
 #include "cardSelectCommand.hpp"
 #include "fightController.hpp"
 #include "deckEditorButtonCommand.hpp"
+#include "macrodefinitions.hpp"
 
 class inputHandler {
  private:
@@ -29,6 +30,10 @@ class inputHandler {
   objectStorage &gameObjectStorage;
   fightController& fightControlPointer;
   uint64_t lastInput;
+  uint64_t lastEndTurn;
+
+  std::shared_ptr<bool> allowEndTurn;
+  
 
   bool isCommandValid(std::shared_ptr<command> command){
     return command != NULL;
@@ -152,30 +157,31 @@ class inputHandler {
     }
 
   std::shared_ptr<command> handleCombatClickSelect(){
-    for (auto i : selectKeys) {
-      if (sf::Mouse::isButtonPressed(i)) {
-          std::shared_ptr<unit> cardUnit = gameObjectStorage.cardHand.checkForCardPlay(sf::Mouse::getPosition(), fightControlPointer.playerMana, fightControlPointer.getSkyOpen(), fightControlPointer.getGroundOpen() );
-          if(cardUnit != nullptr){
-            return std::shared_ptr<command>(new cardSelectCommand(fightControlPointer, cardUnit));
-          }
+    if(*allowEndTurn.get()){
+      for (auto i : selectKeys) {
+        if (sf::Mouse::isButtonPressed(i)) {
+            std::shared_ptr<unit> cardUnit = gameObjectStorage.cardHand.checkForCardPlay(sf::Mouse::getPosition(), fightControlPointer.playerMana, fightControlPointer.getSkyOpen(), fightControlPointer.getGroundOpen() );
+            if(cardUnit != nullptr){
+              return std::shared_ptr<command>(new cardSelectCommand(fightControlPointer, cardUnit));
+            }
+        }
       }
-
-      // for clicking on menu buttons
-      // sf::Vector2i position = sf::Mouse::getPosition(); 
-      //   if (j->isInteractable() && j->getSprite().getGlobalBounds().contains(sf::Vector2f(position.x, position.y))){
-      //     return std::shared_ptr<command>(new selectedCommand(j));
-      //   }
-      // }
     }
-
     return NULL;
   }
 
   std::shared_ptr<command> handleEndTurnButton(){
-    if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-      if(fightControlPointer.isDoneButtonPressed(sf::Mouse::getPosition())){
-        return std::shared_ptr<command>(new endTurnCommand(fightControlPointer));
-      }
+    std::cout << "hi" << *allowEndTurn.get() << std::endl;
+    if(*allowEndTurn.get()){
+
+      lastEndTurn =  std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+
+      if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+        if(fightControlPointer.isDoneButtonPressed(sf::Mouse::getPosition())){
+          *allowEndTurn.get() = false;
+          return std::shared_ptr<command>(new endTurnCommand(fightControlPointer, allowEndTurn));
+        }
+     }
     }
     return NULL;
   }
@@ -209,15 +215,18 @@ class inputHandler {
         
         std::shared_ptr<command> obtainedCommand;
 
-        obtainedCommand = handleCombatClickSelect();
-        if(isCombatCommandValid(obtainedCommand, lastInput)){
-          return obtainedCommand;
+        if(*allowEndTurn.get()){
+          obtainedCommand = handleCombatClickSelect();
+          if(isCombatCommandValid(obtainedCommand, lastInput)){
+            return obtainedCommand;
+          }
+          obtainedCommand = handleEndTurnButton();
+          if(isCombatCommandValid(obtainedCommand, lastInput)){
+            return obtainedCommand;
+          }
         }
+
         obtainedCommand = handleExit();
-        if(isCombatCommandValid(obtainedCommand, lastInput)){
-          return obtainedCommand;
-        }
-        obtainedCommand = handleEndTurnButton();
         if(isCombatCommandValid(obtainedCommand, lastInput)){
           return obtainedCommand;
         }
@@ -242,9 +251,11 @@ class inputHandler {
  public:
   inputHandler(objectStorage &gameObjectStorage, fightController& fightControlPointer)
       : gameObjectStorage{gameObjectStorage},
-        fightControlPointer{fightControlPointer}
+        fightControlPointer{fightControlPointer},
+        allowEndTurn{std::make_shared<bool>(true)}
        {
          lastInput = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+         lastEndTurn = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
        }
 
   std::shared_ptr<command> handleInput() {

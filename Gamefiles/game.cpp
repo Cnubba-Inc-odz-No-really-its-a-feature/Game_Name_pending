@@ -45,7 +45,7 @@ void game::gameLoop(){
 		}
 
 		if(fightControl.getActive()){
-			fightControl.nextTurn(E_turnPhase::enemySummoning);
+			fightControl.nextTurn(0);
 		}
         else if(gameObjectStorage.keyActive.at(0) == 'r' && gamePlay){
 			buffer.loadFromFile("gameAssets/Sounds/game.wav");

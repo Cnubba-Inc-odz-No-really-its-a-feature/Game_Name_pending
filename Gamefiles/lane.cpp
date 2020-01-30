@@ -24,8 +24,7 @@
         std::cout << "lane::placeUnit(" << unitPointer.get() << ")" << std::endl;
         if(unitPointer != nullptr){
             if(unitPointer->isAlly()){
-                allyArray[0] = unitPointer;
-                std::cout << allyArray[0];
+                allyArray[0] = unitPointer; 
             }
             else{
                 enemyArray[LANE_SIZE - 1] = unitPointer;
