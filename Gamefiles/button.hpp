@@ -9,18 +9,29 @@
 
 class button : public gameObject {
 private:
+    /// \brief
+    /// Scale at the moment of construction. 
     sf::Vector2f origScale;
+    /// \brief
+    /// Pos at the moment of construction
     sf::Vector2f origPos;
+    /// \brief
+    /// Saves storage for setActive
     objectStorage & storage;
+    /// \brief
+    /// Saves target for setActive
     std::string target;
-
-    bool firstrun = true;
+    /// \brief
+    /// 
     sf::Sound sound;
     sf::SoundBuffer buffer;
 
 public:
 
-
+    /// \brief
+    /// Button constructor.
+    /// \details
+    /// Initializes the inherented gameobject with propper texture, scale, priority, etc and saves what it needs itself
     button( sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, objectStorage & storage, int objectPriority, std::string target, std::string soundFile, std::string textureFile);
 
     void draw(sf::RenderWindow& gameWindow) override;

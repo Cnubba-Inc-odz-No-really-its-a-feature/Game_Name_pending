@@ -45,18 +45,14 @@ public:
         }
     }
 
-    void interact(objectStorage& gameStorage, const float& mainCharacterPosition){
-
-    }
-
     void draw(sf::RenderWindow& gameWindow) override{
         setFrame(2,2);
         gameWindow.draw(objectSprite);
     }
 
-    void move(sf::Vector2f moveDirection) override{}
-
-    void update(){}
+    void update(){
+        storage.character1
+    }
 
 };
 
