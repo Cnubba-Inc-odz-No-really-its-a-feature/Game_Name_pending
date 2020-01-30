@@ -17,11 +17,11 @@ std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> & objectStorage::getAc
   return allVectors[keyActive];
 }
 
-void objectStorage::setActive(std::string newKey) {
+void objectStorage::setActive(std::string newKey, std::string spriteName = "") {
   if(keyActive.at(0) == 'r') returnTarget = keyActive;
   if(newKey == "room1.txt" && keyActive == "menu.txt") newKey = returnTarget;
   if(newKey == "exit") exit(0);
-  if(newKey == "cardgame.txt") cardHand.newFight();
+  if(newKey == "cardgame.txt") {cardHand.newFight(); enemyTex = spriteName};
   if(newKey != "NONE"){
     std::string checkSaveFile = newKey;
     for( int i = 0; i < 4 ;i++ ){

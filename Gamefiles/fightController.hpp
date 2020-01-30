@@ -34,7 +34,7 @@ public:
         enemyMana{1},
         gameBoard(playerHP, enemyHP, playerMana, enemyMana),
         cardHand(cardHand),
-        fightEnemy(std::string("gameAssets/skeleton.png")),
+        fightEnemy(storage.enemyTex),
         storage(storage)
     {
         endTurnButtonTexture.loadFromFile("gameAssets/doneButton.png");

@@ -52,7 +52,7 @@ public:
 
     void update(){
         if(storage.character1->getSprite().getGlobalBounds().intersects(objectSprite.getGlobalBounds()) && not gameObject::interacted){
-            storage.setActive("cardgame.txt");
+            storage.setActive("cardgame.txt", gameObject::textureFile);
             gameObject::interacted = true;
         }
     }
