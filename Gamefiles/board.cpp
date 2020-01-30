@@ -2,15 +2,15 @@
 #include <iostream>
 // board::board(){}
 
-board::board(int_fast8_t & playerHP, int_fast8_t & enemyHP, int & playerMana, int & enemyMana ):
+board::board(int & playerHP, int & enemyHP, int & playerMana, int & enemyMana ):
         lanes({
             lane(E_lane::skyLane, playerHP, enemyHP),
             lane(E_lane::groundLane, playerHP, enemyHP),
             lane(E_lane::trapLane, playerHP, enemyHP)
         }),
         priorityLane{E_lane::groundLane},
-        playerHP{playerHP},
-        enemyHP{enemyHP},
+        playerHP(playerHP),
+        enemyHP(enemyHP),
         playerMana{playerMana},
         enemyMana{enemyMana},
         combatUI(playerHP, enemyHP, playerMana)

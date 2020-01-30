@@ -15,11 +15,11 @@ enum class E_fightState{
 class fightController{
 private:
     board gameBoard;
-    int_fast8_t playerHP;
-    int_fast8_t enemyHP;
+    int playerHP;
+    int enemyHP;
     E_fightState fightState;
     int enemyMana;
-    int MAX_MANA;
+    int currentPlayerMana;
     fightHand& cardHand;
     sf::Texture endTurnButtonTexture;
     sf::Sprite endTurnButton;
@@ -28,9 +28,9 @@ private:
     
 public:
     fightController(fightHand& cardHand, objectStorage & storage): 
-        playerHP{15},
-        enemyHP{15},
-        MAX_MANA{1},
+        playerHP{MAX_HP},
+        enemyHP{MAX_HP},
+        currentPlayerMana{1},
         enemyMana{1},
         gameBoard(playerHP, enemyHP, playerMana, enemyMana),
         cardHand(cardHand),
@@ -49,10 +49,10 @@ public:
 
     void initFight(){
         std::cout<<"initiating fight"<<std::endl;
-        playerHP = 15;
-        enemyHP = 15;
-        playerMana =  MAX_MANA;
-        enemyMana = MAX_MANA;
+        playerHP = MAX_HP;
+        enemyHP = MAX_HP;
+        playerMana =  currentPlayerMana;
+        enemyMana = currentPlayerMana;
         gameBoard.reset();
         cardHand.newFight();
        // cardHand.newHand();
@@ -70,9 +70,9 @@ public:
 
     void nextTurn(){
         std::cout << "nextTurn()________________________________________________________________________" << std::endl;
-        if(MAX_MANA <= 10) MAX_MANA++;
-        playerMana = MAX_MANA;
-        enemyMana = MAX_MANA;
+        if(currentPlayerMana < MAX_MANA) currentPlayerMana++;
+        playerMana = currentPlayerMana;
+        enemyMana = currentPlayerMana;
         if(enemyHP <= 0){
             // storage.allVectors.erase("rewardroom.txt");
             storage.setActive("rewardroom.txt");

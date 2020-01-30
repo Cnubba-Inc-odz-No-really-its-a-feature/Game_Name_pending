@@ -16,11 +16,11 @@ private:
 
     /// \brief
     /// Tracks players hp so the lanes can update the current hp
-    int_fast8_t & playerHP;
+    int & playerHP;
 
     /// \brief
     /// Tracks enemy hp so the lanes can update the current hp
-    int_fast8_t & enemyHP;
+    int & enemyHP;
 
     int & playerMana;
 
@@ -35,7 +35,7 @@ public:
     /// The board constructor.
     /// \details
     /// The constructor needs playerHP and enemyHP, both by reference. 
-    board(int_fast8_t & playerHP, int_fast8_t & enemyHP, int & playerMana, int & enemyMana);
+    board(int & playerHP, int & enemyHP, int & playerMana, int & enemyMana);
 
     /// \brief
     /// Returns true if the first place in the sky lane is open to place a card on.
