@@ -161,8 +161,7 @@ class inputHandler {
       }
 
       // for clicking on menu buttons
-      // sf::Vector2i position = sf::Mouse::getPosition();
-      // for (auto j : *gameObjectStorage.getActive()) {
+      // sf::Vector2i position = sf::Mouse::getPosition(); 
       //   if (j->isInteractable() && j->getSprite().getGlobalBounds().contains(sf::Vector2f(position.x, position.y))){
       //     return std::shared_ptr<command>(new selectedCommand(j));
       //   }
