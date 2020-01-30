@@ -74,7 +74,7 @@ public:
         playerMana = MAX_MANA;
         enemyMana = MAX_MANA;
         if(enemyHP <= 0){
-            // storage.allVectors.erase("rewardroom.txt");
+            storage.factorNewGameState("rewardroom.txt");
             storage.setActive("rewardroom.txt");
             return;
         } 
