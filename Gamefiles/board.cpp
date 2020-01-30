@@ -20,29 +20,14 @@ board::board(int & playerHP, int & enemyHP, int & playerMana, int & enemyMana ):
         return lanes[E_lane::skyLane].isIndexEmpty(0);
     }
 
-    bool board::getGroundOpen(){
-        return lanes[E_lane::groundLane].isIndexEmpty(0);
+    void board::fightPhase(){
+        for(auto& lane : lanes){
+            lane.fightPhase();
+        }
     }
 
-    // int_fast8_t board::GetHP(std::string who){
-    //     if(who == "player"){
-    //         return playerHP;
-    //     }
-    //     else{
-    //         return enemyHP;
-    //     }
-    // }
-
-    void board::updateAlly(){
-        lanes[priorityLane].updateAllyLane();
-        
-        for(uint_fast8_t i = 0; i < 3; i++){
-            if(i != priorityLane){
-                lanes[i].updateAllyLane();
-            }
-        }
-        combatUI.updateUI();
-
+    bool board::getGroundOpen(){
+        return lanes[E_lane::groundLane].isIndexEmpty(0);
     }
 
     void board::updateEnemy(){
@@ -51,6 +36,18 @@ board::board(int & playerHP, int & enemyHP, int & playerMana, int & enemyMana ):
         for(uint_fast8_t i = 0; i < 3; i++){
             if(i != priorityLane){
                 lanes[i].updateEnemyLane();
+            }
+        }
+        combatUI.updateUI();
+
+    }
+    
+    void board::updateAlly(){
+        lanes[priorityLane].updateAllyLane();
+        
+        for(uint_fast8_t i = 0; i < 3; i++){
+            if(i != priorityLane){
+                lanes[i].updateAllyLane();
             }
         }
 

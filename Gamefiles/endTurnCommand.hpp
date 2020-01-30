@@ -6,18 +6,22 @@
 #include <iostream>
 #include <map>
 #include "memory"
+#include "E_turnPhase.hpp"
 
 class endTurnCommand : public command{
 private:
     fightController & fightControlPointer;
+    std::shared_ptr<bool> allowedEndTurn;
 
 public:
-    endTurnCommand(fightController &fightControlPointer):
-        fightControlPointer(fightControlPointer)
+    endTurnCommand(fightController &fightControlPointer, std::shared_ptr<bool> allowedEndTurn):
+        fightControlPointer(fightControlPointer),
+        allowedEndTurn{allowedEndTurn}
     {}
 
     void execute() override{
-        fightControlPointer.nextTurn();
+        fightControlPointer.setAllowedToEnd(allowedEndTurn);
+        fightControlPointer.nextTurn(1);
     }
 
     virtual void undo(){}

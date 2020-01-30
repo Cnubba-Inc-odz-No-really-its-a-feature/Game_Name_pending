@@ -26,10 +26,7 @@ void newGameButton::setFrame(int maxFrame, int textureRow  ){}
 void newGameButton::move(sf::Vector2f moveDirection){}
 
 void newGameButton::setTarget(std::string newTarget){
-    std::cout << "target" << std::endl;
-    std::cout << target << std::endl;
     target = newTarget;
-    std::cout << target << std::endl;
 }
 
 void newGameButton::update(){

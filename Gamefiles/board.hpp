@@ -52,6 +52,8 @@ public:
     void updateEnemy();
 
     void updateAlly();
+    
+    void fightPhase();
 
     void updateStatsUI();
 
