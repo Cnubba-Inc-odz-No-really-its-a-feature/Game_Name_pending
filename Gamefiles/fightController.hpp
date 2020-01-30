@@ -73,7 +73,6 @@ public:
         if(MAX_MANA <= 10) MAX_MANA++;
         playerMana = MAX_MANA;
         enemyMana = MAX_MANA;
-        gameBoard.update();
         if(enemyHP <= 0){
             // storage.allVectors.erase("rewardroom.txt");
             storage.setActive("rewardroom.txt");
@@ -82,10 +81,13 @@ public:
         if(playerHP <= 0){
             storage.setActive(storage.getReturnTarget());
             return;
-        } 
-        cardHand.newHand();
+        }
+        gameBoard.updateAlly();
         std::vector<std::shared_ptr<unit>> newEnemyUnits = fightEnemy.generateEnemyUnits();
         std::for_each(newEnemyUnits.begin(), newEnemyUnits.end(), [this](auto&i){placeUnitOnBoard(i);});
+        gameBoard.updateEnemy();
+        
+        cardHand.newHand();
         std::cout << "playerMana: " << playerMana << std::endl;
     }
 

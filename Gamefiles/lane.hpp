@@ -21,7 +21,8 @@ public:
     void reset();
 
     // updates and combat
-    void updateLane();
+    void updateAllyLane();
+    void updateEnemyLane();
     void updateUnit(const int index, std::shared_ptr<unit> unit);
     unitUpdateResult fight(std::shared_ptr<unit> initiator, std::shared_ptr<unit> assaulted, const int index);
 
