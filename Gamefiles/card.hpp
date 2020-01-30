@@ -569,7 +569,7 @@ public:
     }
 
     void changeCardCountInDeck(int cardID, int change){
-        if(getDeckSize() <= 22 && (playerDeck[cardID] + change) <= ownedCards[cardID] 
+        if((getDeckSize()+ change) <= 22 && (playerDeck[cardID] + change) <= ownedCards[cardID] 
         && (playerDeck[cardID] + change) >= 0 
         && std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - lastChange).count() > 100){
             lastChange = std::chrono::system_clock::now();
@@ -582,11 +582,13 @@ public:
     void newOwnCard(int newCard){
         ownedCards[newCard] += 1;
         deckCardCounterTextArray[newCard].setString(std::to_string(playerDeck[newCard]));
-        deckStatsText.setString("DeckSize: " + std::to_string(getDeckSize()) + " - 22");
 
         if(ownedCards[newCard] == 1){
             deckEditorCards[newCard] = factorCard(newCard);
         }
+        ownedCardCounterTextArray[newCard].setString(std::to_string(ownedCards[newCard]));
+        
+
     }
 };
 
