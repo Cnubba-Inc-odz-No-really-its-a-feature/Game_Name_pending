@@ -476,7 +476,6 @@ public:
         DOWNButtonTexture.loadFromFile("gameAssets/cardAssets/downArrow.png");
         cardCounterTexture.loadFromFile("gameAssets/cardAssets/cardCountTexture.png");
 
-
         sf::Sprite UPButtonSprite;
         sf::Sprite DOWNButtonSprite;
         sf::Sprite deckCardCounterSprite;
@@ -510,7 +509,7 @@ public:
         deckStatsText.setFont(deckFont);
         deckStatsText.setFillColor(sf::Color::Black);
         deckStatsText.setCharacterSize(60);
-        deckStatsText.setString("DeckSize: " + std::to_string(getDeckSize()) + "- 22");
+        deckStatsText.setString("DeckSize: " + std::to_string(getDeckSize()) + "/ 22");
         deckStatsText.setPosition(sf::Vector2f(700, 525));
 
         for(int i = 0; i < 10 ; i++ ){
