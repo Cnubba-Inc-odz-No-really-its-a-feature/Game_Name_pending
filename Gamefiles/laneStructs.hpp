@@ -6,6 +6,7 @@
 #include "macrodefinitions.hpp"
 #include "nullUnit.hpp"
 #include "E_lane.hpp"
+#include "E_turnPhase.hpp"
 
 struct combatResult{
     int selfPosition;

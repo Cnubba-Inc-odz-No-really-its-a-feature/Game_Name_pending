@@ -5,19 +5,12 @@
 #include "board.hpp"
 #include "objectStorage.hpp"
 #include "combatEnemy.hpp"
-enum class E_fightState{
-    win,
-    loss,
-    draw,
-    inCombat
-};
 
 class fightController{
 private:
     board gameBoard;
     int_fast8_t playerHP;
     int_fast8_t enemyHP;
-    E_fightState fightState;
     int enemyMana;
     int MAX_MANA;
     fightHand& cardHand;
@@ -25,6 +18,7 @@ private:
     sf::Sprite endTurnButton;
     combatEnemy fightEnemy;
     objectStorage & storage;
+    uint64_t lastTurnEndTime;
     
 public:
     fightController(fightHand& cardHand, objectStorage & storage): 
@@ -42,21 +36,13 @@ public:
         endTurnButton.setPosition(sf::Vector2f(10,900));
         endTurnButton.setScale(sf::Vector2f(0.25, 0.25));
         initFight();
-        
+        lastTurnEndTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     }
 
     int playerMana; 
 
     void initFight(){
-        std::cout<<"initiat
-                if(fightResult.selfKilled && !fightResult.opponentKilled){
-                    enemyArray[fightResult.selfPosition] = enemyArray[fightResult.opponentPosition];
-                    enemyArray[fightResult.opponentPosition] = nullptr;
-                }
-                if(fightResult.opponentKilled && !fightResult.selfKilled){
-                    allyArray[fightResult.opponentPosition] = allyArray[fightResult.selfPosition];
-                    allyArray[fightResult.selfPosition] = nullptr;
-                }ing fight"<<std::endl;
+        std::cout<<"initiating fight"<<std::endl;
         playerHP = 15;
         enemyHP = 15;
         playerMana =  MAX_MANA;
@@ -76,32 +62,52 @@ public:
         return gameBoard.getGroundOpen();
     }
 
-    void nextTurn(){
+    void nextTurn(E_turnPhase& phase){
         std::cout << "nextTurn()________________________________________________________________________" << std::endl;
-        if(MAX_MANA <= 10) MAX_MANA++;
-        playerMana = MAX_MANA;
-        enemyMana = MAX_MANA;
-        if(enemyHP <= 0){
-            storage.factorNewGameState("rewardroom.txt");
-            storage.setActive("rewardroom.txt");
-            return;
-        } 
-        if(playerHP <= 0){
-            storage.setActive(storage.getReturnTarget());
-            return;
+        std::vector<std::shared_ptr<unit>> newEnemyUnits;
+        E_turnPhase::playerMoveAndChecks;
+        switch(phase){
+            case E_turnPhase::playerMoveAndChecks: 
+                if(MAX_MANA <= 10){
+                    MAX_MANA++;
+                }
+                playerMana = MAX_MANA;
+                enemyMana = MAX_MANA;
+
+                if(enemyHP <= 0){
+                    storage.factorNewGameState("rewardroom.txt");
+                    storage.setActive("rewardroom.txt");
+                    return;
+                } 
+                if(playerHP <= 0){
+                    storage.setActive(storage.getReturnTarget());
+                    return;
+                }
+                gameBoard.updateAlly();
+                break;
+
+            case E_turnPhase::enemySummoning:
+                newEnemyUnits = fightEnemy.generateEnemyUnits();
+                std::for_each(newEnemyUnits.begin(), newEnemyUnits.end(), [this](auto&i){placeUnitOnBoard(i);});
+                break;
+
+            case E_turnPhase::enemyMove:
+                gameBoard.updateEnemy();
+                break;
+
+            case E_turnPhase::fight:
+                gameBoard.fightPhase();
+                break;
+
+            case E_turnPhase::drawHand:
+                cardHand.newHand();
+                std::cout << "playerMana: " << playerMana << std::endl;
+                break;
+
+            default:
+                break;
         }
-        gameBoard.updateAlly();
-        std::vector<std::shared_ptr<unit>> newEnemyUnits = fightEnemy.generateEnemyUnits();
-        std::for_each(newEnemyUnits.begin(), newEnemyUnits.end(), [this](auto&i){placeUnitOnBoard(i);});
-        gameBoard.updateEnemy();
 
-        gameBoard.fightPhase();
-
-        if(playerHP < 1 || enemyHP < 1){
-            // exit(0);
-        } 
-        cardHand.newHand();
-        std::cout << "playerMana: " << playerMana << std::endl;
     }
 
     bool placeUnitOnBoard(std::shared_ptr<unit> unitPointer){
