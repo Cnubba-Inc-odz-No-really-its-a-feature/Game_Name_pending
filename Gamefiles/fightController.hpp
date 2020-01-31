@@ -53,7 +53,7 @@ public:
 
         playerMana =  1;
         enemyMana = 1;
-        currentPlayerMana = 0;
+        currentPlayerMana = 1;
         gameBoard.reset();
         cardHand.newFight();
         fightEnemy.getNewSprite(storage.enemyTex, storage.enemyTexTextureSheetTiles);
@@ -135,14 +135,12 @@ public:
                     storage.setActive("rewardroom.txt");
                     std::cout << "reset" << std::endl;
                     initFight();
-                    return;
                 } 
                 if(playerHP <= 0){
                     storage.setActive(storage.getReturnTarget());
 
                     std::cout << playerMana << " " << enemyMana << std::endl; 
                     initFight();
-                    return;
                 }
                 active = false;
                 *allowedToEnd.get() = true;
