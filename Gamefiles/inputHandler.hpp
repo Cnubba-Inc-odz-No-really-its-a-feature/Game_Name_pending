@@ -237,7 +237,7 @@ class inputHandler {
       }
 
       obtainedCommand = handleDungeonClickSelect();
-        if(isCommandValid(obtainedCommand)){
+        if(isCommandValid(obtainedCommand) && gameObjectStorage.deckEditor.getDeckSize() == 22){
           return obtainedCommand;
       }
       return NULL;

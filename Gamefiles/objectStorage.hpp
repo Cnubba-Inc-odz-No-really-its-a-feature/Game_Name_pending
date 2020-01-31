@@ -18,6 +18,8 @@
  #include "background.hpp"
  #include <map>
  #include "card.hpp"
+ #include "combatEnemy.hpp"
+
 
 class objectStorage {
 private:
@@ -43,8 +45,8 @@ public:
     std::array<sf::Sprite, 10> editorDOWNButtonArray;
      std::array<std::shared_ptr<card>, 7> cardsInHand;
     std::map<int, int> ownedCards= {
-        {0, 7}, {1, 4}, {2, 3}, {3, 2}, {4, 0},
-        {5, 2}, {6, 2}, {7, 2}, {8, 0}, {9, 0}
+        {0, 9}, {1, 6}, {2, 5}, {3, 2}, {4, 0},
+        {5, 4}, {6, 4}, {7, 4}, {8, 0}, {9, 0}
     };
     std::map<int, int> playerDeck = {
         {0, 7}, {1, 4}, {2, 3}, {3, 2}, {4, 0},
@@ -52,6 +54,7 @@ public:
     };
     fightHand cardHand;
     deckEditorClass deckEditor;
+    combatEnemy fightEnemy;
 
     //objectStorage();
     objectStorage(sf::RenderWindow & window);

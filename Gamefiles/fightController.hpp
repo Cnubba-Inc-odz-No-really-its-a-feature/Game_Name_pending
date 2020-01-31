@@ -4,7 +4,6 @@
 //#include "card.hpp"
 #include "board.hpp"
 #include "objectStorage.hpp"
-#include "combatEnemy.hpp"
 
 class fightController{
 private:
@@ -16,7 +15,6 @@ private:
     fightHand& cardHand;
     sf::Texture endTurnButtonTexture;
     sf::Sprite endTurnButton;
-    combatEnemy fightEnemy;
     sf::RenderWindow& gameWindow;
     objectStorage & storage;
     uint64_t lastTurnEndTime;
@@ -32,7 +30,6 @@ public:
         enemyMana{1},
         gameBoard(playerHP, enemyHP, playerMana, enemyMana),
         cardHand(cardHand),
-        fightEnemy(std::string("gameAssets/skeleton.png")),
         gameWindow(gameWindow),
         storage(storage),
         allowedToEnd(nullptr)
@@ -56,8 +53,7 @@ public:
         currentPlayerMana = 1;
         gameBoard.reset();
         cardHand.newFight();
-        fightEnemy.getNewSprite(storage.enemyTex, storage.enemyTexTextureSheetTiles);
-       // cardHand.newHand();
+        cardHand.newHand();
 
     }
 
@@ -109,7 +105,7 @@ public:
             case 2:
                 lastInput = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
                 lastPhase = currentPhase;
-                newEnemyUnits = fightEnemy.generateEnemyUnits();
+                newEnemyUnits = storage.fightEnemy.generateEnemyUnits();
                 std::for_each(newEnemyUnits.begin(), newEnemyUnits.end(), [this](auto&i){placeUnitOnBoard(i);});
                 break;
 
@@ -165,7 +161,7 @@ public:
     void draw(sf::RenderWindow& window){
         gameBoard.draw(window);
         window.draw(endTurnButton);
-        fightEnemy.draw(window);
+        storage.fightEnemy.draw(window);
         
     }
 

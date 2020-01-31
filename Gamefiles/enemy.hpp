@@ -44,6 +44,7 @@ public:
     }
 
     void interact() override{
+
         if(!gameObject::interacted){
             storage.setActive(target);
             gameObject::interacted = true;
@@ -58,10 +59,10 @@ public:
 
     void update(){
         if(storage.character1->getSprite().getGlobalBounds().intersects(objectSprite.getGlobalBounds()) && not gameObject::interacted){
-            storage.setActive("cardgame.txt", gameObject::textureFile);
+            storage.fightEnemy.setNewEnemy(gameObject::textureFile, textureSheetTiles);
+            storage.setActive("cardgame.txt");
             gameObject::interacted = true;
-            storage.enemyTex = gameObject::textureFile;
-            storage.enemyTexTextureSheetTiles = textureSheetTiles;
+            
         }
     }
 

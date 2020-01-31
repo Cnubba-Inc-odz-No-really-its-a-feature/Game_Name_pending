@@ -98,7 +98,8 @@ void objectStorage::saveObjects(){
 
 objectStorage::objectStorage(sf::RenderWindow& window) : window(window),
     cardHand(drawPile, discardPile,playerDeck, cardsInHand),
-    deckEditor(playerDeck, ownedCards, editorUPButtonArray, editorDOWNButtonArray){
+    deckEditor(playerDeck, ownedCards, editorUPButtonArray, editorDOWNButtonArray),
+    fightEnemy(){
     tmpActive = "title.txt";
     tmpNewActive();
     factorMainCharacter();

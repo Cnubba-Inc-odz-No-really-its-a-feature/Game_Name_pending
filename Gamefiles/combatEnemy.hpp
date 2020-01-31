@@ -12,15 +12,12 @@ private:
     sf::Vector2f textureFrameBounds;
 
 public:
-    combatEnemy(std::string textureFileName){
-        combatEnemyTexture.loadFromFile(textureFileName);
-        combatEnemySprite.setTexture(combatEnemyTexture);
-        combatEnemySprite.setPosition(sf::Vector2f(800, 500));
+    combatEnemy(){
         srand(time(0));
     } 
 
     std::shared_ptr<unit> getRandomSkyUnit(){
-            int randomSkyUnit = rand() % 4 + 5;
+            int randomSkyUnit = rand() % 5 + 5;
             std::shared_ptr<unit> newSkyUnit = (factorCard(randomSkyUnit))->summonUnitFromCard();
             newSkyUnit->makeEnemy();
             return newSkyUnit;
@@ -49,24 +46,25 @@ public:
         return newEnemyUnits;
     }
 
-    void getNewSprite(std::string newTextureFileName, int textureSheetTiles){
+    void setNewEnemy(std::string newTextureFileName, int textureSheetTiles){
+        combatEnemySprite.setPosition(sf::Vector2f(1750, 450));
+        combatEnemySprite.setScale(-4, 4);  
         combatEnemyTexture.loadFromFile(newTextureFileName);
         combatEnemySprite.setTexture(combatEnemyTexture);
         combatTextureSheetTiles = textureSheetTiles;
-        textureFrameBounds = sf::Vector2f(combatEnemySprite.getLocalBounds().width / textureSheetTiles, combatEnemySprite.getLocalBounds().height) ;
-        combatEnemySprite.setPosition(sf::Vector2f(400, 400));
+        textureFrameBounds = sf::Vector2f(combatEnemySprite.getLocalBounds().width / combatTextureSheetTiles, combatEnemySprite.getLocalBounds().height) ;
     }
 
     void setFrame(int maxFrame, int textureRow){
-        if(frameCounter > 10) {frameCounter = 0; textureFrame++;}
+        if(frameCounter > 5) {frameCounter = 0; textureFrame++;}
 	    if(maxFrame < textureFrame) textureFrame = 0;
-	    combatEnemySprite.setTextureRect(sf::IntRect((textureFrameBounds.x*textureFrame)+47, (textureFrameBounds.y*textureRow)-10, textureFrameBounds.x - 97, textureFrameBounds.y));
+	    combatEnemySprite.setTextureRect(sf::IntRect((textureFrameBounds.x*textureFrame), (textureFrameBounds.y*textureRow), textureFrameBounds.x , textureFrameBounds.y));
 	    combatEnemySprite.setOrigin(sf::Vector2f(combatEnemySprite.getLocalBounds().width/2, 0));
         frameCounter++;
     }
 
     void draw(sf::RenderWindow& gameWindow){
-        //setFrame(combatTextureSheetTiles-1, 0);
+        setFrame(combatTextureSheetTiles-1, 0);
         gameWindow.draw(combatEnemySprite);
     }
 
