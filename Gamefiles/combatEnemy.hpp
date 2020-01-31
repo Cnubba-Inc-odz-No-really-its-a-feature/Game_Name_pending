@@ -47,7 +47,7 @@ public:
     }
 
     void setNewEnemy(std::string newTextureFileName, int textureSheetTiles){
-        combatEnemySprite.setPosition(sf::Vector2f(1750, 450));
+        combatEnemySprite.setPosition(sf::Vector2f(1750, 420));
         combatEnemySprite.setScale(-4, 4);  
         combatEnemyTexture.loadFromFile(newTextureFileName);
         combatEnemySprite.setTexture(combatEnemyTexture);
