@@ -24,7 +24,7 @@ public:
     }
 
     std::shared_ptr<unit> getRandomGroundUnit(){
-            int randomGroundUnit = (rand() % 3) ;
+            int randomGroundUnit = (rand() % 4) ;
             std::shared_ptr<unit> newGroundUnit = (factorCard(randomGroundUnit))->summonUnitFromCard();
             newGroundUnit->makeEnemy();
             return newGroundUnit;
