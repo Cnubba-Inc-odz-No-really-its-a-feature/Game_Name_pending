@@ -30,17 +30,15 @@ public:
             return newGroundUnit;
     }
 
-    std::vector<std::shared_ptr<unit>> generateEnemyUnits(int mana = 10){
+    std::vector<std::shared_ptr<unit>> generateEnemyUnits(bool skyOpen, bool groundOpen, int mana = 10){
         int unitGenerationIndex =  rand() % 4;
         
         std::vector<std::shared_ptr<unit>> newEnemyUnits;
 
-        if(unitGenerationIndex == 1){
+        if(skyOpen && unitGenerationIndex == 2 ||unitGenerationIndex == 3 || unitGenerationIndex == 0){
             newEnemyUnits.push_back(getRandomSkyUnit());
-        }else if(unitGenerationIndex == 2){
-            newEnemyUnits.push_back(getRandomGroundUnit());
-        }else{
-            newEnemyUnits.push_back(getRandomSkyUnit());
+        }
+        if(groundOpen && unitGenerationIndex == 1 || unitGenerationIndex == 4 || unitGenerationIndex == 3){
             newEnemyUnits.push_back(getRandomGroundUnit());
         }
         return newEnemyUnits;

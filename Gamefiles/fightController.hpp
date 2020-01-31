@@ -105,7 +105,7 @@ public:
             case 2:
                 lastInput = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
                 lastPhase = currentPhase;
-                newEnemyUnits = storage.fightEnemy.generateEnemyUnits();
+                newEnemyUnits = storage.fightEnemy.generateEnemyUnits(getSkyOpen(), getGroundOpen());
                 std::for_each(newEnemyUnits.begin(), newEnemyUnits.end(), [this](auto&i){placeUnitOnBoard(i);});
                 break;
 
