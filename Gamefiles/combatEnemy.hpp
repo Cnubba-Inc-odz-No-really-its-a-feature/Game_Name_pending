@@ -44,13 +44,14 @@ public:
         return newEnemyUnits;
     }
 
-    void setNewEnemy(std::string newTextureFileName, int textureSheetTiles){
-        combatEnemySprite.setPosition(sf::Vector2f(1750, 450));
+    void setNewEnemy(std::string newTextureFileName, int &textureSheetTiles){
+        combatEnemySprite.setPosition(sf::Vector2f(1750, 420));
         combatEnemySprite.setScale(-4, 4);  
         combatEnemyTexture.loadFromFile(newTextureFileName);
         combatEnemySprite.setTexture(combatEnemyTexture);
+        combatTextureSheetTiles = 0;
         combatTextureSheetTiles = textureSheetTiles;
-        textureFrameBounds = sf::Vector2f(combatEnemySprite.getLocalBounds().width / combatTextureSheetTiles, combatEnemySprite.getLocalBounds().height) ;
+        textureFrameBounds = sf::Vector2f(combatEnemySprite.getLocalBounds().width / textureSheetTiles, combatEnemySprite.getLocalBounds().height) ;
     }
 
     void setFrame(int maxFrame, int textureRow){
