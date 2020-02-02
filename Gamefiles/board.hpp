@@ -4,6 +4,8 @@
 #include "lane.hpp"
 #include "UI.hpp"
 
+/// \brief
+/// Tracker of the board
 class board {
 private:
     /// \brief

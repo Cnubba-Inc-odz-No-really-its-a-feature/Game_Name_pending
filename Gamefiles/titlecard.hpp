@@ -5,6 +5,8 @@
 #include "objectStorage.hpp"
 #include "iostream"
 
+/// \brief
+/// Startup title screen. Automaticly sets active menu.txt
 class titlecard : public gameObject {
 private:
     int frameCounter = 0;

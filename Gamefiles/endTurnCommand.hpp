@@ -8,6 +8,9 @@
 #include "memory"
 #include "E_turnPhase.hpp"
 
+
+/// \brief
+/// command fired at end of turn button press
 class endTurnCommand : public command{
 private:
     fightController & fightControlPointer;

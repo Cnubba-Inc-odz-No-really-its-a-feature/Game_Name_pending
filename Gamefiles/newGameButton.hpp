@@ -7,6 +7,8 @@
 #include <string>
 #include <SFML/Audio.hpp>
 
+/// \brief
+/// Button that discards the savestate. currently not properly implemented
 class newGameButton : public gameObject {
 private:
     sf::Vector2f origScale;

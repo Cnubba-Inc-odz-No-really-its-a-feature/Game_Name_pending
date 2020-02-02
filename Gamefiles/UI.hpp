@@ -7,6 +7,8 @@
 #define MAX_HP 15
 #define MAX_MANA 10
 
+/// \brief
+/// Class responseble for the layout of the fight mode.
 class UI{
 private:
     sf::Font mana_healthFont;

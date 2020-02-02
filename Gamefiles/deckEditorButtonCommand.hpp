@@ -4,6 +4,9 @@
 #include "command.hpp"
 #include "objectStorage.hpp"
 
+
+/// \brief
+/// Command for adding or removing cards from the deck
 class deckEditorButtonCommand : public command{
 private:
     objectStorage & gameObjectStorage;

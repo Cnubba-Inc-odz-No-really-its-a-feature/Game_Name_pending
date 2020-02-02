@@ -7,7 +7,8 @@
 #include "inventory.hpp"
 
 
-
+/// \brief
+/// character gameobject, handles animation, location and interaction with other objects in the dungeon
 class character : public gameObject {
 private:
     sf::RenderWindow & gameWindow;

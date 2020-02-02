@@ -7,6 +7,8 @@
 /// Function nesessery for sorting vectors by priority 
 bool objSort(const std::shared_ptr<gameObject> & lhs, const std::shared_ptr<gameObject> & rhs);
 
+///\brief
+/// Draws all active objects every frame, ensures the correct order of drawing  and does the crossfading
 class renderer{
 private:
     sf::RenderWindow& gameWindow;
@@ -17,7 +19,8 @@ private:
     bool switchActive = false;
     // std::priority_queue<std::shared_ptr<gameObject>, std::vector<std::shared_ptr<gameObject>>> queue;
 public:
-
+    ///\brief
+    /// constructor of the renderer.
     renderer(sf::RenderWindow & gameWindow, objectStorage& renderObjectStorage, fightController& fightControl):
     fightControl{fightControl},
     gameWindow(gameWindow),
@@ -27,6 +30,8 @@ public:
         color = 0;
     }
 
+    ///\brief
+    /// Draws all active objects every frame, ensures the correct order of drawing  and does the crossfading
     void draw(){
         std::sort(renderObjectStorage.getActive()->begin(), renderObjectStorage.getActive()->end(), objSort);
         for(auto &i : *renderObjectStorage.getActive()){
@@ -74,6 +79,8 @@ public:
 
     }
 
+    ///\brief
+    /// Calls update on all active objects, and the char if nesessery
     void update(){
         // auto tmp = renderObjectStorage.getActive();
         for(auto i : *renderObjectStorage.getActive()){
@@ -85,7 +92,8 @@ public:
         
     }
 
-
+    ///\brief
+    /// returns by reference the held objectStorage
     objectStorage & getStorage(){return renderObjectStorage;}
 
 };

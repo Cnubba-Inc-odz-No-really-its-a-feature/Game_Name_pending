@@ -8,6 +8,9 @@
 #include <chrono>
 #include <cstdint>
 
+
+/// \brief
+/// Main controller of the game loop, as it houses this funtion
 class game{
 private:
     /// \brief

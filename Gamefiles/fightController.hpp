@@ -5,6 +5,9 @@
 #include "board.hpp"
 #include "objectStorage.hpp"
 
+/// \brief
+/// Controlles the flow of the fights found in the dungeon. 
+
 class fightController{
 private:
     board gameBoard;
