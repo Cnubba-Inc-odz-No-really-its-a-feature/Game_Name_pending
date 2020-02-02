@@ -5,10 +5,14 @@
 #ifndef EXEPTIONS_HPP
 #define EXEPTIONS_HPP
 
+/// \brief
+/// Specific exceptions for better debug understanding and propper object factory functioning
 class problem : public std::exception{
 
 };
 
+/// \brief
+/// Specific exceptions for better debug understanding and propper object factory functioning
 class invalid_UnitLane : public problem{
 private:
   std::string msg;
@@ -17,7 +21,8 @@ public:
   const char *what() const noexcept;
 };
 
-
+/// \brief
+/// Specific exceptions for better debug understanding and propper object factory functioning
 class invalid_Factory_Binds : public problem{
 private:
   std::string msg;
@@ -26,6 +31,8 @@ public:
   const char *what() const noexcept;
 };
 
+/// \brief
+/// Specific exceptions for better debug understanding and propper object factory functioning
 class end_of_textures : public problem{
 private:
   std::string msg;
@@ -35,7 +42,8 @@ public:
 };
 
 
-
+/// \brief
+/// Specific exceptions for better debug understanding and propper object factory functioning
 class invalid_type : public problem{
 private:
   std::string msg;
@@ -44,6 +52,8 @@ public:
   const char *what() const noexcept;  
 };
 
+/// \brief
+/// Specific exceptions for better debug understanding and propper object factory functioning
 class unknown_textureKey : public problem{
 private:
   std::string msg;
@@ -52,6 +62,8 @@ public:
   const char *what() const noexcept;  
 };
 
+/// \brief
+/// Specific exceptions for better debug understanding and propper object factory functioning
 class unknown_pos : public problem {
  private:
   std::string msg;
@@ -61,6 +73,8 @@ class unknown_pos : public problem {
   const char *what() const noexcept;
 };
 
+/// \brief
+/// Specific exceptions for better debug understanding and propper object factory functioning
 class unknown_rad : public problem {
  private:
   const char *msg;
@@ -70,6 +84,8 @@ class unknown_rad : public problem {
   const char *what() const noexcept;
 };
 
+/// \brief
+/// Specific exceptions for better debug understanding and propper object factory functioning
 class unknown_color : public problem {
  private:
   const char *msg;
@@ -79,6 +95,8 @@ class unknown_color : public problem {
   const char *what() const noexcept;
 };
 
+/// \brief
+/// Specific exceptions for better debug understanding and propper object factory functioning
 class end_of_file : public std::exception {
  private:
   const char *msg;
@@ -88,6 +106,8 @@ class end_of_file : public std::exception {
   const char *what() const noexcept;
 };
 
+/// \brief
+/// Specific exceptions for better debug understanding and propper object factory functioning
 class unknown_shape : public problem {
  private:
   const char *msg;

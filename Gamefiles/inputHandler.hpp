@@ -17,6 +17,11 @@
 #include "deckEditorButtonCommand.hpp"
 #include "macrodefinitions.hpp"
 
+
+///\brief
+/// handles all the input
+///\details
+/// every frame the inputhandler is called and returns a command if nesessery.
 class inputHandler {
  private:
   std::array<sf::Keyboard::Key, 2> moveKeys = {sf::Keyboard::Left, sf::Keyboard::Right};
@@ -34,11 +39,14 @@ class inputHandler {
 
   std::shared_ptr<bool> allowEndTurn;
   
-
+  ///\brief
+  /// Checks if a command is valid
   bool isCommandValid(std::shared_ptr<command> command){
     return command != NULL;
   }
 
+  ///\brief
+  /// Checks if a combatcommand is valid
   bool isCombatCommandValid(std::shared_ptr<command> command, uint64_t& lastInput){
     if(lastInput + 100 < std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() && command != NULL){
 
@@ -48,6 +56,8 @@ class inputHandler {
     return false;
   }
 
+  ///\brief
+  /// Calculates the distance between an object and the character
   float currentDistance(std::shared_ptr<gameObject> objectPointer) {
     sf::Vector2f mainCharPosition = gameObjectStorage.character1->getSprite().getPosition();
     auto charWidth = gameObjectStorage.character1->getSprite().getGlobalBounds().width;
@@ -65,10 +75,14 @@ class inputHandler {
     return sqrt(pow(objectPosition.x - mainCharPosition.x, 2) +  pow(objectPosition.y - mainCharPosition.y, 2));
   }
 
+  ///\brief
+  /// returns true if the char is close enough to the given pointer
   bool inRange(std::shared_ptr<gameObject> objectPointer) {
     return currentDistance(objectPointer) <= 200;
   }
 
+  ///\brief
+  /// Handles movement while in the dungeon
   std::shared_ptr<command> handleDungeonMovement(){
     for (auto movementKey : moveKeys) {
         if (sf::Keyboard::isKeyPressed(movementKey)) {
@@ -78,6 +92,8 @@ class inputHandler {
     return NULL;
   }
 
+  ///\brief
+  /// Handles button presses
   std::shared_ptr<command> handleButtonInteract(){
     for (auto interactKey : interactionKeys) {
       if (sf::Keyboard::isKeyPressed(interactKey)) {
@@ -110,6 +126,8 @@ class inputHandler {
     return NULL;
   }
 
+  ///\brief
+  /// Returns exit command which when executed closes the game
   std::shared_ptr<command> handleExit(){
     for (auto exitKey : exitKeys) {
       if (sf::Keyboard::isKeyPressed(exitKey)) {
@@ -120,6 +138,8 @@ class inputHandler {
     return NULL;
   }
   
+  ///\brief
+  /// Handles clickes while in the dungeon
   std::shared_ptr<command> handleDungeonClickSelect(){
 
     for (auto i : selectKeys) {
@@ -138,6 +158,8 @@ class inputHandler {
     return NULL;
   }
 
+  ///\brief
+  /// Handles clickes while in the deck editor
   std::shared_ptr<command> handleDeckEditorClickSelect(){
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
         sf::Vector2i position = sf::Mouse::getPosition();
@@ -154,6 +176,8 @@ class inputHandler {
       return NULL;
     }
 
+  ///\brief
+  /// Handles clickes while in combat
   std::shared_ptr<command> handleCombatClickSelect(){
     if(*allowEndTurn.get()){
       for (auto i : selectKeys) {
@@ -168,6 +192,8 @@ class inputHandler {
     return NULL;
   }
 
+  ///\brief
+  /// Handles to end turn button
   std::shared_ptr<command> handleEndTurnButton(){
     if(*allowEndTurn.get()){
 
@@ -183,6 +209,8 @@ class inputHandler {
     return NULL;
   }
 
+  ///\brief
+  /// Handles commands while in the dungeon
   std::shared_ptr<command> handleDungeonCommands(uint64_t& lastInput){
         std::shared_ptr<command> obtainedCommand;
 
@@ -207,6 +235,8 @@ class inputHandler {
         return NULL;
   }
 
+  ///\brief
+  /// Handles commands while in the fight
   std::shared_ptr<command> handleCombatCommands(uint64_t& lastInput){
         
         std::shared_ptr<command> obtainedCommand;
@@ -229,6 +259,8 @@ class inputHandler {
         return NULL;
   }
 
+  ///\brief
+  /// Handles commands while in the dungeon
   std::shared_ptr<command> handleDeckEditorCommands(){
       std::shared_ptr<command> obtainedCommand;
       obtainedCommand = handleDeckEditorClickSelect();
@@ -245,6 +277,8 @@ class inputHandler {
   
 
  public:
+  ///\brief
+  /// Constructor that saves storage and fightcontrol so it can send the commands to the right objects
   inputHandler(objectStorage &gameObjectStorage, fightController& fightControlPointer)
       : gameObjectStorage{gameObjectStorage},
         fightControlPointer{fightControlPointer},
@@ -254,6 +288,8 @@ class inputHandler {
          lastEndTurn = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
        }
 
+  ///\brief
+  /// Gets called every frame and depending on the active state calls its sub functions
   std::shared_ptr<command> handleInput() {
       switch(gameObjectStorage.keyActive.at(0)){
         case 'r':

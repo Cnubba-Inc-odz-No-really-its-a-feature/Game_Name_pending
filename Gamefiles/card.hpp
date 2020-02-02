@@ -11,6 +11,9 @@
 
 std::ifstream& operator>>(std::ifstream& input, E_lane& unitLane);
 
+
+/// \brief
+/// implementation of gameobject, used for the units during a fight
 class unit : public gameObject{
 private:
     int unitMaxHealth;
@@ -29,7 +32,6 @@ private:
 public:
     int mana;
 
-    unit(){}
 
     unit(int unitMaxHealth, int unitDamage, E_lane unitLane, std::map<std::string, sf::Texture> textureMap, sf::Vector2f textureSheetDimensions, int manaCost):
     gameObject(sf::Vector2f(200, 100), sf::Vector2f(4,4), textureMap, std::string("unitTexture"), 5),
@@ -112,7 +114,8 @@ public:
 
 
 
-
+/// \brief
+/// mostly virtual class derived from gameobject, is later inherented from to make the actual diffrent cards
 class card : public gameObject{
 protected:
     sf::Font cardFont;
@@ -121,7 +124,8 @@ protected:
     int cardID;
     int mana;
 public:
-
+     /// \brief
+    /// Constructor that sets all the correct positions, colors, fonts and scales for the card
     card(std::string cardNameString, std::map<std::string, sf::Texture> textureMap, int cardID, int manaCost):
     gameObject(sf::Vector2f(10, 10), sf::Vector2f(1,1),  textureMap, std::string("basicCardFrame"), 5),
     cardID(cardID){
@@ -142,29 +146,54 @@ public:
         mana = manaCost;
     }
 
+    /// \brief
+    /// Draw function that should be overwritten by derived classes
     void draw(sf::RenderWindow& gameWindow){}
+
+    /// \brief
+    /// set scale function that should be overwritten by derived classes
     virtual void scaleObjects(sf::Vector2f newScale)=0;
+
+    /// \brief
+    /// set pos function that should be overwritten by derived classes
     virtual void setPosition(sf::Vector2f newPosition)=0;
 
+    /// \brief
+    /// Returns the cardID of this object
     int getCardID(){return cardID;}
 
+    /// \brief
+    /// Returns the lane the card holds
     virtual E_lane getUnitLane() =0;
+
+    /// \brief
+    /// Overwrites interact to have an empty body
     void interact() override {}
+
+    /// \brief
+    /// Overwrites move to have an empty body
     void move(sf::Vector2f moveDirection) override {}
+
+    /// \brief
+    /// Overwrites update to have an empty body
     void update() override {}
+
+    /// \brief
+    /// Overwrites setframe to have an empty body
     void setFrame(int maxFrame, int textureRow) override {}
     virtual bool checkIfPlayed(sf::Vector2f mousePosition) =0;
     virtual std::shared_ptr<unit> summonUnitFromCard() =0;
 
-     int getManaCost(){
+    /// \brief
+    /// Returns the mana cost of a card
+    int getManaCost(){
         return mana;
     }
 
 };
 
-
-
-
+/// \brief
+/// implementation of gameobject, displays drawn cards during a fight
 class summonCard : public card{
 private:
     int cardUnitHealth;
@@ -177,6 +206,9 @@ private:
     sf::Vector2f textureSheetDimensions;
 
 public:
+
+    /// \brief
+    /// Constructor that sets all the correct positions, colors and scales for the card
     summonCard(std::string cardNameString, int cardUnitDamage, int cardUnitHealth, int manaCost, E_lane cardUnitLane, std::map<std::string, sf::Texture> textureMap, int objectID, sf::Vector2f textureSheetDimensions):
         card(cardNameString, textureMap, objectID, manaCost),
         cardUnitHealth(cardUnitHealth),
@@ -212,7 +244,8 @@ public:
         summonCardArtSprite.setScale(sf::Vector2f(0.24, 0.24));        
     }
 
-
+    /// \brief
+    /// Draws the object and all its sub objects
     void draw(sf::RenderWindow& gameWindow){
             gameWindow.draw(summonCardArtSprite);
             gameWindow.draw(objectSprite);
@@ -222,6 +255,8 @@ public:
             gameWindow.draw(cardManaCost);
     }
 
+    /// \brief
+    /// Sets the new scale of the object and all its sub objects
     void scaleObjects(sf::Vector2f newScale) override{
 
         cardName.setScale(sf::Vector2f(cardName.getScale().x * newScale.x, cardName.getScale().y * newScale.y));
@@ -233,6 +268,8 @@ public:
 
     }
 
+    /// \brief
+    /// Sets the new posistion of the object and all its sub objects
     void setPosition(sf::Vector2f newPosition)override{
         objectSprite.setPosition(newPosition);
         cardName.setPosition(sf::Vector2f(objectSprite.getGlobalBounds().left + (0.175 * objectSprite.getGlobalBounds().width) , objectSprite.getGlobalBounds().top + (0.05 * objectSprite.getGlobalBounds().height)));
@@ -244,14 +281,20 @@ public:
 
     }
 
+    /// \brief
+    /// returns whether the mouse hovers over the current card
     bool checkIfPlayed(sf::Vector2f mousePosition){
         return (objectSprite.getGlobalBounds().contains(mousePosition));
     }
 
+    /// \brief
+    /// Gets called by the card to return the corosponding unit by pointer
     std::shared_ptr<unit> summonUnitFromCard(){
         return std::shared_ptr<unit>(new unit(cardUnitHealth, cardUnitDamage, cardUnitLane, textureMap, textureSheetDimensions, mana));
     }
 
+    /// \brief
+    /// Returns enum to the lane in which this unit is placed.
     E_lane getUnitLane(){
         return cardUnitLane;
     }
@@ -259,10 +302,13 @@ public:
 };
 
 
+/// \brief
+/// global funtions that returns a new drawable card.
 std::shared_ptr<card> factorCard(int cardID);
 
 
-
+/// \brief
+/// Holds all the cards currently drawn. Manages playing and refilling hand.
 class fightHand{
 private:
     std::map<int, sf::Vector2f> handPositionMap;
@@ -278,7 +324,8 @@ private:
     int lastPlayedCard = 0;
     std::map<int, int> &playerDeck;
 public:
-
+    /// \brief
+    /// Calculates all the proper locations for all the cards 
     fightHand(std::vector<int> &discardPile, std::vector<int> & drawPile, std::map<int, int> &playerDeck, std::array<std::shared_ptr<card>, 7> &cardsInHand):
     discardPile(discardPile),
     drawPile(drawPile),
@@ -310,7 +357,8 @@ public:
     }
 
    
-
+    /// \brief
+    /// Implements draw to display the cards correctly in the hand during the fight
     void draw(sf::RenderWindow& gameWindow){
         gameWindow.draw(handSprite);
         std::for_each(cardsInHand.begin(), cardsInHand.end(), [this, &gameWindow](auto &i){if(i != nullptr){i->draw(gameWindow);}});
@@ -320,10 +368,14 @@ public:
         gameWindow.draw(deckStats_discardPile);
     }
 
+    /// \brief
+    /// Returns current hand size
     int currentCardCount(){
         return cardCount;
     }
 
+    /// \brief
+    /// Clears the current hand and puts them in the discard pile
     void emptyHand(){
         if(cardCount > 0){
             std::for_each(cardsInHand.begin(), cardsInHand.end(), [this](std::shared_ptr<card>& i){if(i != nullptr){discardPile.push_back(i->getCardID());}});
@@ -332,6 +384,8 @@ public:
         cardCount = 0;
     }
 
+    /// \brief
+    /// Adds a single card from the draw pile to the hand in the first free pos. returns if succesfull
     bool addCard(std::shared_ptr<card> newCard){
         for(int i = 0; i < 7 ; i++){
             if(cardsInHand[i] == nullptr){
@@ -344,7 +398,8 @@ public:
         return false;
     }
 
-
+    /// \brief
+    /// returns the card thats clicked on, or -1 if none were clicked
     int isCardClicked(sf::Vector2f mousePosition, int & playerMana, bool skyOpen, bool groundOpen){
         if(cardCount > 0){
             for(int i = 0; i < 7 ; i++){
@@ -361,6 +416,8 @@ public:
         return -1;
     }
 
+    /// \brief
+    /// returns a pointer to the corospoinding unit that was clicked on from the hand and removes it from the hand
     std::shared_ptr<unit> playUnitCard(int cardPositionInHand){
         std::shared_ptr<unit> unitFromCard = cardsInHand[cardPositionInHand]->summonUnitFromCard();
         discardPile.push_back(cardsInHand[cardPositionInHand]->getCardID());
@@ -369,7 +426,8 @@ public:
         return unitFromCard;
     }
 
-
+    /// \brief
+    /// returns the unit that was clicked on
     std::shared_ptr<unit> checkForCardPlay(sf::Vector2i mousePosI, int &playerMana, bool skyOpen = true, bool groundOpen = true){
         sf::Vector2f mousePosF = sf::Vector2f(float(mousePosI.x), float(mousePosI.y));
         int clickedCardPos = isCardClicked(mousePosF, playerMana, skyOpen, groundOpen);
@@ -383,6 +441,8 @@ public:
         }
     }
 
+    /// \brief
+    /// fills the hand with new cards from the draw pile, using addcard. when the draw pile is empty the discard pile gets shuffled back in
     void newHand(){
         std::random_shuffle(drawPile.begin(), drawPile.end());
         emptyHand();
@@ -405,7 +465,8 @@ public:
         }
     }
 
-
+    /// \brief
+    /// Called by the enemies you incounter in the dungeon to start a fight with them
     void newFight(){
         emptyHand();
         drawPile.clear();
@@ -418,9 +479,12 @@ public:
     }
 };
 
+/// \brief
+/// Tracks deckstate
 enum class deckState_E {IDLE_E, DECKVIEW_E, FIGHT_E};
 
-
+/// \brief
+/// Deck editor, allows to add and remove cards from you current deck, via the main menu 
 class deckEditorClass{
 private:
     sf::Texture UPButtonTexture;
@@ -456,6 +520,9 @@ private:
 
 
 public:
+
+    /// \brief
+    /// Constructor that calculates all the proper locations of all the objects shown in the deck editor.
     deckEditorClass(std::map<int, int> &playerDeck, std::map<int, int>& ownedCards, std::array<sf::Sprite, 10> &UPButtonArray, std::array<sf::Sprite, 10> &DOWNButtonArray):
     playerDeck(playerDeck),
     ownedCards(ownedCards),
@@ -536,6 +603,8 @@ public:
         }
     }
 
+    /// \brief
+    /// Impementation of draw to the current deck in the deckviewer.
     void draw(sf::RenderWindow& gameWindow){
         gameWindow.draw(deckStatsText);
         int count =0;
@@ -551,12 +620,16 @@ public:
         }
     }
 
+    /// \brief
+    /// Gets the current deck size
     int getDeckSize(){
         int count = 0;
         std::for_each(playerDeck.begin(), playerDeck.end(), [&count](auto&i){count += i.second;});
         return count;
     }
 
+    /// \brief
+    /// Gets called when you pressed the more or less buttons in the class editor to set new card counts.
     void changeCardCountInDeck(int cardID, int change){
         if((getDeckSize()+ change) <= 22 && (playerDeck[cardID] + change) <= ownedCards[cardID] 
         && (playerDeck[cardID] + change) >= 0 
@@ -568,6 +641,8 @@ public:
         }
     }
 
+    /// \brief
+    /// Can be called externaly to add a new card to the deck. Used by the chest to add found cards
     void newOwnCard(int newCardID){
         ownedCards[newCardID] += 1;
 

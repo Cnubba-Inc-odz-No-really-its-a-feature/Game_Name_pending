@@ -7,6 +7,9 @@
 #include "objectStorage.hpp"
 #include <iostream>
 
+
+/// \brief
+/// Implementation of gameObject for the enemy. This class provides the enemy you encounter in the dungeon
 class enemy: public gameObject{
 private:
     int textureFrame = 0;
@@ -20,7 +23,8 @@ private:
 public:
 
     //bool interacted = false;
-
+    /// \brief
+    /// Constructor sets all parameters correct for the location and animation
     enemy(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, objectStorage &storage, int objectPriority, std::string target, std::string textureFile, bool interact, int textureSheetTiles):
         gameObject(spritePosition, spriteScale, textureMap, firstKey),
         storage(storage), target(target), textureSheetTiles(textureSheetTiles)
@@ -35,6 +39,8 @@ public:
         setFrame(textureSheetTiles-1,0);
     }
 
+    /// \brief
+    /// Specific implementation for the animation to work correctly
     void setFrame(int maxFrame, int textureRow) override{
         if(frameCounter > 5) {frameCounter = 0; textureFrame++;}
 	    if(maxFrame < textureFrame) textureFrame = 0;
@@ -43,6 +49,8 @@ public:
         frameCounter++;
     }
 
+    /// \brief
+    /// Switches to target when interacted with
     void interact() override{
 
         if(!gameObject::interacted){
@@ -51,12 +59,16 @@ public:
         }
     }
 
+    /// \brief
+    /// Updates animation and draws the enemy
     void draw(sf::RenderWindow& gameWindow) override{
         setFrame(textureSheetTiles-1,0);
         gameWindow.draw(objectSprite);
 
     }
 
+    /// \brief
+    /// Checks every frame if the character overlaps with the enemy, starting a fight if so
     void update(){
         if(storage.character1->getSprite().getGlobalBounds().intersects(objectSprite.getGlobalBounds()) && not gameObject::interacted){
             storage.fightEnemy.setNewEnemy(gameObject::textureFile, textureSheetTiles);

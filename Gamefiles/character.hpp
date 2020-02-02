@@ -6,6 +6,8 @@
 #include <string>
 #include "inventory.hpp"
 
+
+
 class character : public gameObject {
 private:
     sf::RenderWindow & gameWindow;

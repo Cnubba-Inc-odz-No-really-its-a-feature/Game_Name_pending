@@ -22,10 +22,16 @@ private:
     /// Tracks enemy hp so the lanes can update the current hp
     int & enemyHP;
 
+    /// \brief
+    /// Tracks player mana, increments every turn
     int & playerMana;
 
+    /// \brief
+    /// Tracks enemy mana, in final product not used
     int & enemyMana;
 
+    /// \brief
+    /// UI object, displays all the current stats during the fight
     UI combatUI;
 
 
@@ -49,12 +55,20 @@ public:
     /// Updates the board to resolve fights and move cards forward one tick. Called once every turn.
     void update(bool player);
 
+    /// \brief
+    /// Updates the enemy array in all lanes
     void updateEnemy();
-
+    
+    /// \brief
+    /// Updates the ally array in all lanes
     void updateAlly();
     
+    /// \brief
+    /// Resolves fight phase of the board
     void fightPhase();
 
+    ///\brief
+    /// Last call in the cyle, updates the ui to the new state
     void updateStatsUI();
 
     /// \brief

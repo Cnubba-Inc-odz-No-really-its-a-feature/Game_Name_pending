@@ -8,6 +8,15 @@
 #include "objectStorage.hpp"
 #include <iostream>
 #include <SFML/Audio.hpp>
+
+///\brief 
+/// chest implementation of gameobject
+///\details
+/// when interacted with, opens and displays 3 cards to pick from. when choosen the card will be added to the deck.
+/// also can be found in the rewardroom, when the card is then picked the player will be brought back to the returntarget
+///\todo
+/// currently it uses its draw prioity to determen if a rare or normal card should be displayed. this is ugly
+
 class chest: public gameObject{
 private:
     std::vector<gameObject> lootObjectVector;
@@ -24,6 +33,8 @@ private:
      int objectPriority;
 
 public:
+    /// \brief
+    /// Constructor sets all parameters correct for the location and animation
     chest(sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, int objectPriority, objectStorage & storage, std::string soundFile, std::string textureFile, bool opened):
         gameObject(spritePosition, spriteScale, textureMap, firstKey), itemPopup(spritePosition, "gameAssets/popupBackground.png", objectPriority), storage(storage), objectPriority(objectPriority)
     {
@@ -41,6 +52,8 @@ public:
         //if(gameObject::interacted) interact();
     }
 
+    /// \brief
+    /// if not yet opened it will play its open animation 
     void interact() override{
         if(!open){
             sound.play();
@@ -50,10 +63,14 @@ public:
         }
     }
 
+    /// \brief
+    /// No longer used or implemented
     void interact(objectStorage& gameStorage, const float& mainCharacterPosition){
 
     }       
 
+    /// \brief
+    /// Draws the chest in the correct phase of animation and draws the popup if nessesary
     void draw(sf::RenderWindow& gameWindow) override{
         if(gameObject::interacted && !animationDone) setFrame(3, 0);
         gameWindow.draw(objectSprite);
@@ -71,6 +88,8 @@ public:
 
     void move(sf::Vector2f moveDirection) override{}
 
+    /// \brief
+    /// checks if a card was choosen, if so, add the card to the deck and if nesessery switch state
     void update(){
         if(avalable){
             int chosen = itemPopup.update();
@@ -89,7 +108,8 @@ public:
     }
     
     
-
+    ///\brief
+    /// updates to the correct frame of the animation
     void setFrame(int maxFrame, int textureRow) override{
         if(frameCounter > 10) {frameCounter = 0; textureFrame++;}
 	    objectSprite.setTextureRect(sf::IntRect(47*textureFrame, 0*textureRow, 47, 35));

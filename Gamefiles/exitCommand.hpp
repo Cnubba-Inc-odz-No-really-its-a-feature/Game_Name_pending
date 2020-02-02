@@ -7,6 +7,8 @@
 #include <map>
 #include "memory"
 
+/// \brief
+/// Command generated when escape is pressed, returns gamestate to menu
 class exitCommand : public command{
 private:
     objectStorage & storage;

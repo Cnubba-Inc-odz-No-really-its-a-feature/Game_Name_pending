@@ -7,6 +7,9 @@
 #include <string>
 #include <SFML/Audio.hpp>
 
+
+/// \brief
+/// The button class, has a hover animation and switches state to target when pressed
 class button : public gameObject {
 private:
     /// \brief
@@ -34,6 +37,7 @@ public:
     /// Initializes the inherented gameobject with propper texture, scale, priority, etc and saves what it needs itself
     button( sf::Vector2f spritePosition, sf::Vector2f spriteScale, std::map<std::string, sf::Texture> textureMap, std::string firstKey, objectStorage & storage, int objectPriority, std::string target, std::string soundFile, std::string textureFile);
 
+    
     void draw(sf::RenderWindow& gameWindow) override;
 
     void setFrame(int maxFrame, int textureRow);
