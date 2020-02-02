@@ -8,6 +8,8 @@
 #include "E_lane.hpp"
 #include "E_turnPhase.hpp"
 
+///\brief
+/// Struct that saves the outcome of a fight
 struct combatResult{
     int selfPosition;
     int opponentPosition;
@@ -17,6 +19,8 @@ struct combatResult{
     bool selfKilled;
     bool valid;
 
+    ///\brief
+    /// constructor for the combatresult struct
     combatResult(bool valid, int selfPosition = 1, int opponentPosition = 1, bool opponentKilled = 1, bool selfKilled = 1):
         valid{valid},
         selfPosition{selfPosition},

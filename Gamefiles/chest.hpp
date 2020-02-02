@@ -4,7 +4,6 @@
 #include "popup.hpp"
 #include "gameObject.hpp"
 #include "memory"
-#include "lootObject.hpp"
 #include "objectStorage.hpp"
 #include <iostream>
 #include <SFML/Audio.hpp>

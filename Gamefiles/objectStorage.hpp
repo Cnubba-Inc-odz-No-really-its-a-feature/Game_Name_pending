@@ -20,7 +20,10 @@
  #include "card.hpp"
  #include "combatEnemy.hpp"
 
-
+///\brief
+/// the storage class, given by referance to most everything
+///\details
+/// When setactive is called, the storage automaticlly fills the map vector with all the nesessery object pointer.
 class objectStorage {
 private:
     std::shared_ptr<gameObject> factorObject(std::ifstream & inputFile);
@@ -28,7 +31,8 @@ private:
     void factorMainCharacter();
     std::vector<std::string> mapKeys;
 public:
-
+    ///\brief
+    /// can be called if you want to override a old state with a new instance of the map
     void factorNewGameState(std::string stateFileName);
     bool swappedActive = false;
     std::string enemyTex;
@@ -56,16 +60,27 @@ public:
     deckEditorClass deckEditor;
     combatEnemy fightEnemy;
 
-    //objectStorage();
+    // objectStorage();
+    ///\brief
+    /// default constructor for the storage, saves the window for some reason
     objectStorage(sf::RenderWindow & window);
     std::shared_ptr<gameObject> character1;
 
+    ///\brief
+    /// Saves the game state upon exit, not fully working
     void saveObjects();
     
+    ///\brief
+    /// Returns a pointer to the active vector with gameobject
     std::shared_ptr<std::vector<std::shared_ptr<gameObject>>> & getActive();
     void setActive(std::string newKey, std::string spriteName = "");
 
+    ///\brief
+    /// nesessery function to enable smooth fade in state switch
     void tmpNewActive();
+
+    ///\brief
+    /// returns the return target, needed for the menu to know where in the game we were.
     std::string getReturnTarget();
  };
 

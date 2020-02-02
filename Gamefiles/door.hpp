@@ -3,7 +3,6 @@
 
 #include "gameObject.hpp"
 #include "memory"
-#include "lootObject.hpp"
 #include "objectStorage.hpp"
 #include <SFML/Audio.hpp>
 #include <iostream>

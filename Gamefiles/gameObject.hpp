@@ -53,6 +53,9 @@ public:
         objectID = 5;
     }
 
+    gameObject(){};
+
+
 
     std::string soundFile;
     std::string textureFile;

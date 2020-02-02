@@ -3,6 +3,8 @@
 #include "objectStorage.hpp"
 #include "fightController.hpp"
 
+///\brief
+/// Function nesessery for sorting vectors by priority 
 bool objSort(const std::shared_ptr<gameObject> & lhs, const std::shared_ptr<gameObject> & rhs);
 
 class renderer{
@@ -15,6 +17,7 @@ private:
     bool switchActive = false;
     // std::priority_queue<std::shared_ptr<gameObject>, std::vector<std::shared_ptr<gameObject>>> queue;
 public:
+
     renderer(sf::RenderWindow & gameWindow, objectStorage& renderObjectStorage, fightController& fightControl):
     fightControl{fightControl},
     gameWindow(gameWindow),
