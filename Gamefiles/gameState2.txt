@@ -1,4 +1,0 @@
-Game objectTypes_E::CHEST_E (300,200) (2,2) 1 texture1 pop4.png , texture2 pop4.png ;
-
-Game objectTypes_E::TESTSPRITE_E (200, 10) (1,2) 2 texture1 pop1.png ;
-
